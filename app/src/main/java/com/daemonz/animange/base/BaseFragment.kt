@@ -20,8 +20,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         private const val TAG = "BaseFragment"
     }
 
-    private var _mBinding: VB? = null
-    protected val mBinding: VB by lazy { _mBinding!! }
+    private var _binding: VB? = null
+    protected val binding: VB by lazy { _binding!! }
     protected abstract val mViewModel: VM
 
 
@@ -31,15 +31,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
-        _mBinding = inflate.invoke(inflater, container, false)
-        return mBinding.root
+        _binding = inflate.invoke(inflater, container, false)
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        setupListeners()
         setupObservers()
     }
 
@@ -50,17 +49,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     }
 
     override fun onDestroyView() {
-        removeObservers()
-        _mBinding = null
+        _binding = null
         super.onDestroyView()
     }
 
     abstract fun setupViews()
 
-    abstract fun setupListeners()
 
     abstract fun setupObservers()
 
-    abstract fun removeObservers()
 
 }
