@@ -15,7 +15,6 @@ class SplashFragment: BaseFragment<FragmentSplashBinding, SplashViewModel>(Fragm
                 findNavController().navigate(SplashFragmentDirections.toHomeFragment())
             }
         }
-
     }
     override fun setupObservers() {
 
