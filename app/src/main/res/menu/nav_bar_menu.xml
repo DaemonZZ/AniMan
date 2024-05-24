@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab1Fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="test" />
+
+    <item
+        android:id="@+id/tab2Fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="test" />
+
+    <item
+        android:id="@+id/tab3Fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="test" />
+
+    <item
+        android:id="@+id/tab4Fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="test" />
+
+    <item
+        android:id="@+id/tab5Fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="test" />
+
+</menu>

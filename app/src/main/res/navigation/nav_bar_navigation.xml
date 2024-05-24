@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_bar_navigation"
+    app:startDestination="@id/tab1Fragment">
+    <fragment
+        android:id="@+id/tab1Fragment"
+        android:name="com.daemonz.animange.fragment.Tab1Fragment"
+        android:label="Tab1Fragment" />
+    <fragment
+        android:id="@+id/tab2Fragment"
+        android:name="com.daemonz.animange.fragment.Tab2Fragment"
+        android:label="Tab2Fragment" />
+    <fragment
+        android:id="@+id/tab3Fragment"
+        android:name="com.daemonz.animange.fragment.Tab3Fragment"
+        android:label="Tab3Fragment" />
+    <fragment
+        android:id="@+id/tab4Fragment"
+        android:name="com.daemonz.animange.fragment.Tab4Fragment"
+        android:label="Tab4Fragment" />
+    <fragment
+        android:id="@+id/tab5Fragment"
+        android:name="com.daemonz.animange.fragment.Tab5Fragment"
+        android:label="Tab5Fragment" />
+</navigation>
