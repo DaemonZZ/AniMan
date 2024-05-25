@@ -24,7 +24,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHome
 
     override fun setupViews() {
         binding.apply {
-            bottomNavigation.setupWithNavController(Navigation.findNavController(navHostFragment))
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            bottomNavigation.setupWithNavController(navController)
             topAppBar.setNavigationOnClickListener {
                 // Handle navigation icon press
             }
@@ -46,10 +47,10 @@ class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHome
                     else -> false
                 }
             }
-            NavigationBarView.OnItemSelectedListener { item ->
-
-                true
-            }
+//            NavigationBarView.OnItemSelectedListener { item ->
+//
+//                true
+//            }
             bottomNavigation.setOnItemReselectedListener { item ->
                 when(item.itemId) {
 //                    R.id.item_1 -> {

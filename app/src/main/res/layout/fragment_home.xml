@@ -15,11 +15,11 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/top_bar_menu"
-            app:navigationIcon="@drawable/ic_launcher_foreground"
+            app:navigationIcon="@drawable/ic_today"
             app:title="string/page_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_height="@dimen/dp_0"
@@ -33,9 +33,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/nav_bar_menu" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
