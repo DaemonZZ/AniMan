@@ -14,7 +14,7 @@ import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.viewmodel.HomeViewModel
 
 class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(PlayerViewFragmentBinding::inflate) {
-    override val mViewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by viewModels()
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(

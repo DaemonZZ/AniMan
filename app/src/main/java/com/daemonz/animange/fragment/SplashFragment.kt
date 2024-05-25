@@ -7,7 +7,7 @@ import com.daemonz.animange.databinding.FragmentSplashBinding
 import com.daemonz.animange.viewmodel.SplashViewModel
 
 class SplashFragment: BaseFragment<FragmentSplashBinding, SplashViewModel>(FragmentSplashBinding::inflate) {
-    override val mViewModel: SplashViewModel by viewModels<SplashViewModel>()
+    override val viewModel: SplashViewModel by viewModels<SplashViewModel>()
 
     override fun setupViews() {
         binding.apply {

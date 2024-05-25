@@ -18,9 +18,11 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.navigation.NavigationBarView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHomeBinding::inflate) {
-    override val mViewModel: HomeViewModel by viewModels<HomeViewModel>()
+    override val viewModel: HomeViewModel by viewModels()
 
     override fun setupViews() {
         binding.apply {

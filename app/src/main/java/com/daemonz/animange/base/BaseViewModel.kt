@@ -13,11 +13,15 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
-open class BaseViewModel : ViewModel() {
-    @Inject
-    lateinit var ioScope: CoroutineScope
+
+@HiltViewModel
+open class BaseViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var repository: DataRepository
+
+    @Inject
+    lateinit var ioScope: CoroutineScope
+    protected val TAG = this::class.java.simpleName
     var errorMessage = MutableLiveData<String?>()
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {

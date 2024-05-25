@@ -16,13 +16,10 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     private val inflate: Inflate<VB>
 ) : Fragment() {
-    companion object {
-        private const val TAG = "BaseFragment"
-    }
-
+    protected val TAG: String = this::class.java.simpleName
     private var _binding: VB? = null
     protected val binding: VB by lazy { _binding!! }
-    protected abstract val mViewModel: VM
+    protected abstract val viewModel: VM
 
 
     override fun onCreateView(
@@ -40,6 +37,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+        initData()
     }
 
 
@@ -57,6 +55,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
 
 
     abstract fun setupObservers()
-
+    open fun initData() {}
 
 }

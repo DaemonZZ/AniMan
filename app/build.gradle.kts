@@ -23,6 +23,7 @@ android {
 
         val projectProperties = readProperties(file("../local.properties"))
         buildConfigField("String", "BASE_URL", projectProperties["BASE_URL"] as String)
+        buildConfigField("String", "IMG_BASE_URL", projectProperties["IMG_BASE_URL"] as String)
         buildConfigField("String", "TAG", projectProperties["TAG"] as String)
     }
 
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.databinding.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

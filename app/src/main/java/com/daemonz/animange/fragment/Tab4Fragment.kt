@@ -7,7 +7,7 @@ import com.daemonz.animange.databinding.FragmentTab4Binding
 import com.daemonz.animange.viewmodel.HomeViewModel
 
 class Tab4Fragment : BaseFragment<FragmentTab4Binding,HomeViewModel>(FragmentTab4Binding::inflate) {
-    override val mViewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by viewModels()
 
     override fun setupViews() {
     }
