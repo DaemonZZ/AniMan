@@ -1,23 +1,12 @@
 package com.daemonz.animange.fragment
 
-import android.annotation.SuppressLint
-import android.net.Uri
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.viewmodel.HomeViewModel
-import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

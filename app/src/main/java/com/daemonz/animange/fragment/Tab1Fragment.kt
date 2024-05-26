@@ -1,11 +1,13 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
+import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
@@ -27,9 +29,13 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding,HomeViewModel>(FragmentTab
             homeCarouselAdapter = HomeCarouselAdapter(object : OnItemClickListener {
                 override fun onItemClick(index: Int) {
                     ALog.i(TAG, "onItemClick: $index")
+                    val parent = (parentFragment?.parentFragment as HomeFragment)
+                    parent.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPlayerFragment())
                 }
             })
             homeItemRecycler.adapter = homeCarouselAdapter
+            //Indicator not goodx
+//            homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
         }
     }
 

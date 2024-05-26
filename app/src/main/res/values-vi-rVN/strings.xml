@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dp_0">0dp</dimen>
+    <string name="watch_now">Xem ngay</string>
 </resources>

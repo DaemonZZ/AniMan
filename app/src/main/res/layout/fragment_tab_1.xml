@@ -7,7 +7,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_item_recycler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/half_guideline"/>
     <androidx.constraintlayout.widget.Guideline
@@ -16,5 +16,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75"/>
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_watch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_18"
+        style="@style/Widget.Material3.Button.Icon"
+        app:icon="@drawable/smart_display"
+        android:layout_marginHorizontal="@dimen/dp_4"
+        app:layout_constraintBottom_toBottomOf="@id/half_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="@dimen/dp_8"
+        app:iconGravity="textStart"
+        android:text="@string/watch_now"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

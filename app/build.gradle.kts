@@ -120,4 +120,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.fragment)
     kapt(libs.hilt.android.compiler)
 
+    implementation(libs.androidx.swiperefreshlayout)
+
+
 }
