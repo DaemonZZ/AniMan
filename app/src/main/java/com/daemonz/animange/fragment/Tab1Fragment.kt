@@ -6,6 +6,7 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.viewmodel.HomeViewModel
@@ -16,7 +17,8 @@ import com.google.android.material.carousel.HeroCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Tab1Fragment : BaseFragment<FragmentTab1Binding,HomeViewModel>(FragmentTab1Binding::inflate) {
+class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
+    CommonAction {
     override val viewModel: HomeViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
 
@@ -54,6 +56,14 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding,HomeViewModel>(FragmentTab
 
     override fun initData() {
         viewModel.getHomeData()
+    }
+
+    override fun onRefresh() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReSelectBottomNavigationItem(itemId: Int) {
+        TODO("Not yet implemented")
     }
 
 }

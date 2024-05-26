@@ -24,7 +24,7 @@ import com.daemonz.animange.viewmodel.HomeViewModel
 class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(PlayerViewFragmentBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +57,20 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(Pla
                     if(fullscreen!= null) {
                         (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
                     }
+                    activity?.window?.decorView?.apply {
+                        systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    }
+                    fullscreen?.setOnTouchListener { v, event ->
+                        v.postDelayed({
+                            activity?.window?.decorView?.apply {
+                                systemUiVisibility =
+                                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            }
+                        }, 3000L)
+                        true
+                    }
+
                 },
                 addView = {fullscreen->
                     val param = FrameLayout.LayoutParams(-1,-1)

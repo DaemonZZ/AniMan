@@ -2,21 +2,33 @@ package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentHomeBinding
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHomeBinding::inflate) {
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
+    private val listFragmentAction: MutableSet<CommonAction> = mutableSetOf()
+
+    fun registerCommonAction(action: CommonAction) {
+        listFragmentAction.add(action)
+    }
+
+    fun unregisterCommonAction(action: CommonAction) {
+        if (listFragmentAction.contains(action)) listFragmentAction.remove(action)
+    }
 
     override fun setupViews() {
         binding.apply {
-            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            val navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             bottomNavigation.setupWithNavController(navController)
             topAppBar.setNavigationOnClickListener {
                 // Handle navigation icon press
@@ -44,7 +56,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHome
 //                true
 //            }
             bottomNavigation.setOnItemReselectedListener { item ->
-                when(item.itemId) {
+                when (item.itemId) {
 //                    R.id.item_1 -> {
 //                        // Respond to navigation item 1 reselection
 //                    }
@@ -53,7 +65,19 @@ class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHome
 //                    }
                 }
             }
+            swiperefresh.setOnRefreshListener {
+                ALog.d(TAG, "onRefresh")
+                reloadData()
+            }
+        }
+    }
 
+    private fun reloadData() {
+        childFragmentManager.fragments.firstOrNull()?.let {
+            it.childFragmentManager.fragments.forEach {
+                ALog.d(TAG, "reloadData ${it.javaClass.simpleName}")
+                (it as? CommonAction)?.onRefresh()
+            }
         }
     }
 
