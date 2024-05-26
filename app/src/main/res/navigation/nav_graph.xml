@@ -18,14 +18,6 @@
         android:id="@+id/homeFragment"
         android:name="com.daemonz.animange.fragment.HomeFragment"
         android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/playerFragment"
-        android:name="com.daemonz.animange.fragment.PlayerFragment"
-        android:label="PlayerFragment"
-        tools:layout="@layout/player_view_fragment"/>
 
 </navigation>

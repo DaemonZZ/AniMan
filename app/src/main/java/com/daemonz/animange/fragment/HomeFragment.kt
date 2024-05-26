@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -52,6 +53,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding,HomeViewModel>(FragmentHome
 //                    }
                 }
             }
+
         }
     }
 

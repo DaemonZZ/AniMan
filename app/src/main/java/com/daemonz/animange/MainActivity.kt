@@ -1,6 +1,8 @@
 package com.daemonz.animange
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity

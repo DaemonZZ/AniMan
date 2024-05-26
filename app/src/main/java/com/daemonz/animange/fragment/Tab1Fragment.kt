@@ -29,14 +29,18 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding,HomeViewModel>(FragmentTab
             homeCarouselAdapter = HomeCarouselAdapter(object : OnItemClickListener {
                 override fun onItemClick(index: Int) {
                     ALog.i(TAG, "onItemClick: $index")
-                    val parent = (parentFragment?.parentFragment as HomeFragment)
-                    parent.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPlayerFragment())
+                    val parent = (parentFragment?.parentFragment as? HomeFragment)
+                    navigateToPlayer()
                 }
             })
             homeItemRecycler.adapter = homeCarouselAdapter
-            //Indicator not goodx
+            //Indicator not good
 //            homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
         }
+    }
+
+    private fun navigateToPlayer() {
+        findNavController().navigate(Tab1FragmentDirections.actionTab1FragmentToPlayerFragment())
     }
 
     override fun setupObservers() {
@@ -51,4 +55,5 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding,HomeViewModel>(FragmentTab
     override fun initData() {
         viewModel.getHomeData()
     }
+
 }

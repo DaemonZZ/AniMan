@@ -9,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toTopOf="@id/guideline"
+        android:fitsSystemWindows="true"
         app:layout_constraintTop_toTopOf="parent" />
     <Button
+        android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="aa"
