@@ -1,7 +1,11 @@
 package com.daemonz.animange.fragment
 
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -24,6 +28,24 @@ class HomeFragment :
     fun unregisterCommonAction(action: CommonAction) {
         if (listFragmentAction.contains(action)) listFragmentAction.remove(action)
     }
+
+    private val listFragmentsWithNavbar = listOf(
+        R.id.tab1Fragment,
+        R.id.tab2Fragment,
+        R.id.tab3Fragment,
+        R.id.tab4Fragment,
+        R.id.tab5Fragment,
+    )
+
+    private val navChangeListener =
+        NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            ALog.i(TAG, "onDestinationChanged: ${destination.id}")
+            if (destination.id in listFragmentsWithNavbar) {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            } else {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+        }
 
     override fun setupViews() {
         binding.apply {
@@ -80,8 +102,18 @@ class HomeFragment :
             }
         }
     }
-
-
     override fun setupObservers() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            .addOnDestinationChangedListener(navChangeListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            .removeOnDestinationChangedListener(navChangeListener)
     }
 }
