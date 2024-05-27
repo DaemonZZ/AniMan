@@ -14,15 +14,18 @@ import androidx.fragment.app.DialogFragment.STYLE_NO_TITLE
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.databinding.TransparentLayoutBinding
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.adapter.PlayerViewPagerAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -100,10 +103,14 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            btn.setOnClickListener {
-                val dialog = PlayerMaskDialog()
-                dialog.show(childFragmentManager, "PlayerMaskDialog")
-            }
+            viewpager.adapter = PlayerViewPagerAdapter(viewModel, this@PlayerFragment)
+            TabLayoutMediator(tabLayout, viewpager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> requireContext().getString(R.string.over_view)
+                    1 -> requireContext().getString(R.string.episodes)
+                    else -> ""
+                }
+            }.attach()
             viewModel.loadData(arg.item)
         }
     }

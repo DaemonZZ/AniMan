@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/dp_10"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_title"
+        style="?attr/textAppearanceHeadlineSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_desc"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/lorem" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_origin_name"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="Tên gốc: ABC" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_duration"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:lines="1"
+        android:text="Thời lượng: ABC" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_country"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:lines="1"
+        android:text="Quốc gia: ABC" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_category"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="Thể loại: ABC" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_episodes"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:lines="1"
+        android:text="Số tập: 3/12" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_year"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:lines="1"
+        android:text="Năm phát hành: ABC" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
