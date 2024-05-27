@@ -8,17 +8,14 @@ import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
-import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.FullScreenCarouselStrategy
-import com.google.android.material.carousel.HeroCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
-    CommonAction {
+class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate), CommonAction {
     override val viewModel: HomeViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
 
@@ -47,9 +44,9 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
 
     override fun setupObservers() {
         viewModel.apply {
-            homeData.observe(viewLifecycleOwner) { home ->
-                ALog.i(TAG, "setupObservers: $home")
-                homeCarouselAdapter?.setData(home.data.seoOnPage.getListUrl())
+            listDataData.observe(viewLifecycleOwner) { home ->
+                ALog.i(TAG, "setupObservers: ${home.data.getListUrl()}")
+                homeCarouselAdapter?.setData(home.data.getListUrl())
             }
         }
     }
@@ -59,11 +56,11 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     }
 
     override fun onRefresh() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onReSelectBottomNavigationItem(itemId: Int) {
-        TODO("Not yet implemented")
+
     }
 
 }

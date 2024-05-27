@@ -19,15 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by viewModels()
-    private val listFragmentAction: MutableSet<CommonAction> = mutableSetOf()
-
-    fun registerCommonAction(action: CommonAction) {
-        listFragmentAction.add(action)
-    }
-
-    fun unregisterCommonAction(action: CommonAction) {
-        if (listFragmentAction.contains(action)) listFragmentAction.remove(action)
-    }
 
     private val listFragmentsWithNavbar = listOf(
         R.id.tab1Fragment,

@@ -2,13 +2,13 @@ package com.daemonz.animange.repo
 
 import com.daemonz.animange.base.NetworkEntity
 import com.daemonz.animange.datasource.network.IWebService
-import com.daemonz.animange.entity.Home
+import com.daemonz.animange.entity.ListData
 import retrofit2.Response
 
 class DataRepository(
      private val apiService: IWebService,
 ) {
-     suspend fun getHomeData(): Home {
+     suspend fun getHomeData(): ListData {
          return handleDataResponse(apiService.getHomeData())
      }
 
