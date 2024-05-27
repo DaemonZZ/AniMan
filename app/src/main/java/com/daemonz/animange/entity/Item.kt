@@ -2,10 +2,12 @@ package com.daemonz.animange.entity
 
 import com.daemonz.animange.base.NetworkEntity
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Item(
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String  = "",
+    @SerializedName("content") val content: String = "",
     @SerializedName("origin_name") val originName: String = "",
     @SerializedName("type") val type: String = "",
     @SerializedName("thumb_url") val thumbUrl: String = "",
@@ -18,4 +20,12 @@ data class Item(
     @SerializedName("category") val category: List<Category> = listOf(),
     @SerializedName("country") val country: List<Country> = listOf(),
     @SerializedName("slug") val slug: String = "",
-):NetworkEntity()
+    @SerializedName("status") val status: String = "",
+    @SerializedName("episodes") val episodes: List<Episode> = listOf(),
+    @SerializedName("actor") val actor: List<String> = listOf(),
+    @SerializedName("director") val director: List<String> = listOf(),
+):NetworkEntity(), Serializable {
+    fun getImageUrl(imgDomain:String): String {
+        return "$imgDomain/uploads/movies/$thumbUrl"
+    }
+}

@@ -13,16 +13,22 @@ import androidx.activity.addCallback
 import androidx.fragment.app.DialogFragment.STYLE_NO_TITLE
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.databinding.TransparentLayoutBinding
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.PlayerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(PlayerViewFragmentBinding::inflate) {
-    override val viewModel: HomeViewModel by viewModels()
+@AndroidEntryPoint
+class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
+    override val viewModel: PlayerViewModel by viewModels()
+    private val arg : PlayerFragmentArgs by navArgs()
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -82,7 +88,6 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(Pla
             if(savedInstanceState == null) {
                 videoView.loadUrl("https://vip.opstream17.com/share/8617f303dd11780c5d48aedf0bd90823")
             }
-
         }
         return b
     }
@@ -94,6 +99,7 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(Pla
                 val dialog = PlayerMaskDialog()
                 dialog.show(childFragmentManager, "PlayerMaskDialog")
             }
+            viewModel.loadData(arg.item)
         }
     }
 
@@ -110,5 +116,8 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, HomeViewModel>(Pla
     }
 
     override fun setupObservers() {
+        viewModel.playerData.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "playerData: $it")
+        }
     }
 }

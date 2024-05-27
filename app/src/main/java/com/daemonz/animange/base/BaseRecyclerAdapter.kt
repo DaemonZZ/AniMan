@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.daemonz.animange.BuildConfig
 
-abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(private val onItemClickListener: OnItemClickListener) :
+
+abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(private val onItemClickListener: OnItemClickListener<Item>) :
     RecyclerView.Adapter<BaseRecyclerAdapter.BaseViewHolder<ViewBinding>>() {
 
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
+    protected var imgDomain = BuildConfig.IMG_BASE_URL
 
     protected val TAG = this::class.java.simpleName
     private var data = listOf<Item>()
@@ -28,7 +31,7 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
         holder.binding.apply {
             bindView(this, item, position)
             root.setOnClickListener {
-                onItemClickListener.onItemClick(position)
+                onItemClickListener.onItemClick(item,position)
             }
         }
     }
@@ -44,6 +47,11 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
         this.data = data
         notifyDataSetChanged()
     }
+    fun setData(data: List<Item>, imgDomain: String) {
+        this.imgDomain = imgDomain
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     fun getData() = data
 
@@ -53,6 +61,6 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
         RecyclerView.ViewHolder(binding.root)
 }
 
-interface OnItemClickListener {
-    fun onItemClick(index: Int)
+interface OnItemClickListener<Item> {
+    fun onItemClick(item: Item,index: Int)
 }

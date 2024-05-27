@@ -42,5 +42,9 @@
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.daemonz.animange.fragment.PlayerFragment"
-        android:label="PlayerFragment" />
+        android:label="PlayerFragment" >
+        <argument
+            android:name="item"
+            app:argType="string"/>
+    </fragment>
 </navigation>
