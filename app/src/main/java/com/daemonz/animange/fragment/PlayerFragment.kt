@@ -26,9 +26,10 @@ import com.daemonz.animange.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
+class PlayerFragment :
+    BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
     override val viewModel: PlayerViewModel by viewModels()
-    private val arg : PlayerFragmentArgs by navArgs()
+    private val arg: PlayerFragmentArgs by navArgs()
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -46,7 +47,11 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(P
                     view: WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
-                    view?.loadUrl("https://vip.opstream17.com/share/8617f303dd11780c5d48aedf0bd90823")
+                    viewModel.currentPlaying.value?.getCurrentEpisodeDetail()?.url?.let {
+                        view?.loadUrl(
+                            it
+                        )
+                    }
                     return false
                 }
             }
@@ -60,7 +65,7 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(P
                 },
                 hideWebView = { fullscreen ->
                     videoView.visibility = View.GONE
-                    if(fullscreen!= null) {
+                    if (fullscreen != null) {
                         (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
                     }
                     activity?.window?.decorView?.apply {
@@ -78,16 +83,16 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(P
                     }
 
                 },
-                addView = {fullscreen->
-                    val param = FrameLayout.LayoutParams(-1,-1)
-                    (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen,param)
+                addView = { fullscreen ->
+                    val param = FrameLayout.LayoutParams(-1, -1)
+                    (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
                     val dialog = PlayerMaskDialog()
                     dialog.show(childFragmentManager, "PlayerMaskDialog")
                 }
             )
-            if(savedInstanceState == null) {
-                videoView.loadUrl("https://vip.opstream17.com/share/8617f303dd11780c5d48aedf0bd90823")
-            }
+//            if(savedInstanceState == null) {
+//                videoView.loadUrl("https://vip.opstream17.com/share/8617f303dd11780c5d48aedf0bd90823")
+//            }
         }
         return b
     }
@@ -116,8 +121,14 @@ class PlayerFragment: BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(P
     }
 
     override fun setupObservers() {
-        viewModel.playerData.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "playerData: $it")
+        viewModel.apply {
+            playerData.observe(viewLifecycleOwner) {
+                ALog.d(TAG, "playerData: $it")
+            }
+            currentPlaying.observe(viewLifecycleOwner) {
+                ALog.d(TAG, "currentPlaying: $it")
+                binding.videoView.loadUrl(it.getCurrentEpisodeDetail().url)
+            }
         }
     }
 }
