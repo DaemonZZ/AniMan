@@ -78,10 +78,6 @@ class HomeFragment :
 //                    }
                 }
             }
-            swiperefresh.setOnRefreshListener {
-                ALog.d(TAG, "onRefresh")
-                reloadData()
-            }
         }
     }
 

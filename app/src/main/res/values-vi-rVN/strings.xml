@@ -4,4 +4,12 @@
     <string name="toast_full_screen">Xoay ngang điện thoại để xem toàn màn hình</string>
     <string name="over_view">Tổng quan</string>
     <string name="episodes">Danh sách</string>
+    <string name="episode">%s/%s</string>
+    <string name="player_title">%s (%s)</string>
+    <string name="original_name">Tên gốc: %s</string>
+    <string name="duration">Thời lượng: %s</string>
+    <string name="country">Quốc gia: %s</string>
+    <string name="category">Thể loại: %s</string>
+    <string name="num_of_episode">Số tập: %s</string>
+    <string name="created_year">Năm phát hành: %s</string>
 </resources>

@@ -24,6 +24,7 @@ data class Item(
     @SerializedName("episodes") val episodes: List<Episode> = listOf(),
     @SerializedName("actor") val actor: List<String> = listOf(),
     @SerializedName("director") val director: List<String> = listOf(),
+    @SerializedName("episode_total") val episodeTotal: String = "",
 ):NetworkEntity(), Serializable {
     fun getImageUrl(imgDomain:String): String {
         return "$imgDomain/uploads/movies/$thumbUrl"

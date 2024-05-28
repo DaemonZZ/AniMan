@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +11,17 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.activity.addCallback
-import androidx.fragment.app.DialogFragment.STYLE_NO_TITLE
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.widget.ViewPager2
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
-import com.daemonz.animange.databinding.TransparentLayoutBinding
+import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.adapter.PlayerViewPagerAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
-import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -103,16 +99,47 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            viewpager.adapter = PlayerViewPagerAdapter(viewModel, this@PlayerFragment)
-            TabLayoutMediator(tabLayout, viewpager) { tab, position ->
-                tab.text = when (position) {
-                    0 -> requireContext().getString(R.string.over_view)
-                    1 -> requireContext().getString(R.string.episodes)
-                    else -> ""
-                }
-            }.attach()
             viewModel.loadData(arg.item)
+
+            binding.apply {
+                textTitle.setOnClickListener {
+                    if(textDesc.visibility == View.VISIBLE) {
+                        expandView(false)
+                    } else {
+                        expandView(true)
+                    }
+                }
+            }
         }
+    }
+
+    private fun expandView(expand: Boolean) {
+        binding.apply {
+            if(expand) {
+                textTitle.setCompoundDrawablesWithIntrinsicBounds(
+                    0,0,R.drawable.close,0
+                )
+                textYear.visibility = View.VISIBLE
+                textCountry.visibility = View.VISIBLE
+                textCategory.visibility = View.VISIBLE
+                textDuration.visibility = View.VISIBLE
+                textEpisodes.visibility = View.VISIBLE
+                textDesc.visibility = View.VISIBLE
+                textOriginName.visibility = View.VISIBLE
+            } else {
+                textTitle.setCompoundDrawablesWithIntrinsicBounds(
+                    0,0, R.drawable.keyboard_arrow_down,0
+                )
+                textYear.visibility = View.GONE
+                textCountry.visibility = View.GONE
+                textCategory.visibility = View.GONE
+                textDuration.visibility = View.GONE
+                textEpisodes.visibility = View.GONE
+                textDesc.visibility = View.GONE
+                textOriginName.visibility = View.GONE
+            }
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -131,11 +158,27 @@ class PlayerFragment :
         viewModel.apply {
             playerData.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "playerData: $it")
+                loadPlayerData(it)
             }
             currentPlaying.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "currentPlaying: $it")
                 binding.videoView.loadUrl(it.getCurrentEpisodeDetail().url)
             }
+        }
+    }
+    private fun loadPlayerData(data: ListData) {
+        binding.apply {
+            textTitle.text = requireContext().getString(R.string.player_title,data.data.item?.name, data.data.item?.episodeCurrent)
+            textDesc.text = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
+            textYear.text = requireContext().getString(R.string.created_year, data.data.item?.year)
+            textCategory.text = requireContext().getString(R.string.category, data.data.item?.category?.joinToString { it.name })
+            textDuration.text = requireContext().getString(R.string.duration, data.data.item?.time)
+            textEpisodes.text = requireContext().getString(
+                R.string.num_of_episode,
+                data.data.item?.episodeTotal,
+            )
+            textOriginName.text = requireContext().getString(R.string.original_name, data.data.item?.originName)
+            textCountry.text = requireContext().getString(R.string.country, data.data.item?.country?.joinToString { it.name })
         }
     }
 }
