@@ -14,4 +14,6 @@
     <string name="category">Thể loại: %s</string>
     <string name="num_of_episode">Số tập: %s</string>
     <string name="created_year">Năm phát hành: %s</string>
+    <string name="follow">Theo dõi</string>
+    <string name="share">Chia sẻ</string>
 </resources>

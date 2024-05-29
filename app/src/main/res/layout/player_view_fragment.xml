@@ -22,93 +22,166 @@
         android:layout_height="@dimen/dp_0"
         app:layout_constraintTop_toBottomOf="@id/guideline"
         app:layout_constraintBottom_toBottomOf="parent">
-        <LinearLayout
-            android:id="@+id/title_layout"
-            android:orientation="vertical"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_20"
-            app:layout_constraintTop_toBottomOf="@id/guideline">
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_title"
-                style="?attr/textAppearanceHeadlineSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/player_title"
-                android:drawableEnd="@drawable/keyboard_arrow_down"
-                android:clickable="true"
-                android:layout_marginTop="@dimen/dp_10"
-                android:textStyle="bold" />
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_desc"
-                style="@style/TextAppearance.Material3.BodyMedium"
+            <LinearLayout
+                android:id="@+id/title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/dp_10"
-                android:text="@string/lorem" />
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dp_20"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_origin_name"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/dp_10"
-                android:text="@string/original_name" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_title"
+                    style="?attr/textAppearanceHeadlineSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/keyboard_arrow_down"
+                    android:text="@string/player_title"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_duration"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone"
-                android:lines="1"
-                android:text="@string/duration" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_desc"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/lorem"
+                    android:visibility="gone" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_country"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone"
-                android:lines="1"
-                android:text="@string/country" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_origin_name"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/original_name"
+                    android:visibility="gone" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_category"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@string/category" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_duration"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:lines="1"
+                    android:text="@string/duration"
+                    android:visibility="gone" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_episodes"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone"
-                android:lines="1"
-                android:text="@string/num_of_episode" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_country"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:lines="1"
+                    android:text="@string/country"
+                    android:visibility="gone" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_year"
-                style="@style/TextAppearance.Material3.BodyMedium"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_category"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@string/category"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_episodes"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:lines="1"
+                    android:text="@string/num_of_episode"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_year"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:lines="1"
+                    android:text="@string/created_year"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/function_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone"
-                android:lines="1"
-                android:text="@string/created_year" />
-        </LinearLayout>
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/title_layout">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:drawableTop="@drawable/favorite"
+                    android:text="@string/follow" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:drawableTop="@drawable/share"
+                    android:text="@string/share" />
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_episode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/function_layout"
+                app:tabMode="scrollable">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh Sách" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_episodes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tab_episode" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_episodes"
+                app:tabMode="scrollable">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh Sách" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 
