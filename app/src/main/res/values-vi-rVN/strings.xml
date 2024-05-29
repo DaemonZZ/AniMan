@@ -14,4 +14,6 @@
     <string name="created_year">Năm phát hành: %s</string>
     <string name="follow">Theo dõi</string>
     <string name="share">Chia sẻ</string>
+    <string name="list_ep">Danh Sách</string>
+    <string name="suggest">Đề xuất cho bạn</string>
 </resources>

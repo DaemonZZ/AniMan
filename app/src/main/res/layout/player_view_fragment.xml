@@ -129,13 +129,15 @@
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
                     android:drawableTop="@drawable/favorite"
+                    app:cornerRadius="8dp"
                     android:text="@string/follow" />
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.Material3.Button.IconButton"
+                    style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
                     android:drawableTop="@drawable/share"
+                    app:cornerRadius="8dp"
                     android:text="@string/share" />
             </LinearLayout>
 
@@ -149,7 +151,7 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Danh Sách" />
+                    android:text="@string/list_ep" />
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -171,7 +173,7 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Danh Sách" />
+                    android:text="@string/suggest" />
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -183,6 +185,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
