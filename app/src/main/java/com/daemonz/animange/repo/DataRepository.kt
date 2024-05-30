@@ -3,6 +3,7 @@ package com.daemonz.animange.repo
 import com.daemonz.animange.base.NetworkEntity
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.util.Category
 import retrofit2.Response
 
 class DataRepository(
@@ -25,5 +26,11 @@ class DataRepository(
           return handleDataResponse(apiService.getFilmData(slug))
      }
 
-
+     suspend fun get24RelatedFilm(slug: String, category: String): ListData {
+          val data = apiService.filterData(
+               list = slug,
+               category = category
+          )
+          return handleDataResponse(data)
+     }
 }

@@ -19,9 +19,11 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.entity.EpisodeDetail
+import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.EpisodeListAdapter
+import com.daemonz.animange.ui.adapter.SuggestionAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.viewmodel.PlayerViewModel
@@ -34,6 +36,7 @@ class PlayerFragment :
     private val arg: PlayerFragmentArgs by navArgs()
 
     private var episodeAdapter: EpisodeListAdapter? = null
+    private var suggestionAdapter: SuggestionAdapter? = null
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -121,6 +124,13 @@ class PlayerFragment :
                 }
             }, requireContext())
             recyclerEpisodes.adapter = episodeAdapter
+            suggestionAdapter = SuggestionAdapter(object : OnItemClickListener<Item> {
+                override fun onItemClick(item: Item, index: Int) {
+                    ALog.d(TAG, "onItemClick: ${item.content}")
+                }
+
+            })
+            recyclerSuggest.adapter = suggestionAdapter
         }
     }
 
@@ -170,6 +180,8 @@ class PlayerFragment :
             playerData.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "playerData: $it")
                 loadPlayerData(it)
+                getSuggestions()
+
             }
             currentPlaying.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "currentPlaying: ${it.pivot}")
@@ -179,6 +191,10 @@ class PlayerFragment :
                     viewModel.playerData.value?.data?.item?.name,
                     (it.pivot + 1).toString()
                 )
+            }
+            suggestions.observe(viewLifecycleOwner) {
+                ALog.d(TAG, "suggestions: ${it.data.items.size}")
+                suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
             }
         }
     }

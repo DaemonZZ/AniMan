@@ -1,6 +1,8 @@
 package com.daemonz.animange.datasource.network
 
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.util.Category
+import com.daemonz.animange.util.SortField
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,9 +19,9 @@ interface IWebService {
     @GET("danh-sach/{list}")
     suspend fun filterData(
         @Path("list") list: String,
-        @Query("sort_field") sortBy: String,
-        @Query("category") category: String,
-        @Query("country") country: String,
-        @Query("year") year: String,
+        @Query("sort_field") sortBy: String = SortField.LastUpdated.value,
+        @Query("category") category: String = Category.All.value,
+        @Query("country") country: String = "",
+        @Query("year") year: String = "",
     ): Response<ListData>
 }

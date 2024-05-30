@@ -6,6 +6,7 @@ import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.TypeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,6 +19,9 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
 
     private val _currentPlaying = MutableLiveData<Episode>()
     val currentPlaying: LiveData<Episode> = _currentPlaying
+
+    private val _suggestions = MutableLiveData<ListData>()
+    val suggestions: LiveData<ListData> = _suggestions
 
     fun loadData(item: String) {
         launchOnIO {
@@ -46,6 +50,21 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
             )
         } ?: kotlin.run {
             ALog.d(TAG, "chooseEpisode: data is null")
+        }
+    }
+
+    fun getSuggestions() = launchOnIO {
+        //fixme need to enhance: paging it
+        val cat = playerData.value?.data?.item?.category?.firstOrNull()
+        cat?.let {
+            val data = repository.get24RelatedFilm(
+                slug = TypeList.New.value,
+                category = it.slug
+            )
+            withContext(Dispatchers.Main) {
+                _suggestions.value = data
+            }
+
         }
     }
 

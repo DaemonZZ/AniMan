@@ -182,7 +182,9 @@
                 android:id="@+id/recycler_suggest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_20"
+                android:layout_margin="@dimen/dp_10"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/suggestion_video_item"
                 app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
