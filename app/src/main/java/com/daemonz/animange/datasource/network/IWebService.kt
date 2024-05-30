@@ -4,6 +4,7 @@ import com.daemonz.animange.entity.ListData
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface IWebService {
     @GET("home")
@@ -11,5 +12,14 @@ interface IWebService {
     @GET("phim/{slug}")
     suspend fun getFilmData(
         @Path("slug") slug: String
+    ): Response<ListData>
+
+    @GET("danh-sach/{list}")
+    suspend fun filterData(
+        @Path("list") list: String,
+        @Query("sort_field") sortBy: String,
+        @Query("category") category: String,
+        @Query("country") country: String,
+        @Query("year") year: String,
     ): Response<ListData>
 }

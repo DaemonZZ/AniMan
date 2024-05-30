@@ -2,7 +2,6 @@ package com.daemonz.animange.repo
 
 import com.daemonz.animange.base.NetworkEntity
 import com.daemonz.animange.datasource.network.IWebService
-import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import retrofit2.Response
 
@@ -25,5 +24,6 @@ class DataRepository(
      suspend fun loadPlayerData(slug: String): ListData {
           return handleDataResponse(apiService.getFilmData(slug))
      }
+
 
 }
