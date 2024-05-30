@@ -16,9 +16,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
+import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
+import com.daemonz.animange.entity.EpisodeDetail
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.adapter.EpisodeListAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.viewmodel.PlayerViewModel
@@ -29,6 +32,8 @@ class PlayerFragment :
     BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
     override val viewModel: PlayerViewModel by viewModels()
     private val arg: PlayerFragmentArgs by navArgs()
+
+    private var episodeAdapter: EpisodeListAdapter? = null
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -100,24 +105,30 @@ class PlayerFragment :
     override fun setupViews() {
         binding.apply {
             viewModel.loadData(arg.item)
-
             binding.apply {
                 textTitle.setOnClickListener {
-                    if(textDesc.visibility == View.VISIBLE) {
+                    if (textDesc.visibility == View.VISIBLE) {
                         expandView(false)
                     } else {
                         expandView(true)
                     }
                 }
             }
+            episodeAdapter = EpisodeListAdapter(object : OnItemClickListener<EpisodeDetail> {
+                override fun onItemClick(item: EpisodeDetail, index: Int) {
+                    episodeAdapter?.setPivot(index)
+                    viewModel.chooseEpisode(index)
+                }
+            }, requireContext())
+            recyclerEpisodes.adapter = episodeAdapter
         }
     }
 
     private fun expandView(expand: Boolean) {
         binding.apply {
-            if(expand) {
+            if (expand) {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0,0,R.drawable.close,0
+                    0, 0, R.drawable.close, 0
                 )
                 textYear.visibility = View.VISIBLE
                 textCountry.visibility = View.VISIBLE
@@ -128,7 +139,7 @@ class PlayerFragment :
                 textOriginName.visibility = View.VISIBLE
             } else {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0,0, R.drawable.keyboard_arrow_down,0
+                    0, 0, R.drawable.keyboard_arrow_down, 0
                 )
                 textYear.visibility = View.GONE
                 textCountry.visibility = View.GONE
@@ -161,24 +172,35 @@ class PlayerFragment :
                 loadPlayerData(it)
             }
             currentPlaying.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "currentPlaying: $it")
+                ALog.d(TAG, "currentPlaying: ${it.pivot}")
                 binding.videoView.loadUrl(it.getCurrentEpisodeDetail().url)
+                binding.textTitle.text = requireContext().getString(
+                    R.string.player_title,
+                    viewModel.playerData.value?.data?.item?.name,
+                    (it.pivot + 1).toString()
+                )
             }
         }
     }
+
     private fun loadPlayerData(data: ListData) {
         binding.apply {
-            textTitle.text = requireContext().getString(R.string.player_title,data.data.item?.name, data.data.item?.episodeCurrent)
             textDesc.text = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
             textYear.text = requireContext().getString(R.string.created_year, data.data.item?.year)
-            textCategory.text = requireContext().getString(R.string.category, data.data.item?.category?.joinToString { it.name })
+            textCategory.text = requireContext().getString(
+                R.string.category,
+                data.data.item?.category?.joinToString { it.name })
             textDuration.text = requireContext().getString(R.string.duration, data.data.item?.time)
             textEpisodes.text = requireContext().getString(
                 R.string.num_of_episode,
                 data.data.item?.episodeTotal,
             )
-            textOriginName.text = requireContext().getString(R.string.original_name, data.data.item?.originName)
-            textCountry.text = requireContext().getString(R.string.country, data.data.item?.country?.joinToString { it.name })
+            textOriginName.text =
+                requireContext().getString(R.string.original_name, data.data.item?.originName)
+            textCountry.text = requireContext().getString(
+                R.string.country,
+                data.data.item?.country?.joinToString { it.name })
+            data.data.item?.let { episodeAdapter?.setDataEpisode(it.episodes.first()) }
         }
     }
 }

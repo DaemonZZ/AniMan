@@ -40,13 +40,15 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
 
     protected open fun bindFirstTime(binding: ViewBinding) {}
 
-    protected open fun bindView(binding: ViewBinding, item: Item, position: Int) {}
+    abstract fun bindView(binding: ViewBinding, item: Item, position: Int)
 
     @SuppressLint("NotifyDataSetChanged")
     open fun setData(data: List<Item>) {
         this.data = data
         notifyDataSetChanged()
     }
+
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<Item>, imgDomain: String) {
         this.imgDomain = imgDomain
         this.data = data

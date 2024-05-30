@@ -5,7 +5,7 @@
     <string name="over_view">Tổng quan</string>
     <string name="episodes">Danh sách</string>
     <string name="episode">%s/%s</string>
-    <string name="player_title">%s (%s)</string>
+    <string name="player_title">%s (Tập %s)</string>
     <string name="original_name">Tên gốc: %s</string>
     <string name="duration">Thời lượng: %s</string>
     <string name="country">Quốc gia: %s</string>
@@ -16,4 +16,5 @@
     <string name="share">Chia sẻ</string>
     <string name="list_ep">Danh Sách</string>
     <string name="suggest">Đề xuất cho bạn</string>
+    <string name="episode_num">Tập %s</string>
 </resources>
