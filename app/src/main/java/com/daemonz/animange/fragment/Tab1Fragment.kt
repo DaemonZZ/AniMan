@@ -38,6 +38,11 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        (parentFragment?.parentFragment as? HomeFragment)?.changeToolBarAction(this@Tab1Fragment)
+    }
+
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
         findNavController().navigate(Tab1FragmentDirections.actionTab1FragmentToPlayerFragment(item = item.slug))

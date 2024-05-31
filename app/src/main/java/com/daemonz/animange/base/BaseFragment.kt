@@ -41,7 +41,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
             override fun handleOnBackPressed() {
                 // disable swipe back gesture
             }
-
         })
         setupViews()
         setupObservers()
