@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,8 @@ class PlayerFragment :
     private var episodeAdapter: EpisodeListAdapter? = null
     private var suggestionAdapter: SuggestionAdapter? = null
 
+    private var lastTouchWebView = 0L
+
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +64,18 @@ class PlayerFragment :
                     }
                     return false
                 }
+            }
+            videoView.setOnTouchListener { v, event ->
+                if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
+                    ALog.d(TAG, "click on webview + ${event.action}")
+                    (parentFragment?.parentFragment as? HomeFragment)?.toggleToolBarShowing(
+                        isShow = true,
+                        autoHide = true
+                    )
+                }
+                lastTouchWebView = SystemClock.elapsedRealtime()
+                v.onTouchEvent(event)
+                true
             }
             videoView.settings.apply {
                 javaScriptEnabled = true
@@ -107,6 +122,7 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
+            (parentFragment?.parentFragment as? HomeFragment)?.changeToolBarAction(this@PlayerFragment)
             viewModel.loadData(arg.item)
             binding.apply {
                 textTitle.setOnClickListener {
@@ -126,7 +142,8 @@ class PlayerFragment :
             recyclerEpisodes.adapter = episodeAdapter
             suggestionAdapter = SuggestionAdapter(object : OnItemClickListener<Item> {
                 override fun onItemClick(item: Item, index: Int) {
-                    ALog.d(TAG, "onItemClick: ${item.content}")
+                    ALog.d(TAG, "onItemClick: ${item.slug}")
+                    viewModel.loadData(item.slug)
                 }
 
             })

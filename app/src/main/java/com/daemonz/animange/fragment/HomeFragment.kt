@@ -1,11 +1,14 @@
 package com.daemonz.animange.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -43,9 +46,6 @@ class HomeFragment :
             val navController =
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             bottomNavigation.setupWithNavController(navController)
-            topAppBar.setNavigationOnClickListener {
-                // Handle navigation icon press
-            }
 
             topAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
@@ -102,5 +102,69 @@ class HomeFragment :
         super.onPause()
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
             .removeOnDestinationChangedListener(navChangeListener)
+    }
+
+    private fun showHideToolbar(isShow: Boolean) {
+        binding.appBarLayout.apply {
+            if (isShow) {
+                animate().translationY(0f)
+                    .alpha(1f)
+                    .setDuration(200)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationStart(animation: Animator) {
+                            super.onAnimationStart(animation)
+                            isVisible = true
+                        }
+                    })
+            } else {
+                animate().translationY(-this.height.toFloat())
+                    .alpha(0f)
+                    .setDuration(200)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            super.onAnimationEnd(animation)
+                            isVisible = false
+                        }
+                    })
+            }
+        }
+    }
+
+    fun toggleToolBarShowing(isShow: Boolean? = null, autoHide: Boolean = false) {
+        isShow?.let {
+            showHideToolbar(it)
+        } ?: kotlin.run {
+            showHideToolbar(!binding.appBarLayout.isVisible)
+        }
+        if (isShow == true && autoHide) {
+            binding.appBarLayout.postDelayed({
+                showHideToolbar(false)
+            }, 3000)
+        }
+    }
+
+    fun changeToolBarAction(fragment: Fragment) {
+        when (fragment) {
+            is PlayerFragment -> {
+                binding.topAppBar.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
+                binding.topAppBar.setNavigationOnClickListener {
+                    val navController =
+                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                    navController.popBackStack()
+                }
+                binding.topAppBar.fitsSystemWindows = false
+            }
+
+            else -> {
+                binding.topAppBar.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.app_logo, null)
+                binding.topAppBar.setNavigationOnClickListener {
+                    //
+                }
+                binding.topAppBar.fitsSystemWindows = true
+            }
+        }
+
     }
 }
