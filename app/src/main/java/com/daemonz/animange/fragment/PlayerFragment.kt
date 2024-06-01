@@ -218,6 +218,8 @@ class PlayerFragment :
                     viewModel.playerData.value?.data?.item?.name,
                     (it.pivot + 1).toString()
                 )
+                episodeAdapter?.setPivot(it.pivot)
+                binding.recyclerEpisodes.smoothScrollToPosition(it.pivot)
             }
             suggestions.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "suggestions: ${it.data.items.size}")
