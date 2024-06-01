@@ -40,5 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/nav_bar_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

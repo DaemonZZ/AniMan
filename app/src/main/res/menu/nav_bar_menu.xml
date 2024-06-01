@@ -4,31 +4,31 @@
     <item
         android:id="@+id/tab1Fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_today"
-        android:title="test" />
+        android:icon="@drawable/home_selector"
+        android:title="@string/home" />
 
     <item
         android:id="@+id/tab2Fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_today"
-        android:title="test" />
+        android:icon="@drawable/movies_selector"
+        android:title="@string/cinema" />
 
     <item
         android:id="@+id/tab3Fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_today"
-        android:title="test" />
+        android:icon="@drawable/series_selector"
+        android:title="@string/series" />
 
     <item
         android:id="@+id/tab4Fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_today"
-        android:title="test" />
+        android:icon="@drawable/tv_selector"
+        android:title="@string/tv_show" />
 
     <item
         android:id="@+id/tab5Fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_today"
-        android:title="test" />
+        android:icon="@drawable/user_selector"
+        android:title="@string/user" />
 
 </menu>
