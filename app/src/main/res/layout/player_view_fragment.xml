@@ -45,7 +45,7 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:clickable="true"
                     android:drawableEnd="@drawable/keyboard_arrow_down"
-                    android:text="@string/player_title"
+                    tools:text="@string/player_title"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="@string/lorem"
+                    tools:text="@string/lorem"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="@string/original_name"
+                    tools:text="@string/original_name"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:lines="1"
-                    android:text="@string/duration"
+                    tools:text="@string/duration"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:lines="1"
-                    android:text="@string/country"
+                    tools:text="@string/country"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -94,7 +94,7 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="@string/category"
+                    tools:text="@string/category"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:lines="1"
-                    android:text="@string/num_of_episode"
+                    tools:text="@string/num_of_episode"
                     android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:lines="1"
-                    android:text="@string/created_year"
+                    tools:text="@string/created_year"
                     android:visibility="gone" />
             </LinearLayout>
 

@@ -10,8 +10,8 @@ import com.daemonz.animange.R
 fun AppCompatImageView.setImageFromUrl(url: String?) {
     url?.let {
         Glide.with(this).load(it)
-            .error(R.drawable.ic_launcher_background)
-            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.app_logo_gray)
+            .placeholder(R.drawable.app_logo_gray)
             .into(this)
     }
 }
