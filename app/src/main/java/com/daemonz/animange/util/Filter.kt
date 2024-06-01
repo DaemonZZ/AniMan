@@ -46,3 +46,10 @@ enum class Category(val value: String) {
     KinhDien("kinh-dien"),
     Phim18("phim-18")
 }
+enum class Country(val value: String) {
+    VietNam("viet-nam"),
+    AuMy("au-my"),
+    TrungQuoc("trung-quoc"),
+    NhatBan("nhat-ban"),
+    Anh("anh")
+}

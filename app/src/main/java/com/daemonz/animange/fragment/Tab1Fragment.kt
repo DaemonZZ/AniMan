@@ -14,7 +14,9 @@ import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.FullScreenCarouselStrategy
+import com.google.android.material.carousel.HeroCarouselStrategy
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
+import com.google.android.material.carousel.UncontainedCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,10 +24,28 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     override val viewModel: HomeViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
+    private var vietNamAdapter: FilmCarouselAdapter? = null
 
     override fun setupViews() {
         setupHomeItemRecycler()
         setupNewFilmRecycler()
+        setupVietNamRecycler()
+    }
+
+    private fun setupVietNamRecycler() {
+        binding.apply {
+            vietNamRecycler.layoutManager = CarouselLayoutManager()
+            val snapHelper = CarouselSnapHelper()
+            vietNamRecycler.onFlingListener = null
+            snapHelper.attachToRecyclerView(vietNamRecycler)
+            vietNamAdapter = FilmCarouselAdapter(object : OnItemClickListener<Item> {
+                override fun onItemClick(item: Item, index: Int) {
+                    ALog.i(TAG, "onItemClick: $index")
+                    navigateToPlayer(item)
+                }
+            })
+            vietNamRecycler.adapter = vietNamAdapter
+        }
     }
 
     private fun setupNewFilmRecycler() {
@@ -65,7 +85,6 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
             //Indicator not good
             //homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
-
         }
     }
 
@@ -89,12 +108,17 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
                 ALog.i(TAG, "seriesIncoming: ${films.data.getListUrl()}")
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }
+            vietNamFilm.observe(viewLifecycleOwner) { films ->
+                ALog.i(TAG, "vietNamFilm: ${films.data.getListUrl()}")
+                vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
+            }
         }
     }
 
     override fun initData() {
         viewModel.getHomeData()
-        viewModel.getNewFilmsData()
+        viewModel.getSeriesIncoming()
+        viewModel.getListFilmVietNam()
     }
 
     override fun onRefresh() {

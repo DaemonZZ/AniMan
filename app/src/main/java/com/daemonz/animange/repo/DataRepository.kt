@@ -4,6 +4,8 @@ import com.daemonz.animange.base.NetworkEntity
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.util.Category
+import com.daemonz.animange.util.Country
+import com.daemonz.animange.util.TypeList
 import retrofit2.Response
 
 class DataRepository(
@@ -37,6 +39,13 @@ class DataRepository(
           val data = apiService.filterData(
                list = slug,
                category = category
+          )
+          return handleDataResponse(data)
+     }
+     suspend fun getListFilmVietNam(): ListData {
+          val data = apiService.filterData(
+               list = TypeList.Movie.value,
+               country = Country.VietNam.value,
           )
           return handleDataResponse(data)
      }
