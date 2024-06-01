@@ -10,13 +10,20 @@ import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.setImageFromUrl
 
-class HomeCarouselAdapter(onItemClickListener: OnItemClickListener<Item>) :
+class HomeCarouselAdapter(private val onItemClickListener: OnItemClickListener<Item>) :
     BaseRecyclerAdapter<Item, CarouselItemBinding>(onItemClickListener = onItemClickListener) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CarouselItemBinding
         get() = CarouselItemBinding::inflate
 
     override fun bindView(binding: CarouselItemBinding, item: Item, position: Int) {
         ALog.i(TAG, "bindView: $position - item: $item")
-        binding.carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
+        binding.apply {
+            carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
+            btnWatch.setOnClickListener { onItemClickListener.onItemClick(item, position) }
+            textYear.text = item.year
+            textCountry.text = item.country.firstOrNull()?.name ?: item.category.firstOrNull()?.name
+            textEpisode.text = item.episodeCurrent
+        }
+
     }
 }

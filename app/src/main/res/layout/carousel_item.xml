@@ -7,10 +7,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foreground="?attr/selectableItemBackground">
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/carousel_image_view"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@drawable/custom_background_banner"
-        android:scaleType="centerCrop"/>
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/carousel_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@drawable/custom_background_banner"
+            android:scaleType="centerCrop" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_watch"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:text="@string/watch_now"
+            android:textSize="@dimen/sp_18"
+            app:cornerRadius="@dimen/dp_8"
+            app:icon="@drawable/smart_display"
+            app:iconGravity="textStart"
+            app:layout_constraintBottom_toBottomOf="@id/carousel_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/layout_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/btn_watch">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_year"
+                style="@style/TextAppearance.Material3.TitleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="2023" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/dp_2"
+                android:text="\u00b7"
+                android:textColor="@color/material_dynamic_neutral40" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_country"
+                style="@style/TextAppearance.Material3.TitleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Việt Nam" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/dp_2"
+                android:text="\u00b7"
+                android:textColor="@color/material_dynamic_neutral40" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_episode"
+                style="@style/TextAppearance.Material3.TitleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Tập 3" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.carousel.MaskableFrameLayout>

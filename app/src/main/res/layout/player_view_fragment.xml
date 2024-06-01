@@ -167,12 +167,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dropdown_server"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_8"
                 android:hint="@string/select_server"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tab_episode">
@@ -181,8 +181,8 @@
                     android:id="@+id/dropdown_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:inputType="none"
+                    android:gravity="center_vertical"
                     android:text="Server 1" />
             </com.google.android.material.textfield.TextInputLayout>
 
