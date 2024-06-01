@@ -12,11 +12,22 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(): BaseViewModel() {
     private val _listDataData: MutableLiveData<ListData> = MutableLiveData()
     val listDataData: MutableLiveData<ListData> = _listDataData
+
+    private val _seriesIncoming = MutableLiveData<ListData>()
+    val seriesIncoming: MutableLiveData<ListData> = _seriesIncoming
     fun getHomeData() {
         launchOnIO {
             val data = repository.getHomeData()
             withContext(Dispatchers.Main) {
                 _listDataData.value = data
+            }
+        }
+    }
+    fun getNewFilmsData() {
+        launchOnIO {
+            val data = repository.getSeriesInComing()
+            withContext(Dispatchers.Main) {
+                _seriesIncoming.value = data
             }
         }
     }

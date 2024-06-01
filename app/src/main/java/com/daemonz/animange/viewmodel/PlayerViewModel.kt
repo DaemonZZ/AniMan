@@ -62,7 +62,7 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
 
     fun getSuggestions() = launchOnIO {
         //FIXME fixme need to enhance: paging it
-        val cat = playerData.value?.data?.item?.category?.firstOrNull()
+        val cat = playerData.value?.data?.item?.category?.random()
         cat?.let {
             val data = repository.get24RelatedFilm(
                 slug = TypeList.New.value,

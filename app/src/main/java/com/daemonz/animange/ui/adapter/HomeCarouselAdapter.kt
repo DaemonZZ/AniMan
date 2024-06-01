@@ -23,7 +23,7 @@ class HomeCarouselAdapter(private val onItemClickListener: OnItemClickListener<I
             textYear.text = item.year
             textCountry.text = item.country.firstOrNull()?.name ?: item.category.firstOrNull()?.name
             textEpisode.text = item.episodeCurrent
+            textTitle.text = item.name
         }
-
     }
 }

@@ -18,4 +18,7 @@
     <string name="suggest">Đề xuất cho bạn</string>
     <string name="episode_num">Tập %s</string>
     <string name="select_server">Chọn server</string>
+    <string name="newly_film">Mới ra mắt</string>
+    <string name="bullet">·</string>
+    <string name="hot_series">Phim bộ đang hot</string>
 </resources>

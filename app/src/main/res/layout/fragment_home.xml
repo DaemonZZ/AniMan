@@ -28,7 +28,6 @@
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             android:fitsSystemWindows="true"
-            app:menu="@menu/top_bar_menu"
             app:navigationIcon="@drawable/app_logo" />
 
     </com.google.android.material.appbar.AppBarLayout>

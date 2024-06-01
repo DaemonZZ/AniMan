@@ -8,19 +8,43 @@ import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
+import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.FullScreenCarouselStrategy
+import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate), CommonAction {
     override val viewModel: HomeViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
+    private var seriesIncomingAdapter: FilmCarouselAdapter? = null
 
     override fun setupViews() {
+        setupHomeItemRecycler()
+        setupNewFilmRecycler()
+    }
+
+    private fun setupNewFilmRecycler() {
+        binding.apply {
+            seriesRecycler.layoutManager = CarouselLayoutManager(MultiBrowseCarouselStrategy())
+            val snapHelper = CarouselSnapHelper()
+            seriesRecycler.onFlingListener = null
+            snapHelper.attachToRecyclerView(seriesRecycler)
+            seriesIncomingAdapter = FilmCarouselAdapter(object : OnItemClickListener<Item> {
+                override fun onItemClick(item: Item, index: Int) {
+                    ALog.i(TAG, "onItemClick: $index")
+                    navigateToPlayer(item)
+                }
+            })
+            seriesRecycler.adapter = seriesIncomingAdapter
+        }
+    }
+
+    private fun setupHomeItemRecycler() {
         binding.apply {
             homeItemRecycler.layoutManager = CarouselLayoutManager(FullScreenCarouselStrategy())
             val snapHelper = CarouselSnapHelper()
@@ -33,8 +57,15 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
                 }
             })
             homeItemRecycler.adapter = homeCarouselAdapter
+            val metric = requireActivity().windowManager.currentWindowMetrics.bounds
+            val height = metric.width().coerceAtMost(metric.height()) //height
+            val params = homeItemRecycler.layoutParams
+            params.height = (height * 90) / 100
+            homeItemRecycler.layoutParams = params
+            ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
             //Indicator not good
-//            homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
+            //homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
+
         }
     }
 
@@ -51,14 +82,19 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     override fun setupObservers() {
         viewModel.apply {
             listDataData.observe(viewLifecycleOwner) { home ->
-                ALog.i(TAG, "setupObservers: ${home.data.getListUrl()}")
+                ALog.i(TAG, "listDataData: ${home.data.getListUrl()}")
                 homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
+            }
+            seriesIncoming.observe(viewLifecycleOwner) { films ->
+                ALog.i(TAG, "seriesIncoming: ${films.data.getListUrl()}")
+                seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }
         }
     }
 
     override fun initData() {
         viewModel.getHomeData()
+        viewModel.getNewFilmsData()
     }
 
     override fun onRefresh() {

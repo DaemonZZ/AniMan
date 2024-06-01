@@ -24,4 +24,10 @@ interface IWebService {
         @Query("country") country: String = "",
         @Query("year") year: String = "",
     ): Response<ListData>
+
+    @GET("danh-sach/phim-moi")
+    suspend fun getNewFilms(): Response<ListData>
+
+    @GET("danh-sach/phim-bo-dang-chieu")
+    suspend fun getSeriesInComing(): Response<ListData>
 }
