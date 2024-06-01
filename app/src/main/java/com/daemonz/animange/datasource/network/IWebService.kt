@@ -36,4 +36,7 @@ interface IWebService {
 
     @GET("danh-sach/phim-le")
     suspend fun getMovies(): Response<ListData>
+
+    @GET("danh-sach/tv-shows")
+    suspend fun getTvShows(): Response<ListData>
 }

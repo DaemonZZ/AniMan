@@ -31,6 +31,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     private var vietNamAdapter: FilmCarouselAdapter? = null
     private var animeAdapter: CommonRecyclerAdapter? = null
     private var moviesAdapter: FilmCarouselAdapter? = null
+    private var tvAdapter: CommonRecyclerAdapter? = null
 
 
     private val onItemClickListener = object : OnItemClickListener<Item> {
@@ -46,6 +47,14 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         setupVietNamRecycler()
         setupAnimeRecycler()
         setupMovieRecycler()
+        setupTvRecycler()
+    }
+
+    private fun setupTvRecycler() {
+        binding.apply {
+            tvAdapter = CommonRecyclerAdapter(onItemClickListener)
+            tvRecycler.adapter = tvAdapter
+        }
     }
 
     private fun setupMovieRecycler() {
@@ -149,6 +158,11 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
                 hideLoadingOverlay("getListMovies")
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
             }
+            tvShows.observe(viewLifecycleOwner) { films ->
+                ALog.d(TAG, "tvShows: ${films.data.getListUrl()}")
+                hideLoadingOverlay("getTvShows")
+                tvAdapter?.setData(films.data.items, films.data.imgDomain)
+            }
         }
     }
 
@@ -163,6 +177,8 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         showLoadingOverlay("getListAnime")
         viewModel.getListMovies()
         showLoadingOverlay("getListMovies")
+        viewModel.getTvShows()
+        showLoadingOverlay("getTvShows")
     }
 
     override fun onRefresh() {
