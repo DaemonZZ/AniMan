@@ -48,12 +48,12 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    suspend fun <T> asyncOnIO(block: suspend CoroutineScope.() -> T): Deferred<T> {
-        return CoroutineScope(Dispatchers.IO).async { block() }
-    }
+    fun <T> asyncOnIO(block: suspend CoroutineScope.() -> T): Deferred<T> =
+        ioScope.async { block() }
 
-    suspend fun <T> asyncOnIOAwait(block: suspend CoroutineScope.() -> T): T {
-        return asyncOnIO(block).await()
-    }
+
+    suspend fun <T> asyncOnIOAwait(block: suspend CoroutineScope.() -> T): T =
+        asyncOnIO(block).await()
+
 
 }

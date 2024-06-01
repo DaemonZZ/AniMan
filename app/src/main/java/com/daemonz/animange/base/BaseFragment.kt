@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -47,6 +48,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         initData()
     }
 
+    fun showToastNotImplemented() {
+        Toast.makeText(requireContext(), "Not Implemented", Toast.LENGTH_SHORT).show()
+    }
+
 
     open fun hideKeyboardFrom(context: Context, view: View) {
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -62,6 +67,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
 
 
     abstract fun setupObservers()
-    open fun initData() {}
-
+    open fun initData() {
+        //empty
+    }
 }

@@ -38,6 +38,13 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
         }
     }
     fun chooseEpisode(episode: Int, server: Int = 0) {
+        if (episode == currentPlaying.value?.pivot && playerData.value?.data?.item?.episodes?.get(
+                server
+            )?.serverName == currentPlaying.value?.serverName
+        ) {
+            ALog.i(TAG, "Same Episode selected")
+            return
+        }
         val data = _playerData.value
         data?.data?.item?.episodes?.let {
             val eps = if (server == 0 || server >= data.data.item.episodes.size) {
@@ -54,7 +61,7 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
     }
 
     fun getSuggestions() = launchOnIO {
-        //fixme need to enhance: paging it
+        //FIXME fixme need to enhance: paging it
         val cat = playerData.value?.data?.item?.category?.firstOrNull()
         cat?.let {
             val data = repository.get24RelatedFilm(

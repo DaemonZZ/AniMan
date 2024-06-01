@@ -127,6 +127,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_follow"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
@@ -135,6 +136,7 @@
                     android:text="@string/follow" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_share"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
@@ -156,6 +158,34 @@
                     android:text="@string/list_ep" />
             </com.google.android.material.tabs.TabLayout>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dropdown_server"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/select_server"
+                app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tab_episode">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/dropdown_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:inputType="none"
+                    android:text="Server 1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_episodes"
                 android:layout_width="match_parent"
@@ -163,7 +193,7 @@
                 android:layout_margin="@dimen/dp_20"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tab_episode"
+                app:layout_constraintTop_toBottomOf="@id/dropdown_server"
                 tools:listitem="@layout/episode_item" />
 
             <com.google.android.material.tabs.TabLayout

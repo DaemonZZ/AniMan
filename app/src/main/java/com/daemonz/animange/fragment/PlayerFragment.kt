@@ -3,6 +3,7 @@ package com.daemonz.animange.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -94,7 +95,7 @@ class PlayerFragment :
                         systemUiVisibility =
                             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
                     }
-                    fullscreen?.setOnTouchListener { v, event ->
+                    fullscreen?.setOnTouchListener { v, _ ->
                         v.postDelayed({
                             activity?.window?.decorView?.apply {
                                 systemUiVisibility =
@@ -112,9 +113,6 @@ class PlayerFragment :
                     dialog.show(childFragmentManager, "PlayerMaskDialog")
                 }
             )
-//            if(savedInstanceState == null) {
-//                videoView.loadUrl("https://vip.opstream17.com/share/8617f303dd11780c5d48aedf0bd90823")
-//            }
         }
         return b
     }
@@ -148,6 +146,8 @@ class PlayerFragment :
 
             })
             recyclerSuggest.adapter = suggestionAdapter
+            btnFollow.setOnClickListener { showToastNotImplemented() }
+            btnShare.setOnClickListener { showToastNotImplemented() }
         }
     }
 
@@ -234,6 +234,16 @@ class PlayerFragment :
                 R.string.country,
                 data.data.item?.country?.joinToString { it.name })
             data.data.item?.let { episodeAdapter?.setDataEpisode(it.episodes.first()) }
+            val serverList =
+                data.data.item?.episodes?.map { it.serverName }?.toTypedArray() ?: emptyArray()
+            dropdownText.setSimpleItems(serverList)
+            dropdownText.setText(serverList.firstOrNull())
+            dropdownText.setOnItemClickListener { _, _, position, _ ->
+                viewModel.chooseEpisode(
+                    viewModel.currentPlaying.value?.pivot ?: 0,
+                    server = position
+                )
+            }
         }
     }
 }
