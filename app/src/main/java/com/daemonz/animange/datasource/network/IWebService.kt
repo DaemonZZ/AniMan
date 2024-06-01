@@ -39,4 +39,9 @@ interface IWebService {
 
     @GET("danh-sach/tv-shows")
     suspend fun getTvShows(): Response<ListData>
+
+    @GET("tim-kiem")
+    suspend fun search(
+        @Query("keyword") keyword: String
+    ): Response<ListData>
 }

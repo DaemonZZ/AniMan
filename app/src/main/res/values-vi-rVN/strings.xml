@@ -30,4 +30,7 @@
     <string name="tv_show">Tv Show</string>
     <string name="user">User</string>
     <string name="tv_shows">Chương trình truyền hình</string>
+    <string name="search">Search</string>
+    <string name="search_for_name">Tìm kiếm tên phim</string>
+    <string name="close">Close</string>
 </resources>

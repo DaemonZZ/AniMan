@@ -15,6 +15,7 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
+import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,18 +50,10 @@ class HomeFragment :
 
             topAppBar.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-//                    R.id.edit -> {
-//                        // Handle edit text press
-//                        true
-//                    }
-//                    R.id.favorite -> {
-//                        // Handle favorite icon press
-//                        true
-//                    }
-//                    R.id.more -> {
-//                        // Handle more item (inside overflow menu) press
-//                        true
-//                    }
+                    R.id.search -> {
+                        SearchDialog().show(childFragmentManager, "SearchDialog")
+                        true
+                    }
                     else -> false
                 }
             }

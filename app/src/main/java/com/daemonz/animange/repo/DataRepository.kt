@@ -59,4 +59,7 @@ class DataRepository(
           )
           return handleDataResponse(data)
      }
+    suspend fun searchFilm(query: String): ListData {
+        return handleDataResponse(apiService.search(query))
+    }
 }
