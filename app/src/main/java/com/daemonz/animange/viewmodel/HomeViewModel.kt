@@ -18,6 +18,12 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
 
     private val _vietNamFilm = MutableLiveData<ListData>()
     val vietNamFilm: MutableLiveData<ListData> = _vietNamFilm
+
+    private val _anime = MutableLiveData<ListData>()
+    val anime: MutableLiveData<ListData> = _anime
+
+    private val _movies = MutableLiveData<ListData>()
+    val movies: MutableLiveData<ListData> = _movies
     fun getHomeData() {
         launchOnIO {
             val data = repository.getHomeData()
@@ -40,6 +46,23 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
             val data = repository.getListFilmVietNam()
             withContext(Dispatchers.Main) {
                 _vietNamFilm.value = data
+            }
+        }
+    }
+    fun getListAnime() {
+        launchOnIO {
+            val data = repository.getListAnime()
+            withContext(Dispatchers.Main) {
+                anime.value = data
+            }
+        }
+    }
+
+    fun getListMovies() {
+        launchOnIO {
+            val data = repository.getListMovies()
+            withContext(Dispatchers.Main) {
+                _movies.value = data
             }
         }
     }

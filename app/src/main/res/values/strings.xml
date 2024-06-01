@@ -24,4 +24,6 @@
     <string name="bullet">·</string>
     <string name="hot_series">Phim bộ đang hot</string>
     <string name="viet_nam_must_watch">Phim Việt không thể bỏ qua</string>
+    <string name="anime">Anime</string>
+    <string name="hot_in_cinema">Bom tấn phòng vé</string>
 </resources>

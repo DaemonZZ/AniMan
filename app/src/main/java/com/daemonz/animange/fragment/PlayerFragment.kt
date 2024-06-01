@@ -28,6 +28,8 @@ import com.daemonz.animange.ui.adapter.EpisodeListAdapter
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
+import com.daemonz.animange.util.AppUtils
+import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -195,9 +197,17 @@ class PlayerFragment :
     override fun setupObservers() {
         viewModel.apply {
             playerData.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "playerData: $it")
-                loadPlayerData(it)
-                getSuggestions()
+                ALog.d(TAG, "playerData: ${it.data.item?.status}")
+                if (it.data.item?.status == ITEM_STATUS_TRAILER) {
+                    findNavController().popBackStack()
+                    AppUtils.playYoutube(
+                        requireContext(),
+                        it.data.item.trailerUrl
+                    )
+                } else {
+                    loadPlayerData(it)
+                    getSuggestions()
+                }
 
             }
             currentPlaying.observe(viewLifecycleOwner) {

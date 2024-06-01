@@ -10,6 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
+            android:layout_marginBottom="@dimen/dp_10"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_bar_navigation" />

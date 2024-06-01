@@ -31,6 +31,13 @@ class DataRepository(
      suspend fun getSeriesInComing(): ListData {
           return handleDataResponse(apiService.getSeriesInComing())
      }
+     suspend fun getListAnime(): ListData {
+          return handleDataResponse(apiService.getListAnime())
+     }
+
+     suspend fun getListMovies(): ListData {
+          return handleDataResponse(apiService.getMovies())
+     }
      suspend fun loadPlayerData(slug: String): ListData {
           return handleDataResponse(apiService.getFilmData(slug))
      }

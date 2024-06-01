@@ -1,6 +1,7 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.dynamicfeatures.Constants
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -8,8 +9,11 @@ import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
+import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
+import com.daemonz.animange.util.AppUtils
+import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
@@ -25,11 +29,41 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
     private var vietNamAdapter: FilmCarouselAdapter? = null
+    private var animeAdapter: CommonRecyclerAdapter? = null
+    private var moviesAdapter: FilmCarouselAdapter? = null
+
+
+    private val onItemClickListener = object : OnItemClickListener<Item> {
+        override fun onItemClick(item: Item, index: Int) {
+            ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
+            navigateToPlayer(item)
+        }
+    }
 
     override fun setupViews() {
         setupHomeItemRecycler()
         setupNewFilmRecycler()
         setupVietNamRecycler()
+        setupAnimeRecycler()
+        setupMovieRecycler()
+    }
+
+    private fun setupMovieRecycler() {
+        binding.apply {
+            movERecycler.layoutManager = CarouselLayoutManager()
+            val snapHelper = CarouselSnapHelper()
+            movERecycler.onFlingListener = null
+            snapHelper.attachToRecyclerView(movERecycler)
+            moviesAdapter = FilmCarouselAdapter(onItemClickListener)
+            movERecycler.adapter = moviesAdapter
+        }
+    }
+
+    private fun setupAnimeRecycler() {
+        binding.apply {
+            animeAdapter = CommonRecyclerAdapter(onItemClickListener)
+            animeRecycler.adapter = animeAdapter
+        }
     }
 
     private fun setupVietNamRecycler() {
@@ -38,12 +72,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             val snapHelper = CarouselSnapHelper()
             vietNamRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(vietNamRecycler)
-            vietNamAdapter = FilmCarouselAdapter(object : OnItemClickListener<Item> {
-                override fun onItemClick(item: Item, index: Int) {
-                    ALog.i(TAG, "onItemClick: $index")
-                    navigateToPlayer(item)
-                }
-            })
+            vietNamAdapter = FilmCarouselAdapter(onItemClickListener)
             vietNamRecycler.adapter = vietNamAdapter
         }
     }
@@ -54,12 +83,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             val snapHelper = CarouselSnapHelper()
             seriesRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(seriesRecycler)
-            seriesIncomingAdapter = FilmCarouselAdapter(object : OnItemClickListener<Item> {
-                override fun onItemClick(item: Item, index: Int) {
-                    ALog.i(TAG, "onItemClick: $index")
-                    navigateToPlayer(item)
-                }
-            })
+            seriesIncomingAdapter = FilmCarouselAdapter(onItemClickListener)
             seriesRecycler.adapter = seriesIncomingAdapter
         }
     }
@@ -101,16 +125,24 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     override fun setupObservers() {
         viewModel.apply {
             listDataData.observe(viewLifecycleOwner) { home ->
-                ALog.i(TAG, "listDataData: ${home.data.getListUrl()}")
+                ALog.d(TAG, "listDataData: ${home.data.getListUrl()}")
                 homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
-                ALog.i(TAG, "seriesIncoming: ${films.data.getListUrl()}")
+                ALog.d(TAG, "seriesIncoming: ${films.data.getListUrl()}")
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
-                ALog.i(TAG, "vietNamFilm: ${films.data.getListUrl()}")
+                ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
                 vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
+            }
+            anime.observe(viewLifecycleOwner) { films ->
+                ALog.d(TAG, "anime: ${films.data.getListUrl()}")
+                animeAdapter?.setData(films.data.items, films.data.imgDomain)
+            }
+            movies.observe(viewLifecycleOwner) { films ->
+                ALog.d(TAG, "movies: ${films.data.getListUrl()}")
+                moviesAdapter?.setData(films.data.items, films.data.imgDomain)
             }
         }
     }
@@ -119,6 +151,8 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         viewModel.getHomeData()
         viewModel.getSeriesIncoming()
         viewModel.getListFilmVietNam()
+        viewModel.getListAnime()
+        viewModel.getListMovies()
     }
 
     override fun onRefresh() {

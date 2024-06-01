@@ -30,4 +30,10 @@ interface IWebService {
 
     @GET("danh-sach/phim-bo-dang-chieu")
     suspend fun getSeriesInComing(): Response<ListData>
+
+    @GET("danh-sach/hoat-hinh")
+    suspend fun getListAnime(): Response<ListData>
+
+    @GET("danh-sach/phim-le")
+    suspend fun getMovies(): Response<ListData>
 }
