@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.daemonz.animange.MainActivity
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -56,6 +57,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     open fun hideKeyboardFrom(context: Context, view: View) {
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun showLoadingOverlay(id: String) {
+        (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, id)
+    }
+
+    fun hideLoadingOverlay(id: String) {
+        (activity as? MainActivity)?.hideLoadingOverlay(id)
     }
 
     override fun onDestroyView() {

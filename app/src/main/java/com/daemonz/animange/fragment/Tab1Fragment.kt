@@ -126,22 +126,27 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         viewModel.apply {
             listDataData.observe(viewLifecycleOwner) { home ->
                 ALog.d(TAG, "listDataData: ${home.data.getListUrl()}")
+                hideLoadingOverlay("getHomeData")
                 homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "seriesIncoming: ${films.data.getListUrl()}")
+                hideLoadingOverlay("getSeriesIncoming")
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
+                hideLoadingOverlay("getListFilmVietNam")
                 vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             anime.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "anime: ${films.data.getListUrl()}")
+                hideLoadingOverlay("getListAnime")
                 animeAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             movies.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "movies: ${films.data.getListUrl()}")
+                hideLoadingOverlay("getListMovies")
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
             }
         }
@@ -149,10 +154,15 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
 
     override fun initData() {
         viewModel.getHomeData()
+        showLoadingOverlay("getHomeData")
         viewModel.getSeriesIncoming()
+        showLoadingOverlay("getSeriesIncoming")
         viewModel.getListFilmVietNam()
+        showLoadingOverlay("getListFilmVietNam")
         viewModel.getListAnime()
+        showLoadingOverlay("getListAnime")
         viewModel.getListMovies()
+        showLoadingOverlay("getListMovies")
     }
 
     override fun onRefresh() {

@@ -119,11 +119,14 @@ class PlayerFragment :
         return b
     }
 
+    override fun initData() {
+        viewModel.loadData(arg.item)
+        showLoadingOverlay("loadData")
+    }
 
     override fun setupViews() {
         binding.apply {
             (parentFragment?.parentFragment as? HomeFragment)?.changeToolBarAction(this@PlayerFragment)
-            viewModel.loadData(arg.item)
             binding.apply {
                 textTitle.setOnClickListener {
                     if (textDesc.visibility == View.VISIBLE) {
@@ -207,7 +210,9 @@ class PlayerFragment :
                 } else {
                     loadPlayerData(it)
                     getSuggestions()
+                    showLoadingOverlay("getSuggestions")
                 }
+                hideLoadingOverlay("loadData")
 
             }
             currentPlaying.observe(viewLifecycleOwner) {
@@ -224,6 +229,7 @@ class PlayerFragment :
             suggestions.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "suggestions: ${it.data.items.size}")
                 suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
+                hideLoadingOverlay("getSuggestions")
             }
         }
     }

@@ -15,6 +15,9 @@ fun AppCompatImageView.setImageFromUrl(url: String?) {
             .into(this)
     }
 }
+fun AppCompatImageView.loadGif(res: Int) {
+    Glide.with(this).load(res).into(this)
+}
 fun Context.dpToPx(dp: Int): Int {
     return (dp * resources.displayMetrics.density).toInt()
 }
