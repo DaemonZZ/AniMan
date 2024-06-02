@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
 import com.daemonz.animange.util.loadGif
@@ -25,6 +26,15 @@ class LoadingOverLay : DialogFragment() {
         _binding = LoadingOverlayBinding.inflate(inflater, container, false)
         binding.img.loadGif(R.drawable.loader)
         return binding.root
+    }
+
+    override fun show(manager: FragmentManager, tag: String?) {
+        try {
+            super.show(manager, tag)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
