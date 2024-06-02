@@ -6,6 +6,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -17,7 +18,7 @@ android {
         minSdk = 31
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -121,6 +122,10 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.androidx.swiperefreshlayout)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
+
 
 
 }
