@@ -3,6 +3,7 @@ package com.daemonz.animange
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Menu
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     val viewModel: MainViewModel by viewModels()
-    private val loadingRequest = mutableListOf<String>()
+    private val loadingRequest = mutableSetOf<String>()
     private val loadingDialog: LoadingOverLay by lazy {
         LoadingOverLay()
     }
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigation?.visibility = View.GONE
             }
         }
+    private var lastCallLoading: Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,12 +95,15 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showLoadingOverlay(fm: FragmentManager, id: String) {
-        ALog.d(TAG, "showLoadingOverlay $id dd: ${loadingRequest.size}")
-        loadingRequest.add(id)
-        if (!loadingDialog.isAdded && loadingRequest.size == 1) {
-            ALog.d(TAG, "showLoadingOverlay showed")
-            loadingDialog.show(fm, "LoadingOverLay")
+        if (SystemClock.elapsedRealtime() - lastCallLoading > 1000) {
+            ALog.d(TAG, "showLoadingOverlay $id dd: ${loadingRequest.size}")
+            loadingRequest.add(id)
+            if (!loadingDialog.isAdded && loadingRequest.size == 1) {
+                ALog.d(TAG, "showLoadingOverlay showed")
+                loadingDialog.show(fm, "LoadingOverLay")
+            }
         }
+        lastCallLoading = SystemClock.elapsedRealtime()
     }
 
     fun hideLoadingOverlay(id: String) {
