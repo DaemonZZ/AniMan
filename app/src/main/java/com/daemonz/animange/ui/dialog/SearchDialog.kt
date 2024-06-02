@@ -9,20 +9,19 @@ import android.view.WindowManager.LayoutParams
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
 import com.daemonz.animange.entity.Item
-import com.daemonz.animange.fragment.HomeFragmentDirections
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
+import com.daemonz.animange.util.SEARCH_TIME_DELAY
 import com.daemonz.animange.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchDialog : DialogFragment() {
+class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) : DialogFragment() {
     companion object {
         private const val TAG = "SearchDialog"
     }
@@ -58,11 +57,15 @@ class SearchDialog : DialogFragment() {
         binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
             lastSearch = SystemClock.elapsedRealtime()
             binding.searchView.postDelayed({
-                if (SystemClock.elapsedRealtime() - lastSearch > 3000L && text.toString().length > 3) {
+                if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
                     ALog.d(TAG, "text: $text")
                     viewModel.search(text.toString())
+                    (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, "search")
                 }
             }, 3000L)
+            if (text.toString().isEmpty()) {
+                resultAdapter?.setData(listOf())
+            }
         }
         binding.searchBar.setOnMenuItemClickListener {
             if (it.itemId == R.id.close) {
@@ -76,23 +79,13 @@ class SearchDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            resultAdapter =
-                SuggestionAdapter(onItemClickListener = object : OnItemClickListener<Item> {
-                    override fun onItemClick(item: Item, index: Int) {
-                        val navController =
-                            Navigation.findNavController(requireActivity(), R.id.navHostFragment)
-                        navController.navigate(
-                            HomeFragmentDirections.actionHomeFragmentToPlayerFragment2(
-                                item.slug
-                            )
-                        )
-                    }
-                })
+            resultAdapter = SuggestionAdapter(onItemClickListener)
             resultRecycler.adapter = resultAdapter
         }
         viewModel.searchResult.observe(viewLifecycleOwner) {
             ALog.d(TAG, "searchResult: ${it.data.items.size}")
             resultAdapter?.setData(it.data.items, it.data.imgDomain)
+            (activity as? MainActivity)?.hideLoadingOverlay("search")
         }
 
     }

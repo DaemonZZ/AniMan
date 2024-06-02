@@ -3,15 +3,18 @@ package com.daemonz.animange.fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.dynamicfeatures.Constants
 import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
+import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.viewmodel.HomeViewModel
@@ -24,7 +27,8 @@ import com.google.android.material.carousel.UncontainedCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate), CommonAction {
+class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
+    BottomNavigationAction {
     override val viewModel: HomeViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
@@ -42,6 +46,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     }
 
     override fun setupViews() {
+        (activity as? MainActivity)?.toggleToolBarShowing(isShow = true, autoHide = false)
         setupHomeItemRecycler()
         setupNewFilmRecycler()
         setupVietNamRecycler()
@@ -123,7 +128,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
 
     override fun onStart() {
         super.onStart()
-        (parentFragment?.parentFragment as? HomeFragment)?.changeToolBarAction(this@Tab1Fragment)
+        (activity as? MainActivity)?.changeToolBarAction(this@Tab1Fragment)
     }
 
     private fun navigateToPlayer(item: Item) {
@@ -179,6 +184,10 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         showLoadingOverlay("getListMovies")
         viewModel.getTvShows()
         showLoadingOverlay("getTvShows")
+    }
+
+    override fun onSearch() {
+        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {

@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentSplashBinding
 import com.daemonz.animange.viewmodel.SplashViewModel
@@ -12,11 +13,11 @@ class SplashFragment: BaseFragment<FragmentSplashBinding, SplashViewModel>(Fragm
     override fun setupViews() {
         binding.apply {
             btn.setOnClickListener {
-                findNavController().navigate(SplashFragmentDirections.toHomeFragment())
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToTab1Fragment())
             }
         }
+        (activity as? MainActivity)?.toggleToolBarShowing(false, autoHide = false)
     }
-
     override fun setupObservers() {
         //
     }

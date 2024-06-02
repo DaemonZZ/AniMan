@@ -16,6 +16,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -71,7 +72,7 @@ class PlayerFragment :
             videoView.setOnTouchListener { v, event ->
                 if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
                     ALog.d(TAG, "click on webview + ${event.action}")
-                    (parentFragment?.parentFragment as? HomeFragment)?.toggleToolBarShowing(
+                    (activity as? MainActivity)?.toggleToolBarShowing(
                         isShow = true,
                         autoHide = true
                     )
@@ -126,7 +127,7 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            (parentFragment?.parentFragment as? HomeFragment)?.changeToolBarAction(this@PlayerFragment)
+            (activity as? MainActivity)?.changeToolBarAction(this@PlayerFragment)
             binding.apply {
                 textTitle.setOnClickListener {
                     if (textDesc.visibility == View.VISIBLE) {

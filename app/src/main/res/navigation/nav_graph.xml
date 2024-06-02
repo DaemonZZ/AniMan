@@ -10,20 +10,50 @@
         android:name="com.daemonz.animange.fragment.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
+
         <action
-            android:id="@+id/toHomeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_splashFragment_to_tab1Fragment"
+            app:destination="@id/tab1Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tab1Fragment"
+        android:name="com.daemonz.animange.fragment.Tab1Fragment"
+        android:label="Tab1Fragment">
+        <action
+            android:id="@+id/action_tab1Fragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.daemonz.animange.fragment.HomeFragment"
-        android:label="HomeFragment" >
+        android:id="@+id/tab2Fragment"
+        android:name="com.daemonz.animange.fragment.Tab2Fragment"
+        android:label="Tab2Fragment">
         <action
-            android:id="@+id/action_homeFragment_to_playerFragment2"
-            app:destination="@id/playerFragment2" />
+            android:id="@+id/action_tab2Fragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/playerFragment2"
+        android:id="@+id/tab3Fragment"
+        android:name="com.daemonz.animange.fragment.Tab3Fragment"
+        android:label="Tab3Fragment">
+        <action
+            android:id="@+id/action_tab3Fragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tab4Fragment"
+        android:name="com.daemonz.animange.fragment.Tab4Fragment"
+        android:label="Tab4Fragment">
+        <action
+            android:id="@+id/action_tab4Fragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tab5Fragment"
+        android:name="com.daemonz.animange.fragment.Tab5Fragment"
+        android:label="Tab5Fragment" />
+    <fragment
+        android:id="@+id/playerFragment"
         android:name="com.daemonz.animange.fragment.PlayerFragment"
         android:label="PlayerFragment">
         <argument
