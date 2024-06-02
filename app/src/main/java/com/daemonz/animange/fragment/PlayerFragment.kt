@@ -72,7 +72,7 @@ class PlayerFragment :
             videoView.setOnTouchListener { v, event ->
                 if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
                     ALog.d(TAG, "click on webview + ${event.action}")
-                    (activity as? MainActivity)?.toggleToolBarShowing(
+                    toggleToolBarShowing(
                         isShow = true,
                         autoHide = true
                     )
@@ -127,7 +127,6 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            (activity as? MainActivity)?.changeToolBarAction(this@PlayerFragment)
             binding.apply {
                 textTitle.setOnClickListener {
                     if (textDesc.visibility == View.VISIBLE) {
@@ -149,11 +148,13 @@ class PlayerFragment :
                     ALog.d(TAG, "onItemClick: ${item.slug}")
                     viewModel.loadData(item.slug)
                 }
-
             })
             recyclerSuggest.adapter = suggestionAdapter
-            btnFollow.setOnClickListener { showToastNotImplemented() }
+            btnFollow.setOnClickListener {
+                viewModel.toggleFavourite()
+            }
             btnShare.setOnClickListener { showToastNotImplemented() }
+            binding.btnFollow.isChecked = true
         }
     }
 
@@ -201,7 +202,7 @@ class PlayerFragment :
     override fun setupObservers() {
         viewModel.apply {
             playerData.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "playerData: ${it.data.item?.status}")
+                ALog.d(TAG, "playerData: ${it.data.seoOnPage}")
                 if (it.data.item?.status == ITEM_STATUS_TRAILER) {
                     findNavController().popBackStack()
                     AppUtils.playYoutube(
@@ -231,6 +232,23 @@ class PlayerFragment :
                 ALog.d(TAG, "suggestions: ${it.data.items.size}")
                 suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
                 hideLoadingOverlay("getSuggestions")
+            }
+            isFavourite.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        R.drawable.favorite_filled,
+                        0,
+                        0
+                    )
+                } else {
+                    binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        R.drawable.favorite,
+                        0,
+                        0
+                    )
+                }
             }
         }
     }

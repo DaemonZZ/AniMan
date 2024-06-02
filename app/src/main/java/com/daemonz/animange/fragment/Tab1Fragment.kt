@@ -1,5 +1,9 @@
 package com.daemonz.animange.fragment
 
+import android.graphics.Rect
+import android.os.CancellationSignal
+import android.view.ScrollCaptureCallback
+import android.view.ScrollCaptureSession
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.dynamicfeatures.Constants
@@ -26,6 +30,7 @@ import com.google.android.material.carousel.HeroCarouselStrategy
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import com.google.android.material.carousel.UncontainedCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.function.Consumer
 
 @AndroidEntryPoint
 class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
@@ -47,7 +52,6 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     }
 
     override fun setupViews() {
-        (activity as? MainActivity)?.toggleToolBarShowing(isShow = true, autoHide = false)
         setupHomeItemRecycler()
         setupNewFilmRecycler()
         setupVietNamRecycler()
@@ -124,12 +128,10 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
             //Indicator not good
             //homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
+            root.setOnScrollChangeListener { _, _, _, _, _ ->
+                toggleToolBarShowing(isShow = true, autoHide = true)
+            }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        (activity as? MainActivity)?.changeToolBarAction(this@Tab1Fragment)
     }
 
     private fun navigateToPlayer(item: Item) {
@@ -145,7 +147,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
                 homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
-                ALog.d(TAG, "seriesIncoming: ${films.data.getListUrl()}")
+                ALog.d(TAG, "seriesIncoming:")
                 hideLoadingOverlay("getSeriesIncoming")
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }

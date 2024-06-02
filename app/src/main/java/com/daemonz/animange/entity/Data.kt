@@ -9,9 +9,12 @@ data class Data(
     // for detail data
     val item: Item? = null,
     @SerializedName("APP_DOMAIN_CDN_IMAGE") val imgDomain: String = "",
+    @SerializedName("seoOnPage") val seoOnPage: SeoOnPage? = null
 ) : NetworkEntity() {
     fun getListUrl(): List<String> = items.map { getImageUrl(it) }
-    private fun getImageUrl(item:Item): String {
+    private fun getImageUrl(item: Item): String {
         return item.getImageUrl(imgDomain)
     }
+
+    fun getImageUrl(): String = seoOnPage?.seoSchema?.image ?: ""
 }

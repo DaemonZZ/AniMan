@@ -29,7 +29,6 @@ class Tab3Fragment : BaseFragment<FragmentTab3Binding, HomeViewModel>(FragmentTa
     private var seriesAdapter: GridAdapter? = null
 
     override fun setupViews() {
-        (activity as? MainActivity)?.toggleToolBarShowing(isShow = true, autoHide = true)
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
             seriesAdapter = GridAdapter(onItemClickListener)
@@ -38,7 +37,7 @@ class Tab3Fragment : BaseFragment<FragmentTab3Binding, HomeViewModel>(FragmentTa
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     ALog.i(TAG, "onScrollStateChanged: state: $newState")
                     if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                        (activity as? MainActivity)?.toggleToolBarShowing(
+                        toggleToolBarShowing(
                             isShow = true,
                             autoHide = true
                         )

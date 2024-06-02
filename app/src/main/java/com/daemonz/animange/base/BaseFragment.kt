@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
+import com.daemonz.animange.log.ALog
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -60,6 +61,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     }
 
     fun showLoadingOverlay(id: String) {
+        ALog.d(TAG, "showLoadingOverlay $id")
         (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, id)
     }
 
@@ -78,5 +80,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     abstract fun setupObservers()
     open fun initData() {
         //empty
+    }
+    fun toggleToolBarShowing(isShow: Boolean? = null, autoHide: Boolean = false) {
+        (activity as? MainActivity)?.toggleToolBarShowing(isShow, autoHide)
     }
 }

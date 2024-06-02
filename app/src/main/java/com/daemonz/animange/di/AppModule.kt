@@ -1,8 +1,16 @@
 package com.daemonz.animange.di
 
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
+import com.daemonz.animange.datasource.room.AppDatabase
+import com.daemonz.animange.datasource.room.FavouriteDao
+import com.daemonz.animange.entity.FavouriteItem
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.repo.DataRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -12,6 +20,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -19,16 +28,19 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    private const val TAG = "AppModule"
 
     @Singleton
     @Provides
@@ -75,8 +87,9 @@ object AppModule {
     @Singleton
     fun provideDataRepository(
         webApi: IWebService,
+        dao: FavouriteDao
     ): DataRepository {
-        return DataRepository(webApi)
+        return DataRepository(webApi, dao)
     }
 
     @Provides
@@ -93,36 +106,34 @@ object AppModule {
         return FireBaseDataBase(fireBaseFireStore)
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideDao(db: AppDatabase): PlayListDao {
-//        return db.getDao()
-//    }
+    @Singleton
+    @Provides
+    fun provideDao(db: AppDatabase): FavouriteDao {
+        return db.favouriteDao()
+    }
 
-//    @Provides
-//    @Singleton
-//    fun provideDatabase(
-//        @ApplicationContext appContext: Context,
-//        scope: CoroutineScope,
-//        daoProvider: Provider<PlayListDao>
-//    ): AppDatabase {
-//        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app.db")
-//            .addCallback(object : RoomDatabase.Callback() {
-//                override fun onCreate(db: SupportSQLiteDatabase) {
-//                    super.onCreate(db)
-//                    scope.launch {
-//                        initData(daoProvider.get())
-//                    }
-//                }
-//            })
-//            .build()
-//    }
+    @Provides
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext appContext: Context,
+        scope: CoroutineScope,
+        daoProvider: Provider<FavouriteDao>
+    ): AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app.db")
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    scope.launch {
+                        initData(daoProvider.get())
+                    }
+                }
+            })
+            .build()
+    }
 
-//
-//    private suspend fun initData(dao: PlayListDao) {
-//        val favorite = TrackListInfo(PlayListDao.ID_LIST_FAVORITE, "Favorite")
-//        val history = TrackListInfo(PlayListDao.ID_LIST_HISTORY, "History")
-//        dao.insertTrackList(favorite)
-//        dao.insertTrackList(history)
-//    }
+
+    private fun initData(dao: FavouriteDao) {
+        ALog.d(TAG, "initData")
+//        dao.insertAll(FavouriteItem("","","","",))
+    }
 }

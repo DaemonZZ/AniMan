@@ -5,6 +5,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.daemonz.animange.R
+import com.daemonz.animange.entity.FavouriteItem
+import com.daemonz.animange.entity.Item
 
 @BindingAdapter("set_image")
 fun AppCompatImageView.setImageFromUrl(url: String?) {
@@ -25,3 +27,9 @@ fun Context.dpToPx(dp: Int): Int {
 fun Context.pxToDp(px: Int): Int {
     return (px / resources.displayMetrics.density).toInt()
 }
+fun Item.toFavouriteItem(img: String): FavouriteItem = FavouriteItem(
+    slug = slug,
+    name = name,
+    category = category.map { it.name },
+    imageUrl = img,
+)

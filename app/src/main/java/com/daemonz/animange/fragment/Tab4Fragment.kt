@@ -29,16 +29,15 @@ class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTa
     private var tvAdapter: GridAdapter? = null
 
     override fun setupViews() {
-        (activity as? MainActivity)?.toggleToolBarShowing(isShow = true, autoHide = true)
         binding.apply {
-            moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
+            tvRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
             tvAdapter = GridAdapter(onItemClickListener)
-            moviesRecycler.adapter = tvAdapter
-            moviesRecycler.addOnScrollListener(object : OnScrollListener() {
+            tvRecycler.adapter = tvAdapter
+            tvRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     ALog.i(TAG, "onScrollStateChanged: state: $newState")
                     if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                        (activity as? MainActivity)?.toggleToolBarShowing(
+                        toggleToolBarShowing(
                             isShow = true,
                             autoHide = true
                         )
@@ -78,6 +77,6 @@ class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTa
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(Tab2FragmentDirections.actionTab2FragmentToPlayerFragment(item = item.slug))
+        findNavController().navigate(Tab4FragmentDirections.actionTab4FragmentToPlayerFragment(item = item.slug))
     }
 }

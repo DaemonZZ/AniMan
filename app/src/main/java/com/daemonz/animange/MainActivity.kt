@@ -56,11 +56,14 @@ class MainActivity : AppCompatActivity() {
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
                 bottomNavigation?.visibility = View.VISIBLE
+                toggleToolBarShowing(isShow = true, autoHide = true)
             } else {
                 bottomNavigation?.visibility = View.GONE
             }
+            appBarLayout?.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }
     private var lastAction: Long = 0
+    private var lastLoadingAction: Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showLoadingOverlay(fm: FragmentManager, id: String) {
-        if (SystemClock.elapsedRealtime() - lastAction > 1000) {
+        if (SystemClock.elapsedRealtime() - lastLoadingAction > 1000) {
             ALog.d(TAG, "showLoadingOverlay $id dd: ${loadingRequest.size}")
             loadingRequest.add(id)
             if (!loadingDialog.isAdded && loadingRequest.size == 1) {
@@ -103,13 +106,13 @@ class MainActivity : AppCompatActivity() {
                 loadingDialog.show(fm, "LoadingOverLay")
             }
         }
-        lastAction = SystemClock.elapsedRealtime()
+        lastLoadingAction = SystemClock.elapsedRealtime()
     }
 
     fun hideLoadingOverlay(id: String) {
         ALog.d(TAG, "hideLoadingOverlay $id dd: ${loadingRequest.size}")
         loadingRequest.remove(id)
-        if (loadingRequest.isEmpty()) {
+        if (loadingRequest.isEmpty() && loadingDialog.isAdded) {
             loadingDialog.dismiss()
         }
     }
@@ -192,9 +195,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeToolBarAction(fragment: Fragment) {
+    fun changeToolBarAction(fragment: Int) {
         when (fragment) {
-            is PlayerFragment -> {
+            R.id.playerFragment -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {

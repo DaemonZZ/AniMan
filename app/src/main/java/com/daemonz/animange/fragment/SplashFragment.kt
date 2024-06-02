@@ -15,7 +15,7 @@ class SplashFragment: BaseFragment<FragmentSplashBinding, SplashViewModel>(Fragm
 
     override fun setupViews() {
         binding.apply {
-            (activity as? MainActivity)?.toggleToolBarShowing(false, autoHide = false)
+            toggleToolBarShowing(false, autoHide = false)
             loading.loadGif(R.drawable.loading)
             loading.postDelayed({
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToTab1Fragment())

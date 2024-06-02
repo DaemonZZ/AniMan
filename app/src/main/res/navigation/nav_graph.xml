@@ -22,7 +22,9 @@
         android:label="Tab1Fragment">
         <action
             android:id="@+id/action_tab1Fragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out" />
     </fragment>
     <fragment
         android:id="@+id/tab2Fragment"
@@ -30,7 +32,9 @@
         android:label="Tab2Fragment">
         <action
             android:id="@+id/action_tab2Fragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out" />
     </fragment>
     <fragment
         android:id="@+id/tab3Fragment"
@@ -38,7 +42,9 @@
         android:label="Tab3Fragment">
         <action
             android:id="@+id/action_tab3Fragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out" />
     </fragment>
     <fragment
         android:id="@+id/tab4Fragment"
@@ -46,12 +52,20 @@
         android:label="Tab4Fragment">
         <action
             android:id="@+id/action_tab4Fragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out" />
     </fragment>
     <fragment
         android:id="@+id/tab5Fragment"
         android:name="com.daemonz.animange.fragment.Tab5Fragment"
-        android:label="Tab5Fragment" />
+        android:label="Tab5Fragment">
+        <action
+            android:id="@+id/action_tab5Fragment_to_playerFragment"
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out" />
+    </fragment>
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.daemonz.animange.fragment.PlayerFragment"

@@ -2,6 +2,7 @@ package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.ListData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,8 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
 
     private val _allSeries = MutableLiveData<ListData>()
     val allSeries: MutableLiveData<ListData> = _allSeries
+    private val _favourites = MutableLiveData<List<FavouriteItem>>()
+    val favourites: MutableLiveData<List<FavouriteItem>> = _favourites
     fun getHomeData() {
         launchOnIO {
             val data = repository.getHomeData()
@@ -86,6 +89,12 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
             withContext(Dispatchers.Main) {
                 _allSeries.value = data
             }
+        }
+    }
+    fun getFavourites() = launchOnIO {
+        val data = repository.getAllFavourite()
+        withContext(Dispatchers.Main) {
+            _favourites.value = data
         }
     }
 }
