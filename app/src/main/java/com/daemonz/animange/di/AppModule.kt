@@ -1,8 +1,12 @@
 package com.daemonz.animange.di
 
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.repo.DataRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -73,6 +77,20 @@ object AppModule {
         webApi: IWebService,
     ): DataRepository {
         return DataRepository(webApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFireBaseFireStore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+    @Provides
+    @Singleton
+    fun provideFireBaseDataBase(
+        fireBaseFireStore: FirebaseFirestore,
+    ): FireBaseDataBase {
+        return FireBaseDataBase(fireBaseFireStore)
     }
 
 //    @Singleton

@@ -3,6 +3,7 @@ package com.daemonz.animange.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.repo.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +19,9 @@ import javax.inject.Inject
 open class BaseViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var repository: DataRepository
+
+    @Inject
+    lateinit var fireBaseDataBase: FireBaseDataBase
 
     @Inject
     lateinit var ioScope: CoroutineScope
