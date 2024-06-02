@@ -24,7 +24,7 @@ import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
-import com.daemonz.animange.viewmodel.MainViewModel
+import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    val viewModel: MainViewModel by viewModels()
+    val viewModel: HomeViewModel by viewModels()
     private val loadingRequest = mutableSetOf<String>()
     private val loadingDialog: LoadingOverLay by lazy {
         LoadingOverLay()
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigation?.visibility = View.GONE
             }
         }
-    private var lastCallLoading: Long = 0
+    private var lastAction: Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showLoadingOverlay(fm: FragmentManager, id: String) {
-        if (SystemClock.elapsedRealtime() - lastCallLoading > 1000) {
+        if (SystemClock.elapsedRealtime() - lastAction > 1000) {
             ALog.d(TAG, "showLoadingOverlay $id dd: ${loadingRequest.size}")
             loadingRequest.add(id)
             if (!loadingDialog.isAdded && loadingRequest.size == 1) {
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 loadingDialog.show(fm, "LoadingOverLay")
             }
         }
-        lastCallLoading = SystemClock.elapsedRealtime()
+        lastAction = SystemClock.elapsedRealtime()
     }
 
     fun hideLoadingOverlay(id: String) {
@@ -183,8 +183,11 @@ class MainActivity : AppCompatActivity() {
             showHideToolbar(appBarLayout?.isVisible != true)
         }
         if (isShow == true && autoHide) {
+            lastAction = SystemClock.elapsedRealtime()
             appBarLayout?.postDelayed({
-                showHideToolbar(false)
+                if (SystemClock.elapsedRealtime() - lastAction > 3000L) {
+                    showHideToolbar(false)
+                }
             }, 3000)
         }
     }

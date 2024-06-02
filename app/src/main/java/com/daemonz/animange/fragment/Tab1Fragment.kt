@@ -1,5 +1,6 @@
 package com.daemonz.animange.fragment
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.dynamicfeatures.Constants
 import androidx.navigation.fragment.findNavController
@@ -29,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
     BottomNavigationAction {
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by activityViewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
     private var vietNamAdapter: FilmCarouselAdapter? = null
@@ -164,9 +165,13 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             tvShows.observe(viewLifecycleOwner) { films ->
-                ALog.d(TAG, "tvShows: ${films.data.getListUrl()}")
+                ALog.d(TAG, "tvShows:")
                 hideLoadingOverlay("getTvShows")
                 tvAdapter?.setData(films.data.items, films.data.imgDomain)
+            }
+            allSeries.observe(viewLifecycleOwner) {
+                ALog.d(TAG, "allSeries: ")
+                hideLoadingOverlay("getAllSeries")
             }
         }
     }
@@ -184,6 +189,8 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
         showLoadingOverlay("getListMovies")
         viewModel.getTvShows()
         showLoadingOverlay("getTvShows")
+        viewModel.getAllSeries()
+        showLoadingOverlay("getAllSeries")
     }
 
     override fun onSearch() {
