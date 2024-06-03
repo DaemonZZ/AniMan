@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Properties
 
 plugins {
@@ -8,6 +11,12 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
 }
+val versionMajor = 0
+val versionMinor = 1
+val versionPatch = 2
+val versionClassifier = null
+val isSnapshot = true
+val minimumSdkVersion = 31
 
 android {
     namespace = "com.daemonz.animange"
@@ -15,10 +24,10 @@ android {
     android.buildFeatures.buildConfig = true
     defaultConfig {
         applicationId = "com.daemonz.animange"
-        minSdk = 31
+        minSdk = minimumSdkVersion
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = generateVersionCode()
+        versionName = generateVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,6 +45,16 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("debug")
+            applicationVariants.all {
+                val date = Date()
+                val sdf = SimpleDateFormat("yyyyMMddHHmm")
+                val formattedDate = sdf.format(date)
+                outputs.all {
+                    val output = this as? BaseVariantOutputImpl
+                    output?.outputFileName =
+                        "\"Animan_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk\""
+                }
+            }
         }
     }
     buildFeatures {
@@ -61,7 +80,21 @@ fun readProperties(propertiesFile: File) = Properties().apply {
         load(fis)
     }
 }
+fun generateVersionCode(): Int {
+    return minimumSdkVersion * 10000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
+}
 
+fun generateVersionName(): String {
+    val versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+//    if (ext.versionClassifier == null && ext.isSnapshot) {
+//        ext.versionClassifier = "SNAPSHOT"
+//    }
+//
+//    if (ext.versionClassifier != null) {
+//        versionName += "-" + ext.versionClassifier
+//    }
+    return versionName;
+}
 dependencies {
 //    kapt(libs.artifactid)
 
@@ -139,6 +172,4 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
-
-
 }
