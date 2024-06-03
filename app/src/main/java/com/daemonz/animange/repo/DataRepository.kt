@@ -6,8 +6,6 @@ import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
-import com.daemonz.animange.log.ALog
-import com.daemonz.animange.util.Category
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.toFavouriteItem
@@ -41,7 +39,7 @@ class DataRepository(
           return handleDataResponse(apiService.getSeriesInComing())
      }
      suspend fun getListAnime(): ListData {
-          return handleDataResponse(apiService.getListAnime())
+          return handleDataResponse(apiService.filterData(list = "hoat-hinh", country = "nhat-ban"))
      }
 
      suspend fun getListMovies(): ListData {
