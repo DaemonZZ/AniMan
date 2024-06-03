@@ -1,9 +1,9 @@
 package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.text.Editable
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,6 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -31,6 +30,7 @@ import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
+import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,9 +47,7 @@ class PlayerFragment :
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val b = super.onCreateView(inflater, container, savedInstanceState)
         binding.apply {
@@ -58,8 +56,7 @@ class PlayerFragment :
             }
             videoView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
+                    view: WebView?, request: WebResourceRequest?
                 ): Boolean {
                     viewModel.currentPlaying.value?.getCurrentEpisodeDetail()?.url?.let {
                         view?.loadUrl(
@@ -73,8 +70,7 @@ class PlayerFragment :
                 if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
                     ALog.d(TAG, "click on webview + ${event.action}")
                     toggleToolBarShowing(
-                        isShow = true,
-                        autoHide = true
+                        isShow = true, autoHide = true
                     )
                 }
                 lastTouchWebView = SystemClock.elapsedRealtime()
@@ -85,37 +81,33 @@ class PlayerFragment :
                 javaScriptEnabled = true
                 useWideViewPort = false
             }
-            videoView.webChromeClient = CustomWebClient(
-                showWebView = {
-                    videoView.visibility = View.VISIBLE
-                },
-                hideWebView = { fullscreen ->
-                    videoView.visibility = View.GONE
-                    if (fullscreen != null) {
-                        (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
-                    }
-                    activity?.window?.decorView?.apply {
-                        systemUiVisibility =
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    }
-                    fullscreen?.setOnTouchListener { v, _ ->
-                        v.postDelayed({
-                            activity?.window?.decorView?.apply {
-                                systemUiVisibility =
-                                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-                            }
-                        }, 3000L)
-                        true
-                    }
-
-                },
-                addView = { fullscreen ->
-                    val param = FrameLayout.LayoutParams(-1, -1)
-                    (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
-                    val dialog = PlayerMaskDialog()
-                    dialog.show(childFragmentManager, "PlayerMaskDialog")
+            videoView.webChromeClient = CustomWebClient(showWebView = {
+                videoView.visibility = View.VISIBLE
+            }, hideWebView = { fullscreen ->
+                videoView.visibility = View.GONE
+                if (fullscreen != null) {
+                    (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
                 }
-            )
+                activity?.window?.decorView?.apply {
+                    systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                }
+                fullscreen?.setOnTouchListener { v, _ ->
+                    v.postDelayed({
+                        activity?.window?.decorView?.apply {
+                            systemUiVisibility =
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        }
+                    }, 3000L)
+                    true
+                }
+
+            }, addView = { fullscreen ->
+                val param = FrameLayout.LayoutParams(-1, -1)
+                (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
+                val dialog = PlayerMaskDialog()
+                dialog.show(childFragmentManager, "PlayerMaskDialog")
+            })
         }
         return b
     }
@@ -153,7 +145,16 @@ class PlayerFragment :
             btnFollow.setOnClickListener {
                 viewModel.toggleFavourite()
             }
-            btnShare.setOnClickListener { showToastNotImplemented() }
+            btnShare.setOnClickListener {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
+                    type = "text/html"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
             binding.btnFollow.isChecked = true
         }
     }
@@ -206,8 +207,7 @@ class PlayerFragment :
                 if (it.data.item?.status == ITEM_STATUS_TRAILER) {
                     findNavController().popBackStack()
                     AppUtils.playYoutube(
-                        requireContext(),
-                        it.data.item.trailerUrl
+                        requireContext(), it.data.item.trailerUrl
                     )
                 } else {
                     loadPlayerData(it)
@@ -236,17 +236,11 @@ class PlayerFragment :
             isFavourite.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0,
-                        R.drawable.favorite_filled,
-                        0,
-                        0
+                        0, R.drawable.favorite_filled, 0, 0
                     )
                 } else {
                     binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0,
-                        R.drawable.favorite,
-                        0,
-                        0
+                        0, R.drawable.favorite, 0, 0
                     )
                 }
             }
@@ -277,8 +271,7 @@ class PlayerFragment :
             dropdownText.setText(serverList.firstOrNull())
             dropdownText.setOnItemClickListener { _, _, position, _ ->
                 viewModel.chooseEpisode(
-                    viewModel.currentPlaying.value?.pivot ?: 0,
-                    server = position
+                    viewModel.currentPlaying.value?.pivot ?: 0, server = position
                 )
             }
         }
