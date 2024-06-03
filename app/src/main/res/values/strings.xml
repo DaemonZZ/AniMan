@@ -35,4 +35,5 @@
     <string name="search">Search</string>
     <string name="search_for_name">Tìm kiếm tên phim</string>
     <string name="close">Close</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

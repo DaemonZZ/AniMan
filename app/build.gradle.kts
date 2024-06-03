@@ -172,4 +172,6 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+    //admobs
+    implementation(libs.play.services.ads)
 }

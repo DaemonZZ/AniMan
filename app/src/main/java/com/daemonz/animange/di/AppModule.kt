@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.AppDatabase
@@ -129,6 +130,12 @@ object AppModule {
                 }
             })
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoogleMobileAdsConsentManager(@ApplicationContext context: Context): GoogleMobileAdsConsentManager {
+        return GoogleMobileAdsConsentManager.getInstance(context)
     }
 
 

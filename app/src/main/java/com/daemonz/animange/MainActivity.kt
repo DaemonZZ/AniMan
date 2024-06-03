@@ -2,10 +2,13 @@ package com.daemonz.animange
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.WindowMetrics
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,14 +22,23 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
+import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -49,6 +61,13 @@ class MainActivity : AppCompatActivity() {
         R.id.tab4Fragment,
         R.id.tab5Fragment,
     )
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+    private val initialLayoutComplete = AtomicBoolean(false)
+    private lateinit var adView: AdView
+    private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
     private val navChangeListener =
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
@@ -63,12 +82,23 @@ class MainActivity : AppCompatActivity() {
     private var lastAction: Long = 0
     private var lastLoadingAction: Long = 0
 
+    private val adSize: AdSize
+        get() {
+            val displayMetrics = resources.displayMetrics
+            val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
+            val adWidthPixels = windowMetrics.bounds.width()
+            val density = displayMetrics.density
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 //            v.setPadding(0, systemBars.top, 0, 0)
             insets
@@ -77,6 +107,52 @@ class MainActivity : AppCompatActivity() {
         topAppBar = findViewById(R.id.topAppBar)
         appBarLayout = findViewById(R.id.app_bar_layout)
         bottomNavigation = findViewById(R.id.bottom_navigation)
+        initAdmob()
+    }
+
+    private fun initAdmob() {
+        adView = AdView(this)
+        binding.adViewContainer.addView(adView)
+
+        // Log the Mobile Ads SDK version.
+        Log.d(TAG, "Google Mobile Ads SDK Version: " + MobileAds.getVersion())
+
+        googleMobileAdsConsentManager.gatherConsent(this) { error ->
+            if (error != null) {
+                // Consent not obtained in current session.
+                Log.d(TAG, "${error.errorCode}: ${error.message}")
+            }
+
+            if (googleMobileAdsConsentManager.canRequestAds) {
+                initializeMobileAdsSdk()
+            }
+
+            if (googleMobileAdsConsentManager.isPrivacyOptionsRequired) {
+                // Regenerate the options menu to include a privacy setting.
+                invalidateOptionsMenu()
+            }
+        }
+
+        // This sample attempts to load ads using consent obtained in the previous session.
+        if (googleMobileAdsConsentManager.canRequestAds) {
+            initializeMobileAdsSdk()
+        }
+
+        // Since we're loading the banner based on the adContainerView size, we need to wait until this
+        // view is laid out before we can get the width.
+        binding.adViewContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            if (!initialLayoutComplete.getAndSet(true) && googleMobileAdsConsentManager.canRequestAds) {
+                loadBanner()
+            }
+        }
+
+        // Set your test devices. Check your logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
+        // to get test ads on this device."
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder().setTestDeviceIds(listOf("0A021FDD4000SD")).build()
+        )
     }
 
     override fun onStart() {
@@ -87,11 +163,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         findNavController(R.id.navHostFragment).addOnDestinationChangedListener(navChangeListener)
+        adView.resume()
     }
 
     override fun onPause() {
         super.onPause()
         findNavController(R.id.navHostFragment).removeOnDestinationChangedListener(navChangeListener)
+        adView.pause()
     }
 
 
@@ -203,6 +281,7 @@ class MainActivity : AppCompatActivity() {
                     navController.popBackStack()
                 }
                 topAppBar?.fitsSystemWindows = false
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
             }
 
             else -> {
@@ -212,6 +291,7 @@ class MainActivity : AppCompatActivity() {
                     //
                 }
                 topAppBar?.fitsSystemWindows = true
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = true
             }
         }
 
@@ -221,5 +301,36 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.top_bar_menu, menu)
         return super.onCreateOptionsMenu(menu)
 
+    }
+
+    private fun loadBanner() {
+        // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
+        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView.setAdSize(adSize)
+
+        // Create an ad request.
+        val adRequest = AdRequest.Builder().build()
+
+        // Start loading the ad in the background.
+        adView.loadAd(adRequest)
+    }
+
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this) {}
+
+        // Load an ad.
+        if (initialLayoutComplete.get()) {
+            loadBanner()
+        }
+    }
+
+    override fun onDestroy() {
+        adView.destroy()
+        super.onDestroy()
     }
 }
