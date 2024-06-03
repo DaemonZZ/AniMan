@@ -1,9 +1,11 @@
 package com.daemonz.animange.entity
 
+import androidx.annotation.Keep
 import com.daemonz.animange.base.NetworkEntity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Keep
 data class Item(
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String  = "",

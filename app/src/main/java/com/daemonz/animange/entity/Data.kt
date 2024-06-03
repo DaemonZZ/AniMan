@@ -1,13 +1,15 @@
 package com.daemonz.animange.entity
 
+import androidx.annotation.Keep
 import com.daemonz.animange.base.NetworkEntity
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class Data(
     //for showing data
-    val items: List<Item> = listOf(),
+    @SerializedName("items") val items: List<Item> = listOf(),
     // for detail data
-    val item: Item? = null,
+    @SerializedName("item") val item: Item? = null,
     @SerializedName("APP_DOMAIN_CDN_IMAGE") val imgDomain: String = "",
     @SerializedName("seoOnPage") val seoOnPage: SeoOnPage? = null
 ) : NetworkEntity() {

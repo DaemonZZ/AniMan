@@ -13,14 +13,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
@@ -195,7 +193,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeToolBarAction(fragment: Int) {
+    private fun changeToolBarAction(fragment: Int) {
         when (fragment) {
             R.id.playerFragment -> {
                 topAppBar?.navigationIcon =
