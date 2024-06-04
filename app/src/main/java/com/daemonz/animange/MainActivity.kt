@@ -2,7 +2,6 @@ package com.daemonz.animange
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     )
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
     private val initialLayoutComplete = AtomicBoolean(false)
-    private lateinit var adView: AdView
+    private var adView: AdView? = null
     private lateinit var binding: ActivityMainBinding
 
     @Inject
@@ -107,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         topAppBar = findViewById(R.id.topAppBar)
         appBarLayout = findViewById(R.id.app_bar_layout)
         bottomNavigation = findViewById(R.id.bottom_navigation)
-        initAdmob()
+//        initAdmob()
     }
 
     private fun initAdmob() {
@@ -163,13 +162,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         findNavController(R.id.navHostFragment).addOnDestinationChangedListener(navChangeListener)
-        adView.resume()
+        adView?.resume()
     }
 
     override fun onPause() {
         super.onPause()
         findNavController(R.id.navHostFragment).removeOnDestinationChangedListener(navChangeListener)
-        adView.pause()
+        adView?.pause()
     }
 
 
@@ -305,14 +304,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadBanner() {
         // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-        adView.adUnitId = "ca-app-pub-3940256099942544/9214589741"
-        adView.setAdSize(adSize)
+        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView?.setAdSize(adSize)
 
         // Create an ad request.
         val adRequest = AdRequest.Builder().build()
 
         // Start loading the ad in the background.
-        adView.loadAd(adRequest)
+        adView?.loadAd(adRequest)
     }
 
     private fun initializeMobileAdsSdk() {
@@ -330,7 +329,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        adView.destroy()
+        adView?.destroy()
         super.onDestroy()
     }
 }
