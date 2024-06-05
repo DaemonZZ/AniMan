@@ -1,27 +1,21 @@
 package com.daemonz.animange.fragment
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.databinding.FragmentTab5Binding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
-import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.adapter.FavouriteAdapter
-import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.HomeViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
 
 class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTab5Binding::inflate),
     BottomNavigationAction {
@@ -57,6 +51,10 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
         viewModel.favourites.observe(viewLifecycleOwner) {
             favouriteAdapter?.setData(it)
             hideLoadingOverlay("getFavourites")
+            binding.apply {
+                textNoFavourite.isVisible = it.isEmpty()
+                favoriteRecycler.isVisible = it.isNotEmpty()
+            }
         }
     }
 
