@@ -6,12 +6,23 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img"
-        android:layout_width="@dimen/dp_400"
-        android:layout_height="@dimen/dp_400"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_today" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/loading"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/dp_10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

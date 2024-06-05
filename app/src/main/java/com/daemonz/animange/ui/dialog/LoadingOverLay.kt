@@ -24,7 +24,7 @@ class LoadingOverLay : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = LoadingOverlayBinding.inflate(inflater, container, false)
-        binding.img.loadGif(R.drawable.loader)
+        binding.img.loadGif(R.drawable.loading_288px)
         return binding.root
     }
 

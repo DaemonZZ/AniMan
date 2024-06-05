@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AniMan</string>
+    <string name="app_name">PhimFree</string>
     <string name="watch_now">Xem ngay</string>
     <string name="aa">aa</string>
     <string name="toast_full_screen">Chế độ xem sẽ tự động chuyển đổi ở chế độ tự động xoay màn hình</string>
@@ -36,4 +36,5 @@
     <string name="search_for_name">Tìm kiếm tên phim</string>
     <string name="close">Close</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="loading">Loading...</string>
 </resources>

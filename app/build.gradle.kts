@@ -174,4 +174,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     //admobs
     implementation(libs.play.services.ads)
+    implementation(libs.androidx.core.splashscreen)
 }

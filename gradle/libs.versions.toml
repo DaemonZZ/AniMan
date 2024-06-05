@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.0-beta02"
 artifactid = "version"
+coreSplashscreen = "1.0.1"
 credentials = "1.2.2"
 firebaseBom = "33.1.0"
 fragmentKtx = "1.7.1"
@@ -35,6 +36,7 @@ googleGmsGoogleServices = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
