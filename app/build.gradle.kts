@@ -11,9 +11,9 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
 }
-val versionMajor = 0
+val versionMajor = 1
 val versionMinor = 1
-val versionPatch = 2
+val versionPatch = 0
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -52,7 +52,8 @@ android {
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
                     output?.outputFileName =
-                        "\"Animan_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk\""
+                        "\"PhimFree_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk\""
+                    setProperty("archivesBaseName", "PhimFree-v$versionName")
                 }
             }
         }
