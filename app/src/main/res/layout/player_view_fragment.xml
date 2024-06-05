@@ -42,6 +42,7 @@
                     style="?attr/textAppearanceHeadlineSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="@dimen/dp_48"
                     android:layout_marginTop="@dimen/dp_10"
                     android:clickable="true"
                     android:drawableEnd="@drawable/keyboard_arrow_down"

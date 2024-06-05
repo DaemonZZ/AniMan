@@ -34,6 +34,7 @@
     <string name="search">Search</string>
     <string name="search_for_name">Tìm kiếm tên phim</string>
     <string name="close">Close</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="no_favourites">Hiện tại bạn chưa có video yêu thích nào</string>
+    <string name="no_result">Chưa có kết quả tìm kiếm</string>
 </resources>

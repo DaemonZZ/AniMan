@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:labelFor="@id/favorite_recycler"
         android:visibility="gone"
         android:text="@string/no_favourites" />
 

@@ -33,8 +33,17 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/dp_8"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/suggestion_video_item" />
+
+        <TextView
+            android:id="@+id/text_no_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:labelFor="@id/result_recycler"
+            android:text="@string/no_result" />
 
     </com.google.android.material.search.SearchView>
 

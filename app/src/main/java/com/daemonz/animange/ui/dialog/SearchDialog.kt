@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager.LayoutParams
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -86,6 +87,10 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
             ALog.d(TAG, "searchResult: ${it.data.items.size}")
             resultAdapter?.setData(it.data.items, it.data.imgDomain)
             (activity as? MainActivity)?.hideLoadingOverlay("search")
+            binding.apply {
+                textNoResult.isVisible = it.data.items.isEmpty()
+                resultRecycler.isVisible = it.data.items.isNotEmpty()
+            }
         }
 
     }

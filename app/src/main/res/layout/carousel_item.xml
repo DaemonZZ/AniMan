@@ -42,6 +42,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_10"
             android:ellipsize="end"
+            android:labelFor="@+id/btn_share"
             android:lines="1"
             android:textColor="@color/carousel_text"
             android:textStyle="bold"
@@ -62,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/carousel_text"
-                android:text="2023" />
+                tools:text="2023" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.HeadlineLarge"
@@ -70,8 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="@dimen/dp_2"
-                android:text="@string/bullet"
-                android:textColor="@color/material_dynamic_neutral40" />
+                android:text="@string/bullet" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_country"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/carousel_text"
-                android:text="Việt Nam" />
+                tools:text="Việt Nam" />
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.HeadlineLarge"
@@ -88,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="@dimen/dp_2"
-                android:text="@string/bullet"
-                android:textColor="@color/material_dynamic_neutral40" />
+                android:text="@string/bullet" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_episode"
