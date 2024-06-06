@@ -228,7 +228,6 @@ class MainActivity : AppCompatActivity() {
 //                    }
             }
         }
-
     }
 
     private fun showHideToolbar(isShow: Boolean) {

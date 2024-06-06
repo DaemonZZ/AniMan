@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.daemonz.animange",
+      "sha256_cert_fingerprints": [
+        "24:C3:81:E6:CA:0C:1A:19:9F:6E:49:AE:5D:89:98:78:69:BD:5B:83:5F:AA:21:06:07:14:19:14:11:45:33:6B"
+      ]
+    }
+  }
+]

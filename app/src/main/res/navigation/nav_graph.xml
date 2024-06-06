@@ -63,14 +63,14 @@
             app:argType="string" />
         <deepLink
             android:id="@+id/deepLinkPlayer"
-            app:action="ACTION_OPEN_ANIMAN"
+            app:action="android.intent.action.VIEW"
             app:mimeType="text/html"
             app:uri="daemonz://animan/play/{item}" />
         <deepLink
             android:id="@+id/deepLinkPlayer2"
-            app:action="ACTION_OPEN_ANIMAN"
+            app:action="android.intent.action.VIEW"
             app:mimeType="text/html"
-            app:uri="http://www.daemonz.com/animan/play/{item}" />
+            app:uri="http://www.daemonz.com/animan/{item}" />
 
     </fragment>
 
