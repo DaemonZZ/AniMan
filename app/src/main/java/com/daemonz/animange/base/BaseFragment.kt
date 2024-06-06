@@ -51,7 +51,11 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     }
 
     fun showToastNotImplemented() {
-        Toast.makeText(requireContext(), "Not Implemented", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            "Tính năng sẽ được phát triển trong tương lai",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 

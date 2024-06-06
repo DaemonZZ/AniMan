@@ -146,14 +146,15 @@ class PlayerFragment :
                 viewModel.toggleFavourite()
             }
             btnShare.setOnClickListener {
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
-                    type = "text/html"
-                }
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
+//                val sendIntent: Intent = Intent().apply {
+//                    action = Intent.ACTION_SEND
+//                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
+//                    type = "text/html"
+//                }
+//
+//                val shareIntent = Intent.createChooser(sendIntent, null)
+//                startActivity(shareIntent)
+                showToastNotImplemented()
             }
             binding.btnFollow.isChecked = true
         }

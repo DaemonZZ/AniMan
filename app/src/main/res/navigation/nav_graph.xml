@@ -61,16 +61,16 @@
         <argument
             android:name="item"
             app:argType="string" />
-        <deepLink
-            android:id="@+id/deepLinkPlayer"
-            app:action="android.intent.action.VIEW"
-            app:mimeType="text/html"
-            app:uri="daemonz://animan/play/{item}" />
-        <deepLink
-            android:id="@+id/deepLinkPlayer2"
-            app:action="android.intent.action.VIEW"
-            app:mimeType="text/html"
-            app:uri="http://www.daemonz.com/animan/{item}" />
+        <!--        <deepLink-->
+        <!--            android:id="@+id/deepLinkPlayer"-->
+        <!--            app:action="android.intent.action.VIEW"-->
+        <!--            app:mimeType="text/html"-->
+        <!--            app:uri="daemonz://animan/play/{item}" />-->
+        <!--        <deepLink-->
+        <!--            android:id="@+id/deepLinkPlayer2"-->
+        <!--            app:action="android.intent.action.VIEW"-->
+        <!--            app:mimeType="text/html"-->
+        <!--            app:uri="http://www.animan.rf.gd/{item}" />-->
 
     </fragment>
 
