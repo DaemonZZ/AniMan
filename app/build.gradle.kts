@@ -13,7 +13,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 val versionMajor = 1
-val versionMinor = 1
+val versionMinor = 2
 val versionPatch = 0
 val versionClassifier = null
 val isSnapshot = true
