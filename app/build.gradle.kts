@@ -10,6 +10,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 val versionMajor = 1
 val versionMinor = 1
@@ -158,10 +159,12 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.androidx.swiperefreshlayout)
-
+    //FireBase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
