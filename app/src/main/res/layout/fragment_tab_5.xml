@@ -4,18 +4,8 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorite_recycler"
+        android:id="@+id/setting_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp_36" />
-
-    <TextView
-        android:id="@+id/text_no_favourite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:labelFor="@id/favorite_recycler"
-        android:visibility="gone"
-        android:text="@string/no_favourites" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

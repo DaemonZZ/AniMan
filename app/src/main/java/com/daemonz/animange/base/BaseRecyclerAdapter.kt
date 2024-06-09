@@ -29,10 +29,10 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding>, position: Int) {
         val item = data[position]
         holder.binding.apply {
-            bindView(this, item, position)
             root.setOnClickListener {
-                onItemClickListener.onItemClick(item,position)
+                onItemClickListener.onItemClick(item, position)
             }
+            bindView(this, item, position)
         }
     }
 
@@ -61,8 +61,4 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
 
     open class BaseViewHolder<ViewBinding : androidx.viewbinding.ViewBinding>(val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root)
-}
-
-interface OnItemClickListener<Item> {
-    fun onItemClick(item: Item,index: Int)
 }

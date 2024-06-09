@@ -42,4 +42,6 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">com.daemonz.animange</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbcom.daemonz.animange</string>
+    <string name="login">Đăng nhập</string>
+    <string name="account_info">Thông tin tài khoản</string>
 </resources>

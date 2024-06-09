@@ -4,66 +4,80 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab5Binding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.SettingItem
+import com.daemonz.animange.entity.SettingItemType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.FavouriteAdapter
+import com.daemonz.animange.ui.adapter.SettingAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
+import com.daemonz.animange.util.dpToPx
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTab5Binding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
-    private val onItemClickListener = object : OnItemClickListener<FavouriteItem> {
-        override fun onItemClick(item: FavouriteItem, index: Int) {
-            navigateToPlayer(item.slug)
-        }
-    }
-    private var favouriteAdapter: FavouriteAdapter? = null
+    private val onItemClickListener =
+        OnItemClickListener<SettingItem> { item, _ -> }
+    private var settingAdapter: SettingAdapter? = null
+
+    private val settingItems = mutableListOf<SettingItem>(
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.LOGIN
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.ACCOUNT_INFO
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.FAVOURITE
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.FEEDBACK
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.LOGOUT
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.USER
+        )
+    )
 
     override fun setupViews() {
         binding.apply {
-            favoriteRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            favouriteAdapter = FavouriteAdapter(onItemClickListener)
-            favoriteRecycler.adapter = favouriteAdapter
-            favoriteRecycler.addOnScrollListener(object : OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    ALog.i(TAG, "onScrollStateChanged: state: $newState")
-                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                        toggleToolBarShowing(
-                            isShow = true,
-                            autoHide = true
-                        )
-                    }
-                }
-            })
+            toggleToolBarShowing(false)
+            settingMenu.layoutManager = LinearLayoutManager(requireContext())
+            settingAdapter = SettingAdapter(onItemClickListener, null)
+            settingMenu.adapter = settingAdapter
+            settingAdapter?.setData(settingItems)
         }
 
     }
 
     override fun setupObservers() {
-        viewModel.favourites.observe(viewLifecycleOwner) {
-            favouriteAdapter?.setData(it)
-            hideLoadingOverlay("getFavourites")
-            binding.apply {
-                textNoFavourite.isVisible = it.isEmpty()
-                favoriteRecycler.isVisible = it.isNotEmpty()
-            }
-        }
+
     }
 
     override fun onSearch() {
-        SearchDialog(object : OnItemClickListener<Item> {
-            override fun onItemClick(item: Item, index: Int) {
-                navigateToPlayer(item.slug)
-            }
-        }).show(childFragmentManager, "SearchDialog")
+        SearchDialog { item, index -> navigateToPlayer(item.slug) }.show(
+            childFragmentManager,
+            "SearchDialog"
+        )
     }
 
     override fun onRefresh() {

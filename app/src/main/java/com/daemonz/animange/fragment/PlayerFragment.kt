@@ -128,19 +128,15 @@ class PlayerFragment :
                     }
                 }
             }
-            episodeAdapter = EpisodeListAdapter(object : OnItemClickListener<EpisodeDetail> {
-                override fun onItemClick(item: EpisodeDetail, index: Int) {
-                    episodeAdapter?.setPivot(index)
-                    viewModel.chooseEpisode(index)
-                }
+            episodeAdapter = EpisodeListAdapter({ _, index ->
+                episodeAdapter?.setPivot(index)
+                viewModel.chooseEpisode(index)
             }, requireContext())
             recyclerEpisodes.adapter = episodeAdapter
-            suggestionAdapter = SuggestionAdapter(object : OnItemClickListener<Item> {
-                override fun onItemClick(item: Item, index: Int) {
-                    ALog.d(TAG, "onItemClick: ${item.slug}")
-                    viewModel.loadData(item.slug)
-                }
-            })
+            suggestionAdapter = SuggestionAdapter { item, _ ->
+                ALog.d(TAG, "onItemClick: ${item.slug}")
+                viewModel.loadData(item.slug)
+            }
             recyclerSuggest.adapter = suggestionAdapter
             btnFollow.setOnClickListener {
                 viewModel.toggleFavourite()
