@@ -44,4 +44,10 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbcom.daemonz.animange</string>
     <string name="login">Đăng nhập</string>
     <string name="account_info">Thông tin tài khoản</string>
+    <string name="web_client_id" translatable="false">4792051722-mhjnpgl43ief55vhgn1q37ag5v7k4dbi.apps.googleusercontent.com</string>
+    <string name="asset_statements" translatable="false">
+        [{
+            \"include\": \"https://animan.rf.gd/.well-known/assetlinks.json\"
+        }]
+    </string>
 </resources>

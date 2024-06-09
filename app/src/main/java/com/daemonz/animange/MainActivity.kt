@@ -27,6 +27,7 @@ import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
+import com.daemonz.animange.util.LoginHelper
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     val viewModel: HomeViewModel by viewModels()
+
+    @Inject
+    lateinit var loginHelper: LoginHelper
     private val loadingRequest = mutableSetOf<String>()
     private val loadingDialog: LoadingOverLay by lazy {
         LoadingOverLay()
@@ -104,6 +108,7 @@ class MainActivity : AppCompatActivity() {
 //            v.setPadding(0, systemBars.top, 0, 0)
             insets
         }
+        loginHelper.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         topAppBar = findViewById(R.id.topAppBar)
         appBarLayout = findViewById(R.id.app_bar_layout)

@@ -1,37 +1,47 @@
 package com.daemonz.animange.fragment
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab5Binding
-import com.daemonz.animange.entity.FavouriteItem
-import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.SettingItem
 import com.daemonz.animange.entity.SettingItemType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
-import com.daemonz.animange.ui.adapter.FavouriteAdapter
 import com.daemonz.animange.ui.adapter.SettingAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.util.dpToPx
+import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.LoginHelper
 import com.daemonz.animange.viewmodel.HomeViewModel
-import com.google.android.material.divider.MaterialDividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTab5Binding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
+
+    @Inject
+    lateinit var loginHelper: LoginHelper
     private val onItemClickListener =
-        OnItemClickListener<SettingItem> { item, _ -> }
+        OnItemClickListener<SettingItem> { item, pos ->
+            when (pos) {
+                SettingItemType.LOGIN.pos, SettingItemType.USER.pos -> {
+                    if (LoginData.account == null) {
+                        loginHelper.createSigningLauncher()
+                    } else {
+                        loginHelper.logout(this.requireActivity() as MainActivity)
+                    }
+                }
+            }
+        }
     private var settingAdapter: SettingAdapter? = null
 
-    private val settingItems = mutableListOf<SettingItem>(
+    private val settingItems = mutableListOf(
         SettingItem(
             icon = R.drawable.ic_home,
             type = SettingItemType.LOGIN

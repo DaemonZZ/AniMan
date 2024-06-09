@@ -5,11 +5,11 @@ data class SettingItem(
     val type: SettingItemType,
 )
 
-enum class SettingItemType {
-    ACCOUNT_INFO,
-    FAVOURITE,
-    FEEDBACK,
-    LOGOUT,
-    LOGIN,
-    USER,
+enum class SettingItemType(val pos: Int) {
+    ACCOUNT_INFO(1),
+    FAVOURITE(2),
+    FEEDBACK(3),
+    LOGOUT(-1),
+    LOGIN(0),
+    USER(0),
 }

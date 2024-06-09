@@ -13,6 +13,7 @@ import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.repo.DataRepository
+import com.daemonz.animange.util.LoginHelper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -137,6 +138,10 @@ object AppModule {
     fun provideGoogleMobileAdsConsentManager(@ApplicationContext context: Context): GoogleMobileAdsConsentManager {
         return GoogleMobileAdsConsentManager.getInstance(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginHelper(): LoginHelper = LoginHelper()
 
 
     private fun initData(dao: FavouriteDao) {
