@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         R.id.tab2Fragment,
         R.id.tab3Fragment,
         R.id.tab4Fragment,
-        R.id.tab5Fragment,
+        R.id.tab5Fragment
     )
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
     private val initialLayoutComplete = AtomicBoolean(false)
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
                 bottomNavigation?.visibility = View.VISIBLE
-                toggleToolBarShowing(isShow = true, autoHide = true)
+                toggleToolBarShowing(isShow = destination.id != R.id.tab5Fragment, autoHide = true)
             } else {
                 bottomNavigation?.visibility = View.GONE
             }

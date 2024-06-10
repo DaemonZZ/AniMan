@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/lycoris"
+        android:src="@drawable/lycoris2"
         android:scaleType="centerCrop"
         android:foreground="@drawable/custom_background_login"
         app:layout_constraintBottom_toTopOf="@id/guideline55"/>
