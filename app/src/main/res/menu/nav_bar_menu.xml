@@ -29,6 +29,6 @@
         android:id="@+id/tab5Fragment"
         android:enabled="true"
         android:icon="@drawable/user_selector"
-        android:title="@string/user" />
+        android:title="@string/settings" />
 
 </menu>
