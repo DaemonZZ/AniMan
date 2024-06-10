@@ -141,7 +141,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLoginHelper(): LoginHelper = LoginHelper()
+    fun provideLoginHelper(fireBaseDataBase: FireBaseDataBase): LoginHelper =
+        LoginHelper(fireBaseDataBase)
 
 
     private fun initData(dao: FavouriteDao) {

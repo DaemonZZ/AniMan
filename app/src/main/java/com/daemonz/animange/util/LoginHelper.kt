@@ -11,6 +11,7 @@ import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
 import com.daemonz.animange.R
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.log.ALog
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -23,7 +24,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class LoginHelper {
+class LoginHelper(
+    fireBaseDataBase: FireBaseDataBase
+) {
     companion object {
         private const val TAG = "LoginHelper"
     }
@@ -80,7 +83,9 @@ class LoginHelper {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
             val account = Account(
-                email = user?.email
+                id = user?.uid,
+                email = user?.email,
+                name = user?.displayName
             )
             LoginData.account = account
             // ...
@@ -89,6 +94,8 @@ class LoginHelper {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
+            ALog.e(TAG, "onSignInResult: ${result.resultCode}")
+            LoginData.account = null
         }
     }
 
