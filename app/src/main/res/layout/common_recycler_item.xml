@@ -28,6 +28,8 @@
         android:elevation="@dimen/dp_2"
         android:textColor="@color/design_default_color_on_primary"
         android:textStyle="bold"
+        android:ellipsize="marquee"
+        android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
