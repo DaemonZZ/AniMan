@@ -47,10 +47,14 @@ class LoginHelper {
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.AnonymousBuilder().build()
         )
 
-        val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_login)
+        val customLayout = AuthMethodPickerLayout.Builder(R.layout.login_layout)
+            .setEmailButtonId(R.id.email_login)
+            .setPhoneButtonId(R.id.phone_login)
+            .setTosAndPrivacyPolicyId(R.id.text_tos)
+            .setGoogleButtonId(R.id.google_login)
+            .build()
 
         // Create and launch sign-in intent
         val signInIntent = AuthUI.getInstance()
@@ -59,6 +63,7 @@ class LoginHelper {
             .setTheme(R.style.AppTheme)
             .setLogo(R.drawable.loading)
             .setTosAndPrivacyPolicyUrls(TERMS_URL, POLICY_URL)
+            .setAuthMethodPickerLayout(customLayout)
             .build()
         signInLauncher?.launch(signInIntent)
     }

@@ -50,4 +50,9 @@
             \"include\": \"https://animan.rf.gd/.well-known/assetlinks.json\"
         }]
     </string>
+    <string name="tos_and_pp">
+        <![CDATA[By continuing you are indicating that you accept our <a href="https://doc-hosting.flycricket.io/phim-free-terms-of-use/31f92dc4-0e1b-47e0-bece-f1032e12ee8b/terms">Terms of Service</a> and <a href="https://doc-hosting.flycricket.io/phim-free-privacy-policy/ce582f03-8635-4bb1-b05c-1967e4989070/privacy">Privacy Policy</a>]]>
+    </string>
+    <string name="continue_with_your_email">Continue with your email</string>
+    <string name="continue_with_your_phone_number">Continue with phone number</string>
 </resources>

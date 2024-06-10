@@ -99,8 +99,7 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
     }
 
     override fun initData() {
-        viewModel.getFavourites()
-        showLoadingOverlay("getFavourites")
+
     }
 
     private fun navigateToPlayer(slug: String) {
