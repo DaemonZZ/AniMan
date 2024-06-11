@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
@@ -34,6 +35,8 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     private var signInLauncher: ActivityResultLauncher<Intent>? = null
     private val _error = MutableLiveData<Exception?>()
     val error: LiveData<Exception?> = _error
+    private val _account = MutableLiveData<Account?>()
+    val account: LiveData<Account?> = _account
 
     fun registerSigningLauncher(activity: AppCompatActivity) {
         ALog.d(TAG, "registerSigningLauncher: ")
@@ -96,6 +99,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             ALog.e(TAG, "onSignInResult: ${result.resultCode}")
             LoginData.account = null
             _error.value = response?.error
+            _account.value = null
         }
     }
 
@@ -105,7 +109,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         }
         repository.getAccount(user.uid).addOnSuccessListener { acc ->
             if (acc.toObject(Account::class.java) != null) {
-                LoginData.account = acc.toObject(Account::class.java)
+                val account = acc.toObject(Account::class.java)
+                LoginData.account = account
+                _account.value = account
             } else {
                 val newAccount = Account(
                     id = user.uid,
@@ -120,6 +126,8 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     ),
                 )
                 repository.saveAccount(newAccount)
+                _account.value = newAccount
+                // LoginData.account is assigned in repository.saveAccount
             }
         }.addOnFailureListener { e ->
             _error.value = e
@@ -129,10 +137,19 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     fun logout(context: Context) {
         ALog.d(TAG, "logout: ")
         AuthUI.getInstance().signOut(context).addOnSuccessListener {
-
+            _account.value = null
+            _error.value = null
         }.addOnFailureListener {
             _error.value = it
         }
+    }
+
+    fun isLoggedIn(): Boolean {
+        val res = FirebaseAuth.getInstance().currentUser != null
+        if (res && LoginData.account == null) {
+            checkAccount(FirebaseAuth.getInstance().currentUser)
+        }
+        return res
     }
 
 }

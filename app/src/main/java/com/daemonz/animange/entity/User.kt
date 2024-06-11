@@ -9,6 +9,8 @@ data class User(
     val imageUrl: String? = null,
     @field:JvmField
     val isMainUser: Boolean = false,
+    @field:JvmField
+    var isActive: Boolean = false,
 )
 
 @Keep
