@@ -9,3 +9,5 @@ const val POLICY_URL =
     "https://doc-hosting.flycricket.io/phim-free-privacy-policy/ce582f03-8635-4bb1-b05c-1967e4989070/privacy"
 const val TERMS_URL =
     "https://doc-hosting.flycricket.io/phim-free-terms-of-use/31f92dc4-0e1b-47e0-bece-f1032e12ee8b/terms"
+
+const val ACCOUNT_COLLECTION = "account"

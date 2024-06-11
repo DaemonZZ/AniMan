@@ -7,6 +7,8 @@ data class User(
     val name: String? = null,
     val userType: UserType? = UserType.CHILD,
     val imageUrl: String? = null,
+    @field:JvmField
+    val isMainUser: Boolean = false,
 )
 
 @Keep

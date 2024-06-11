@@ -6,14 +6,16 @@ import androidx.annotation.Keep
 data class SettingItem(
     val icon: Int,
     val type: SettingItemType,
+    var isShow: Boolean = true,
 )
 
 @Keep
 enum class SettingItemType(val pos: Int) {
-    ACCOUNT_INFO(1),
-    FAVOURITE(2),
-    FEEDBACK(3),
-    LOGOUT(-1),
     LOGIN(0),
-    USER(0),
+    USER(1),
+    TITLE(2),
+    ACCOUNT_INFO(3),
+    FAVOURITE(4),
+    FEEDBACK(5),
+    LOGOUT(6),
 }

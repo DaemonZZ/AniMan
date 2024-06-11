@@ -10,7 +10,6 @@ import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.AppDatabase
 import com.daemonz.animange.datasource.room.FavouriteDao
-import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.repo.DataRepository
 import com.daemonz.animange.util.LoginHelper
@@ -23,7 +22,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
@@ -89,9 +87,10 @@ object AppModule {
     @Singleton
     fun provideDataRepository(
         webApi: IWebService,
-        dao: FavouriteDao
+        dao: FavouriteDao,
+        fireBaseDataBase: FireBaseDataBase
     ): DataRepository {
-        return DataRepository(webApi, dao)
+        return DataRepository(webApi, dao, fireBaseDataBase)
     }
 
     @Provides
@@ -141,8 +140,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLoginHelper(fireBaseDataBase: FireBaseDataBase): LoginHelper =
-        LoginHelper(fireBaseDataBase)
+    fun provideLoginHelper(
+        @ApplicationContext context: Context,
+        repo: DataRepository,
+        scope: CoroutineScope
+    ): LoginHelper =
+        LoginHelper(repo, context, scope)
 
 
     private fun initData(dao: FavouriteDao) {

@@ -1,0 +1,138 @@
+package com.daemonz.animange.viewmodel
+
+import android.content.Context
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.R
+import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.POLICY_URL
+import com.daemonz.animange.util.TERMS_URL
+import com.firebase.ui.auth.AuthMethodPickerLayout
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor() : BaseViewModel() {
+    companion object {
+        private const val TAG = "LoginViewModel"
+    }
+
+    private var signInLauncher: ActivityResultLauncher<Intent>? = null
+    private val _error = MutableLiveData<Exception?>()
+    val error: LiveData<Exception?> = _error
+
+    fun registerSigningLauncher(activity: AppCompatActivity) {
+        ALog.d(TAG, "registerSigningLauncher: ")
+        signInLauncher = activity.registerForActivityResult(
+            FirebaseAuthUIActivityResultContract(),
+        ) { res ->
+            this.onSignInResult(res)
+        }
+    }
+
+    fun createSigningLauncher() {
+        // Choose authentication providers
+        ALog.d(TAG, "createSigningLauncher")
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+        )
+
+        val layout = listOf(
+            R.layout.login_layout,
+            R.layout.login_layout2,
+            R.layout.login_layout3,
+        ).random()
+
+        val customLayout = AuthMethodPickerLayout.Builder(layout)
+            .setEmailButtonId(R.id.email_login)
+            .setPhoneButtonId(R.id.phone_login)
+            .setTosAndPrivacyPolicyId(R.id.text_tos)
+            .setGoogleButtonId(R.id.google_login)
+            .build()
+
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setTheme(R.style.AppTheme)
+            .setTosAndPrivacyPolicyUrls(TERMS_URL, POLICY_URL)
+            .setAuthMethodPickerLayout(customLayout)
+            .build()
+        signInLauncher?.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        ALog.d(TAG, "onSignInResult: $response")
+        if (result.resultCode == RESULT_OK) {
+            // Successfully signed in
+            val user = FirebaseAuth.getInstance().currentUser
+            checkAccount(user)
+            LoginData.currentError = null
+            _error.value = null
+            // ...
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
+            LoginData.currentError = response?.error
+            ALog.e(TAG, "onSignInResult: ${result.resultCode}")
+            LoginData.account = null
+            _error.value = response?.error
+        }
+    }
+
+    private fun checkAccount(user: FirebaseUser?) {
+        if (user == null) {
+            return
+        }
+        repository.getAccount(user.uid).addOnSuccessListener { acc ->
+            if (acc.toObject(Account::class.java) != null) {
+                LoginData.account = acc.toObject(Account::class.java)
+            } else {
+                val newAccount = Account(
+                    id = user.uid,
+                    email = user.email,
+                    name = user.displayName,
+                    users = listOf(
+                        User(
+                            name = user.displayName,
+                            userType = UserType.ADJUST,
+                            isMainUser = true
+                        )
+                    ),
+                )
+                repository.saveAccount(newAccount)
+            }
+        }.addOnFailureListener { e ->
+            _error.value = e
+        }
+    }
+
+    fun logout(context: Context) {
+        ALog.d(TAG, "logout: ")
+        AuthUI.getInstance().signOut(context).addOnSuccessListener {
+
+        }.addOnFailureListener {
+            _error.value = it
+        }
+    }
+
+}

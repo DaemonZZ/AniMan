@@ -28,7 +28,7 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.util.LoginHelper
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.LoginViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    val viewModel: HomeViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     @Inject
     lateinit var loginHelper: LoginHelper
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 //            v.setPadding(0, systemBars.top, 0, 0)
             insets
         }
-        loginHelper.registerSigningLauncher(this)
+        viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         topAppBar = findViewById(R.id.topAppBar)
         appBarLayout = findViewById(R.id.app_bar_layout)

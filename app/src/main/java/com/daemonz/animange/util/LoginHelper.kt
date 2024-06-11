@@ -1,5 +1,6 @@
 package com.daemonz.animange.util
 
+import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -11,9 +12,11 @@ import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
 import com.daemonz.animange.R
-import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.repo.DataRepository
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -21,11 +24,16 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class LoginHelper(
-    fireBaseDataBase: FireBaseDataBase
+    private val dataRepository: DataRepository,
+    private val context: Context,
+    private val scope: CoroutineScope,
 ) {
     companion object {
         private const val TAG = "LoginHelper"
@@ -82,20 +90,37 @@ class LoginHelper(
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            val account = Account(
-                id = user?.uid,
-                email = user?.email,
-                name = user?.displayName
-            )
-            LoginData.account = account
+            checkAccount(user)
+            LoginData.currentError = null
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
+            LoginData.currentError = response?.error
             ALog.e(TAG, "onSignInResult: ${result.resultCode}")
             LoginData.account = null
+        }
+    }
+
+    private fun checkAccount(user: FirebaseUser?) {
+        if (user == null) {
+            return
+        }
+        scope.launch {
+            val account = dataRepository.getAccount(user.uid)
+            if (account != null) {
+//                LoginData.account = account
+            } else {
+                val newAccount = Account(
+                    id = user.uid,
+                    email = user.email,
+                    name = user.displayName,
+                    users = listOf(User(name = user.displayName, userType = UserType.ADJUST))
+                )
+                dataRepository.saveAccount(newAccount)
+            }
         }
     }
 
@@ -193,13 +218,9 @@ class LoginHelper(
         }
     }
 
-    fun logout(activity: AppCompatActivity) {
-        AuthUI.getInstance().signOut(activity)
-            .addOnSuccessListener {
-                // user is now signed out
-                ALog.d(TAG, "logout:success")
-                LoginData.account = null
-            }
+    fun logout() {
+        ALog.d(TAG, "logout: ")
+        AuthUI.getInstance().signOut(context)
     }
 
     fun isLoggedIn(): Boolean {

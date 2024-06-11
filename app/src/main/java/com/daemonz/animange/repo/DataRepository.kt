@@ -1,23 +1,32 @@
 package com.daemonz.animange.repo
 
 import com.daemonz.animange.base.NetworkEntity
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.FavouriteDao
+import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.Country
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.toFavouriteItem
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import retrofit2.Response
 
 class DataRepository(
      private val apiService: IWebService,
-     private val dao: FavouriteDao
+     private val dao: FavouriteDao,
+     private val fireStoreDataBase: FireBaseDataBase
 ) {
      companion object {
           private const val TAG = "DataRepository"
      }
+    // API Handle
 
      private  fun <T:NetworkEntity> handleDataResponse(response: Response<T>):T {
           return if(response.isSuccessful && response.body() != null) {
@@ -73,6 +82,8 @@ class DataRepository(
         return handleDataResponse(apiService.search(query))
     }
 
+    // Local Handle
+
      fun markItemAsFavourite(item: Item, img: String) {
           dao.insertAll(item.toFavouriteItem(img))
      }
@@ -88,4 +99,22 @@ class DataRepository(
      fun getAllFavourite(): List<FavouriteItem> {
           return dao.getAll()
      }
+
+    //FireBase Handle
+
+    fun getAccount(id: String): Task<DocumentSnapshot> {
+        return fireStoreDataBase.getDocument(collectionName = ACCOUNT_COLLECTION, documentId = id)
+            .get()
+    }
+
+    fun saveAccount(account: Account) {
+        fireStoreDataBase.addDocument(
+            collectionName = ACCOUNT_COLLECTION,
+            documentId = account.id.toString(),
+            data = account
+        ).addOnSuccessListener {
+            ALog.d(TAG, "saveAccount: success")
+            LoginData.account = account
+        }
+    }
 }

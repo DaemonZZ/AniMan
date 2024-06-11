@@ -1,9 +1,9 @@
 package com.daemonz.animange.fragment
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -15,26 +15,22 @@ import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.SettingAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.util.LoginHelper
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTab5Binding::inflate),
+class Tab5Fragment :
+    BaseFragment<FragmentTab5Binding, LoginViewModel>(FragmentTab5Binding::inflate),
     BottomNavigationAction {
-    override val viewModel: HomeViewModel by activityViewModels()
-
-    @Inject
-    lateinit var loginHelper: LoginHelper
+    override val viewModel: LoginViewModel by activityViewModels()
     private val onItemClickListener =
         OnItemClickListener<SettingItem> { item, pos ->
             when (pos) {
                 SettingItemType.LOGIN.pos, SettingItemType.USER.pos -> {
                     if (LoginData.account == null) {
-                        loginHelper.createSigningLauncher()
+                        viewModel.createSigningLauncher()
                     } else {
-                        loginHelper.logout(this.requireActivity() as MainActivity)
+
                     }
                 }
             }
@@ -45,6 +41,15 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
         SettingItem(
             icon = R.drawable.ic_home,
             type = SettingItemType.LOGIN
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.USER,
+            isShow = false
+        ),
+        SettingItem(
+            icon = R.drawable.ic_home,
+            type = SettingItemType.TITLE
         ),
         SettingItem(
             icon = R.drawable.ic_home,
@@ -62,10 +67,6 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
             icon = R.drawable.ic_home,
             type = SettingItemType.LOGOUT
         ),
-        SettingItem(
-            icon = R.drawable.ic_home,
-            type = SettingItemType.USER
-        )
     )
 
     override fun setupViews() {
@@ -80,11 +81,16 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
     }
 
     override fun setupObservers() {
-
+        viewModel.error.observe(viewLifecycleOwner) {
+            ALog.e(TAG, "setupObservers: $it")
+            if (it != null) {
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onSearch() {
-        SearchDialog { item, index -> navigateToPlayer(item.slug) }.show(
+        SearchDialog { item, _ -> navigateToPlayer(item.slug) }.show(
             childFragmentManager,
             "SearchDialog"
         )
