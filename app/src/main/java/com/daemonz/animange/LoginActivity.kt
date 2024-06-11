@@ -1,13 +1,13 @@
 package com.daemonz.animange
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.daemonz.animange.databinding.ActivityLoginBinding
-import com.daemonz.animange.databinding.ActivityMainBinding
+import com.daemonz.animange.datasource.firebase.FireBaseDataBase
+import com.daemonz.animange.entity.Account
 import com.daemonz.animange.log.ALog
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -16,12 +16,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "LoginActivity"
     }
+
+    @Inject
+    lateinit var database: FireBaseDataBase
     private lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,26 +40,11 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         binding.apply {
             btnCreate.setOnClickListener {
-                createSigninLaucher()
-//                auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-//                    .addOnCompleteListener(this@LoginActivity) { task ->
-//                        if (task.isSuccessful) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            ALog.d(TAG, "createUserWithEmail:success")
-//                            val user = auth.currentUser
-////                            updateUI(user)
-//                            ALog.d(TAG, "user: $user")
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            ALog.w(TAG, "createUserWithEmail:failure: ${task.exception}")
-//                            Toast.makeText(
-//                                baseContext,
-//                                "Authentication failed.",
-//                                Toast.LENGTH_SHORT,
-//                            ).show()
-////                            updateUI(null)
-//                        }
-//                    }
+                val a =
+                    database.getQuery("users", documentId = "hellu").get().addOnSuccessListener {
+                        ALog.d(TAG, it.toObject(Account::class.java).toString())
+                    }
+                ALog.d(TAG, a.toString())
             }
         }
     }
