@@ -5,18 +5,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
-import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentSettingBinding
-import com.daemonz.animange.databinding.FragmentTab5Binding
-import com.daemonz.animange.entity.SettingItem
-import com.daemonz.animange.entity.SettingItemType
+import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
-import com.daemonz.animange.ui.adapter.SettingAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.setImageFromUrl
 import com.daemonz.animange.viewmodel.LoginViewModel
@@ -52,16 +46,36 @@ class Tab5Fragment :
             support.root.setOnClickListener {
                 //go to support screen
             }
+            logout.textTitle.text = getString(R.string.logout)
+            logout.root.setOnClickListener {
+                viewModel.logout(requireContext())
+                showLoadingOverlay("logout")
+            }
         }
     }
 
     private fun loadViewState() {
+        ALog.d(
+            TAG,
+            "loadViewState: isloggedin: ${viewModel.isLoggedIn()}  account: ${LoginData.account}"
+        )
         binding.apply {
             if (viewModel.isLoggedIn()) {
                 layoutLogin.isVisible = false
                 groupAccount.visibility = View.VISIBLE
                 LoginData.getActiveUser()?.let {
-                    imgUser.setImageFromUrl(it.imageUrl)
+                    val placeHolder =
+                        if (it.userType == UserType.ADULT) R.drawable.ic_adult else R.drawable.ic_child_default
+                    ALog.d(TAG, "user: ${it.imageUrl}")
+                    imgUser.setImageFromUrl(
+                        it.imageUrl.toString(),
+                        placeHolder = placeHolder,
+                        error = placeHolder
+                    )
+                    textUser.text = it.name
+                    imgUser.setOnClickListener {
+                        findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())
+                    }
                 }
             } else {
                 layoutLogin.isVisible = true
@@ -83,6 +97,7 @@ class Tab5Fragment :
             }
             account.observe(viewLifecycleOwner) {
                 loadViewState()
+                hideLoadingOverlay("logout")
             }
         }
     }

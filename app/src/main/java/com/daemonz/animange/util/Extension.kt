@@ -18,15 +18,17 @@ import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 
 private const val TAG = "Extension"
+
 @BindingAdapter("set_image")
-fun AppCompatImageView.setImageFromUrl(url: String?) {
+fun AppCompatImageView.setImageFromUrl(url: String?, placeHolder: Int? = null, error: Int? = null) {
     url?.let {
         Glide.with(this).load(it)
-            .error(R.drawable.app_logo_gray)
-            .placeholder(R.drawable.app_logo_gray)
+            .error(error ?: R.drawable.app_logo_gray)
+            .placeholder(placeHolder ?: R.drawable.app_logo_gray)
             .into(this)
     }
 }
+
 fun AppCompatImageView.loadGif(res: Int) {
     Glide.with(this).load(res).into(this)
 }
@@ -71,6 +73,7 @@ fun Context.dpToPx(dp: Int): Int {
 fun Context.pxToDp(px: Int): Int {
     return (px / resources.displayMetrics.density).toInt()
 }
+
 fun Item.toFavouriteItem(img: String): FavouriteItem = FavouriteItem(
     slug = slug,
     name = name,

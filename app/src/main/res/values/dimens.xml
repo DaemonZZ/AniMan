@@ -29,4 +29,5 @@
     <dimen name="dp_320">320dp</dimen>
     <dimen name="dp_220">220dp</dimen>
     <dimen name="dp_48">48dp</dimen>
+    <dimen name="eps_max_height_dimen">250dp</dimen>
 </resources>

@@ -11,6 +11,7 @@
         android:layout_marginHorizontal="@dimen/dp_36"
         android:clickable="true"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_20"
         android:paddingVertical="@dimen/dp_36"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,6 +37,8 @@
         android:id="@+id/img_user"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
+        android:layout_marginTop="@dimen/dp_36"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
+        android:clickable="true"
         android:drawableEnd="@drawable/keyboard_arrow_down"
         android:text="@string/user"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,6 +103,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/feedback" />
+
+    <include
+        android:id="@+id/logout"
+        layout="@layout/menu_item_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/support" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -49,4 +49,9 @@
     <string name="favourite">Phim đang theo dõi</string>
     <string name="feedback">Góp ý</string>
     <string name="support">Liên hệ hỗ trợ</string>
+    <string name="logout">Log out</string>
+    <string name="add_user">Thêm</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="back">back</string>
+    <string name="checked">checked</string>
 </resources>

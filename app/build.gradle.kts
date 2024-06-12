@@ -185,4 +185,6 @@ dependencies {
     //admobs
     implementation(libs.play.services.ads)
     implementation(libs.androidx.core.splashscreen)
+    //flexbox
+    implementation(libs.flexbox)
 }

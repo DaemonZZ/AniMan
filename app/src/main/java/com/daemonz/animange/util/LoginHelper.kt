@@ -117,7 +117,7 @@ class LoginHelper(
                     id = user.uid,
                     email = user.email,
                     name = user.displayName,
-                    users = listOf(User(name = user.displayName, userType = UserType.ADJUST))
+                    users = listOf(User(name = user.displayName, userType = UserType.ADULT))
                 )
                 dataRepository.saveAccount(newAccount)
             }

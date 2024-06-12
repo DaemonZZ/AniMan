@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseViewModel
-import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
@@ -120,8 +119,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     users = listOf(
                         User(
                             name = user.displayName,
-                            userType = UserType.ADJUST,
-                            isMainUser = true
+                            userType = UserType.ADULT,
+                            isMainUser = true,
+                            isActive = true
                         )
                     ),
                 )

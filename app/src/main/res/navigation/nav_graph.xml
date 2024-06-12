@@ -53,6 +53,9 @@
             app:destination="@id/playerFragment"
             app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_chooseUserFragment"
+            app:destination="@id/chooseUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -73,5 +76,9 @@
         <!--            app:uri="http://www.animan.rf.gd/{item}" />-->
 
     </fragment>
+    <fragment
+        android:id="@+id/chooseUserFragment"
+        android:name="com.daemonz.animange.fragment.ChooseUserFragment"
+        android:label="ChooseUserFragment" />
 
 </navigation>

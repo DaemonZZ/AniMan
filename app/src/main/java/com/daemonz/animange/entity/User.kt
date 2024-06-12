@@ -15,6 +15,7 @@ data class User(
 
 @Keep
 enum class UserType {
-    ADJUST,
+    ADULT,
     CHILD,
+    ADD,
 }
