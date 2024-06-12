@@ -25,8 +25,8 @@ class ChooseUserAdapter(onItemClickListener: OnItemClickListener<User>) :
             } else {
                 avatar.setImageFromUrl(
                     item.imageUrl.toString(),
-                    placeHolder = R.drawable.ic_adult,
-                    error = R.drawable.ic_adult
+                    placeHolder = R.drawable.avt_1,
+                    error = R.drawable.avt_1
                 )
                 userName.text = item.name
             }
