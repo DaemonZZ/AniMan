@@ -29,7 +29,16 @@ class Tab5Fragment :
             profile.textTitle.text = getString(R.string.profile)
             profile.icon.setImageResource(R.drawable.ic_profile)
             profile.root.setOnClickListener {
-                //go to profile screen
+                LoginData.account?.id?.let {
+                    findNavController().navigate(
+                        Tab5FragmentDirections.actionTab5FragmentToProfileFragment(
+                            it
+                        )
+                    )
+                }?.run {
+                    ALog.d(TAG, "Chưa đăng nhập")
+                }
+
             }
             favourite.textTitle.text = getString(R.string.favourite)
             favourite.icon.setImageResource(R.drawable.ic_favourite)

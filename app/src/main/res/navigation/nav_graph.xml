@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_tab5Fragment_to_chooseUserFragment"
             app:destination="@id/chooseUserFragment" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -80,5 +83,13 @@
         android:id="@+id/chooseUserFragment"
         android:name="com.daemonz.animange.fragment.ChooseUserFragment"
         android:label="ChooseUserFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.daemonz.animange.fragment.ProfileFragment"
+        android:label="ProfileFragment">
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -65,4 +65,8 @@
     <string name="edit">Chỉnh sửa</string>
     <string name="back">back</string>
     <string name="checked">checked</string>
+    <string name="save">Lưu</string>
+    <string name="phone_num">Số điện thoại</string>
+    <string name="email">Email</string>
+    <string name="user_name">Tên người dùng</string>
 </resources>
