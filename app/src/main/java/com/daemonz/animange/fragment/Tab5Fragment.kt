@@ -12,7 +12,6 @@ import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.util.setImageFromUrl
 import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -75,12 +74,8 @@ class Tab5Fragment :
                 LoginData.getActiveUser()?.let {
                     val placeHolder =
                         if (it.userType == UserType.ADULT) R.drawable.ic_adult else R.drawable.ic_child_default
-                    ALog.d(TAG, "user: ${it.imageUrl}")
-                    imgUser.setImageFromUrl(
-                        it.imageUrl.toString(),
-                        placeHolder = placeHolder,
-                        error = placeHolder
-                    )
+                    ALog.d(TAG, "user: ${it.image}")
+                    imgUser.setImageResource(it.getImgResource())
                     textUser.text = it.name
                     imgUser.setOnClickListener {
                         findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())

@@ -120,6 +120,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                         User(
                             name = user.displayName,
                             userType = UserType.ADULT,
+                            image = 1,
                             isMainUser = true,
                             isActive = true
                         )

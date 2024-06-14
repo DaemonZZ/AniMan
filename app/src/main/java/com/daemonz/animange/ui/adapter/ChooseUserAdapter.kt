@@ -9,7 +9,6 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemChooseUserBinding
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
-import com.daemonz.animange.util.setImageFromUrl
 
 class ChooseUserAdapter(onItemClickListener: OnItemClickListener<User>) :
     BaseRecyclerAdapter<User, ItemChooseUserBinding>(onItemClickListener) {
@@ -23,11 +22,7 @@ class ChooseUserAdapter(onItemClickListener: OnItemClickListener<User>) :
                 avatar.setImageResource(R.drawable.ic_add)
                 userName.text = root.context.getString(R.string.add_user)
             } else {
-                avatar.setImageFromUrl(
-                    item.imageUrl.toString(),
-                    placeHolder = R.drawable.avt_1,
-                    error = R.drawable.avt_1
-                )
+                avatar.setImageResource(item.getImgResource())
                 userName.text = item.name
             }
         }
