@@ -11,8 +11,10 @@ data class User(
     @field:JvmField
     val isMainUser: Boolean = false,
     @field:JvmField
-    var isActive: Boolean = false
+    var isActive: Boolean = false,
+    var favorites: List<FavouriteItem> = listOf()
 ) {
+    fun isFavourite(slug: String) = favorites.any { it.slug == slug }
     fun getImgResource(): Int {
         return when (image) {
             1 -> R.drawable.avt_1

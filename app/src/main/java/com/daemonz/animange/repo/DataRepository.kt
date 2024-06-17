@@ -84,9 +84,9 @@ class DataRepository(
 
     // Local Handle
 
-     fun markItemAsFavourite(item: Item, img: String) {
-          dao.insertAll(item.toFavouriteItem(img))
-     }
+//     fun markItemAsFavourite(item: Item, img: String) {
+//          dao.insertAll(item.toFavouriteItem(img))
+//     }
 
      fun unMarkItemAsFavourite(slug: String) {
           dao.delete(slug)
@@ -115,6 +115,38 @@ class DataRepository(
         ).addOnSuccessListener {
             ALog.d(TAG, "saveAccount: success")
             LoginData.account = account
+        }
+    }
+    fun markItemAsFavourite(item: Item, img: String) {
+        LoginData.getActiveUser()?.let {
+            if (!it.isFavourite(item.slug)) {
+                val list = it.favorites.toMutableList().apply {
+                    add(item.toFavouriteItem(img))
+                }
+                LoginData.getActiveUser()?.favorites = list
+                fireStoreDataBase.addDocument(
+                    collectionName = ACCOUNT_COLLECTION,
+                    documentId = LoginData.account?.id.toString(),
+                    data = LoginData.account!!
+                )
+                ALog.d(TAG, "markItemAsFavourite: ${LoginData.getActiveUser()?.favorites?.size}")
+            }
+        }
+    }
+
+    fun unMarkItemAsFavourite(item: Item) {
+        LoginData.getActiveUser()?.let {
+            if (it.isFavourite(item.slug)) {
+                val list = it.favorites.toMutableList().apply {
+                    removeIf { it.slug == item.slug }
+                }
+                LoginData.getActiveUser()?.favorites = list
+                fireStoreDataBase.addDocument(
+                    collectionName = ACCOUNT_COLLECTION,
+                    documentId = LoginData.account?.id.toString(),
+                    data = LoginData.account!!
+                )
+            }
         }
     }
 }

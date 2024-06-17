@@ -58,4 +58,5 @@
     <string name="phone_num">Số điện thoại</string>
     <string name="email">Email</string>
     <string name="user_name">Tên người dùng</string>
+    <string name="please_login_first">Hãy đăng nhập để lưu phim yêu thích</string>
 </resources>

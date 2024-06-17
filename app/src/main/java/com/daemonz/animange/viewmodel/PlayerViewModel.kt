@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Episode
+import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
-import com.daemonz.animange.util.toFavouriteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -79,36 +80,50 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
         }
     }
 
-    private fun markItemAsFavorite() = launchOnIO {
-        ALog.d(TAG, "markItemAsFavourite: ${playerData.value?.data}")
-        playerData.value?.data?.let {
-            if (it.item != null)
-                repository.markItemAsFavourite(item = it.item, img = it.getImageUrl())
+    fun markItemAsFavorite(item: Item? = null) = launchOnIO {
+        ALog.d(TAG, "markItemAsFavourite: $item")
+        if (item == null) {
+            playerData.value?.data?.let {
+                if (it.item != null) {
+                    repository.markItemAsFavourite(item = it.item, img = it.getImageUrl())
+                    withContext(Dispatchers.Main) {
+                        _isFavourite.value = true
+                    }
+                }
+            }
+        } else {
+            repository.markItemAsFavourite(
+                item = item,
+                item.getImageUrl(suggestions.value?.data?.imgDomain.toString())
+            )
         }
+
     }
 
-    private fun unMarkItemAsFavorite() = launchOnIO {
-        playerData.value?.data?.let {
-            if (it.item != null)
-                repository.unMarkItemAsFavourite(it.item.slug)
+    fun unMarkItemAsFavorite(item: Item? = null) = launchOnIO {
+        ALog.d(TAG, "unMarkItemAsFavourite: $item")
+        if (item == null) {
+            playerData.value?.data?.let {
+                if (it.item != null) {
+                    repository.unMarkItemAsFavourite(it.item)
+                    withContext(Dispatchers.Main) {
+                        _isFavourite.value = false
+                    }
+                }
+            }
+        } else {
+            repository.unMarkItemAsFavourite(item)
         }
+
     }
 
     private suspend fun isItemFavourite() = launchOnIO {
         val res =
-            playerData.value?.data?.item?.slug?.let { repository.isItemFavourite(it) } ?: false
+            playerData.value?.data?.item?.slug?.let {
+                LoginData.getActiveUser()?.isFavourite(it)
+            } ?: false
         withContext(Dispatchers.Main) {
             _isFavourite.value = res
-        }
-    }
-
-    fun toggleFavourite() {
-        if (isFavourite.value == true) {
-            unMarkItemAsFavorite()
-            _isFavourite.value = false
-        } else {
-            markItemAsFavorite()
-            _isFavourite.value = true
         }
     }
 }

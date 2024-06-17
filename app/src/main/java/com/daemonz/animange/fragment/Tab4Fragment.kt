@@ -5,7 +5,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab4Binding
@@ -19,12 +18,11 @@ import com.daemonz.animange.viewmodel.HomeViewModel
 class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTab4Binding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
-    private val onItemClickListener = object : OnItemClickListener<Item> {
-        override fun onItemClick(item: Item, index: Int) {
+    private val onItemClickListener =
+        OnItemClickListener<Item> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
             navigateToPlayer(item)
         }
-    }
 
     private var tvAdapter: GridAdapter? = null
 

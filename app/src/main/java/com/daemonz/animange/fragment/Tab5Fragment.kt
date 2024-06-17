@@ -47,12 +47,12 @@ class Tab5Fragment :
             feedback.textTitle.text = getString(R.string.feedback)
             feedback.icon.setImageResource(R.drawable.ic_feedback)
             feedback.root.setOnClickListener {
-                //go to feedback screen
+                showToastNotImplemented()
             }
             support.textTitle.text = getString(R.string.support)
             support.icon.setImageResource(R.drawable.ic_support)
             support.root.setOnClickListener {
-                //go to support screen
+                showToastNotImplemented()
             }
             logout.textTitle.text = getString(R.string.logout)
             logout.root.setOnClickListener {
