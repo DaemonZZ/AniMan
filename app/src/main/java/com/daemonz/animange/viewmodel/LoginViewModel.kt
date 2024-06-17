@@ -42,7 +42,12 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         signInLauncher = activity.registerForActivityResult(
             FirebaseAuthUIActivityResultContract(),
         ) { res ->
+            ALog.d(TAG, "registerSigningLauncher: $res")
             this.onSignInResult(res)
+        }
+        FirebaseAuth.getInstance().currentUser?.let {
+            ALog.d(TAG, "registerSigningLauncher: $it")
+            checkAccount(it)
         }
     }
 
@@ -122,7 +127,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                             userType = UserType.ADULT,
                             image = 1,
                             isMainUser = true,
-                            isActive = true
+                            isActive = true,
                         )
                     ),
                 )

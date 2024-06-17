@@ -72,8 +72,6 @@ class Tab5Fragment :
                 layoutLogin.isVisible = false
                 groupAccount.visibility = View.VISIBLE
                 LoginData.getActiveUser()?.let {
-                    val placeHolder =
-                        if (it.userType == UserType.ADULT) R.drawable.ic_adult else R.drawable.ic_child_default
                     ALog.d(TAG, "user: ${it.image}")
                     imgUser.setImageResource(it.getImgResource())
                     textUser.text = it.name
