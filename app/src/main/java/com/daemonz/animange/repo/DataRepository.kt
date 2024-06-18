@@ -182,4 +182,20 @@ class DataRepository(
             }
         }
     }
+
+    fun updateProfile(name: String, email: String, phone: String) {
+        LoginData.account?.apply {
+            this.name = name
+            this.email = email
+            this.phone = phone
+            fireStoreDataBase.addDocument(
+                collectionName = ACCOUNT_COLLECTION,
+                documentId = this.id.toString(),
+                data = this
+            ).addOnSuccessListener {
+                ALog.d(TAG, "updateProfile: success")
+            }
+        }
+
+    }
 }

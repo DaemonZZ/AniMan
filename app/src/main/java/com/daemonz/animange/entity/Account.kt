@@ -4,8 +4,9 @@ import androidx.annotation.Keep
 
 @Keep
 data class Account(
-    val id: String? = null,
-    val email: String? = null,
-    val users: List<User> = emptyList(),
-    val name: String? = null,
+    var id: String? = null,
+    var email: String? = null,
+    var users: List<User> = emptyList(),
+    var name: String? = null,
+    var phone: String? = null,
 )

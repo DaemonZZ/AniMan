@@ -5,11 +5,11 @@ import com.daemonz.animange.R
 
 @Keep
 data class User(
-    val name: String? = null,
-    val userType: UserType? = UserType.CHILD,
-    val image: Int? = null,
+    var name: String? = null,
+    var userType: UserType? = UserType.CHILD,
+    var image: Int? = null,
     @field:JvmField
-    val isMainUser: Boolean = false,
+    var isMainUser: Boolean = false,
     @field:JvmField
     var isActive: Boolean = false,
     var favorites: List<FavouriteItem> = listOf()

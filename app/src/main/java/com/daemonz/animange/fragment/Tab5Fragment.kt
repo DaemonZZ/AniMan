@@ -84,6 +84,7 @@ class Tab5Fragment :
                     viewModel.createSigningLauncher()
                 }
             }
+            logout.root.isVisible = viewModel.isLoggedIn()
         }
     }
 

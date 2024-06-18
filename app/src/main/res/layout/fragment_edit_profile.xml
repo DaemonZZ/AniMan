@@ -8,7 +8,7 @@
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_120"
         android:id="@+id/card_avt"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_120"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,18 +21,6 @@
             android:clickable="true" />
     </com.google.android.material.card.MaterialCardView>
 
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_user"
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="@string/user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_avt" />
-
     <LinearLayout
         android:id="@+id/layout_name"
         android:layout_width="match_parent"
@@ -42,7 +30,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_user">
+        app:layout_constraintTop_toBottomOf="@id/card_avt">
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextAppearance.Material3.LabelMedium"
@@ -57,6 +45,7 @@
             android:id="@+id/edt_name"
             style="@style/TextAppearance.Material3.LabelMedium"
             android:layout_width="0dp"
+            android:text="aasdasd"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
             android:layout_weight="2" />
@@ -83,6 +72,7 @@
             android:text="@string/email" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edt_email"
             style="@style/TextAppearance.Material3.LabelMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -112,6 +102,7 @@
             android:text="@string/phone_num" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edt_phone"
             style="@style/TextAppearance.Material3.LabelMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -121,6 +112,7 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_36"

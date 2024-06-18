@@ -304,6 +304,19 @@ class MainActivity : AppCompatActivity() {
                 toggleToolBarShowing(isShow = true, autoHide = false)
             }
 
+            R.id.profileFragment -> {
+                topAppBar?.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
+                topAppBar?.setNavigationOnClickListener {
+                    val navController = findNavController(R.id.navHostFragment)
+                    navController.popBackStack()
+                }
+                topAppBar?.fitsSystemWindows = false
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
+                topAppBar?.title = getString(R.string.user_profile)
+                toggleToolBarShowing(isShow = true, autoHide = false)
+            }
+
             else -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.app_logo, null)
