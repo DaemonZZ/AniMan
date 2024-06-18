@@ -33,15 +33,22 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img_user"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_100"
-        android:layout_marginTop="@dimen/dp_36"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avt"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginTop="@dimen/dp_50"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_user"
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="@dimen/dp_120"
+            android:clickable="true" />
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_user"
@@ -54,14 +61,14 @@
         android:text="@string/user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_user" />
+        app:layout_constraintTop_toBottomOf="@id/card_avt" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="text_user,img_user" />
+        app:constraint_referenced_ids="text_user,card_avt" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"

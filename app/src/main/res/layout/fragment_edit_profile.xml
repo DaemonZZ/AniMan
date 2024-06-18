@@ -4,15 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img_user"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_120"
-        android:layout_marginTop="@dimen/dp_36"
+        android:id="@+id/card_avt"
+        android:layout_marginTop="@dimen/dp_50"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_user"
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="@dimen/dp_120"
+            android:clickable="true" />
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_user"
@@ -23,7 +31,7 @@
         android:text="@string/user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_user" />
+        app:layout_constraintTop_toBottomOf="@id/card_avt" />
 
     <LinearLayout
         android:id="@+id/layout_name"
