@@ -289,6 +289,7 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.fitsSystemWindows = false
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
                 topAppBar?.title = ""
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
             }
 
             R.id.favouritesFragment -> {
@@ -302,6 +303,7 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
                 topAppBar?.title = getString(R.string.favourites_filmes)
                 toggleToolBarShowing(isShow = true, autoHide = false)
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
             }
 
             R.id.profileFragment -> {
@@ -315,6 +317,21 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
                 topAppBar?.title = getString(R.string.user_profile)
                 toggleToolBarShowing(isShow = true, autoHide = false)
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
+            }
+
+            R.id.chooseUserFragment -> {
+                topAppBar?.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
+                topAppBar?.setNavigationOnClickListener {
+                    val navController = findNavController(R.id.navHostFragment)
+                    navController.popBackStack()
+                }
+                topAppBar?.fitsSystemWindows = false
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
+                topAppBar?.title = getString(R.string.who_watching)
+                toggleToolBarShowing(isShow = true, autoHide = false)
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
 
             else -> {
@@ -326,6 +343,7 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.fitsSystemWindows = true
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = true
                 topAppBar?.title = ""
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
             }
         }
 

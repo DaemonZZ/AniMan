@@ -8,10 +8,12 @@
         android:title="@string/search"
         app:showAsAction="always" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/trending"-->
-    <!--        android:icon="@drawable/ic_today"-->
-    <!--        android:title="test" />-->
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ico_edit"
+        android:title="@string/edit"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <!--    <item-->
     <!--        android:id="@+id/album"-->

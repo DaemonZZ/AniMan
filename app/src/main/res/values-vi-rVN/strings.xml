@@ -62,4 +62,5 @@
     <string name="favourites_filmes">Phim yêu thích</string>
     <string name="user_profile">Thông tin người dùng</string>
     <string name="update_complete">\"Cập nhật thành công\"</string>
+    <string name="who_watching">Ai đang xem?</string>
 </resources>

@@ -15,13 +15,21 @@
         android:contentDescription="@string/checked"
         app:srcCompat="@drawable/ic_check" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/avatar"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avatar"
         android:layout_width="@dimen/dp_150"
         android:layout_height="@dimen/dp_150"
         android:layout_marginTop="@dimen/dp_8"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_add" />
+        android:adjustViewBounds="true">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/ic_add" />
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/user_name"
