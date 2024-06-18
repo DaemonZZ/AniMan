@@ -59,4 +59,5 @@
     <string name="email">Email</string>
     <string name="user_name">Tên người dùng</string>
     <string name="please_login_first">Hãy đăng nhập để lưu phim yêu thích</string>
+    <string name="favourites_filmes">Phim yêu thích</string>
 </resources>

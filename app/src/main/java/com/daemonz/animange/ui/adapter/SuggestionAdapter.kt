@@ -21,7 +21,10 @@ class SuggestionAdapter(
 
     override fun bindView(binding: SuggestionVideoItemBinding, item: Item, position: Int) {
         binding.apply {
-            image.setImageFromUrl(item.getImageUrl(imgDomain))
+            image.setImageFromUrl(
+                item.getImageUrl(imgDomain),
+                cornerRadius = 100
+            )
             textTitle.text = item.name
             textDesc.text = item.originName
             textStatus.text = item.year
@@ -36,6 +39,7 @@ class SuggestionAdapter(
             favourite.setOnClickListener {
                 LoginData.getActiveUser()?.let {
                     onFavourite.invoke(item)
+                    notifyItemChanged(position)
                 } ?: kotlin.run {
                     Toast.makeText(root.context, R.string.please_login_first, Toast.LENGTH_SHORT)
                         .show()

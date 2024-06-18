@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_tab5Fragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -90,6 +93,14 @@
         <argument
             android:name="user_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.daemonz.animange.fragment.FavouritesFragment"
+        android:label="FavouritesFragment">
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
 
 </navigation>

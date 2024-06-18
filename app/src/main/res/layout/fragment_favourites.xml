@@ -11,7 +11,9 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/dp_16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginTop="@dimen/dp_56"
         tools:listitem="@layout/item_favourite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

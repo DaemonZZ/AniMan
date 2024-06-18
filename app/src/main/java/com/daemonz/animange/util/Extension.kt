@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daemonz.animange.R
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
@@ -20,11 +21,17 @@ import com.daemonz.animange.log.ALog
 private const val TAG = "Extension"
 
 @BindingAdapter("set_image")
-fun AppCompatImageView.setImageFromUrl(url: String?, placeHolder: Int? = null, error: Int? = null) {
+fun AppCompatImageView.setImageFromUrl(
+    url: String?,
+    placeHolder: Int? = null,
+    error: Int? = null,
+    cornerRadius: Int = 1
+) {
     url?.let {
         Glide.with(this).load(it)
             .error(error ?: R.drawable.app_logo_gray)
             .placeholder(placeHolder ?: R.drawable.app_logo_gray)
+            .transform(RoundedCorners(cornerRadius))
             .into(this)
     }
 }

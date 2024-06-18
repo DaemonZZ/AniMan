@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentSettingBinding
-import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.util.LoginData
@@ -37,12 +36,11 @@ class Tab5Fragment :
                 }?.run {
                     ALog.d(TAG, "Chưa đăng nhập")
                 }
-
             }
             favourite.textTitle.text = getString(R.string.favourite)
             favourite.icon.setImageResource(R.drawable.ic_favourite)
             favourite.root.setOnClickListener {
-                //go to favourite screen
+                findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToFavouritesFragment())
             }
             feedback.textTitle.text = getString(R.string.feedback)
             feedback.icon.setImageResource(R.drawable.ic_feedback)

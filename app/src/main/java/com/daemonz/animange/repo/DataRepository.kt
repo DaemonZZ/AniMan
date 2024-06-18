@@ -149,4 +149,37 @@ class DataRepository(
             }
         }
     }
+
+    fun markItemAsFavourite(item: FavouriteItem) {
+        LoginData.getActiveUser()?.let {
+            if (!it.isFavourite(item.slug)) {
+                val list = it.favorites.toMutableList().apply {
+                    add(item)
+                }
+                LoginData.getActiveUser()?.favorites = list
+                fireStoreDataBase.addDocument(
+                    collectionName = ACCOUNT_COLLECTION,
+                    documentId = LoginData.account?.id.toString(),
+                    data = LoginData.account!!
+                )
+                ALog.d(TAG, "markItemAsFavourite: ${LoginData.getActiveUser()?.favorites?.size}")
+            }
+        }
+    }
+
+    fun unMarkItemAsFavourite(item: FavouriteItem) {
+        LoginData.getActiveUser()?.let {
+            if (it.isFavourite(item.slug)) {
+                val list = it.favorites.toMutableList().apply {
+                    removeIf { it.slug == item.slug }
+                }
+                LoginData.getActiveUser()?.favorites = list
+                fireStoreDataBase.addDocument(
+                    collectionName = ACCOUNT_COLLECTION,
+                    documentId = LoginData.account?.id.toString(),
+                    data = LoginData.account!!
+                )
+            }
+        }
+    }
 }

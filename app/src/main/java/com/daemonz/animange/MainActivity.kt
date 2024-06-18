@@ -288,6 +288,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 topAppBar?.fitsSystemWindows = false
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
+                topAppBar?.title = ""
+            }
+
+            R.id.favouritesFragment -> {
+                topAppBar?.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
+                topAppBar?.setNavigationOnClickListener {
+                    val navController = findNavController(R.id.navHostFragment)
+                    navController.popBackStack()
+                }
+                topAppBar?.fitsSystemWindows = false
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
+                topAppBar?.title = getString(R.string.favourites_filmes)
+                toggleToolBarShowing(isShow = true, autoHide = false)
             }
 
             else -> {
@@ -298,6 +312,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 topAppBar?.fitsSystemWindows = true
                 topAppBar?.menu?.findItem(R.id.search)?.isVisible = true
+                topAppBar?.title = ""
             }
         }
 
