@@ -187,4 +187,5 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     //flexbox
     implementation(libs.flexbox)
+    implementation(libs.feature.delivery)
 }

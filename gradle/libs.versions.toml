@@ -6,6 +6,7 @@ credentials = "1.2.2"
 credentialsPlayServicesAuth = "1.5.0-alpha01"
 credentialsVersion = "1.5.0-alpha01"
 facebookAndroidSdk = "5.0.0"
+featureDelivery = "2.1.0"
 firebaseBom = "33.1.0"
 firebaseUiAuth = "8.0.0"
 flexbox = "3.0.0"
@@ -66,6 +67,7 @@ androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gson" }
+feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "featureDelivery" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }

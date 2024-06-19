@@ -2,6 +2,7 @@ package com.daemonz.animange.entity
 
 import androidx.annotation.Keep
 import com.daemonz.animange.R
+import java.io.Serializable
 
 @Keep
 data class User(
@@ -12,8 +13,9 @@ data class User(
     var isMainUser: Boolean = false,
     @field:JvmField
     var isActive: Boolean = false,
-    var favorites: List<FavouriteItem> = listOf()
-) {
+    var favorites: List<FavouriteItem> = listOf(),
+    var password: String? = null,
+) : Serializable {
     fun isFavourite(slug: String) = favorites.any { it.slug == slug }
     fun getImgResource(): Int {
         return when (image) {

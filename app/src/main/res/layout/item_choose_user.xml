@@ -28,9 +28,17 @@
             android:layout_height="@dimen/dp_150"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/ic_add" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/edit_overlay"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
+            android:adjustViewBounds="true"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ico_edit" />
     </com.google.android.material.card.MaterialCardView>
-
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/user_name"
         style="@style/TextAppearance.Material3.TitleMedium"

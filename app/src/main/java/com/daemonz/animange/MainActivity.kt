@@ -24,6 +24,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.databinding.ActivityMainBinding
+import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
@@ -206,13 +207,29 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(topAppBar)
         supportActionBar?.title = null
         topAppBar?.setOnMenuItemClickListener { menuItem ->
-            ALog.d(TAG, "search s: $menuItem")
             when (menuItem.itemId) {
                 R.id.search -> {
                     val navFrag = supportFragmentManager.fragments.find { it is NavHostFragment }
                     navFrag?.childFragmentManager?.fragments?.forEach {
                         (it as? BottomNavigationAction)?.onSearch()
                     }
+                    true
+                }
+                R.id.edit -> {
+                    val frag =
+                        supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                    (frag as? ChooseUserFragment)?.onEditEnable(true)
+                    topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
+                    topAppBar?.menu?.findItem(R.id.close)?.isVisible = true
+                    true
+                }
+
+                R.id.close -> {
+                    val frag =
+                        supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                    (frag as? ChooseUserFragment)?.onEditEnable(false)
+                    topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
+                    topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
                     true
                 }
 
@@ -333,6 +350,19 @@ class MainActivity : AppCompatActivity() {
                 toggleToolBarShowing(isShow = true, autoHide = false)
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
+            R.id.userInfoFragment -> {
+                topAppBar?.navigationIcon =
+                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
+                topAppBar?.setNavigationOnClickListener {
+                    val navController = findNavController(R.id.navHostFragment)
+                    navController.popBackStack()
+                }
+                topAppBar?.fitsSystemWindows = false
+                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
+                toggleToolBarShowing(isShow = true, autoHide = false)
+                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
+                topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
+            }
 
             else -> {
                 topAppBar?.navigationIcon =
@@ -379,6 +409,10 @@ class MainActivity : AppCompatActivity() {
         if (initialLayoutComplete.get()) {
             loadBanner()
         }
+    }
+
+    fun setTitle(title: String) {
+        topAppBar?.title = title
     }
 
     override fun onDestroy() {

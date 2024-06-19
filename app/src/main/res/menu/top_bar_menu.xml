@@ -15,10 +15,12 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/album"-->
-    <!--        android:icon="@drawable/ic_today"-->
-    <!--        android:title="test" />-->
+    <item
+        android:id="@+id/close"
+        android:icon="@drawable/close"
+        android:title="@string/exit"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <!--    <item-->
     <!--        android:id="@+id/genre"-->

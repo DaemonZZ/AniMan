@@ -63,4 +63,10 @@
     <string name="user_profile">Thông tin người dùng</string>
     <string name="update_complete">\"Cập nhật thành công\"</string>
     <string name="who_watching">Ai đang xem?</string>
+    <string name="exit">Thoát</string>
+    <string name="user_limit_reached">Chỉ tạo được tối đa 5 user</string>
+    <string name="password">Mật khẩu</string>
+    <string name="complete">Hoàn thành</string>
+    <string name="new_user">Tạo hồ sơ</string>
+    <string name="edit_user">Chỉnh sửa hồ sơ</string>
 </resources>
