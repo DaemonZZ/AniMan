@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_profile"
+    app:startDestination="@id/userInfoFragment">
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.daemonz.animange.fragment.UserInfoFragment"
+        android:label="UserInfoFragment">
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="com.daemonz.animange.entity.User"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_userInfoFragment_to_chooseAvatarFragment"
+            app:destination="@id/chooseAvatarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseAvatarFragment"
+        android:name="com.daemonz.animange.fragment.ChooseAvatarFragment"
+        android:label="ChooseAvatarFragment" />
+</navigation>

@@ -347,7 +347,7 @@ class MainActivity : AppCompatActivity() {
                 toggleToolBarShowing(isShow = true, autoHide = false)
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
-            R.id.userInfoFragment -> {
+            R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -360,6 +360,7 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
                 topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
             }
+
 
             else -> {
                 topAppBar?.navigationIcon =

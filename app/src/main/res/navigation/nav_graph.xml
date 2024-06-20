@@ -87,8 +87,14 @@
         android:name="com.daemonz.animange.fragment.ChooseUserFragment"
         android:label="ChooseUserFragment">
         <action
-            android:id="@+id/action_chooseUserFragment_to_userInfoFragment"
-            app:destination="@id/userInfoFragment" />
+            android:id="@+id/toProfile"
+            app:destination="@id/nav_profile">
+            <argument
+                android:name="user"
+                android:defaultValue="@null"
+                app:argType="com.daemonz.animange.entity.User"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -106,15 +112,5 @@
             android:id="@+id/action_favouritesFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/userInfoFragment"
-        android:name="com.daemonz.animange.fragment.UserInfoFragment"
-        android:label="UserInfoFragment">
-        <argument
-            android:name="user"
-            android:defaultValue="@null"
-            app:argType="com.daemonz.animange.entity.User"
-            app:nullable="true" />
-    </fragment>
-
+    <include app:graph="@navigation/nav_profile" />
 </navigation>

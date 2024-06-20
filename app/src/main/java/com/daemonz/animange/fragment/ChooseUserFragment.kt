@@ -24,7 +24,7 @@ class ChooseUserFragment :
             onItemClickListener = { item, index ->
                 if (item.userType == UserType.ADD) {
                     if ((LoginData.account?.users?.size ?: 0) in 1..4) {
-                        findNavController().navigate(ChooseUserFragmentDirections.actionChooseUserFragmentToUserInfoFragment())
+                        findNavController().navigate(ChooseUserFragmentDirections.toProfile())
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -36,7 +36,7 @@ class ChooseUserFragment :
                 }
                 if (adapter?.isEditModeEnabled() == true) {
                     findNavController().navigate(
-                        ChooseUserFragmentDirections.actionChooseUserFragmentToUserInfoFragment(
+                        ChooseUserFragmentDirections.toProfile(
                             item
                         )
                     )
