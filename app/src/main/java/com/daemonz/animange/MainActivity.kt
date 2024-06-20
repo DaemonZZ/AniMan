@@ -28,7 +28,6 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
-import com.daemonz.animange.util.LoginHelper
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -50,8 +49,6 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: LoginViewModel by viewModels()
 
-    @Inject
-    lateinit var loginHelper: LoginHelper
     private val loadingRequest = mutableSetOf<String>()
     private val loadingDialog: LoadingOverLay by lazy {
         LoadingOverLay()

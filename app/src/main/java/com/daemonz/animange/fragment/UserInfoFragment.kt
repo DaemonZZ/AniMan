@@ -6,17 +6,21 @@ import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentUserInfoBinding
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.ProfileViewModel
 
 class UserInfoFragment :
-    BaseFragment<FragmentUserInfoBinding, HomeViewModel>(FragmentUserInfoBinding::inflate) {
-    override val viewModel: HomeViewModel by viewModels<HomeViewModel>()
+    BaseFragment<FragmentUserInfoBinding, ProfileViewModel>(FragmentUserInfoBinding::inflate) {
+    override val viewModel: ProfileViewModel by viewModels()
     private val args: UserInfoFragmentArgs by navArgs()
 
     override fun setupViews() {
         binding.apply {
             imgUser.setImageResource(args.user?.getImgResource() ?: R.drawable.avt_1)
             edtName.setText(args.user?.name)
+            cardAvt.setOnClickListener { }
+            save.setOnClickListener {
+
+            }
         }
     }
 

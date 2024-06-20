@@ -23,6 +23,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -123,6 +124,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     name = user.displayName,
                     users = listOf(
                         User(
+                            id = UUID.randomUUID().toString(),
                             name = user.displayName,
                             userType = UserType.ADULT,
                             image = 1,
