@@ -8,6 +8,8 @@ import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.Country
@@ -17,6 +19,7 @@ import com.daemonz.animange.util.toFavouriteItem
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import retrofit2.Response
+import java.util.UUID
 
 class DataRepository(
      private val apiService: IWebService,
@@ -197,5 +200,57 @@ class DataRepository(
             }
         }
 
+    }
+
+    fun updateUser(name: String?, image: Int?, userId: String) {
+        LoginData.account?.users?.firstOrNull { it.id == userId }?.apply {
+            image?.let { this.image = it }
+            name?.let { this.name = it }
+            fireStoreDataBase.addDocument(
+                collectionName = ACCOUNT_COLLECTION,
+                documentId = LoginData.account?.id.toString(),
+                data = LoginData.account!!
+            ).addOnSuccessListener {
+                ALog.d(TAG, "updateAvatar: success")
+            }
+        }
+    }
+
+    fun newUser(name: String?, image: Int, userType: UserType, password: String?) {
+        val newUser = User(
+            id = UUID.randomUUID().toString(),
+            name = name,
+            image = image,
+            userType = userType,
+            password = password,
+            isMainUser = false,
+        )
+        val listUser = LoginData.account?.users?.toMutableList()?.apply {
+            add(newUser)
+        }
+        listUser?.let {
+            LoginData.account?.users = it
+            fireStoreDataBase.addDocument(
+                collectionName = ACCOUNT_COLLECTION,
+                documentId = LoginData.account?.id.toString(),
+                data = LoginData.account!!
+            ).addOnSuccessListener {
+                ALog.d(TAG, "newUser: success")
+            }
+        }
+    }
+
+    fun switchUser(id: String) {
+        LoginData.getActiveUser()?.isActive = false
+        LoginData.account?.users?.firstOrNull { it.id == id }?.isActive = true
+        LoginData.account?.let {
+            fireStoreDataBase.addDocument(
+                collectionName = ACCOUNT_COLLECTION,
+                documentId = it.id.toString(),
+                data = it
+            ).addOnSuccessListener {
+                ALog.d(TAG, "switchUser: success")
+            }
+        }
     }
 }

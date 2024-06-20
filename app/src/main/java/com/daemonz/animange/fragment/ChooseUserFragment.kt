@@ -11,17 +11,20 @@ import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.ui.adapter.ChooseUserAdapter
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.ProfileViewModel
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChooseUserFragment :
-    BaseFragment<FragmentChooseUserBinding, HomeViewModel>(FragmentChooseUserBinding::inflate) {
-    override val viewModel: HomeViewModel by viewModels<HomeViewModel>()
+    BaseFragment<FragmentChooseUserBinding, ProfileViewModel>(FragmentChooseUserBinding::inflate) {
+    override val viewModel: ProfileViewModel by viewModels<ProfileViewModel>()
     private var adapter: ChooseUserAdapter? = null
 
     override fun setupViews() {
         adapter = ChooseUserAdapter(
-            onItemClickListener = { item, index ->
+            onItemClickListener = { item, _ ->
                 if (item.userType == UserType.ADD) {
                     if ((LoginData.account?.users?.size ?: 0) in 1..4) {
                         findNavController().navigate(ChooseUserFragmentDirections.toProfile())
@@ -41,13 +44,20 @@ class ChooseUserFragment :
                         )
                     )
                 } else {
-                    // apply selected user
+                    item.id?.let {
+                        viewModel.switchUser(it)
+                        loadDataUser()
+                    }
                 }
             },
         )
         binding.userRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
             justifyContent = JustifyContent.CENTER
         }
+        loadDataUser()
+    }
+
+    private fun loadDataUser() {
         LoginData.account?.let {
             binding.userRecycler.adapter = adapter
             val users = it.users.toMutableList()
@@ -58,9 +68,7 @@ class ChooseUserFragment :
         }
     }
 
-    override fun setupObservers() {
-
-    }
+    override fun setupObservers() {}
     fun onEditEnable(enable: Boolean) {
         adapter?.toggleEditMode(enable)
     }

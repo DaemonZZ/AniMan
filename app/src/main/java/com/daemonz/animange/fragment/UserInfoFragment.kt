@@ -21,11 +21,18 @@ class UserInfoFragment :
         binding.apply {
             imgUser.setImageResource(args.user?.getImgResource() ?: R.drawable.avt_1)
             edtName.setText(args.user?.name)
-            cardAvt.setOnClickListener {
+            imgUser.setOnClickListener {
                 findNavController().navigate(UserInfoFragmentDirections.actionUserInfoFragmentToChooseAvatarFragment())
             }
             save.setOnClickListener {
-
+                val name =
+                    if (edtName.text.isNullOrEmpty()) args.user?.name else edtName.text.toString()
+                args.user?.id?.let { id ->
+                    viewModel.updateUser(name, viewModel.currentAvt.value, id)
+                } ?: run {
+                    viewModel.newUser(name, viewModel.currentAvt.value ?: 1)
+                }
+                findNavController().popBackStack()
             }
         }
     }

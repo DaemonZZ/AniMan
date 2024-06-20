@@ -17,22 +17,22 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_avatar"
-        android:layout_width="@dimen/dp_150"
-        android:layout_height="@dimen/dp_150"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
         android:layout_marginTop="@dimen/dp_8"
         android:adjustViewBounds="true">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_150"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/ic_add" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/edit_overlay"
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_150"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
             android:adjustViewBounds="true"
             android:scaleX="0.4"
             android:scaleY="0.4"

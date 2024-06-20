@@ -11,7 +11,7 @@ data class User(
     var userType: UserType? = UserType.CHILD,
     var image: Int? = null,
     @field:JvmField
-    var isMainUser: Boolean = false,
+    val isMainUser: Boolean = false,
     @field:JvmField
     var isActive: Boolean = false,
     var favorites: List<FavouriteItem> = listOf(),
