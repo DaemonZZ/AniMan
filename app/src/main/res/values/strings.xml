@@ -39,4 +39,45 @@
     <string name="loading">Loading…</string>
     <string name="no_favourites">Hiện tại bạn chưa có video yêu thích nào</string>
     <string name="no_result">Chưa có kết quả tìm kiếm</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">com.daemonz.animange</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fbcom.daemonz.animange</string>
+    <string name="login">Đăng nhập</string>
+    <string name="account_info">Thông tin tài khoản</string>
+    <string name="web_client_id" translatable="false">4792051722-mhjnpgl43ief55vhgn1q37ag5v7k4dbi.apps.googleusercontent.com</string>
+    <string name="asset_statements" translatable="false">
+        [{
+            \"include\": \"https://animan.rf.gd/.well-known/assetlinks.json\"
+        }]
+    </string>
+    <string name="tos_and_pp">
+        <![CDATA[By continuing you are indicating that you accept our <a href="https://doc-hosting.flycricket.io/phim-free-terms-of-use/31f92dc4-0e1b-47e0-bece-f1032e12ee8b/terms">Terms of Service</a> and <a href="https://doc-hosting.flycricket.io/phim-free-privacy-policy/ce582f03-8635-4bb1-b05c-1967e4989070/privacy">Privacy Policy</a>]]>
+    </string>
+    <string name="continue_with_your_email">Continue with your email</string>
+    <string name="continue_with_your_phone_number">Continue with phone number</string>
+    <string name="settings">Thiết lập</string>
+    <string name="profile">Thông tin tài khoản</string>
+    <string name="favourite">Phim đang theo dõi</string>
+    <string name="feedback">Góp ý</string>
+    <string name="support">Liên hệ hỗ trợ</string>
+    <string name="logout">Log out</string>
+    <string name="add_user">Thêm</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="back">back</string>
+    <string name="checked">checked</string>
+    <string name="save">Lưu</string>
+    <string name="phone_num">Số điện thoại</string>
+    <string name="email">Email</string>
+    <string name="user_name">Tên người dùng</string>
+    <string name="please_login_first">Hãy đăng nhập để lưu phim yêu thích</string>
+    <string name="favourites_filmes">Phim yêu thích</string>
+    <string name="user_profile">Thông tin người dùng</string>
+    <string name="update_complete">\"Cập nhật thành công\"</string>
+    <string name="who_watching">Ai đang xem?</string>
+    <string name="exit">Thoát</string>
+    <string name="user_limit_reached">Chỉ tạo được tối đa 5 user</string>
+    <string name="password">Mật khẩu</string>
+    <string name="complete">Hoàn thành</string>
+    <string name="new_user">Tạo hồ sơ</string>
+    <string name="edit_user">Chỉnh sửa hồ sơ</string>
 </resources>

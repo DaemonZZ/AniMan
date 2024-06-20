@@ -1,69 +1,110 @@
 package com.daemonz.animange.fragment
 
+import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
-import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.FragmentTab5Binding
-import com.daemonz.animange.entity.FavouriteItem
-import com.daemonz.animange.entity.Item
+import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
-import com.daemonz.animange.ui.adapter.FavouriteAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTab5Binding::inflate),
+@AndroidEntryPoint
+class Tab5Fragment :
+    BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate),
     BottomNavigationAction {
-    override val viewModel: HomeViewModel by activityViewModels()
-    private val onItemClickListener = object : OnItemClickListener<FavouriteItem> {
-        override fun onItemClick(item: FavouriteItem, index: Int) {
-            navigateToPlayer(item.slug)
-        }
-    }
-    private var favouriteAdapter: FavouriteAdapter? = null
+    override val viewModel: LoginViewModel by activityViewModels()
+
 
     override fun setupViews() {
+        loadViewState()
         binding.apply {
-            favoriteRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            favouriteAdapter = FavouriteAdapter(onItemClickListener)
-            favoriteRecycler.adapter = favouriteAdapter
-            favoriteRecycler.addOnScrollListener(object : OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    ALog.i(TAG, "onScrollStateChanged: state: $newState")
-                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                        toggleToolBarShowing(
-                            isShow = true,
-                            autoHide = true
+            profile.textTitle.text = getString(R.string.profile)
+            profile.icon.setImageResource(R.drawable.ic_profile)
+            profile.root.setOnClickListener {
+                LoginData.account?.id?.let {
+                    findNavController().navigate(
+                        Tab5FragmentDirections.actionTab5FragmentToProfileFragment(
+                            it
                         )
+                    )
+                }?.run {
+                    ALog.d(TAG, "Chưa đăng nhập")
+                }
+            }
+            favourite.textTitle.text = getString(R.string.favourite)
+            favourite.icon.setImageResource(R.drawable.ic_favourite)
+            favourite.root.setOnClickListener {
+                findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToFavouritesFragment())
+            }
+            feedback.textTitle.text = getString(R.string.feedback)
+            feedback.icon.setImageResource(R.drawable.ic_feedback)
+            feedback.root.setOnClickListener {
+                showToastNotImplemented()
+            }
+            support.textTitle.text = getString(R.string.support)
+            support.icon.setImageResource(R.drawable.ic_support)
+            support.root.setOnClickListener {
+                showToastNotImplemented()
+            }
+            logout.textTitle.text = getString(R.string.logout)
+            logout.root.setOnClickListener {
+                viewModel.logout(requireContext())
+                showLoadingOverlay("logout")
+            }
+        }
+    }
+
+    private fun loadViewState() {
+        ALog.d(
+            TAG,
+            "loadViewState: isloggedin: ${viewModel.isLoggedIn()}  account: ${LoginData.account}"
+        )
+        binding.apply {
+            if (viewModel.isLoggedIn()) {
+                layoutLogin.isVisible = false
+                groupAccount.visibility = View.VISIBLE
+                LoginData.getActiveUser()?.let {
+                    ALog.d(TAG, "user: ${it.image}")
+                    imgUser.setImageResource(it.getImgResource())
+                    textUser.text = it.name
+                    imgUser.setOnClickListener {
+                        findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())
                     }
                 }
-            })
+            } else {
+                layoutLogin.isVisible = true
+                groupAccount.visibility = View.INVISIBLE
+                layoutLogin.setOnClickListener {
+                    viewModel.createSigningLauncher()
+                }
+            }
+            logout.root.isVisible = viewModel.isLoggedIn()
         }
-
     }
 
     override fun setupObservers() {
-        viewModel.favourites.observe(viewLifecycleOwner) {
-            favouriteAdapter?.setData(it)
-            hideLoadingOverlay("getFavourites")
-            binding.apply {
-                textNoFavourite.isVisible = it.isEmpty()
-                favoriteRecycler.isVisible = it.isNotEmpty()
+        viewModel.apply {
+            error.observe(viewLifecycleOwner) {
+                ALog.e(TAG, "setupObservers: $it")
+                if (it != null) {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+            account.observe(viewLifecycleOwner) {
+                loadViewState()
+                hideLoadingOverlay("logout")
             }
         }
     }
 
     override fun onSearch() {
-        SearchDialog(object : OnItemClickListener<Item> {
-            override fun onItemClick(item: Item, index: Int) {
-                navigateToPlayer(item.slug)
-            }
-        }).show(childFragmentManager, "SearchDialog")
+        //
     }
 
     override fun onRefresh() {
@@ -75,12 +116,7 @@ class Tab5Fragment : BaseFragment<FragmentTab5Binding, HomeViewModel>(FragmentTa
     }
 
     override fun initData() {
-        viewModel.getFavourites()
-        showLoadingOverlay("getFavourites")
+
     }
 
-    private fun navigateToPlayer(slug: String) {
-        ALog.i(TAG, "navigateToPlayer: $slug")
-        findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToPlayerFragment(item = slug))
-    }
 }

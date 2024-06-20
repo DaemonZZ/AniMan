@@ -1,0 +1,163 @@
+package com.daemonz.animange.viewmodel
+
+import android.content.Context
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.R
+import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.POLICY_URL
+import com.daemonz.animange.util.TERMS_URL
+import com.firebase.ui.auth.AuthMethodPickerLayout
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+class LoginViewModel @Inject constructor() : BaseViewModel() {
+    companion object {
+        private const val TAG = "LoginViewModel"
+    }
+
+    private var signInLauncher: ActivityResultLauncher<Intent>? = null
+    private val _error = MutableLiveData<Exception?>()
+    val error: LiveData<Exception?> = _error
+    private val _account = MutableLiveData<Account?>()
+    val account: LiveData<Account?> = _account
+
+    fun registerSigningLauncher(activity: AppCompatActivity) {
+        ALog.d(TAG, "registerSigningLauncher: ")
+        signInLauncher = activity.registerForActivityResult(
+            FirebaseAuthUIActivityResultContract(),
+        ) { res ->
+            ALog.d(TAG, "registerSigningLauncher: $res")
+            this.onSignInResult(res)
+        }
+        FirebaseAuth.getInstance().currentUser?.let {
+            ALog.d(TAG, "registerSigningLauncher: $it")
+            checkAccount(it)
+        }
+    }
+
+    fun createSigningLauncher() {
+        // Choose authentication providers
+        ALog.d(TAG, "createSigningLauncher")
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+        )
+
+        val layout = listOf(
+            R.layout.login_layout,
+            R.layout.login_layout2,
+            R.layout.login_layout3,
+        ).random()
+
+        val customLayout = AuthMethodPickerLayout.Builder(layout)
+            .setEmailButtonId(R.id.email_login)
+            .setPhoneButtonId(R.id.phone_login)
+            .setTosAndPrivacyPolicyId(R.id.text_tos)
+            .setGoogleButtonId(R.id.google_login)
+            .build()
+
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setTheme(R.style.AppTheme)
+            .setTosAndPrivacyPolicyUrls(TERMS_URL, POLICY_URL)
+            .setAuthMethodPickerLayout(customLayout)
+            .build()
+        signInLauncher?.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        ALog.d(TAG, "onSignInResult: $response")
+        if (result.resultCode == RESULT_OK) {
+            // Successfully signed in
+            val user = FirebaseAuth.getInstance().currentUser
+            checkAccount(user)
+            LoginData.currentError = null
+            _error.value = null
+            // ...
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
+            LoginData.currentError = response?.error
+            ALog.e(TAG, "onSignInResult: ${result.resultCode}")
+            LoginData.account = null
+            _error.value = response?.error
+            _account.value = null
+        }
+    }
+
+    private fun checkAccount(user: FirebaseUser?) {
+        if (user == null) {
+            return
+        }
+        repository.getAccount(user.uid).addOnSuccessListener { acc ->
+            if (acc.toObject(Account::class.java) != null) {
+                val account = acc.toObject(Account::class.java)
+                LoginData.account = account
+                _account.value = account
+            } else {
+                val newAccount = Account(
+                    id = user.uid,
+                    email = user.email,
+                    name = user.displayName,
+                    users = listOf(
+                        User(
+                            id = UUID.randomUUID().toString(),
+                            name = user.displayName,
+                            userType = UserType.ADULT,
+                            image = 1,
+                            isMainUser = true,
+                            isActive = true,
+                        )
+                    ),
+                )
+                repository.saveAccount(newAccount)
+                _account.value = newAccount
+                // LoginData.account is assigned in repository.saveAccount
+            }
+        }.addOnFailureListener { e ->
+            _error.value = e
+        }
+    }
+
+    fun logout(context: Context) {
+        ALog.d(TAG, "logout: ")
+        AuthUI.getInstance().signOut(context).addOnSuccessListener {
+            _account.value = null
+            _error.value = null
+        }.addOnFailureListener {
+            _error.value = it
+        }
+    }
+
+    fun isLoggedIn(): Boolean {
+        val res = FirebaseAuth.getInstance().currentUser != null
+        if (res && LoginData.account == null) {
+            checkAccount(FirebaseAuth.getInstance().currentUser)
+        }
+        return res
+    }
+
+}

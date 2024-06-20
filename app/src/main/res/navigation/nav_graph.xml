@@ -53,6 +53,15 @@
             app:destination="@id/playerFragment"
             app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_chooseUserFragment"
+            app:destination="@id/chooseUserFragment" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -73,5 +82,35 @@
         <!--            app:uri="http://www.animan.rf.gd/{item}" />-->
 
     </fragment>
-
+    <fragment
+        android:id="@+id/chooseUserFragment"
+        android:name="com.daemonz.animange.fragment.ChooseUserFragment"
+        android:label="ChooseUserFragment">
+        <action
+            android:id="@+id/toProfile"
+            app:destination="@id/nav_profile">
+            <argument
+                android:name="user"
+                android:defaultValue="@null"
+                app:argType="com.daemonz.animange.entity.User"
+                app:nullable="true" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.daemonz.animange.fragment.ProfileFragment"
+        android:label="ProfileFragment">
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.daemonz.animange.fragment.FavouritesFragment"
+        android:label="FavouritesFragment">
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
+    <include app:graph="@navigation/nav_profile" />
 </navigation>

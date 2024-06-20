@@ -80,7 +80,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            resultAdapter = SuggestionAdapter(onItemClickListener)
+            resultAdapter = SuggestionAdapter(onItemClickListener) { item -> }
             resultRecycler.adapter = resultAdapter
         }
         viewModel.searchResult.observe(viewLifecycleOwner) {

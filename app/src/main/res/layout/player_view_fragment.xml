@@ -189,10 +189,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_episodes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+                app:layout_constraintHeight_default="wrap"
+
                 android:layout_margin="@dimen/dp_20"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintHeight_max="@dimen/eps_max_height_dimen"
                 app:layout_constraintTop_toBottomOf="@id/dropdown_server"
                 tools:listitem="@layout/episode_item" />
 

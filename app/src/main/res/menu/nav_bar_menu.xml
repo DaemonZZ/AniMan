@@ -28,7 +28,7 @@
     <item
         android:id="@+id/tab5Fragment"
         android:enabled="true"
-        android:icon="@drawable/user_selector"
-        android:title="@string/user" />
+        android:icon="@drawable/ic_apps"
+        android:title="@string/settings" />
 
 </menu>

@@ -32,7 +32,7 @@ class FireBaseDataBase(
     fun addDocument(
         collectionName: String,
         documentId: String,
-        data: HashMap<String, Any>
+        data: Any
     ): Task<Void> {
         return db.collection(collectionName).document(documentId).set(data)
     }

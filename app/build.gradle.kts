@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 1
 val versionMinor = 2
-val versionPatch = 0
+val versionPatch = 2
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -53,7 +53,7 @@ android {
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
                     output?.outputFileName =
-                        "\"PhimFree_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk\""
+                        "PhimFree_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk"
                     setProperty("archivesBaseName", "PhimFree-v$versionName")
                 }
             }
@@ -165,9 +165,15 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.ui.auth)
+    implementation(libs.play.services.auth)
 
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
+    //Facebook
+//    implementation (libs.facebook.android.sdk)
+
+//    implementation(libs.androidx.credentials)
+//    implementation(libs.androidx.credentials.play.services.auth)
     //Room
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
@@ -179,4 +185,7 @@ dependencies {
     //admobs
     implementation(libs.play.services.ads)
     implementation(libs.androidx.core.splashscreen)
+    //flexbox
+    implementation(libs.flexbox)
+    implementation(libs.feature.delivery)
 }

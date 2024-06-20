@@ -1,7 +1,6 @@
 package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -18,10 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
-import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
-import com.daemonz.animange.entity.EpisodeDetail
-import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.EpisodeListAdapter
@@ -30,7 +26,7 @@ import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
-import com.daemonz.animange.util.PLAYER_DEEP_LINK
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -128,22 +124,32 @@ class PlayerFragment :
                     }
                 }
             }
-            episodeAdapter = EpisodeListAdapter(object : OnItemClickListener<EpisodeDetail> {
-                override fun onItemClick(item: EpisodeDetail, index: Int) {
-                    episodeAdapter?.setPivot(index)
-                    viewModel.chooseEpisode(index)
-                }
+            episodeAdapter = EpisodeListAdapter({ _, index ->
+                episodeAdapter?.setPivot(index)
+                viewModel.chooseEpisode(index)
             }, requireContext())
             recyclerEpisodes.adapter = episodeAdapter
-            suggestionAdapter = SuggestionAdapter(object : OnItemClickListener<Item> {
-                override fun onItemClick(item: Item, index: Int) {
+            suggestionAdapter = SuggestionAdapter(onFavourite = { item ->
+                LoginData.getActiveUser()?.let {
+                    ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
+                    if (it.isFavourite(item.slug)) {
+                        viewModel.unMarkItemAsFavorite(item)
+                    } else {
+                        viewModel.markItemAsFavorite(item)
+                    }
+                }
+            },
+                onItemClickListener = { item, _ ->
                     ALog.d(TAG, "onItemClick: ${item.slug}")
                     viewModel.loadData(item.slug)
-                }
-            })
+                })
             recyclerSuggest.adapter = suggestionAdapter
             btnFollow.setOnClickListener {
-                viewModel.toggleFavourite()
+                if (viewModel.isFavourite.value == true) {
+                    viewModel.unMarkItemAsFavorite()
+                } else {
+                    viewModel.markItemAsFavorite()
+                }
             }
             btnShare.setOnClickListener {
                 showToastNotImplemented()
