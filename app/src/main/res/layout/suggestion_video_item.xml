@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="?attr/materialCardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,12 +44,12 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="Day laf title"
+                app:layout_constraintEnd_toStartOf="@id/favourite"
                 android:textColor="@color/md_theme_secondary_highContrast"
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/dp_8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_more"
+                tools:text="Day laf title"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView

@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         topAppBar = findViewById(R.id.topAppBar)
         appBarLayout = findViewById(R.id.app_bar_layout)
         bottomNavigation = findViewById(R.id.bottom_navigation)
-//        initAdmob()
+        initAdmob()
     }
 
     private fun initAdmob() {
