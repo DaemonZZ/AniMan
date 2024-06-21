@@ -13,6 +13,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,15 +21,18 @@ import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.fragment.player.ChildPlayerFragmentActions
+import com.daemonz.animange.fragment.player.EpisodesFragment
+import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.adapter.EpisodeListAdapter
-import com.daemonz.animange.ui.adapter.SuggestionAdapter
+import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,10 +41,14 @@ class PlayerFragment :
     override val viewModel: PlayerViewModel by viewModels()
     private val arg: PlayerFragmentArgs by navArgs()
 
-    private var episodeAdapter: EpisodeListAdapter? = null
-    private var suggestionAdapter: SuggestionAdapter? = null
-
     private var lastTouchWebView = 0L
+
+    private val listFrag = listOf<Fragment>(
+        SuggestionFragment(),
+        EpisodesFragment()
+    )
+
+    private var pagerAdapter: PlayerPagerAdapter? = null
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -116,7 +124,6 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            binding.apply {
                 textTitle.setOnClickListener {
                     if (textDesc.visibility == View.VISIBLE) {
                         expandView(false)
@@ -124,27 +131,8 @@ class PlayerFragment :
                         expandView(true)
                     }
                 }
-            }
-            episodeAdapter = EpisodeListAdapter({ _, index ->
-                episodeAdapter?.setPivot(index)
-                viewModel.chooseEpisode(index)
-            }, requireContext())
-            recyclerEpisodes.adapter = episodeAdapter
-            suggestionAdapter = SuggestionAdapter(onFavourite = { item ->
-                LoginData.getActiveUser()?.let {
-                    ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
-                    if (it.isFavourite(item.slug)) {
-                        viewModel.unMarkItemAsFavorite(item)
-                    } else {
-                        viewModel.markItemAsFavorite(item)
-                    }
-                }
-            },
-                onItemClickListener = { item, _ ->
-                    ALog.d(TAG, "onItemClick: ${item.slug}")
-                    viewModel.loadData(item.slug)
-                })
-            recyclerSuggest.adapter = suggestionAdapter
+
+
             btnFollow.setOnClickListener {
                 if (LoginData.account == null) {
                     Toast.makeText(
@@ -164,6 +152,17 @@ class PlayerFragment :
                 showToastNotImplemented()
             }
             binding.btnFollow.isChecked = true
+            listFrag.forEach {
+                (it as? ChildPlayerFragmentActions)?.setupViewModel(viewModel)
+            }
+            pagerAdapter = PlayerPagerAdapter(listFrag, this@PlayerFragment)
+            viewPager.adapter = pagerAdapter
+            TabLayoutMediator(tabSuggest, viewPager) { tab, position ->
+                when (position) {
+                    0 -> tab.text = getString(R.string.suggest)
+                    1 -> tab.text = getString(R.string.episodes)
+                }
+            }.attach()
         }
     }
 
@@ -233,13 +232,6 @@ class PlayerFragment :
                     viewModel.playerData.value?.data?.item?.name,
                     (it.pivot + 1).toString()
                 )
-                episodeAdapter?.setPivot(it.pivot)
-                binding.recyclerEpisodes.smoothScrollToPosition(it.pivot)
-            }
-            suggestions.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "suggestions: ${it.data.items.size}")
-                suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
-                hideLoadingOverlay("getSuggestions")
             }
             isFavourite.observe(viewLifecycleOwner) {
                 if (it) {
@@ -272,16 +264,7 @@ class PlayerFragment :
             textCountry.text = requireContext().getString(
                 R.string.country,
                 data.data.item?.country?.joinToString { it.name })
-            data.data.item?.let { episodeAdapter?.setDataEpisode(it.episodes.first()) }
-            val serverList =
-                data.data.item?.episodes?.map { it.serverName }?.toTypedArray() ?: emptyArray()
-            dropdownText.setSimpleItems(serverList)
-            dropdownText.setText(serverList.firstOrNull())
-            dropdownText.setOnItemClickListener { _, _, position, _ ->
-                viewModel.chooseEpisode(
-                    viewModel.currentPlaying.value?.pivot ?: 0, server = position
-                )
-            }
+
         }
     }
 }

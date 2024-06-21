@@ -147,79 +147,18 @@
             </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_episode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/function_layout"
-                app:tabMode="scrollable">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/list_ep" />
-            </com.google.android.material.tabs.TabLayout>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dropdown_server"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_marginStart="@dimen/dp_20"
-                android:hint="@string/select_server"
-                android:layout_marginTop="@dimen/dp_8"
-                app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab_episode">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/dropdown_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:gravity="center_vertical" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_episodes"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-                app:layout_constraintHeight_default="wrap"
-
-                android:layout_margin="@dimen/dp_20"
-                android:orientation="horizontal"
-                app:layout_constraintHeight_max="@dimen/eps_max_height_dimen"
-                app:layout_constraintTop_toBottomOf="@id/dropdown_server"
-                tools:listitem="@layout/episode_item" />
-
-            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_suggest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_episodes"
-                app:tabMode="scrollable">
+                app:layout_constraintTop_toBottomOf="@+id/function_layout"
+                app:tabMode="scrollable" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/suggest" />
-            </com.google.android.material.tabs.TabLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_suggest"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_10"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/suggestion_video_item"
                 app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
