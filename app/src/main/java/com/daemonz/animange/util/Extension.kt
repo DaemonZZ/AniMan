@@ -30,7 +30,7 @@ fun AppCompatImageView.setImageFromUrl(
     url?.let {
         Glide.with(this).load(it)
             .error(error ?: R.drawable.app_logo_gray)
-            .placeholder(placeHolder ?: R.drawable.app_logo_gray)
+            .placeholder(placeHolder ?: R.drawable.loading_288px)
             .transform(RoundedCorners(cornerRadius))
             .into(this)
     }
@@ -113,4 +113,11 @@ fun Int?.toImageResource(): Int {
         20 -> R.drawable.avt_20
         else -> R.drawable.avt_1
     }
+}
+fun String.makeSearchText(): String {
+    var text = this
+    if (text.contains("  ")) {
+        text = text.replace("  ", " ")
+    }
+    return text
 }

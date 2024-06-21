@@ -18,8 +18,10 @@ import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
+import com.daemonz.animange.util.makeSearchText
 import com.daemonz.animange.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) : DialogFragment() {
@@ -56,14 +58,22 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
         }
         binding.searchView.setupWithSearchBar(binding.searchBar)
         binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
+            if (binding.searchView.editText.text.toString()
+                    .makeSearchText() != binding.searchView.editText.text.toString()
+            ) {
+                binding.searchView.editText.setText(
+                    binding.searchView.editText.text.toString().makeSearchText()
+                )
+                binding.searchView.editText.setSelection(binding.searchView.editText.length())
+                return@doOnTextChanged
+            }
             lastSearch = SystemClock.elapsedRealtime()
             binding.searchView.postDelayed({
                 if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
-                    ALog.d(TAG, "text: $text")
-                    viewModel.search(text.toString())
+                    viewModel.search(text.toString().trim())
                     (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, "search")
                 }
-            }, 3000L)
+            }, 2000L)
             if (text.toString().isEmpty()) {
                 resultAdapter?.setData(listOf())
             }
