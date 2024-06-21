@@ -57,7 +57,6 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         ALog.d(TAG, "createSigningLauncher")
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build(),
         )
 
@@ -69,7 +68,6 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
 
         val customLayout = AuthMethodPickerLayout.Builder(layout)
             .setEmailButtonId(R.id.email_login)
-            .setPhoneButtonId(R.id.phone_login)
             .setTosAndPrivacyPolicyId(R.id.text_tos)
             .setGoogleButtonId(R.id.google_login)
             .build()

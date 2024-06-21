@@ -49,16 +49,7 @@
                 app:icon="@drawable/ic_phone"
                 app:iconGravity="start"
                 android:id="@+id/email_login"/>
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_24"
-                android:layout_marginBottom="@dimen/dp_16"
-                app:cornerRadius="@dimen/dp_8"
-                android:text="@string/continue_with_your_phone_number"
-                app:icon="@drawable/ic_mail"
-                app:iconGravity="start"
-                android:id="@+id/phone_login"/>
+
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
