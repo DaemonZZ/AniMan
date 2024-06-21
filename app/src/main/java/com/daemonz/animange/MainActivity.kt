@@ -75,9 +75,11 @@ class MainActivity : AppCompatActivity() {
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
                 bottomNavigation?.visibility = View.VISIBLE
+                binding.adViewContainer.isVisible = true
                 toggleToolBarShowing(isShow = destination.id != R.id.tab5Fragment, autoHide = true)
             } else {
                 bottomNavigation?.visibility = View.GONE
+                binding.adViewContainer.isVisible = false
             }
             appBarLayout?.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }

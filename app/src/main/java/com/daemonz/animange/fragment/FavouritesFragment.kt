@@ -1,5 +1,6 @@
 package com.daemonz.animange.fragment
 
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.base.BaseFragment
@@ -38,7 +39,14 @@ class FavouritesFragment :
                 })
             recycler.adapter = adapter
             LoginData.getActiveUser()?.favorites?.let {
-                adapter?.setData(it)
+                if (it.isEmpty()) {
+                    binding.textNoResult.visibility = View.VISIBLE
+                    binding.recycler.visibility = View.GONE
+                } else {
+                    binding.textNoResult.visibility = View.GONE
+                    binding.recycler.visibility = View.VISIBLE
+                    adapter?.setData(it)
+                }
             }
         }
     }

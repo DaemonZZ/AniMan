@@ -11,6 +11,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -145,10 +146,18 @@ class PlayerFragment :
                 })
             recyclerSuggest.adapter = suggestionAdapter
             btnFollow.setOnClickListener {
-                if (viewModel.isFavourite.value == true) {
-                    viewModel.unMarkItemAsFavorite()
+                if (LoginData.account == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.user_not_logged_in),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    viewModel.markItemAsFavorite()
+                    if (viewModel.isFavourite.value == true) {
+                        viewModel.unMarkItemAsFavorite()
+                    } else {
+                        viewModel.markItemAsFavorite()
+                    }
                 }
             }
             btnShare.setOnClickListener {

@@ -80,4 +80,5 @@
     <string name="complete">Hoàn thành</string>
     <string name="new_user">Tạo hồ sơ</string>
     <string name="edit_user">Chỉnh sửa hồ sơ</string>
+    <string name="user_not_logged_in">Bạn chưa đăng nhập</string>
 </resources>

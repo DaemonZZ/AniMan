@@ -16,7 +16,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.adapter.SuggestionAdapter
+import com.daemonz.animange.ui.adapter.SearchAdapter
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
 import com.daemonz.animange.util.makeSearchText
 import com.daemonz.animange.viewmodel.SearchViewModel
@@ -33,7 +33,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by viewModels()
     private var lastSearch: Long = 0L
-    private var resultAdapter: SuggestionAdapter? = null
+    private var resultAdapter: SearchAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.FullScreenDialogStyleNotTrans)
@@ -90,7 +90,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            resultAdapter = SuggestionAdapter(onItemClickListener) { item -> }
+            resultAdapter = SearchAdapter(onItemClickListener) { item -> }
             resultRecycler.adapter = resultAdapter
         }
         viewModel.searchResult.observe(viewLifecycleOwner) {

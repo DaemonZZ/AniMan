@@ -27,20 +27,36 @@ class Tab5Fragment :
             profile.textTitle.text = getString(R.string.profile)
             profile.icon.setImageResource(R.drawable.ic_profile)
             profile.root.setOnClickListener {
-                LoginData.account?.id?.let {
-                    findNavController().navigate(
-                        Tab5FragmentDirections.actionTab5FragmentToProfileFragment(
-                            it
+                if (LoginData.account == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.user_not_logged_in,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    LoginData.account?.id?.let {
+                        findNavController().navigate(
+                            Tab5FragmentDirections.actionTab5FragmentToProfileFragment(
+                                it
+                            )
                         )
-                    )
-                }?.run {
-                    ALog.d(TAG, "Chưa đăng nhập")
+                    }
                 }
+
             }
             favourite.textTitle.text = getString(R.string.favourite)
             favourite.icon.setImageResource(R.drawable.ic_favourite)
             favourite.root.setOnClickListener {
-                findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToFavouritesFragment())
+                if (viewModel.isLoggedIn()) {
+                    findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToFavouritesFragment())
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.user_not_logged_in,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
             feedback.textTitle.text = getString(R.string.feedback)
             feedback.icon.setImageResource(R.drawable.ic_feedback)

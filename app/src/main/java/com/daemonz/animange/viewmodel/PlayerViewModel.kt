@@ -37,7 +37,7 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
                 isItemFavourite()
                 defaultEpisode?.let {
                     _currentPlaying.value = it.copy(
-                        pivot = it.serverData.size - 1,
+                        pivot = 0,
                     )
                 }
             }

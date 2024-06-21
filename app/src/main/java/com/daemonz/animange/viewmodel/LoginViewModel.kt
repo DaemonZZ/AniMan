@@ -145,6 +145,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     fun logout(context: Context) {
         ALog.d(TAG, "logout: ")
         AuthUI.getInstance().signOut(context).addOnSuccessListener {
+            LoginData.account = null
             _account.value = null
             _error.value = null
         }.addOnFailureListener {
