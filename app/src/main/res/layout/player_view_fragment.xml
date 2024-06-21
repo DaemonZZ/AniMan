@@ -130,8 +130,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_follow"
                     style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_100"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_80"
                     android:drawableTop="@drawable/favorite"
                     app:cornerRadius="8dp"
                     android:text="@string/follow" />
@@ -139,8 +139,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_share"
                     style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="@dimen/dp_100"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_80"
                     android:drawableTop="@drawable/share"
                     app:cornerRadius="8dp"
                     android:text="@string/share" />
