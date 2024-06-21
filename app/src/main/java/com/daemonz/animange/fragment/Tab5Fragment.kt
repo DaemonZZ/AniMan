@@ -88,7 +88,7 @@ class Tab5Fragment :
                 LoginData.getActiveUser()?.let {
                     ALog.d(TAG, "user: ${it.image}")
                     imgUser.setImageResource(it.getImgResource())
-                    textUser.text = it.name
+                    textUser.text = LoginData.account?.name
                     imgUser.setOnClickListener {
                         findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())
                     }
