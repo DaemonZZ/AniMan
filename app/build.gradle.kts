@@ -57,6 +57,14 @@ android {
                     setProperty("archivesBaseName", "PhimFree-v$versionName")
                 }
             }
+            val projectProperties = readProperties(file("../local.properties"))
+            val admobAppId = projectProperties.getProperty("ADMOB_ID_PROD")
+            manifestPlaceholders["admobAppId"] = admobAppId
+        }
+        debug {
+            val projectProperties = readProperties(file("../local.properties"))
+            val admobAppId = projectProperties.getProperty("ADMOB_ID_TEST")
+            manifestPlaceholders["admobAppId"] = admobAppId
         }
     }
     buildFeatures {

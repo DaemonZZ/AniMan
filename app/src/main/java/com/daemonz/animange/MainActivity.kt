@@ -28,6 +28,8 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
+import com.daemonz.animange.util.AdmobConst
+import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -157,7 +159,12 @@ class MainActivity : AppCompatActivity() {
         // "Use RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
         // to get test ads on this device."
         MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder().setTestDeviceIds(listOf("0A021FDD4000SD")).build()
+            RequestConfiguration.Builder().setTestDeviceIds(
+                listOf(
+                    "5A7A56B8A70FADAD6FF94C6617C41DA3", //pixel 5
+                    "FEECD2427985C5CD053E9C99665EAE27" //a53
+                )
+            ).build()
         )
     }
 
@@ -200,8 +207,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        val navController =
-            Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
+        val navController = Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
         bottomNavigation?.setupWithNavController(navController)
         setSupportActionBar(topAppBar)
         supportActionBar?.title = null
@@ -214,6 +220,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.edit -> {
                     val frag =
                         supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
@@ -254,9 +261,7 @@ class MainActivity : AppCompatActivity() {
     private fun showHideToolbar(isShow: Boolean) {
         appBarLayout?.apply {
             if (isShow) {
-                animate().translationY(0f)
-                    .alpha(1f)
-                    .setDuration(200)
+                animate().translationY(0f).alpha(1f).setDuration(200)
                     .setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationStart(animation: Animator) {
                             super.onAnimationStart(animation)
@@ -264,9 +269,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
             } else {
-                animate().translationY(-this.height.toFloat())
-                    .alpha(0f)
-                    .setDuration(200)
+                animate().translationY(-this.height.toFloat()).alpha(0f).setDuration(200)
                     .setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
                             super.onAnimationEnd(animation)
@@ -349,6 +352,7 @@ class MainActivity : AppCompatActivity() {
                 toggleToolBarShowing(isShow = true, autoHide = false)
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
+
             R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
@@ -386,12 +390,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBanner() {
+        ALog.d(TAG, "loadBanner")
         // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-        adView?.adUnitId = "ca-app-pub-3940256099942544/9214589741"
+        adView?.adUnitId =
+            if (BuildConfig.BUILD_TYPE == "release") AdmobConst.BANNER_AD_ADAPTIVE else AdmobConstTest.BANNER_AD_ADAPTIVE
         adView?.setAdSize(adSize)
 
         // Create an ad request.
         val adRequest = AdRequest.Builder().build()
+
+        ALog.d(TAG, "adRequest: ${adRequest.isTestDevice(this)} - ${adView?.adUnitId}")
 
         // Start loading the ad in the background.
         adView?.loadAd(adRequest)
