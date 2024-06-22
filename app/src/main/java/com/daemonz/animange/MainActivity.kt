@@ -161,8 +161,10 @@ class MainActivity : AppCompatActivity() {
         MobileAds.setRequestConfiguration(
             RequestConfiguration.Builder().setTestDeviceIds(
                 listOf(
-                    "5A7A56B8A70FADAD6FF94C6617C41DA3", //pixel 5
-                    "FEECD2427985C5CD053E9C99665EAE27" //a53
+                    "5A7A56B8A70FADAD6FF94C6617C41DA3",
+                    "FEECD2427985C5CD053E9C99665EAE27",
+                    "F12EEE26A51EF399CABF10ABE9B8EDE0",
+                    "ED514B0081C81DE13EADBC68CDAFD2FF"
                 )
             ).build()
         )
@@ -390,7 +392,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadBanner() {
-        ALog.d(TAG, "loadBanner")
+        ALog.v(TAG, "loadBanner")
         // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
         adView?.adUnitId =
             if (BuildConfig.BUILD_TYPE == "release") AdmobConst.BANNER_AD_ADAPTIVE else AdmobConstTest.BANNER_AD_ADAPTIVE
@@ -399,7 +401,7 @@ class MainActivity : AppCompatActivity() {
         // Create an ad request.
         val adRequest = AdRequest.Builder().build()
 
-        ALog.d(TAG, "adRequest: ${adRequest.isTestDevice(this)} - ${adView?.adUnitId}")
+        ALog.v(TAG, "adRequest:isTestDevice: ${adRequest.isTestDevice(this)}")
 
         // Start loading the ad in the background.
         adView?.loadAd(adRequest)

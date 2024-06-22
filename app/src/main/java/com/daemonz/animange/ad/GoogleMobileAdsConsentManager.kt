@@ -64,7 +64,9 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                 // Check your logcat output for the hashed device ID e.g.
                 // "Use new ConsentDebugSettings.Builder().addTestDeviceHashedId("ABCDEF012345")" to use
                 // the debug functionality.
-                .addTestDeviceHashedId("TEST-DEVICE-HASHED-ID")
+                // no need if use test id for debugging
+//                .addTestDeviceHashedId("5A7A56B8A70FADAD6FF94C6617C41DA3")
+//                .addTestDeviceHashedId("FEECD2427985C5CD053E9C99665EAE27")
                 .build()
 
         val params =
