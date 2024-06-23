@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.CardItemBinding
-import com.daemonz.animange.util.toImageResource
+import com.daemonz.animange.databinding.AvtCardItemBinding
+import com.daemonz.animange.util.loadImageFromStorage
 
-class AvatarGridAdapter(private val onItemClickListener: OnItemClickListener<Int>) :
-    BaseRecyclerAdapter<Int, CardItemBinding>(onItemClickListener) {
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CardItemBinding
-        get() = CardItemBinding::inflate
+class AvatarGridAdapter(onItemClickListener: OnItemClickListener<Int>) :
+    BaseRecyclerAdapter<Int, AvtCardItemBinding>(onItemClickListener) {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> AvtCardItemBinding
+        get() = AvtCardItemBinding::inflate
 
-    override fun bindView(binding: CardItemBinding, item: Int, position: Int) {
+    override fun bindView(binding: AvtCardItemBinding, item: Int, position: Int) {
         binding.apply {
-            imgView.setImageResource(item.toImageResource())
+            imgView.loadImageFromStorage(item)
         }
     }
 

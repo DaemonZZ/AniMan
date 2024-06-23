@@ -11,6 +11,7 @@ import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -87,7 +88,7 @@ class Tab5Fragment :
                 groupAccount.visibility = View.VISIBLE
                 LoginData.getActiveUser()?.let {
                     ALog.d(TAG, "user: ${it.image}")
-                    imgUser.setImageResource(it.getImgResource())
+                    imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name
                     imgUser.setOnClickListener {
                         findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())

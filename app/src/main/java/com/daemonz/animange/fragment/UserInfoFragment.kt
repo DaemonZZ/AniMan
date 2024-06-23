@@ -7,7 +7,8 @@ import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentUserInfoBinding
-import com.daemonz.animange.util.toImageResource
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +20,7 @@ class UserInfoFragment :
 
     override fun setupViews() {
         binding.apply {
-            imgUser.setImageResource(args.user?.getImgResource() ?: R.drawable.avt_1)
+            imgUser.loadImageFromStorage(args.user?.image ?: 1)
             edtName.setText(args.user?.name)
             imgUser.setOnClickListener {
                 findNavController().navigate(UserInfoFragmentDirections.actionUserInfoFragmentToChooseAvatarFragment())
@@ -48,7 +49,7 @@ class UserInfoFragment :
 
     override fun setupObservers() {
         viewModel.currentAvt.observe(viewLifecycleOwner) {
-            binding.imgUser.setImageResource(it.toImageResource())
+            binding.imgUser.loadImageFromStorage(it)
         }
     }
 }

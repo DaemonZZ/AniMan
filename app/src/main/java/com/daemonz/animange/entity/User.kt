@@ -1,7 +1,6 @@
 package com.daemonz.animange.entity
 
 import androidx.annotation.Keep
-import com.daemonz.animange.util.toImageResource
 import java.io.Serializable
 
 @Keep
@@ -18,7 +17,6 @@ data class User(
     var password: String? = null,
 ) : Serializable {
     fun isFavourite(slug: String) = favorites.any { it.slug == slug }
-    fun getImgResource() = image.toImageResource()
 }
 
 @Keep

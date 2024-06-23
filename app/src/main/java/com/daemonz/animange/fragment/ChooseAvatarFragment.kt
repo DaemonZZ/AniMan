@@ -3,12 +3,16 @@ package com.daemonz.animange.fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentChooseAvtBinding
 import com.daemonz.animange.ui.adapter.AvatarGridAdapter
 import com.daemonz.animange.viewmodel.ProfileViewModel
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,10 +30,18 @@ class ChooseAvatarFragment :
 
     override fun setupViews() {
         binding.apply {
-            avtRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
+            avtRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                justifyContent = JustifyContent.CENTER
+            }
             avtAdapter = AvatarGridAdapter(onItemClickListener)
             avtRecycler.adapter = avtAdapter
-            avtAdapter?.setData((1..20).map { it })
+            avtAdapter?.setData((1..21).map { it })
+            avtRecycler.addOnScrollListener(object : OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    toggleToolBarShowing(isShow = true, autoHide = true)
+                    super.onScrollStateChanged(recyclerView, newState)
+                }
+            })
         }
     }
 

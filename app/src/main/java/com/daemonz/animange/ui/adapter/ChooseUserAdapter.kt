@@ -10,6 +10,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemChooseUserBinding
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.util.loadImageFromStorage
 
 class ChooseUserAdapter(
     onItemClickListener: OnItemClickListener<User>,
@@ -27,7 +28,7 @@ class ChooseUserAdapter(
                 avatar.setImageResource(R.drawable.ic_add)
                 userName.text = root.context.getString(R.string.add_user)
             } else {
-                avatar.setImageResource(item.getImgResource())
+                avatar.loadImageFromStorage(item.image ?: 1)
                 userName.text = item.name
                 if (isEditMode) {
                     avatar.alpha = 0.4f

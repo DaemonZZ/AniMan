@@ -10,6 +10,7 @@ import com.daemonz.animange.databinding.FragmentEditProfileBinding
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +30,7 @@ class ProfileFragment :
         binding.apply {
             val user = acc.users.first { it.isActive }
             ALog.d(TAG, "loadView  ${user.image}")
-            imgUser.setImageResource(acc.users.first { it.isActive }.getImgResource())
+            imgUser.loadImageFromStorage(acc.users.first { it.isActive }.image ?: 1)
             edtName.setText(acc.name)
             edtEmail.setText(acc.email)
             edtPhone.setText(acc.phone)

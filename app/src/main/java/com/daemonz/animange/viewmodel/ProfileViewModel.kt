@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.util.LoginData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -31,6 +32,7 @@ class ProfileViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun switchUser(id: String) {
+        if (LoginData.getActiveUser()?.id == id) return
         repository.switchUser(id)
     }
 }

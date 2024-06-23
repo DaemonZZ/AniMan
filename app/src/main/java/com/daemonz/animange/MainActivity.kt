@@ -39,6 +39,10 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
@@ -291,10 +295,10 @@ class MainActivity : AppCompatActivity() {
         if (isShow == true && autoHide) {
             lastAction = SystemClock.elapsedRealtime()
             appBarLayout?.postDelayed({
-                if (SystemClock.elapsedRealtime() - lastAction > 3000L) {
+                if (SystemClock.elapsedRealtime() - lastAction > 2000L) {
                     showHideToolbar(false)
                 }
-            }, 3000)
+            }, 2000)
         }
     }
 

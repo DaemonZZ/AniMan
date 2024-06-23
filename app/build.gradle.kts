@@ -36,6 +36,7 @@ android {
         buildConfigField("String", "BASE_URL", projectProperties["BASE_URL"] as String)
         buildConfigField("String", "IMG_BASE_URL", projectProperties["IMG_BASE_URL"] as String)
         buildConfigField("String", "TAG", projectProperties["TAG"] as String)
+        buildConfigField("String", "STORAGE_PATH", projectProperties["STORAGE_PATH"] as String)
     }
 
     buildTypes {
@@ -176,6 +177,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.ui.auth)
     implementation(libs.play.services.auth)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.ui.storage)
+    implementation(libs.firebase.appcheck.playintegrity)
 
     //Facebook
 //    implementation (libs.facebook.android.sdk)

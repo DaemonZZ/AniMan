@@ -10,7 +10,6 @@ import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.ui.adapter.ChooseUserAdapter
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.ProfileViewModel
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -44,9 +43,11 @@ class ChooseUserFragment :
                         )
                     )
                 } else {
-                    item.id?.let {
-                        viewModel.switchUser(it)
-                        loadDataUser()
+                    if (!item.isActive) {
+                        item.id?.let {
+                            viewModel.switchUser(it)
+                            loadDataUser()
+                        }
                     }
                 }
             },
