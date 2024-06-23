@@ -1,5 +1,6 @@
 package com.daemonz.animange.fragment
 
+import android.os.SystemClock
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,9 @@ class ProfileFragment :
     BaseFragment<FragmentEditProfileBinding, ProfileViewModel>(FragmentEditProfileBinding::inflate) {
     override val viewModel: ProfileViewModel by viewModels()
     private val arg: ProfileFragmentArgs by navArgs()
+
+    private var countClick = 0
+    private var lastClickTime = 0L
 
     override fun setupViews() {
         if (arg.userId == LoginData.account?.id && LoginData.account != null) {
@@ -46,6 +50,19 @@ class ProfileFragment :
                     Toast.LENGTH_SHORT
                 ).show()
                 findNavController().popBackStack()
+            }
+            imgUser.setOnClickListener {
+                val time = SystemClock.elapsedRealtime()
+                if (time - lastClickTime < 1000) {
+                    countClick++
+                } else {
+                    countClick = 0
+                }
+                lastClickTime = time
+                if (countClick == 5) {
+                    countClick = 0
+                    findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSecretFragment())
+                }
             }
         }
     }

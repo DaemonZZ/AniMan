@@ -37,6 +37,7 @@ android {
         buildConfigField("String", "IMG_BASE_URL", projectProperties["IMG_BASE_URL"] as String)
         buildConfigField("String", "TAG", projectProperties["TAG"] as String)
         buildConfigField("String", "STORAGE_PATH", projectProperties["STORAGE_PATH"] as String)
+        buildConfigField("String", "SLUG_SECRET", projectProperties["SLUG_SECRET"] as String)
     }
 
     buildTypes {

@@ -63,6 +63,9 @@ class DataRepository(
      suspend fun getAllSeries(): ListData {
           return handleDataResponse(apiService.getAllSeries())
      }
+    suspend fun getDataByCategory(category: String): ListData {
+        return handleDataResponse(apiService.getCategoryData(category))
+    }
      suspend fun loadPlayerData(slug: String): ListData {
           return handleDataResponse(apiService.getFilmData(slug))
      }

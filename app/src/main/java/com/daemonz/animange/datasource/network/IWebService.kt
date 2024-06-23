@@ -47,4 +47,9 @@ interface IWebService {
     suspend fun search(
         @Query("keyword") keyword: String
     ): Response<ListData>
+
+    @GET("the-loai/{slug}")
+    suspend fun getCategoryData(
+        @Path("slug") slug: String
+    ): Response<ListData>
 }

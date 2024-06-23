@@ -103,6 +103,9 @@
         <argument
             android:name="user_id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_profileFragment_to_secretFragment"
+            app:destination="@id/secretFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
@@ -113,4 +116,12 @@
             app:destination="@id/playerFragment" />
     </fragment>
     <include app:graph="@navigation/nav_profile" />
+    <fragment
+        android:id="@+id/secretFragment"
+        android:name="com.daemonz.animange.fragment.SecretFragment"
+        android:label="SecretFragment">
+        <action
+            android:id="@+id/action_secretFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
 </navigation>
