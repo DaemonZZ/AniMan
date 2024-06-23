@@ -81,4 +81,6 @@
     <string name="new_user">Tạo hồ sơ</string>
     <string name="edit_user">Chỉnh sửa hồ sơ</string>
     <string name="user_not_logged_in">Bạn chưa đăng nhập</string>
+    <string name="default_notification_channel_id">animan</string>
+    <string name="msg_token_fmt">token %s</string>
 </resources>

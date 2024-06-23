@@ -180,6 +180,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.ui.storage)
+    implementation(libs.firebase.messaging)
     implementation(libs.firebase.appcheck.playintegrity)
 
     //Facebook
