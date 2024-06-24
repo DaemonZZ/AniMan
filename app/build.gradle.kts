@@ -182,6 +182,7 @@ dependencies {
     implementation(libs.firebase.ui.storage)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.firebase.messaging.directboot)
 
     //Facebook
 //    implementation (libs.facebook.android.sdk)

@@ -8,6 +8,7 @@ credentialsVersion = "1.5.0-alpha01"
 facebookAndroidSdk = "5.0.0"
 featureDelivery = "2.1.0"
 firebaseBom = "33.1.0"
+firebaseMessagingDirectboot = "24.0.0"
 firebaseUiAuth = "8.0.0"
 firebaseUiStorage = "7.2.0"
 flexbox = "3.0.0"
@@ -77,6 +78,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-messaging-directboot = { module = "com.google.firebase:firebase-messaging-directboot", version.ref = "firebaseMessagingDirectboot" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
 firebase-ui-storage = { module = "com.firebaseui:firebase-ui-storage", version.ref = "firebaseUiStorage" }
