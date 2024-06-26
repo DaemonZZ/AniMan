@@ -33,6 +33,7 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
+import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.viewmodel.LoginViewModel
@@ -78,6 +79,8 @@ class MainActivity : AppCompatActivity() {
     private val initialLayoutComplete = AtomicBoolean(false)
     private var adView: AdView? = null
     private lateinit var binding: ActivityMainBinding
+
+    private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
@@ -136,11 +139,6 @@ class MainActivity : AppCompatActivity() {
                     // Log and toast
                     val msg = getString(R.string.msg_token_fmt, token)
                     ALog.d(TAG, msg)
-//                    try {
-//                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-//                    } catch (e: ActivityNotFoundException) {
-//                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
-//                    }
                 })
                 Firebase.messaging.subscribeToTopic("news")
                     .addOnCompleteListener { task ->
@@ -233,11 +231,20 @@ class MainActivity : AppCompatActivity() {
                 )
             ).build()
         )
+        viewModel.hasNewUpdate.observe(this) {
+            if (it != null) {
+                updateDialog.isOptional = it.isOptional
+                if (!updateDialog.isAdded) {
+                    updateDialog.show(supportFragmentManager, UpdateDialog.TAG)
+                }
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
         setupViews()
+        viewModel.checkForUpdate()
     }
 
     override fun onResume() {

@@ -15,6 +15,8 @@ import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
+import com.daemonz.animange.util.VERSION_COLLECTION
+import com.daemonz.animange.util.VERSION_DOCS
 import com.daemonz.animange.util.toFavouriteItem
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
@@ -112,6 +114,10 @@ class DataRepository(
         return fireStoreDataBase.getDocument(collectionName = ACCOUNT_COLLECTION, documentId = id)
             .get()
     }
+    fun getUpdateData() = fireStoreDataBase.getDocument(
+        collectionName = VERSION_COLLECTION,
+        documentId = VERSION_DOCS
+    ).get()
 
     fun saveAccount(account: Account) {
         fireStoreDataBase.addDocument(

@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.UpdateData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
@@ -37,6 +39,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     val error: LiveData<Exception?> = _error
     private val _account = MutableLiveData<Account?>()
     val account: LiveData<Account?> = _account
+
+    private val _hasNewUpdate = MutableLiveData<UpdateData?>(null)
+    val hasNewUpdate: LiveData<UpdateData?> = _hasNewUpdate
 
     fun registerSigningLauncher(activity: AppCompatActivity) {
         ALog.d(TAG, "registerSigningLauncher: ")
@@ -157,6 +162,17 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             checkAccount(FirebaseAuth.getInstance().currentUser)
         }
         return res
+    }
+
+    fun checkForUpdate() {
+        repository.getUpdateData().addOnSuccessListener {
+            it.toObject(UpdateData::class.java)?.let { updateData ->
+                if (updateData.version != BuildConfig.VERSION_NAME) {
+                    ALog.d(TAG, "checkForUpdate: $updateData")
+                    _hasNewUpdate.value = updateData
+                }
+            }
+        }
     }
 
 }

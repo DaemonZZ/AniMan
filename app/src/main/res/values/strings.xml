@@ -83,4 +83,9 @@
     <string name="user_not_logged_in">Bạn chưa đăng nhập</string>
     <string name="default_notification_channel_id">animan</string>
     <string name="msg_token_fmt">token %s</string>
+    <string name="update_sheet_title">Có bản cập nhật mới</string>
+    <string name="update_sheet_decs">Bản cập nhật mới đã được phát hành trên nền tảng Google Play. Bạn có muốn cập nhật ngay và luôn không?</string>
+    <string name="update_now">Cập nhật ngay</string>
+    <string name="next_time">Lúc khác</string>
+    <string name="update_sheet_decs_required">Hiện tại đã có bản update mới trên nền tảng Google Play. Hãy update để tiếp tục sử dụng.</string>
 </resources>
