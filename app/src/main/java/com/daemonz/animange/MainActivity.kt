@@ -239,6 +239,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        ALog.w(TAG, "onCreate: ${intent.data}")
     }
 
     override fun onStart() {
