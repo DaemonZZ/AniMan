@@ -154,7 +154,7 @@ class PlayerFragment :
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
-                    type = "text/html"
+                    type = "text/plain"
                 }
 
                 val shareIntent = Intent.createChooser(sendIntent, null)
