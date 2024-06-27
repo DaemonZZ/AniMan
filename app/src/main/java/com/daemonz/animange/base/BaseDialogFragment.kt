@@ -6,24 +6,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
+import com.daemonz.animange.R
 import com.daemonz.animange.log.ALog
 
-typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-
-abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
+abstract class BaseDialogFragment<VB : ViewBinding, VM : ViewModel>(
     private val inflate: Inflate<VB>
-) : Fragment() {
-    protected val TAG: String = this::class.java.simpleName
-    private var _binding: VB? = null
+) : DialogFragment() {
+    val TAG: String = this::class.java.simpleName
+    var _binding: VB? = null
     protected val binding: VB by lazy { _binding!! }
     protected abstract val viewModel: VM
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.FullScreenDialogStyleNotTrans)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +37,17 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     ): View? {
         super.onCreate(savedInstanceState)
         _binding = inflate.invoke(inflater, container, false)
+        dialog?.window?.let {
+            val param = it.attributes
+            param.width = LayoutParams.MATCH_PARENT
+            param.height = LayoutParams.MATCH_PARENT
+            param.type = LayoutParams.TYPE_APPLICATION_PANEL
+//            param.flags = LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            param.alpha = 1f
+            it.attributes = param
+            it.clearFlags(LayoutParams.FLAG_DIM_BEHIND)
+            it.attributes.windowAnimations = R.style.FullScreenDialogStyleNotTrans
+        }
         return binding.root
     }
 
@@ -72,10 +88,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         (activity as? MainActivity)?.hideLoadingOverlay(id)
     }
 
-    fun showPlayer(slug: String) {
-        (activity as? MainActivity)?.showPlayer(slug)
-    }
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -88,6 +100,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     open fun initData() {
         //empty
     }
+
     fun toggleToolBarShowing(isShow: Boolean? = null, autoHide: Boolean = false) {
         (activity as? MainActivity)?.toggleToolBarShowing(isShow, autoHide)
     }

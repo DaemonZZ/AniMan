@@ -1,36 +1,22 @@
 package com.daemonz.animange.fragment
 
-import android.graphics.Rect
-import android.os.CancellationSignal
-import android.view.ScrollCaptureCallback
-import android.view.ScrollCaptureSession
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.dynamicfeatures.Constants
-import androidx.navigation.fragment.findNavController
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab1Binding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
-import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.util.AppUtils
-import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.FullScreenCarouselStrategy
-import com.google.android.material.carousel.HeroCarouselStrategy
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
-import com.google.android.material.carousel.UncontainedCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.function.Consumer
 
 @AndroidEntryPoint
 class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
@@ -136,7 +122,7 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(Tab1FragmentDirections.actionTab1FragmentToPlayerFragment(item = item.slug))
+        showPlayer(item.slug)
     }
 
     override fun setupObservers() {

@@ -1,6 +1,7 @@
-package com.daemonz.animange.fragment
+package com.daemonz.animange.ui.dialog
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -16,9 +17,8 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.daemonz.animange.R
-import com.daemonz.animange.base.BaseFragment
+import com.daemonz.animange.base.BaseDialogFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.fragment.player.ChildPlayerFragmentActions
@@ -26,20 +26,22 @@ import com.daemonz.animange.fragment.player.EpisodesFragment
 import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
-import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class PlayerFragment :
-    BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
-    override val viewModel: PlayerViewModel by viewModels()
-    private val arg: PlayerFragmentArgs by navArgs()
+class PlayerDialog :
+    BaseDialogFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
+    companion object {
+        const val TAG = "SearchDialog"
+    }
 
     private var lastTouchWebView = 0L
 
@@ -49,6 +51,12 @@ class PlayerFragment :
     )
 
     private var pagerAdapter: PlayerPagerAdapter? = null
+    override val viewModel: PlayerViewModel by viewModels()
+    private var slug: String = ""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.FullScreenDialogStyleNotTrans)
+    }
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -118,19 +126,19 @@ class PlayerFragment :
     }
 
     override fun initData() {
-        viewModel.loadData(arg.item)
+        viewModel.loadData(slug)
         showLoadingOverlay("loadData")
     }
 
     override fun setupViews() {
         binding.apply {
-                textTitle.setOnClickListener {
-                    if (textDesc.visibility == View.VISIBLE) {
-                        expandView(false)
-                    } else {
-                        expandView(true)
-                    }
+            textTitle.setOnClickListener {
+                if (textDesc.visibility == View.VISIBLE) {
+                    expandView(false)
+                } else {
+                    expandView(true)
                 }
+            }
 
 
             btnFollow.setOnClickListener {
@@ -149,13 +157,20 @@ class PlayerFragment :
                 }
             }
             btnShare.setOnClickListener {
-                showToastNotImplemented()
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK$slug")
+                    type = "text/html"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
             binding.btnFollow.isChecked = true
             listFrag.forEach {
                 (it as? ChildPlayerFragmentActions)?.setupViewModel(viewModel)
             }
-            pagerAdapter = PlayerPagerAdapter(listFrag, this@PlayerFragment)
+            pagerAdapter = PlayerPagerAdapter(listFrag, this@PlayerDialog)
             viewPager.adapter = pagerAdapter
             TabLayoutMediator(tabSuggest, viewPager) { tab, position ->
                 when (position) {
@@ -163,47 +178,6 @@ class PlayerFragment :
                     1 -> tab.text = getString(R.string.episodes)
                 }
             }.attach()
-        }
-    }
-
-    private fun expandView(expand: Boolean) {
-        binding.apply {
-            if (expand) {
-                textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.close, 0
-                )
-                textYear.visibility = View.VISIBLE
-                textCountry.visibility = View.VISIBLE
-                textCategory.visibility = View.VISIBLE
-                textDuration.visibility = View.VISIBLE
-                textEpisodes.visibility = View.VISIBLE
-                textDesc.visibility = View.VISIBLE
-                textOriginName.visibility = View.VISIBLE
-            } else {
-                textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.keyboard_arrow_down, 0
-                )
-                textYear.visibility = View.GONE
-                textCountry.visibility = View.GONE
-                textCategory.visibility = View.GONE
-                textDuration.visibility = View.GONE
-                textEpisodes.visibility = View.GONE
-                textDesc.visibility = View.GONE
-                textOriginName.visibility = View.GONE
-            }
-        }
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.videoView.saveState(outState)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            binding.videoView.restoreState(savedInstanceState)
         }
     }
 
@@ -266,5 +240,56 @@ class PlayerFragment :
                 data.data.item?.country?.joinToString { it.name })
 
         }
+    }
+
+    private fun expandView(expand: Boolean) {
+        binding.apply {
+            if (expand) {
+                textTitle.setCompoundDrawablesWithIntrinsicBounds(
+                    0, 0, R.drawable.close, 0
+                )
+                textYear.visibility = View.VISIBLE
+                textCountry.visibility = View.VISIBLE
+                textCategory.visibility = View.VISIBLE
+                textDuration.visibility = View.VISIBLE
+                textEpisodes.visibility = View.VISIBLE
+                textDesc.visibility = View.VISIBLE
+                textOriginName.visibility = View.VISIBLE
+            } else {
+                textTitle.setCompoundDrawablesWithIntrinsicBounds(
+                    0, 0, R.drawable.keyboard_arrow_down, 0
+                )
+                textYear.visibility = View.GONE
+                textCountry.visibility = View.GONE
+                textCategory.visibility = View.GONE
+                textDuration.visibility = View.GONE
+                textEpisodes.visibility = View.GONE
+                textDesc.visibility = View.GONE
+                textOriginName.visibility = View.GONE
+            }
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.videoView.saveState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            binding.videoView.restoreState(savedInstanceState)
+        }
+    }
+
+
+    fun setFilm(slug: String) {
+        this.slug = slug
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

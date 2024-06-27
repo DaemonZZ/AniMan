@@ -1,21 +1,17 @@
 package com.daemonz.animange.fragment
 
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentSecretBinding
-import com.daemonz.animange.databinding.FragmentTab4Binding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.SecretViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,10 +73,6 @@ class SecretFragment :
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(
-            SecretFragmentDirections.actionSecretFragmentToPlayerFragment(
-                item.slug
-            )
-        )
+        showPlayer(item.slug)
     }
 }

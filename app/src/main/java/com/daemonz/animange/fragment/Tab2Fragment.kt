@@ -1,11 +1,9 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab2Binding
@@ -79,6 +77,6 @@ class Tab2Fragment : BaseFragment<FragmentTab2Binding, HomeViewModel>(FragmentTa
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(Tab2FragmentDirections.actionTab2FragmentToPlayerFragment(item = item.slug))
+        showPlayer(item.slug)
     }
 }

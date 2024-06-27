@@ -2,7 +2,6 @@ package com.daemonz.animange.fragment
 
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentFavouritesBinding
 import com.daemonz.animange.log.ALog
@@ -31,10 +30,8 @@ class FavouritesFragment :
             },
                 onItemClickListener = { item, _ ->
                     ALog.d(TAG, "onItemClick: ${item.slug}")
-                    findNavController().navigate(
-                        FavouritesFragmentDirections.actionFavouritesFragmentToPlayerFragment(
-                            item.slug
-                        )
+                    showPlayer(
+                        item.slug
                     )
                 })
             recycler.adapter = adapter

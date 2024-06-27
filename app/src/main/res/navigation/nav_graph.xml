@@ -7,52 +7,23 @@
     <fragment
         android:id="@+id/tab1Fragment"
         android:name="com.daemonz.animange.fragment.Tab1Fragment"
-        android:label="Tab1Fragment">
-        <action
-            android:id="@+id/action_tab1Fragment_to_playerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out" />
-    </fragment>
+        android:label="Tab1Fragment" />
     <fragment
         android:id="@+id/tab2Fragment"
         android:name="com.daemonz.animange.fragment.Tab2Fragment"
-        android:label="Tab2Fragment">
-        <action
-            android:id="@+id/action_tab2Fragment_to_playerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out" />
-    </fragment>
+        android:label="Tab2Fragment" />
     <fragment
         android:id="@+id/tab3Fragment"
         android:name="com.daemonz.animange.fragment.Tab3Fragment"
-        android:label="Tab3Fragment">
-        <action
-            android:id="@+id/action_tab3Fragment_to_playerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out" />
-    </fragment>
+        android:label="Tab3Fragment" />
     <fragment
         android:id="@+id/tab4Fragment"
         android:name="com.daemonz.animange.fragment.Tab4Fragment"
-        android:label="Tab4Fragment">
-        <action
-            android:id="@+id/action_tab4Fragment_to_playerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out" />
-    </fragment>
+        android:label="Tab4Fragment" />
     <fragment
         android:id="@+id/tab5Fragment"
         android:name="com.daemonz.animange.fragment.Tab5Fragment"
         android:label="Tab5Fragment">
-        <action
-            android:id="@+id/action_tab5Fragment_to_playerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out" />
         <action
             android:id="@+id/action_tab5Fragment_to_chooseUserFragment"
             app:destination="@id/chooseUserFragment" />
@@ -62,25 +33,6 @@
         <action
             android:id="@+id/action_tab5Fragment_to_favouritesFragment"
             app:destination="@id/favouritesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/playerFragment"
-        android:name="com.daemonz.animange.fragment.PlayerFragment"
-        android:label="PlayerFragment">
-        <argument
-            android:name="item"
-            app:argType="string" />
-        <!--        <deepLink-->
-        <!--            android:id="@+id/deepLinkPlayer"-->
-        <!--            app:action="android.intent.action.VIEW"-->
-        <!--            app:mimeType="text/html"-->
-        <!--            app:uri="daemonz://animan/play/{item}" />-->
-        <!--        <deepLink-->
-        <!--            android:id="@+id/deepLinkPlayer2"-->
-        <!--            app:action="android.intent.action.VIEW"-->
-        <!--            app:mimeType="text/html"-->
-        <!--            app:uri="http://www.animan.rf.gd/{item}" />-->
-
     </fragment>
     <fragment
         android:id="@+id/chooseUserFragment"
@@ -110,18 +62,10 @@
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.daemonz.animange.fragment.FavouritesFragment"
-        android:label="FavouritesFragment">
-        <action
-            android:id="@+id/action_favouritesFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
-    </fragment>
+        android:label="FavouritesFragment" />
     <include app:graph="@navigation/nav_profile" />
     <fragment
         android:id="@+id/secretFragment"
         android:name="com.daemonz.animange.fragment.SecretFragment"
-        android:label="SecretFragment">
-        <action
-            android:id="@+id/action_secretFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
-    </fragment>
+        android:label="SecretFragment" />
 </navigation>

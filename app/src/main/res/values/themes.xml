@@ -65,9 +65,6 @@
     <style name="FullScreenDialogStyleNotTrans" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowEnterAnimation">@anim/anim_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_out</item>
-        <item name="colorPrimary">@color/md_theme_background</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">

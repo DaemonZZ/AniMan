@@ -33,6 +33,7 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
+import com.daemonz.animange.ui.dialog.PlayerDialog
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
+    private var player: PlayerDialog? = null
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
@@ -373,19 +375,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeToolBarAction(fragment: Int) {
         when (fragment) {
-            R.id.playerFragment -> {
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
-                }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                topAppBar?.title = ""
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-            }
-
             R.id.favouritesFragment -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
@@ -496,6 +485,21 @@ class MainActivity : AppCompatActivity() {
 
     fun setTitle(title: String) {
         topAppBar?.title = title
+    }
+
+    fun showPlayer(slug: String) {
+        ALog.v(TAG, "showPlayer: $slug")
+        if (player == null) {
+            player = PlayerDialog().apply {
+                setFilm(slug)
+            }
+        }
+        player?.let {
+            if (!it.isVisible) {
+                it.show(supportFragmentManager, PlayerDialog.TAG)
+            }
+            it.setFilm(slug)
+        }
     }
 
     override fun onDestroy() {

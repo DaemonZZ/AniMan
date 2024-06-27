@@ -1,7 +1,6 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -75,6 +74,6 @@ class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTa
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(Tab4FragmentDirections.actionTab4FragmentToPlayerFragment(item = item.slug))
+        showPlayer(item.slug)
     }
 }
