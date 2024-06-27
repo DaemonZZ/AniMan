@@ -5,6 +5,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentTab4Binding
@@ -75,6 +76,6 @@ class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTa
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(Tab4FragmentDirections.actionTab4FragmentToPlayerFragment(item = item.slug))
+        findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = item.slug))
     }
 }
