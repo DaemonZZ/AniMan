@@ -1,6 +1,7 @@
 package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -31,6 +32,7 @@ import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -149,7 +151,14 @@ class PlayerFragment :
                 }
             }
             btnShare.setOnClickListener {
-                showToastNotImplemented()
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
+                    type = "text/html"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
             binding.btnFollow.isChecked = true
             listFrag.forEach {
