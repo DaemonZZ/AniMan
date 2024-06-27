@@ -1,7 +1,9 @@
 package com.daemonz.animange.entity
 
+import androidx.annotation.Keep
 import java.util.Date
 
+@Keep
 data class UpdateData(
     val version: String = "",
     @field:JvmField

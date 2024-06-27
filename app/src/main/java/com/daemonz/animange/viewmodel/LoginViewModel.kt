@@ -165,6 +165,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun checkForUpdate() {
+        ALog.d(TAG, "checkForUpdate: ")
         repository.getUpdateData().addOnSuccessListener {
             it.toObject(UpdateData::class.java)?.let { updateData ->
                 if (updateData.version != BuildConfig.VERSION_NAME) {
@@ -172,6 +173,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     _hasNewUpdate.value = updateData
                 }
             }
+        }.addOnFailureListener {
+            ALog.e(TAG, "checkForUpdate: $it")
+            _error.value = it
         }
     }
 
