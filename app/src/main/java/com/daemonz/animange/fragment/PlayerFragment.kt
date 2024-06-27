@@ -276,4 +276,12 @@ class PlayerFragment :
 
         }
     }
+
+    fun setFilmId(slug: String) {
+        ALog.d(TAG, "setFilmId: $slug -- ${viewModel.playerData.value?.data?.item?.slug}")
+        if (viewModel.playerData.value?.data?.item?.slug == slug) return
+        binding.root.post {
+            viewModel.loadData(slug)
+        }
+    }
 }

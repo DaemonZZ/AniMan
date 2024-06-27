@@ -42,7 +42,7 @@ class SuggestionFragment :
         playerViewModel?.suggestions?.observe(viewLifecycleOwner) {
             ALog.d(TAG, "suggestions: ${it.data.items.size}")
             suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
-            hideLoadingOverlay("getSuggestions")
+            hideLoadingOverlay("")
         }
     }
 

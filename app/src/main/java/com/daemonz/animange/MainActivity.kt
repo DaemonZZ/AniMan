@@ -3,6 +3,7 @@ package com.daemonz.animange
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -26,10 +27,12 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.fragment.ChooseUserFragment
+import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
@@ -179,6 +182,26 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation = findViewById(R.id.bottom_navigation)
         initAdmob()
         askNotificationPermission()
+        loadIntent()
+    }
+
+    private fun loadIntent() {
+        ALog.i(TAG, "loadIntent: ${intent.action} - ${intent.data?.path}")
+        intent.data?.let {
+            it.path?.split("=")?.last()?.let {
+                val frag =
+                    supportFragmentManager.fragments.first().childFragmentManager.fragments.firstOrNull { it is PlayerFragment }
+                if (frag != null) {
+                    (frag as PlayerFragment).setFilmId(it)
+                } else {
+                    binding.root.post {
+                        supportFragmentManager.fragments.first().findNavController()
+                            .navigate(NavGraphDirections.actionGlobalPlayerFragment(it))
+                    }
+                }
+                ALog.i(TAG, "loadIntent: $it")
+            }
+        }
     }
 
     private fun initAdmob() {
@@ -276,7 +299,7 @@ class MainActivity : AppCompatActivity() {
     fun hideLoadingOverlay(id: String) {
         ALog.d(TAG, "hideLoadingOverlay $id dd: ${loadingRequest.size}")
         loadingRequest.remove(id)
-        if (loadingRequest.isEmpty() && loadingDialog.isAdded) {
+        if ((loadingRequest.isEmpty() || id.isEmpty()) && loadingDialog.isAdded) {
             loadingDialog.dismiss()
         }
     }
@@ -496,6 +519,14 @@ class MainActivity : AppCompatActivity() {
 
     fun setTitle(title: String) {
         topAppBar?.title = title
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        ALog.d(TAG, "onNewIntent ${intent.data}")
+        if (intent.action == Intent.ACTION_VIEW) {
+            loadIntent()
+        }
     }
 
     override fun onDestroy() {
