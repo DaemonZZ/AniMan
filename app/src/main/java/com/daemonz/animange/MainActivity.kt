@@ -186,20 +186,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadIntent() {
-        ALog.i(TAG, "loadIntent: ${intent.action} - ${intent.data?.path}")
-        intent.data?.let {
-            it.path?.split("=")?.last()?.let {
-                val frag =
-                    supportFragmentManager.fragments.first().childFragmentManager.fragments.firstOrNull { it is PlayerFragment }
-                if (frag != null) {
-                    (frag as PlayerFragment).setFilmId(it)
-                } else {
-                    binding.root.post {
-                        supportFragmentManager.fragments.first().findNavController()
-                            .navigate(NavGraphDirections.actionGlobalPlayerFragment(it))
-                    }
+        ALog.i(TAG, "loadIntent: ${intent.action} - ${intent.data?.schemeSpecificPart}")
+        val slug = intent.data?.getQueryParameter("slug")
+        if (!slug.isNullOrEmpty()) {
+            val frag =
+                supportFragmentManager.fragments.first().childFragmentManager.fragments.firstOrNull { it is PlayerFragment }
+            if (frag != null) {
+                (frag as PlayerFragment).setFilmId(slug)
+            } else {
+                binding.root.post {
+                    supportFragmentManager.fragments.first().findNavController()
+                        .navigate(NavGraphDirections.actionGlobalPlayerFragment(slug))
                 }
-                ALog.i(TAG, "loadIntent: $it")
             }
         }
     }

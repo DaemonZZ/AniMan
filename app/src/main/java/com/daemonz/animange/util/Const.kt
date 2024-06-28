@@ -4,7 +4,7 @@ const val CHANNEL_ID = "animan"
 
 const val ITEM_STATUS_TRAILER = "trailer"
 const val SEARCH_TIME_DELAY = 1500L
-const val PLAYER_DEEP_LINK = "https://www.animan.rf.gd/slug="
+const val PLAYER_DEEP_LINK = "https://www.animan.rf.gd/?slug="
 const val POLICY_URL =
     "https://doc-hosting.flycricket.io/phim-free-privacy-policy/ce582f03-8635-4bb1-b05c-1967e4989070/privacy"
 const val TERMS_URL =
