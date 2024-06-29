@@ -9,6 +9,7 @@ import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemCommentBinding
 import com.daemonz.animange.entity.Comment
+import com.daemonz.animange.entity.User
 import com.daemonz.animange.util.loadImageFromStorage
 
 class CommentAdapter(onClickItem: OnItemClickListener<Comment>) :
@@ -39,7 +40,48 @@ class CommentAdapter(onClickItem: OnItemClickListener<Comment>) :
                 groupReplyCompact.isVisible = false
                 recyclerReply.isVisible = false
             }
+            textNewestRep.setOnClickListener {
+                groupReplyCompact.isVisible = false
+                recyclerReply.isVisible = true
+                loadReply(item, this)
+            }
         }
+    }
+
+    private fun loadReply(item: Comment, binding: ItemCommentBinding) {
+        val adapter = CommentAdapter() { _, _ -> }
+        binding.recyclerReply.adapter = adapter
+        val dummy = listOf(
+            Comment(
+                id = "123",
+                content = "Hello may cung rep",
+                user = User(
+                    id = "2223",
+                    name = "Thang Pro",
+                    image = 3
+                ),
+                createdAt = 1719659613000L,
+                bestReply = null,
+                repliesCount = 0,
+                replyFor = "1223",
+                liked = emptyList()
+            ),
+            Comment(
+                id = "12322",
+                content = "Hello may cung rep22",
+                user = User(
+                    id = "2223",
+                    name = "Thang Pro",
+                    image = 3
+                ),
+                createdAt = 1719659613000L,
+                bestReply = null,
+                repliesCount = 0,
+                replyFor = "1223",
+                liked = emptyList()
+            )
+        )
+        adapter.setData(dummy)
     }
 
     private fun getTextTime(time: Long, context: Context): String {

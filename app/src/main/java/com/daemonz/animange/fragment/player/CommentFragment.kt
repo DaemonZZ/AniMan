@@ -5,11 +5,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentCommentBinding
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.ui.adapter.CommentAdapter
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
 
@@ -43,10 +45,23 @@ class CommentFragment :
                 image = 9
             ),
             createdAt = 0,
-            bestReply = null,
-            repliesCount = 0,
+            bestReply = Comment(
+                id = "123",
+                content = "Hello may cung rep",
+                user = User(
+                    id = "2223",
+                    name = "Thang Pro",
+                    image = 3
+                ),
+                createdAt = 1719659613000L,
+                bestReply = null,
+                repliesCount = 0,
+                replyFor = "1223",
+                liked = emptyList()
+            ),
+            repliesCount = 1,
             replyFor = null,
-            liked = emptyList()
+            liked = listOf("1", "2")
         )
     )
 
@@ -64,6 +79,14 @@ class CommentFragment :
                     activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(view?.windowToken, 0)
                 edtComment.clearFocus()
+            }
+            if (LoginData.account == null) {
+                edtComment.isEnabled = false
+                edtComment.clearFocus()
+                textLayout.hint = getString(R.string.login_to_comment)
+            } else {
+                edtComment.isEnabled = true
+                textLayout.hint = getString(R.string.comment_hint)
             }
         }
     }

@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">PhimFree</string>
     <string name="watch_now">Xem ngay</string>
-    <string name="aa">aa</string>
+    <string name="aa" translatable="false">aa</string>
     <string name="toast_full_screen">Chế độ xem sẽ tự động chuyển đổi ở chế độ tự động xoay màn hình</string>
     <string name="over_view">Tổng quan</string>
     <string name="episodes">Danh sách</string>
-    <string name="lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="lorem" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="episode">%s/%s</string>
     <string name="player_title">%s (Tập %s)</string>
     <string name="original_name">Tên gốc: %s</string>
@@ -98,4 +98,5 @@
     <string name="comment_time_year">%d năm trước</string>
     <string name="comment_newest_reply">%s đã phản hồi</string>
     <string name="reply">Trả lời</string>
+    <string name="login_to_comment">Hãy đăng nhập để bình luận (✌ﾟ∀ﾟ)☞</string>
 </resources>

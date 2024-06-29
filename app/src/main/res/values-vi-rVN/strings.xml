@@ -87,4 +87,5 @@
     <string name="comment_time_year">%d năm trước</string>
     <string name="comment_newest_reply">%s đã phản hồi</string>
     <string name="reply">Trả lời</string>
+    <string name="login_to_comment">Hãy đăng nhập để bình luận (✌ﾟ∀ﾟ)☞</string>
 </resources>
