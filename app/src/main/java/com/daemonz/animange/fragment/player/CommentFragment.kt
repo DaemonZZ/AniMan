@@ -7,78 +7,73 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
+import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.databinding.FragmentCommentBinding
+import com.daemonz.animange.databinding.ItemCommentBinding
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.User
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.CommentAdapter
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.CommentViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
+@AndroidEntryPoint
 class CommentFragment :
-    BaseFragment<FragmentCommentBinding, HomeViewModel>(FragmentCommentBinding::inflate),
+    BaseFragment<FragmentCommentBinding, CommentViewModel>(FragmentCommentBinding::inflate),
     ChildPlayerFragmentActions {
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: CommentViewModel by viewModels()
     private var playerViewModel: PlayerViewModel? = null
     private var adapter: CommentAdapter? = null
-    val list = listOf(
-        Comment(
-            id = "123",
-            content = "Hello may cung",
-            user = User(
-                id = "123",
-                name = "Thang",
-                image = 7
-            ),
-            createdAt = 0,
-            bestReply = null,
-            repliesCount = 0,
-            replyFor = null,
-            liked = emptyList()
-        ),
-        Comment(
-            id = "1223",
-            content = "Hello may cung21212",
-            user = User(
-                id = "1231",
-                name = "Thangss",
-                image = 9
-            ),
-            createdAt = 0,
-            bestReply = Comment(
-                id = "123",
-                content = "Hello may cung rep",
-                user = User(
-                    id = "2223",
-                    name = "Thang Pro",
-                    image = 3
-                ),
-                createdAt = 1719659613000L,
-                bestReply = null,
-                repliesCount = 0,
-                replyFor = "1223",
-                liked = emptyList()
-            ),
-            repliesCount = 1,
-            replyFor = null,
-            liked = listOf("1", "2")
-        )
-    )
 
     override fun setupViews() {
-        adapter = CommentAdapter { c, i -> }
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        adapter = CommentAdapter(
+            loadReplies = { parent, pos ->
+                ALog.d(TAG, "loadReplies: $parent $pos")
+                viewModel.loadReplies(parent, pos)
+            },
+            onReplyClicked = { item, _ ->
+                ALog.d(TAG, "onReplyClicked: $item")
+                viewModel.waitingReplyFor = item.replyFor ?: item.id
+                binding.edtComment.requestFocus()
+                imm?.showSoftInput(binding.edtComment, InputMethodManager.SHOW_IMPLICIT)
+            },
+            onClickItem = { _, _ -> }
+        )
         binding.recyclerComment.adapter = adapter
-        adapter?.setData(list)
         binding.apply {
             edtComment.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                 btnSend.isVisible = hasFocus
+                if (!hasFocus) {
+                    viewModel.waitingReplyFor = null
+                }
             }
             btnSend.setOnClickListener {
-                //send comment
-                val imm =
-                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                if (binding.edtComment.text.toString().trim().isEmpty()) {
+                    return@setOnClickListener
+                }
+                val user = LoginData.getActiveUser()?.let {
+                    User(
+                        id = it.id,
+                        name = it.name,
+                        image = it.image
+                    )
+                } ?: User()
+                val comment = Comment(
+                    id = UUID.randomUUID().toString(),
+                    slug = playerViewModel?.playerData?.value?.data?.item?.slug.toString(),
+                    content = binding.edtComment.text.toString().trim(),
+                    user = user,
+                    createdAt = System.currentTimeMillis(),
+                    replyFor = viewModel.waitingReplyFor
+                )
+                viewModel.sendComment(comment)
                 imm?.hideSoftInputFromWindow(view?.windowToken, 0)
                 edtComment.clearFocus()
+                edtComment.text?.clear()
             }
             if (LoginData.account == null) {
                 edtComment.isEnabled = false
@@ -92,10 +87,30 @@ class CommentFragment :
     }
 
     override fun setupObservers() {
+        viewModel.apply {
+            comments.observe(viewLifecycleOwner) {
+                adapter?.setData(it)
+            }
+            onRepliesLoaded.observe(viewLifecycleOwner) { map ->
+                ALog.d(TAG, "onRepliesLoaded: $map")
+                map?.entries?.firstOrNull()?.let {
+                    val view = binding.recyclerComment.findViewHolderForAdapterPosition(it.key)
+                    val binding =
+                        (view as? BaseRecyclerAdapter.BaseViewHolder<ItemCommentBinding>)?.binding
+                    binding?.let { bd ->
+                        adapter?.loadReply(it.value, bd)
+                    }
 
+                }
+            }
+        }
     }
 
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
+    }
+
+    override fun initData() {
+        viewModel.loadComments(playerViewModel?.playerData?.value?.data?.item?.slug.toString())
     }
 }

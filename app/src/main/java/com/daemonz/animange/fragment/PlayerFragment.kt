@@ -169,6 +169,7 @@ class PlayerFragment :
             }
             pagerAdapter = PlayerPagerAdapter(listFrag, this@PlayerFragment)
             viewPager.adapter = pagerAdapter
+            viewPager.isUserInputEnabled = false
             TabLayoutMediator(tabSuggest, viewPager) { tab, position ->
                 when (position) {
                     0 -> tab.text = getString(R.string.suggest)

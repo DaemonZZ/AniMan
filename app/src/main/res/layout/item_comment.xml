@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:background="@color/md_theme_surfaceContainerHighest"
             android:orientation="vertical"
-            android:padding="@dimen/dp_8">
+            android:paddingHorizontal="@dimen/dp_16"
+            android:paddingVertical="@dimen/dp_8">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_name"
@@ -88,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:text="@string/reply"
+        android:clickable="true"
         android:textColor="@color/md_theme_onSurface"
         app:layout_constraintStart_toEndOf="@id/text_like"
         app:layout_constraintTop_toBottomOf="@id/card_content" />

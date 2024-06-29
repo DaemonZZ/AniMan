@@ -9,13 +9,23 @@ import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemCommentBinding
 import com.daemonz.animange.entity.Comment
-import com.daemonz.animange.entity.User
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.loadImageFromStorage
 
-class CommentAdapter(onClickItem: OnItemClickListener<Comment>) :
+class CommentAdapter(
+    private val loadReplies: OnItemClickListener<Comment>,
+    private val onReplyClicked: OnItemClickListener<Comment>,
+    onClickItem: OnItemClickListener<Comment>,
+) :
     BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemCommentBinding
         get() = ItemCommentBinding::inflate
+    private var slug = ""
+
+    override fun setData(data: List<Comment>) {
+        if (data.isNotEmpty()) slug = data.first().slug
+        super.setData(data)
+    }
 
     override fun bindView(binding: ItemCommentBinding, item: Comment, position: Int) {
         binding.apply {
@@ -43,45 +53,25 @@ class CommentAdapter(onClickItem: OnItemClickListener<Comment>) :
             textNewestRep.setOnClickListener {
                 groupReplyCompact.isVisible = false
                 recyclerReply.isVisible = true
-                loadReply(item, this)
+                loadReplies.onItemClick(item, position)
+            }
+
+            textReply.setOnClickListener {
+                onReplyClicked.onItemClick(item, position)
+            }
+            if (recyclerReply.isVisible) {
+                groupReplyCompact.isVisible = false
+                loadReplies.onItemClick(item, position)
             }
         }
     }
 
-    private fun loadReply(item: Comment, binding: ItemCommentBinding) {
-        val adapter = CommentAdapter() { _, _ -> }
+    fun loadReply(items: List<Comment>, binding: ItemCommentBinding) {
+        ALog.d(TAG, "loadReply: ${items.size}")
+        val adapter =
+            CommentAdapter(loadReplies = loadReplies, onReplyClicked = onReplyClicked) { _, _ -> }
         binding.recyclerReply.adapter = adapter
-        val dummy = listOf(
-            Comment(
-                id = "123",
-                content = "Hello may cung rep",
-                user = User(
-                    id = "2223",
-                    name = "Thang Pro",
-                    image = 3
-                ),
-                createdAt = 1719659613000L,
-                bestReply = null,
-                repliesCount = 0,
-                replyFor = "1223",
-                liked = emptyList()
-            ),
-            Comment(
-                id = "12322",
-                content = "Hello may cung rep22",
-                user = User(
-                    id = "2223",
-                    name = "Thang Pro",
-                    image = 3
-                ),
-                createdAt = 1719659613000L,
-                bestReply = null,
-                repliesCount = 0,
-                replyFor = "1223",
-                liked = emptyList()
-            )
-        )
-        adapter.setData(dummy)
+        adapter.setData(items)
     }
 
     private fun getTextTime(time: Long, context: Context): String {
@@ -92,7 +82,11 @@ class CommentAdapter(onClickItem: OnItemClickListener<Comment>) :
         val month = (offsetTime / 1000 / 60 / 60 / 24 / 30)
         val year = (offsetTime / 1000 / 60 / 60 / 24 / 30 / 12)
         return when {
-            hour < 1 -> context.getString(R.string.comment_time_minute, minute.toInt())
+            minute < 1 -> context.getString(R.string.now)
+            hour < 1 && minute >= 1 -> context.getString(
+                R.string.comment_time_minute,
+                minute.toInt()
+            )
             hour < 24 -> context.getString(R.string.comment_time_hour, hour.toInt())
             hour < 24 * 30 -> context.getString(R.string.comment_time_day, day.toInt())
             hour < 24 * 30 * 12 -> context.getString(R.string.comment_time_month, month.toInt())

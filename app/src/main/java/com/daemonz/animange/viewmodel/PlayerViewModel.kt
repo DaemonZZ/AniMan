@@ -3,6 +3,7 @@ package com.daemonz.animange.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData

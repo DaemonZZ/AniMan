@@ -12,4 +12,5 @@ const val TERMS_URL =
 
 const val ACCOUNT_COLLECTION = "account"
 const val VERSION_COLLECTION = "appVersion"
+const val COMMENT_COLLECTION = "comment"
 const val VERSION_DOCS = "current_version"
