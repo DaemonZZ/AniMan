@@ -14,6 +14,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,7 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.fragment.player.ChildPlayerFragmentActions
+import com.daemonz.animange.fragment.player.CommentFragment
 import com.daemonz.animange.fragment.player.EpisodesFragment
 import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
@@ -47,7 +49,8 @@ class PlayerFragment :
 
     private val listFrag = listOf<Fragment>(
         SuggestionFragment(),
-        EpisodesFragment()
+        EpisodesFragment(),
+        CommentFragment()
     )
 
     private var pagerAdapter: PlayerPagerAdapter? = null
@@ -127,7 +130,7 @@ class PlayerFragment :
     override fun setupViews() {
         binding.apply {
                 textTitle.setOnClickListener {
-                    if (textDesc.visibility == View.VISIBLE) {
+                    if (infoLayout.visibility == View.VISIBLE) {
                         expandView(false)
                     } else {
                         expandView(true)
@@ -170,6 +173,7 @@ class PlayerFragment :
                 when (position) {
                     0 -> tab.text = getString(R.string.suggest)
                     1 -> tab.text = getString(R.string.episodes)
+                    2 -> tab.text = getString(R.string.comment)
                 }
             }.attach()
         }
@@ -181,24 +185,12 @@ class PlayerFragment :
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, R.drawable.close, 0
                 )
-                textYear.visibility = View.VISIBLE
-                textCountry.visibility = View.VISIBLE
-                textCategory.visibility = View.VISIBLE
-                textDuration.visibility = View.VISIBLE
-                textEpisodes.visibility = View.VISIBLE
-                textDesc.visibility = View.VISIBLE
-                textOriginName.visibility = View.VISIBLE
+                infoLayout.isVisible = true
             } else {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, R.drawable.keyboard_arrow_down, 0
                 )
-                textYear.visibility = View.GONE
-                textCountry.visibility = View.GONE
-                textCategory.visibility = View.GONE
-                textDuration.visibility = View.GONE
-                textEpisodes.visibility = View.GONE
-                textDesc.visibility = View.GONE
-                textOriginName.visibility = View.GONE
+                infoLayout.isVisible = false
             }
         }
 

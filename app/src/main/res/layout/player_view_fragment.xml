@@ -1,166 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <WebView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
         android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.4"
-        android:orientation="horizontal"/>
-    <ScrollView
-        android:id="@+id/scroll_layout"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/title_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/dp_20"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/title_layout"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_title"
+                style="?attr/textAppearanceHeadlineSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="@dimen/dp_20"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="@dimen/dp_10"
+                android:clickable="true"
+                android:drawableEnd="@drawable/keyboard_arrow_down"
+                android:minHeight="@dimen/dp_48"
+                android:textStyle="bold"
+                tools:text="@string/player_title" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_title"
-                    style="?attr/textAppearanceHeadlineSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="@dimen/dp_48"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:clickable="true"
-                    android:drawableEnd="@drawable/keyboard_arrow_down"
-                    tools:text="@string/player_title"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_desc"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    tools:text="@string/lorem"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_origin_name"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    tools:text="@string/original_name"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_duration"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:lines="1"
-                    tools:text="@string/duration"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_country"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:lines="1"
-                    tools:text="@string/country"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_category"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    tools:text="@string/category"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_episodes"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:lines="1"
-                    tools:text="@string/num_of_episode"
-                    android:visibility="gone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_year"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:lines="1"
-                    tools:text="@string/created_year"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/function_layout"
+            <ScrollView
+                android:id="@+id/info_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/title_layout">
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_follow"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="@dimen/dp_80"
-                    android:layout_height="@dimen/dp_80"
-                    android:drawableTop="@drawable/favorite"
-                    app:cornerRadius="8dp"
-                    android:text="@string/follow" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_share"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="@dimen/dp_80"
-                    android:layout_height="@dimen/dp_80"
-                    android:drawableTop="@drawable/share"
-                    app:cornerRadius="8dp"
-                    android:text="@string/share" />
-            </LinearLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_desc"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        tools:text="@string/lorem" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_suggest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/function_layout"
-                app:tabMode="scrollable" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_origin_name"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        tools:text="@string/original_name" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_duration"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:lines="1"
+                        tools:text="@string/duration" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_country"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:lines="1"
+                        tools:text="@string/country" />
 
-    </ScrollView>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_category"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        tools:text="@string/category" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_episodes"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:lines="1"
+                        tools:text="@string/num_of_episode" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_year"
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:lines="1"
+                        tools:text="@string/created_year" />
+                </LinearLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/function_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/title_layout">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_follow"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:drawableTop="@drawable/favorite"
+                android:text="@string/follow"
+                app:cornerRadius="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_share"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:drawableTop="@drawable/share"
+                android:text="@string/share"
+                app:cornerRadius="8dp" />
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_suggest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/function_layout"
+            app:tabMode="scrollable" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

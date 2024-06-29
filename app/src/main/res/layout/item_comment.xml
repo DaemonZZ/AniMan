@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_16">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avt"
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginStart="@dimen/dp_8"
+        app:cardCornerRadius="@dimen/dp_30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_avt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/ic_adult" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_content"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        app:cardCornerRadius="@dimen/dp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/card_avt"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="@dimen/dp_0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_theme_surfaceContainerHighest"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_8">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_name"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textStyle="bold"
+                tools:text="ThangDN6" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Phim ny qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oi" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_time"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:textColor="@color/md_theme_onSurface"
+        app:layout_constraintStart_toStartOf="@id/card_content"
+        app:layout_constraintTop_toBottomOf="@id/card_content"
+        tools:text="10 hours" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_like"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:clickable="true"
+        android:text="@string/like"
+        android:textColor="@color/md_theme_onSurface"
+        app:layout_constraintStart_toEndOf="@id/text_time"
+        app:layout_constraintTop_toBottomOf="@id/card_content" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_reply"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:text="@string/reply"
+        android:textColor="@color/md_theme_onSurface"
+        app:layout_constraintStart_toEndOf="@id/text_like"
+        app:layout_constraintTop_toBottomOf="@id/card_content" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_like_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_like"
+        app:layout_constraintBottom_toBottomOf="@id/text_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_time"
+        tools:text="1" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_avt_reply"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_8"
+        android:clickable="true"
+        app:cardCornerRadius="@dimen/dp_30"
+        app:layout_constraintStart_toStartOf="@id/card_content"
+        app:layout_constraintTop_toBottomOf="@id/text_time">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_avt_new_rep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_adult" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_newest_rep"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:clickable="true"
+        android:textColor="@color/material_on_surface_emphasis_medium"
+        app:layout_constraintBottom_toBottomOf="@id/card_avt_reply"
+        app:layout_constraintStart_toEndOf="@id/card_avt_reply"
+        app:layout_constraintTop_toTopOf="@id/card_avt_reply"
+        tools:text="ThangDN6 đã trả lời" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_reply_compact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="card_avt_reply,text_newest_rep" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_reply"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/text_time"
+        app:layout_constraintTop_toBottomOf="@id/text_time" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
