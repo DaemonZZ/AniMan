@@ -10,7 +10,6 @@
         android:id="@+id/card_avt"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"
-        android:layout_marginStart="@dimen/dp_8"
         app:cardCornerRadius="@dimen/dp_30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
