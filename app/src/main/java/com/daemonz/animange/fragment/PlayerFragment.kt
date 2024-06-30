@@ -238,11 +238,11 @@ class PlayerFragment :
             isFavourite.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0, R.drawable.favorite_filled, 0, 0
+                        0, R.drawable.ic_bookmark_filled, 0, 0
                     )
                 } else {
                     binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0, R.drawable.favorite, 0, 0
+                        0, R.drawable.ic_bookmark, 0, 0
                     )
                 }
             }

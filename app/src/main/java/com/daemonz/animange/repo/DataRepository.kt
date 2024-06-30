@@ -300,4 +300,12 @@ class DataRepository(
 
     fun loadRepliesForComment(id: String) =
         fireStoreDataBase.getReplyForComment(id)
+    fun toggleLikeComment(comment: Comment) =
+        fireStoreDataBase.updateDocument(
+            collectionName = COMMENT_COLLECTION,
+            documentId = comment.id,
+            data = hashMapOf(
+                "liked" to comment.liked,
+            )
+        )
 }

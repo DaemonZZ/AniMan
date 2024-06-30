@@ -137,8 +137,12 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
-                android:drawableTop="@drawable/favorite"
+                android:drawableTop="@drawable/ic_bookmark"
                 android:text="@string/follow"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -148,6 +152,10 @@
                 android:layout_height="@dimen/dp_80"
                 android:drawableTop="@drawable/share"
                 android:text="@string/share"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.daemonz.animange.ui.adapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -10,12 +11,14 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemCommentBinding
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
 
 class CommentAdapter(
+    private val onLikeClicked: OnItemClickListener<Comment>,
     private val loadReplies: OnItemClickListener<Comment>,
     private val onReplyClicked: OnItemClickListener<Comment>,
-    onClickItem: OnItemClickListener<Comment>,
+    private val onClickItem: OnItemClickListener<Comment>,
 ) :
     BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemCommentBinding
@@ -63,13 +66,30 @@ class CommentAdapter(
                 groupReplyCompact.isVisible = false
                 loadReplies.onItemClick(item, position)
             }
+            LoginData.getActiveUser()?.id?.let { user ->
+                if (item.liked.contains(user)) {
+                    textLike.setTextColor(root.context.getColor(R.color.md_theme_primary))
+                    textLike.setTypeface(null, Typeface.BOLD)
+                } else {
+                    textLike.setTextColor(root.context.getColor(R.color.md_theme_onSurface_highContrast))
+                    textLike.setTypeface(null, Typeface.NORMAL)
+                }
+            }
+            textLike.setOnClickListener {
+                onLikeClicked.onItemClick(item, position)
+            }
         }
     }
 
     fun loadReply(items: List<Comment>, binding: ItemCommentBinding) {
         ALog.d(TAG, "loadReply: ${items.size}")
         val adapter =
-            CommentAdapter(loadReplies = loadReplies, onReplyClicked = onReplyClicked) { _, _ -> }
+            CommentAdapter(
+                onLikeClicked = onLikeClicked,
+                loadReplies = loadReplies,
+                onReplyClicked = onReplyClicked,
+                onClickItem = onClickItem
+            )
         binding.recyclerReply.adapter = adapter
         adapter.setData(items)
     }

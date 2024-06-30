@@ -41,13 +41,20 @@ class CommentFragment :
                 binding.edtComment.requestFocus()
                 imm?.showSoftInput(binding.edtComment, InputMethodManager.SHOW_IMPLICIT)
             },
-            onClickItem = { _, _ -> }
+            onLikeClicked = { item, pos ->
+                ALog.d(TAG, "onLikeClicked: $item $pos")
+                viewModel.toggleLike(item)
+            },
+            onClickItem = { _, _ ->
+                binding.edtComment.clearFocus()
+                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+            }
         )
         binding.recyclerComment.adapter = adapter
         binding.apply {
             edtComment.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                 btnSend.isVisible = hasFocus
-                if (!hasFocus) {
+                if (!hasFocus && edtComment.text.isNullOrEmpty()) {
                     viewModel.waitingReplyFor = null
                 }
             }

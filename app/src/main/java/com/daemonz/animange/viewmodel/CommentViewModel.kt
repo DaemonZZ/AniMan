@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.LoginData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -72,6 +73,20 @@ class CommentViewModel @Inject constructor() : BaseViewModel() {
             ALog.e(TAG, "loadReplies: $it")
             launchOnUI {
                 errorMessage.value = it.message
+            }
+        }
+    }
+
+    fun toggleLike(comment: Comment) {
+        ALog.d(TAG, "toggleLike: $comment")
+        LoginData.getActiveUser()?.id?.let { user ->
+            if (comment.liked.contains(user)) {
+                comment.liked = comment.liked.toMutableList().apply { remove(user) }
+            } else {
+                comment.liked = comment.liked.toMutableList().apply { add(user) }
+            }
+            repository.toggleLikeComment(comment).addOnSuccessListener {
+                loadComments(comment.slug)
             }
         }
     }
