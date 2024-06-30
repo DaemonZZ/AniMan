@@ -31,4 +31,5 @@
     <dimen name="dp_48">48dp</dimen>
     <dimen name="eps_max_height_dimen">250dp</dimen>
     <dimen name="dp_56">56dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
 </resources>

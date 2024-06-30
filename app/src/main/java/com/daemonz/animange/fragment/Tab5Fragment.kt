@@ -86,7 +86,9 @@ class Tab5Fragment :
             if (viewModel.isLoggedIn()) {
                 layoutLogin.isVisible = false
                 groupAccount.visibility = View.VISIBLE
-                LoginData.getActiveUser()?.let {
+                val activeUser = LoginData.getActiveUser()
+                    ?: LoginData.account?.users?.firstOrNull { it.isMainUser }
+                activeUser?.let {
                     ALog.d(TAG, "user: ${it.image}")
                     imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name

@@ -108,3 +108,7 @@ fun String.makeSearchText(): String {
     }
     return text
 }
+
+fun String.isValidName(): Boolean {
+    return !(this.length < 3 || this.length > 20)
+}

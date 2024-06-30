@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.repo.DataRepository
+import com.daemonz.animange.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -26,7 +27,8 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var ioScope: CoroutineScope
     protected val TAG = this::class.java.simpleName
-    var errorMessage = MutableLiveData<String?>()
+    var errorMessage = SingleLiveEvent<String?>()
+    var otherMessage = SingleLiveEvent<String?>()
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch {
             try {

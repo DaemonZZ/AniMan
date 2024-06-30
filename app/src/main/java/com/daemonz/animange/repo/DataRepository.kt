@@ -308,4 +308,11 @@ class DataRepository(
                 "liked" to comment.liked,
             )
         )
+    fun updateAccount(account: Account) =
+        fireStoreDataBase.addDocument(
+            collectionName = ACCOUNT_COLLECTION,
+            documentId = account.id.toString(),
+            data = account
+        )
+
 }

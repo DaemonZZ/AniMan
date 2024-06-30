@@ -11,6 +11,7 @@ import com.daemonz.animange.databinding.FragmentEditProfileBinding
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.isValidName
 import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +40,14 @@ class ProfileFragment :
             edtEmail.setText(acc.email)
             edtPhone.setText(acc.phone)
             save.setOnClickListener {
+                if (!edtName.text.toString().isValidName()) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.invalid_name),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
                 viewModel.updateProfile(
                     name = edtName.text.toString(),
                     email = edtEmail.text.toString(),

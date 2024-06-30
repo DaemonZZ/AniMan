@@ -89,4 +89,11 @@
     <string name="reply">Trả lời</string>
     <string name="login_to_comment">Hãy đăng nhập để bình luận (✌ﾟ∀ﾟ)☞</string>
     <string name="now">Vừa xong</string>
+    <string name="invalid_name">Tên người dùng phải lơn hơn 3 và tối đa 20 kí tự</string>
+    <string name="delete_user_title">Xoá người dùng</string>
+    <string name="delete_user_decs">Bạn có chắc chắn muốn xoá người dùng này không?</string>
+    <string name="delete">Xoá</string>
+    <string name="cancel">Huỷ</string>
+    <string name="can_not_delete_main_user">Không thể xoá người dùng mặc định!</string>
+    <string name="ok">Ok</string>
 </resources>
