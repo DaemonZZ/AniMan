@@ -44,6 +44,7 @@ import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
+import com.daemonz.animange.util.ThemeManager
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -174,6 +175,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        theme.applyStyle(ThemeManager.theme, true)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->

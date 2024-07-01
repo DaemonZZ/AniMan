@@ -18,6 +18,7 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.POLICY_URL
 import com.daemonz.animange.util.TERMS_URL
+import com.daemonz.animange.util.ThemeManager
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -81,7 +82,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setTheme(R.style.AppTheme)
+            .setTheme(ThemeManager.theme)
             .setTosAndPrivacyPolicyUrls(TERMS_URL, POLICY_URL)
             .setAuthMethodPickerLayout(customLayout)
             .build()

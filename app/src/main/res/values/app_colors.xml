@@ -3,6 +3,5 @@
     <color name="alpha0">#00000000</color>
     <color name="alpha40">#64ffffff</color>
     <color name="white">#ffffff</color>
-    <color name="carousel_text">#FF6500</color>
     <color name="warning">#FF00</color>
 </resources>

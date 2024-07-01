@@ -140,4 +140,5 @@
     <color name="md_theme_surfaceContainer_highContrast">#FCEAE2</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#F6E5DD</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#F0DFD7</color>
+    <color name="carousel_text_color">#FF6500</color>
 </resources>

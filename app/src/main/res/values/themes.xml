@@ -47,6 +47,7 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="carouselTextColor">@color/carousel_text_color</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">

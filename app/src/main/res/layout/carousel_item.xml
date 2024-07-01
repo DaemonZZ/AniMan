@@ -44,7 +44,7 @@
             android:ellipsize="end"
             android:labelFor="@+id/btn_share"
             android:lines="1"
-            android:textColor="@color/carousel_text"
+            android:textColor="?attr/carouselTextColor"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/layout_info"
             app:layout_constraintStart_toStartOf="parent" />
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/carousel_text"
+                android:textColor="?attr/carouselTextColor"
                 tools:text="2023" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/carousel_text"
+                android:textColor="?attr/carouselTextColor"
                 tools:text="Việt Nam" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/carousel_text"
+                android:textColor="?attr/carouselTextColor"
                 android:text="Tập 3" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
