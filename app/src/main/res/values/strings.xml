@@ -107,4 +107,5 @@
     <string name="cancel">Huỷ</string>
     <string name="can_not_delete_main_user">Không thể xoá người dùng mặc định!</string>
     <string name="ok">Ok</string>
+    <string name="rate">Đánh giá</string>
 </resources>

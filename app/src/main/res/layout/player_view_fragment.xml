@@ -157,6 +157,19 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 app:cornerRadius="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_rate"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:drawableTop="@drawable/ic_rating"
+                android:text="@string/rate"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:cornerRadius="8dp" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
