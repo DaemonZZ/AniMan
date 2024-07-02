@@ -3,20 +3,15 @@ package com.daemonz.animange
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowMetrics
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -44,6 +39,7 @@ import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
+import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.util.ThemeManager
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.google.android.gms.ads.AdRequest
@@ -70,6 +66,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val viewModel: LoginViewModel by viewModels()
+
+    @Inject
+    lateinit var sharePreferenceManager: SharePreferenceManager
 
     private val loadingRequest = mutableSetOf<String>()
     private val loadingDialog: LoadingOverLay by lazy {
@@ -175,7 +174,8 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        theme.applyStyle(ThemeManager.theme, true)
+        val currentTheme = ThemeManager.getTheme(sharePreferenceManager)
+        theme.applyStyle(currentTheme, true)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
@@ -457,7 +457,7 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
 
-            R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
+            R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.themeFragment -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -470,8 +470,6 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
                 topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
             }
-
-
             else -> {
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.app_logo, null)

@@ -59,10 +59,10 @@ class Tab5Fragment :
                 }
 
             }
-            feedback.textTitle.text = getString(R.string.feedback)
-            feedback.icon.setImageResource(R.drawable.ic_feedback)
+            feedback.textTitle.text = getString(R.string.theme)
+            feedback.icon.setImageResource(R.drawable.ic_theme)
             feedback.root.setOnClickListener {
-                showToastNotImplemented()
+                findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToThemeFragment())
             }
             support.textTitle.text = getString(R.string.support)
             support.icon.setImageResource(R.drawable.ic_support)

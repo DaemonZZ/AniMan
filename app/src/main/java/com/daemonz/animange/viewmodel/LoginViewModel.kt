@@ -17,6 +17,7 @@ import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.POLICY_URL
+import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.util.TERMS_URL
 import com.daemonz.animange.util.ThemeManager
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -35,6 +36,8 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         private const val TAG = "LoginViewModel"
     }
 
+    @Inject
+    lateinit var sharePreferenceManager: SharePreferenceManager
     private var signInLauncher: ActivityResultLauncher<Intent>? = null
     private val _error = MutableLiveData<Exception?>()
     val error: LiveData<Exception?> = _error
@@ -82,7 +85,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setTheme(ThemeManager.theme)
+            .setTheme(ThemeManager.getTheme(sharePreferenceManager))
             .setTosAndPrivacyPolicyUrls(TERMS_URL, POLICY_URL)
             .setAuthMethodPickerLayout(customLayout)
             .build()

@@ -1,11 +1,13 @@
 package com.daemonz.animange.util
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -111,4 +113,12 @@ fun String.makeSearchText(): String {
 
 fun String.isValidName(): Boolean {
     return !(this.length < 3 || this.length > 20)
+}
+
+fun Activity.getToolbarHeight(): Int {
+    val tv = TypedValue()
+    if (this.theme.resolveAttribute(androidx.appcompat.R.attr.actionBarSize, tv, true)) {
+        return TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+    }
+    return 0
 }

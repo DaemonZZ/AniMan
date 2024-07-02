@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.FragmentTab4Binding
+import com.daemonz.animange.databinding.FragmentMenuBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
@@ -16,7 +16,7 @@ import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.HomeViewModel
 
-class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTab4Binding::inflate),
+class Tab4Fragment : BaseFragment<FragmentMenuBinding, HomeViewModel>(FragmentMenuBinding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
     private val onItemClickListener =
@@ -29,10 +29,10 @@ class Tab4Fragment : BaseFragment<FragmentTab4Binding, HomeViewModel>(FragmentTa
 
     override fun setupViews() {
         binding.apply {
-            tvRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
+            recycler.layoutManager = GridLayoutManager(requireContext(), 2)
             tvAdapter = GridAdapter(onItemClickListener)
-            tvRecycler.adapter = tvAdapter
-            tvRecycler.addOnScrollListener(object : OnScrollListener() {
+            recycler.adapter = tvAdapter
+            recycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     ALog.i(TAG, "onScrollStateChanged: state: $newState")
                     if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {

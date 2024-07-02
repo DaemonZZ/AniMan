@@ -12,6 +12,7 @@ import com.daemonz.animange.datasource.room.AppDatabase
 import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.repo.DataRepository
+import com.daemonz.animange.util.SharePreferenceManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -135,6 +136,12 @@ object AppModule {
     @Singleton
     fun provideGoogleMobileAdsConsentManager(@ApplicationContext context: Context): GoogleMobileAdsConsentManager {
         return GoogleMobileAdsConsentManager.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharePreferenceManager(@ApplicationContext context: Context): SharePreferenceManager {
+        return SharePreferenceManager(context)
     }
 
     private fun initData(dao: FavouriteDao) {

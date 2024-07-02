@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_tab5Fragment_to_favouritesFragment"
             app:destination="@id/favouritesFragment" />
+        <action
+            android:id="@+id/action_tab5Fragment_to_themeFragment"
+            app:destination="@id/themeFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -90,4 +93,8 @@
     <action
         android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment" />
+    <fragment
+        android:id="@+id/themeFragment"
+        android:name="com.daemonz.animange.fragment.ThemeFragment"
+        android:label="ThemeFragment" />
 </navigation>
