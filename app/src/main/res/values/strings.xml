@@ -109,4 +109,6 @@
     <string name="ok">Ok</string>
     <string name="rate">Đánh giá</string>
     <string name="theme">Chủ đề</string>
+    <string name="how_your_feel">Bạn cảm nhận thế nào về bộ phim này</string>
+    <string name="film_rating">Đánh giá phim</string>
 </resources>

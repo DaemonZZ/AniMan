@@ -1,30 +1,19 @@
 package com.daemonz.animange.ui.dialog
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import com.daemonz.animange.BuildConfig
+import androidx.appcompat.widget.AppCompatImageView
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.DialogRatingBinding
-import com.daemonz.animange.log.ALog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class RatingDialog : BottomSheetDialogFragment() {
     private var _binding: DialogRatingBinding? = null
     private val binding get() = _binding!!
-    private var decs = R.string.update_sheet_decs
-    var isOptional: Boolean = false
-        set(value) {
-            ALog.d(TAG, "isOptional: $value")
-            field = value
-            decs = if (value) R.string.update_sheet_decs else R.string.update_sheet_decs_required
-        }
+    private var listStar: List<AppCompatImageView> = listOf()
 
 
     override fun onCreateView(
@@ -36,32 +25,31 @@ class RatingDialog : BottomSheetDialogFragment() {
         BottomSheetBehavior.from(binding.layoutSheet).apply {
             state = BottomSheetBehavior.STATE_EXPANDED
         }
-        dialog?.setCancelable(false)
+
         binding.apply {
-            btnYes.setOnClickListener {
-                try {
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
-                        )
-                    )
-                } catch (e: ActivityNotFoundException) {
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/details?id=$${BuildConfig.APPLICATION_ID}")
-                        )
-                    )
+            listStar = listOf(
+                start1, start2, start3, start4, start5
+            )
+            listStar.forEachIndexed { index, star ->
+                star.setOnClickListener {
+                    onStarClicked(index)
                 }
             }
-            btnNo.setOnClickListener {
-                dismiss()
+            btnYes.setOnClickListener {
+
             }
-            textDesc.text = getString(decs)
-            btnNo.isVisible = isOptional
         }
         return binding.root
+    }
+
+    private fun onStarClicked(index: Int) {
+        listStar.forEachIndexed { i, star ->
+            if (i <= index) {
+                star.setImageResource(R.drawable.star_filled)
+            } else {
+                star.setImageResource(R.drawable.star_outline)
+            }
+        }
     }
 
     companion object {

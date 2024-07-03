@@ -19,18 +19,78 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/update_sheet_title"
+            android:text="@string/film_rating"
             android:textStyle="bold" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_desc"
-            style="@style/TextAppearance.Material3.TitleSmall"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/stars_layout"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/update_sheet_decs"
-            android:textAlignment="center" />
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_8"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_outline" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_8"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_outline" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_8"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_outline" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_8"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_outline" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_8"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_outline" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:hint="@string/how_your_feel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_yes"
@@ -39,17 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/update_now" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_no"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_24"
-            android:text="@string/next_time" />
+            android:text="@string/update_now" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

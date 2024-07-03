@@ -30,6 +30,7 @@ import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
+import com.daemonz.animange.ui.dialog.RatingDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
@@ -162,6 +163,9 @@ class PlayerFragment :
 
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
+            }
+            btnRate.setOnClickListener {
+                RatingDialog().show(childFragmentManager, "RatingDialog")
             }
             binding.btnFollow.isChecked = true
             listFrag.forEach {
