@@ -3,16 +3,18 @@ package com.daemonz.animange.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
-import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.Episode
+import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.User
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +30,9 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
 
     private val _isFavourite = MutableLiveData<Boolean>()
     val isFavourite: LiveData<Boolean> = _isFavourite
+
+    private val _lastRating = MutableLiveData<FilmRating?>()
+    val lastRating: LiveData<FilmRating?> = _lastRating
 
     fun loadData(item: String) {
         launchOnIO {
@@ -125,6 +130,35 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
             } ?: false
         withContext(Dispatchers.Main) {
             _isFavourite.value = res
+        }
+    }
+
+    fun rateItem(score: Int, comment: String, currentId: String?) = launchOnIO {
+        val rating = FilmRating(
+            id = currentId ?: UUID.randomUUID().toString(),
+            slug = playerData.value?.data?.item?.slug.toString(),
+            rating = score.toDouble(),
+            comment = comment,
+            user = LoginData.getActiveUser() ?: User(),
+        )
+        repository.rateItem(rating)
+    }
+
+    fun getRating(slug: String, userId: String) = launchOnIO {
+        fireBaseDataBase.getRating(slug, userId).addOnSuccessListener {
+            ALog.d(TAG, "getRating: ${it.toObjects(FilmRating::class.java)}}")
+            val data = it.toObjects(FilmRating::class.java)
+            launchOnUI {
+                if (data.isNotEmpty()) {
+                    _lastRating.value = data.first()
+                } else {
+                    _lastRating.value = null
+                }
+            }
+        }.addOnFailureListener {
+            launchOnIO {
+                errorMessage.value = it.message
+            }
         }
     }
 }

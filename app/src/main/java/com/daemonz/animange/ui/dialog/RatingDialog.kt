@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.DialogRatingBinding
+import com.daemonz.animange.entity.FilmRating
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class RatingDialog : BottomSheetDialogFragment() {
+class RatingDialog(
+    private val currentRating: FilmRating? = null,
+    private val onYes: (Int, String, String?) -> Unit,
+) : BottomSheetDialogFragment() {
     private var _binding: DialogRatingBinding? = null
     private val binding get() = _binding!!
     private var listStar: List<AppCompatImageView> = listOf()
-
+    private var userSelected: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +40,15 @@ class RatingDialog : BottomSheetDialogFragment() {
                 }
             }
             btnYes.setOnClickListener {
-
+                onYes.invoke(userSelected, comment.text.toString(), currentRating?.id)
+                dismiss()
             }
         }
         return binding.root
     }
 
     private fun onStarClicked(index: Int) {
+        userSelected = index
         listStar.forEachIndexed { i, star ->
             if (i <= index) {
                 star.setImageResource(R.drawable.star_filled)

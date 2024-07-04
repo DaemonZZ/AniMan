@@ -165,7 +165,10 @@ class PlayerFragment :
                 startActivity(shareIntent)
             }
             btnRate.setOnClickListener {
-                RatingDialog().show(childFragmentManager, "RatingDialog")
+                viewModel.getRating(
+                    userId = LoginData.getActiveUser()?.id.toString(),
+                    slug = arg.item
+                )
             }
             binding.btnFollow.isChecked = true
             listFrag.forEach {
@@ -249,6 +252,15 @@ class PlayerFragment :
                         0, R.drawable.ic_bookmark, 0, 0
                     )
                 }
+            }
+            lastRating.observe(viewLifecycleOwner) {
+                ALog.d(TAG, "lastRating: $it")
+                RatingDialog(
+                    it,
+                    onYes = { score, comment, id ->
+                        viewModel.rateItem(score, comment, id)
+                    }
+                ).show(childFragmentManager, "RatingDialog")
             }
         }
     }

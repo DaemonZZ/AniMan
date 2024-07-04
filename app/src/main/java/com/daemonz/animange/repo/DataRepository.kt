@@ -7,6 +7,7 @@ import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.FavouriteItem
+import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.entity.User
@@ -16,6 +17,7 @@ import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.RATING_COLLECTION
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.VERSION_COLLECTION
 import com.daemonz.animange.util.VERSION_DOCS
@@ -314,5 +316,13 @@ class DataRepository(
             documentId = account.id.toString(),
             data = account
         )
+
+    fun rateItem(rating: FilmRating) {
+        fireStoreDataBase.addDocument(
+            collectionName = RATING_COLLECTION,
+            documentId = rating.id,
+            data = rating
+        )
+    }
 
 }

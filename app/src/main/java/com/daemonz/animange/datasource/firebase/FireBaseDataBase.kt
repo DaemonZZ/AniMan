@@ -1,6 +1,7 @@
 package com.daemonz.animange.datasource.firebase
 
 import com.daemonz.animange.util.COMMENT_COLLECTION
+import com.daemonz.animange.util.RATING_COLLECTION
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -59,4 +60,7 @@ class FireBaseDataBase(
     fun getReplyForComment(commentId: String) = db.collection(COMMENT_COLLECTION)
         .where(Filter.equalTo("replyFor", commentId))
         .orderBy("createdAt", Query.Direction.DESCENDING).get()
+    fun getRating(slug: String, userId: String) = db.collection(RATING_COLLECTION)
+        .where(Filter.equalTo("slug", slug))
+        .where(Filter.equalTo("user.id", userId)).get()
 }
