@@ -34,6 +34,9 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
     private val _lastRating = MutableLiveData<FilmRating?>()
     val lastRating: LiveData<FilmRating?> = _lastRating
 
+    private val _allRatings = MutableLiveData<List<FilmRating>>()
+    val allRatings: LiveData<List<FilmRating>> = _allRatings
+
     fun loadData(item: String) {
         launchOnIO {
             val data = repository.loadPlayerData(item)
@@ -134,18 +137,27 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
     }
 
     fun rateItem(score: Int, comment: String, currentId: String?) = launchOnIO {
+        val user = LoginData.getActiveUser()?.let {
+            User(
+                id = it.id,
+                name = it.name,
+                image = it.image,
+            )
+        } ?: User()
         val rating = FilmRating(
             id = currentId ?: UUID.randomUUID().toString(),
             slug = playerData.value?.data?.item?.slug.toString(),
-            rating = score.toDouble(),
+            rating = (score + 1).toDouble(),
             comment = comment,
-            user = LoginData.getActiveUser() ?: User(),
+            user = user,
         )
-        repository.rateItem(rating)
+        repository.rateItem(rating).addOnSuccessListener {
+            getAllRating()
+        }
     }
 
     fun getRating(slug: String, userId: String) = launchOnIO {
-        fireBaseDataBase.getRating(slug, userId).addOnSuccessListener {
+        repository.getRating(slug, userId).addOnSuccessListener {
             ALog.d(TAG, "getRating: ${it.toObjects(FilmRating::class.java)}}")
             val data = it.toObjects(FilmRating::class.java)
             launchOnUI {
@@ -157,6 +169,21 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
             }
         }.addOnFailureListener {
             launchOnIO {
+                errorMessage.value = it.message
+            }
+        }
+    }
+
+    fun getAllRating() = launchOnIO {
+        repository.getRatingBySlug(playerData.value?.data?.item?.slug.toString())
+            .addOnSuccessListener {
+                ALog.d(TAG, "getAllRating: ${it.toObjects(FilmRating::class.java)}")
+                val data = it.toObjects(FilmRating::class.java)
+                launchOnUI {
+                    _allRatings.value = data
+                }
+            }.addOnFailureListener {
+            launchOnUI {
                 errorMessage.value = it.message
             }
         }

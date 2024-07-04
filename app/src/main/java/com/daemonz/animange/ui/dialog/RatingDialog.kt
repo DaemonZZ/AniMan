@@ -43,6 +43,10 @@ class RatingDialog(
                 onYes.invoke(userSelected, comment.text.toString(), currentRating?.id)
                 dismiss()
             }
+            if (currentRating != null) {
+                onStarClicked(currentRating.rating.toInt() - 1)
+                comment.setText(currentRating.comment)
+            }
         }
         return binding.root
     }
@@ -51,10 +55,21 @@ class RatingDialog(
         userSelected = index
         listStar.forEachIndexed { i, star ->
             if (i <= index) {
-                star.setImageResource(R.drawable.star_filled)
+                star.setImageResource(getFillStarDrawable(i))
             } else {
                 star.setImageResource(R.drawable.star_outline)
             }
+        }
+    }
+
+    private fun getFillStarDrawable(index: Int): Int {
+        return when (index) {
+            0 -> R.drawable.star_1
+            1 -> R.drawable.star_2
+            2 -> R.drawable.star_3
+            3 -> R.drawable.star_4
+            4 -> R.drawable.star_5
+            else -> R.drawable.star_outline
         }
     }
 

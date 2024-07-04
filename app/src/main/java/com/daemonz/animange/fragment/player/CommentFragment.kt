@@ -96,6 +96,8 @@ class CommentFragment :
     override fun setupObservers() {
         viewModel.apply {
             comments.observe(viewLifecycleOwner) {
+                binding.recyclerComment.isVisible = it.isNotEmpty()
+                binding.textNoComment.isVisible = it.isEmpty()
                 adapter?.setData(it)
             }
             onRepliesLoaded.observe(viewLifecycleOwner) { map ->

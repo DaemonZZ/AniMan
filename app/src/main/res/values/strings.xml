@@ -111,4 +111,7 @@
     <string name="theme">Chủ đề</string>
     <string name="how_your_feel">Bạn cảm nhận thế nào về bộ phim này</string>
     <string name="film_rating">Đánh giá phim</string>
+    <string name="rating">Đánh giá</string>
+    <string name="no_comment">Chưa có bình luận nào.</string>
+    <string name="no_rating">Chưa có đánh giá nào</string>
 </resources>

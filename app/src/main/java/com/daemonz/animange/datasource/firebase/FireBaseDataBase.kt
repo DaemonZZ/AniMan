@@ -63,4 +63,9 @@ class FireBaseDataBase(
     fun getRating(slug: String, userId: String) = db.collection(RATING_COLLECTION)
         .where(Filter.equalTo("slug", slug))
         .where(Filter.equalTo("user.id", userId)).get()
+
+    fun getRatingBySlug(slug: String) = db.collection(RATING_COLLECTION)
+        .where(Filter.equalTo("slug", slug))
+        .get()
+
 }

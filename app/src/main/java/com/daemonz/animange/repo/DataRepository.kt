@@ -24,6 +24,7 @@ import com.daemonz.animange.util.VERSION_DOCS
 import com.daemonz.animange.util.toFavouriteItem
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import retrofit2.Response
 import java.util.UUID
 
@@ -317,12 +318,17 @@ class DataRepository(
             data = account
         )
 
-    fun rateItem(rating: FilmRating) {
+    fun rateItem(rating: FilmRating) =
         fireStoreDataBase.addDocument(
             collectionName = RATING_COLLECTION,
             documentId = rating.id,
             data = rating
         )
+
+    fun getRatingBySlug(slug: String): Task<QuerySnapshot> {
+        ALog.d(TAG, "getRatingBySlug: $slug")
+        return fireStoreDataBase.getRatingBySlug(slug)
     }
 
+    fun getRating(slug: String, userId: String) = fireStoreDataBase.getRating(slug, userId)
 }

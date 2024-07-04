@@ -26,6 +26,7 @@ import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.fragment.player.ChildPlayerFragmentActions
 import com.daemonz.animange.fragment.player.CommentFragment
 import com.daemonz.animange.fragment.player.EpisodesFragment
+import com.daemonz.animange.fragment.player.RatingsFragment
 import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
@@ -51,7 +52,8 @@ class PlayerFragment :
     private val listFrag = listOf<Fragment>(
         SuggestionFragment(),
         EpisodesFragment(),
-        CommentFragment()
+        CommentFragment(),
+        RatingsFragment()
     )
 
     private var pagerAdapter: PlayerPagerAdapter? = null
@@ -165,10 +167,18 @@ class PlayerFragment :
                 startActivity(shareIntent)
             }
             btnRate.setOnClickListener {
-                viewModel.getRating(
-                    userId = LoginData.getActiveUser()?.id.toString(),
-                    slug = arg.item
-                )
+                if (LoginData.account == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.user_not_logged_in),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    viewModel.getRating(
+                        userId = LoginData.getActiveUser()?.id.toString(),
+                        slug = arg.item
+                    )
+                }
             }
             binding.btnFollow.isChecked = true
             listFrag.forEach {
@@ -182,6 +192,7 @@ class PlayerFragment :
                     0 -> tab.text = getString(R.string.suggest)
                     1 -> tab.text = getString(R.string.episodes)
                     2 -> tab.text = getString(R.string.comment)
+                    3 -> tab.text = getString(R.string.rating)
                 }
             }.attach()
         }

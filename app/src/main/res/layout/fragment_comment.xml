@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_no_comment"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:gravity="center"
+        android:text="@string/no_comment"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_comment"
         android:layout_width="match_parent"
