@@ -3,6 +3,8 @@ package com.daemonz.animange.datasource.firebase
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.RATING_COLLECTION
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.AggregateField
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -67,5 +69,9 @@ class FireBaseDataBase(
     fun getRatingBySlug(slug: String) = db.collection(RATING_COLLECTION)
         .where(Filter.equalTo("slug", slug))
         .get()
+
+    fun getRatingAverage(slug: String) = db.collection(RATING_COLLECTION)
+        .where(Filter.equalTo("slug", slug))
+        .aggregate(AggregateField.average("rating")).get(AggregateSource.SERVER)
 
 }

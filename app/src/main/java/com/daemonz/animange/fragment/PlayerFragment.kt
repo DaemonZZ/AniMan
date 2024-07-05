@@ -205,11 +205,13 @@ class PlayerFragment :
                     0, 0, R.drawable.close, 0
                 )
                 infoLayout.isVisible = true
+                functionLayout.isVisible = false
             } else {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, R.drawable.keyboard_arrow_down, 0
                 )
                 infoLayout.isVisible = false
+                functionLayout.isVisible = true
             }
         }
 
