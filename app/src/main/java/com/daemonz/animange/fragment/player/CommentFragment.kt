@@ -33,17 +33,17 @@ class CommentFragment :
         adapter = CommentAdapter(
             loadReplies = { parent, pos ->
                 ALog.d(TAG, "loadReplies: $parent $pos")
-                viewModel.loadReplies(parent, pos)
+                playerViewModel?.loadReplies(parent, pos)
             },
             onReplyClicked = { item, _ ->
                 ALog.d(TAG, "onReplyClicked: $item")
-                viewModel.waitingReplyFor = item.replyFor ?: item.id
+                playerViewModel?.waitingReplyFor = item.replyFor ?: item.id
                 binding.edtComment.requestFocus()
                 imm?.showSoftInput(binding.edtComment, InputMethodManager.SHOW_IMPLICIT)
             },
             onLikeClicked = { item, pos ->
                 ALog.d(TAG, "onLikeClicked: $item $pos")
-                viewModel.toggleLike(item)
+                playerViewModel?.toggleLike(item)
             },
             onClickItem = { _, _ ->
                 binding.edtComment.clearFocus()
@@ -55,7 +55,7 @@ class CommentFragment :
             edtComment.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                 btnSend.isVisible = hasFocus
                 if (!hasFocus && edtComment.text.isNullOrEmpty()) {
-                    viewModel.waitingReplyFor = null
+                    playerViewModel?.waitingReplyFor = null
                 }
             }
             btnSend.setOnClickListener {
@@ -75,9 +75,9 @@ class CommentFragment :
                     content = binding.edtComment.text.toString().trim(),
                     user = user,
                     createdAt = System.currentTimeMillis(),
-                    replyFor = viewModel.waitingReplyFor
+                    replyFor = playerViewModel?.waitingReplyFor
                 )
-                viewModel.sendComment(comment)
+                playerViewModel?.sendComment(comment)
                 imm?.hideSoftInputFromWindow(view?.windowToken, 0)
                 edtComment.clearFocus()
                 edtComment.text?.clear()
@@ -94,7 +94,7 @@ class CommentFragment :
     }
 
     override fun setupObservers() {
-        viewModel.apply {
+        playerViewModel?.apply {
             comments.observe(viewLifecycleOwner) {
                 binding.recyclerComment.isVisible = it.isNotEmpty()
                 binding.textNoComment.isVisible = it.isEmpty()
@@ -117,9 +117,5 @@ class CommentFragment :
 
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
-    }
-
-    override fun initData() {
-        viewModel.loadComments(playerViewModel?.playerData?.value?.data?.item?.slug.toString())
     }
 }

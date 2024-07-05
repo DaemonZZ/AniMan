@@ -331,5 +331,6 @@ class DataRepository(
     }
 
     fun getRating(slug: String, userId: String) = fireStoreDataBase.getRating(slug, userId)
+    fun getRatingAvg(slug: String) = fireStoreDataBase.getRatingAverage(slug)
 
 }

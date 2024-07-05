@@ -48,6 +48,7 @@ class PlayerFragment :
     private val arg: PlayerFragmentArgs by navArgs()
 
     private var lastTouchWebView = 0L
+    private var slug: String = ""
 
     private val listFrag = listOf<Fragment>(
         SuggestionFragment(),
@@ -126,19 +127,27 @@ class PlayerFragment :
     }
 
     override fun initData() {
-        viewModel.loadData(arg.item)
+        slug = arg.item
+        getData()
+    }
+
+    private fun getData() {
+        viewModel.loadData(slug)
+        viewModel.getRatingAvg(slug)
+        viewModel.getAllRating(slug)
+        viewModel.loadComments(slug)
         showLoadingOverlay("loadData")
     }
 
     override fun setupViews() {
         binding.apply {
-                textTitle.setOnClickListener {
-                    if (infoLayout.visibility == View.VISIBLE) {
-                        expandView(false)
-                    } else {
-                        expandView(true)
-                    }
+            textTitle.setOnClickListener {
+                if (infoLayout.visibility == View.VISIBLE) {
+                    expandView(false)
+                } else {
+                    expandView(true)
                 }
+            }
 
 
             btnFollow.setOnClickListener {
@@ -159,7 +168,7 @@ class PlayerFragment :
             btnShare.setOnClickListener {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${arg.item}")
+                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
                     type = "text/plain"
                 }
 
@@ -176,7 +185,7 @@ class PlayerFragment :
                 } else {
                     viewModel.getRating(
                         userId = LoginData.getActiveUser()?.id.toString(),
-                        slug = arg.item
+                        slug = slug
                     )
                 }
             }
@@ -231,17 +240,52 @@ class PlayerFragment :
 
     override fun setupObservers() {
         viewModel.apply {
+            rateAvg.observe(viewLifecycleOwner) {
+                binding.apply {
+                    val listStar = listOf(
+                        start1, start2, start3, start4, start5
+                    )
+                    listStar.forEachIndexed { index, star ->
+                        if (index + 1 <= it) {
+                            star.setImageResource(R.drawable.star_filled)
+                        } else {
+                            if (index + 1 - it >= 1) {
+                                star.setImageResource(R.drawable.star_outline)
+                            } else {
+                                star.setImageResource(R.drawable.star_half)
+                            }
+
+                        }
+                    }
+                }
+            }
+            comments.observe(viewLifecycleOwner) { comments ->
+                ALog.d(TAG, "comments: ${comments.size}")
+                binding.tabSuggest.getTabAt(2)?.apply {
+                    orCreateBadge.number = comments.size
+                    orCreateBadge.horizontalOffset = -2
+                }
+            }
+            allRatings.observe(viewLifecycleOwner) { ratings ->
+                ALog.d(TAG, "allRatings: ${ratings.size}")
+                binding.tabSuggest.getTabAt(3)?.apply {
+                    orCreateBadge.number = ratings.size
+                    orCreateBadge.horizontalOffset = -2
+                }
+            }
             playerData.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "playerData: ${it.data.seoOnPage}")
+                ALog.d(TAG, "playerData: $slug")
                 if (it.data.item?.status == ITEM_STATUS_TRAILER) {
                     findNavController().popBackStack()
                     AppUtils.playYoutube(
                         requireContext(), it.data.item.trailerUrl
                     )
                 } else {
-                    loadPlayerData(it)
-                    getSuggestions()
-                    showLoadingOverlay("getSuggestions")
+                    if (it.data.item?.slug != null && it.data.item.slug != slug) {
+                        slug = it.data.item.slug
+                        getData()
+                        showLoadingOverlay("getSuggestions")
+                    }
                 }
                 hideLoadingOverlay("loadData")
 

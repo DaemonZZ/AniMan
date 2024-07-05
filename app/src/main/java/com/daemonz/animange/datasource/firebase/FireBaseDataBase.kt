@@ -74,4 +74,5 @@ class FireBaseDataBase(
         .where(Filter.equalTo("slug", slug))
         .aggregate(AggregateField.average("rating")).get(AggregateSource.SERVER)
 
+
 }

@@ -28,10 +28,6 @@ class RatingsFragment :
         }
     }
 
-    override fun initData() {
-        playerViewModel?.getAllRating()
-    }
-
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
     }

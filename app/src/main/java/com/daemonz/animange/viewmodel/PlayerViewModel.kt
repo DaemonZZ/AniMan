@@ -3,6 +3,7 @@ package com.daemonz.animange.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
@@ -11,6 +12,7 @@ import com.daemonz.animange.entity.User
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
+import com.google.firebase.firestore.AggregateField
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,6 +39,15 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
     private val _allRatings = MutableLiveData<List<FilmRating>>()
     val allRatings: LiveData<List<FilmRating>> = _allRatings
 
+    private val _comments = MutableLiveData<List<Comment>>()
+    val comments: LiveData<List<Comment>> = _comments
+    var waitingReplyFor: String? = null
+    private val _onRepliesLoaded: MutableLiveData<Map<Int, List<Comment>>?> = MutableLiveData(null)
+    val onRepliesLoaded: LiveData<Map<Int, List<Comment>>?> = _onRepliesLoaded
+
+    private val _rateAvg = MutableLiveData<Double>()
+    val rateAvg: LiveData<Double> = _rateAvg
+
     fun loadData(item: String) {
         launchOnIO {
             val data = repository.loadPlayerData(item)
@@ -50,6 +61,7 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
                     )
                 }
             }
+            getSuggestions()
         }
     }
     fun chooseEpisode(episode: Int, server: Int = 0) {
@@ -152,7 +164,8 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
             user = user,
         )
         repository.rateItem(rating).addOnSuccessListener {
-            getAllRating()
+            getAllRating(playerData.value?.data?.item?.slug.toString())
+            getRatingAvg(playerData.value?.data?.item?.slug.toString())
         }
     }
 
@@ -174,8 +187,8 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
         }
     }
 
-    fun getAllRating() = launchOnIO {
-        repository.getRatingBySlug(playerData.value?.data?.item?.slug.toString())
+    fun getAllRating(slug: String) = launchOnIO {
+        repository.getRatingBySlug(slug)
             .addOnSuccessListener {
                 ALog.d(TAG, "getAllRating: ${it.toObjects(FilmRating::class.java)}")
                 val data = it.toObjects(FilmRating::class.java)
@@ -188,4 +201,92 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
             }
         }
     }
+
+    fun getRatingAvg(slug: String) = launchOnIO {
+        repository.getRatingAvg(slug).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val data = it.result.getDouble(AggregateField.average("rating"))
+                ALog.d(TAG, "getRatingAvg: $data")
+                launchOnUI {
+                    _rateAvg.value = data ?: 0.0
+                }
+            } else {
+                ALog.e(TAG, "getRatingAvg: ${it.result}")
+            }
+        }
+    }
+
+    //Comment
+    fun sendComment(comment: Comment) = launchOnIO {
+        repository.sendComment(comment)?.addOnSuccessListener {
+            //update parrent comment
+            comment.replyFor?.let {
+                repository.getCommentById(it).addOnSuccessListener {
+                    ALog.d(TAG, "getParentComment: success ${it}")
+                    it.toObject(Comment::class.java)?.let { parent ->
+                        repository.onReplyForComment(
+                            parentComment = parent,
+                            child = comment
+                        ).addOnSuccessListener {
+                            ALog.d(TAG, "onReplyForComment: success")
+                            loadComments(parent.slug)
+                        }
+                    }
+                }
+
+            } ?: kotlin.run {
+                loadComments(comment.slug)
+            }
+        }
+    }
+
+    fun loadComments(slug: String) = launchOnIO {
+        repository.getCommentsBySlug(slug).addOnSuccessListener {
+            it.toObjects(Comment::class.java).let {
+                ALog.d(TAG, "loadComments: ${it}")
+                launchOnUI {
+                    _comments.value = it
+                }
+            }
+        }.addOnFailureListener {
+            ALog.e(TAG, "loadComments: $it")
+            launchOnUI {
+                errorMessage.value = it.message
+            }
+        }
+    }
+
+    fun loadReplies(parent: Comment, pos: Int) = launchOnIO {
+        ALog.d(TAG, "loadReplies: $parent")
+        repository.loadRepliesForComment(parent.id).addOnSuccessListener {
+            ALog.d(TAG, "loadReplies: success $it")
+            it.toObjects(Comment::class.java).let { replyList ->
+                if (replyList.isNotEmpty()) {
+                    launchOnUI {
+                        _onRepliesLoaded.value = mapOf(pos to replyList)
+                    }
+                }
+            }
+        }.addOnFailureListener {
+            ALog.e(TAG, "loadReplies: $it")
+            launchOnUI {
+                errorMessage.value = it.message
+            }
+        }
+    }
+
+    fun toggleLike(comment: Comment) {
+        ALog.d(TAG, "toggleLike: $comment")
+        LoginData.getActiveUser()?.id?.let { user ->
+            if (comment.liked.contains(user)) {
+                comment.liked = comment.liked.toMutableList().apply { remove(user) }
+            } else {
+                comment.liked = comment.liked.toMutableList().apply { add(user) }
+            }
+            repository.toggleLikeComment(comment).addOnSuccessListener {
+                loadComments(comment.slug)
+            }
+        }
+    }
+
 }
