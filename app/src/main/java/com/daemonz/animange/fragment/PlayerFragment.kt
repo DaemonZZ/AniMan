@@ -40,6 +40,7 @@ import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class PlayerFragment :
@@ -209,18 +210,19 @@ class PlayerFragment :
 
     private fun expandView(expand: Boolean) {
         binding.apply {
+            infoLayout.isVisible = expand
+            functionLayout.isVisible = !expand
+            tabSuggest.isVisible = !expand
+            viewPager.isVisible = !expand
+            starsLayout.isVisible = !expand
             if (expand) {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, R.drawable.close, 0
                 )
-                infoLayout.isVisible = true
-                functionLayout.isVisible = false
             } else {
                 textTitle.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, R.drawable.keyboard_arrow_down, 0
                 )
-                infoLayout.isVisible = false
-                functionLayout.isVisible = true
             }
         }
 
@@ -242,6 +244,8 @@ class PlayerFragment :
         viewModel.apply {
             rateAvg.observe(viewLifecycleOwner) {
                 binding.apply {
+                    rateAvg.text =
+                        getString(R.string.rate_avg, String.format(Locale.getDefault(), "%.1f", it))
                     val listStar = listOf(
                         start1, start2, start3, start4, start5
                     )
@@ -264,6 +268,11 @@ class PlayerFragment :
                 binding.tabSuggest.getTabAt(2)?.apply {
                     orCreateBadge.number = comments.size
                     orCreateBadge.horizontalOffset = -2
+                    if (comments.isEmpty()) {
+                        orCreateBadge.isVisible = false
+                    } else {
+                        orCreateBadge.isVisible = true
+                    }
                 }
             }
             allRatings.observe(viewLifecycleOwner) { ratings ->
@@ -271,6 +280,11 @@ class PlayerFragment :
                 binding.tabSuggest.getTabAt(3)?.apply {
                     orCreateBadge.number = ratings.size
                     orCreateBadge.horizontalOffset = -2
+                    if (ratings.isEmpty()) {
+                        orCreateBadge.isVisible = false
+                    } else {
+                        orCreateBadge.isVisible = true
+                    }
                 }
             }
             playerData.observe(viewLifecycleOwner) {
@@ -281,6 +295,7 @@ class PlayerFragment :
                         requireContext(), it.data.item.trailerUrl
                     )
                 } else {
+                    loadPlayerData(it)
                     if (it.data.item?.slug != null && it.data.item.slug != slug) {
                         slug = it.data.item.slug
                         getData()

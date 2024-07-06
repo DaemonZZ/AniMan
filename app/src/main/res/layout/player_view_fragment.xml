@@ -180,6 +180,16 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/star_outline" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/rateAvg"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/rate_avg"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </LinearLayout>

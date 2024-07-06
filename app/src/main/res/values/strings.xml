@@ -114,4 +114,5 @@
     <string name="rating">Đánh giá</string>
     <string name="no_comment">Chưa có bình luận nào.</string>
     <string name="no_rating">Chưa có đánh giá nào</string>
+    <string name="rate_avg" translatable="false">(%s)</string>
 </resources>
