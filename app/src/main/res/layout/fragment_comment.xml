@@ -42,6 +42,7 @@
             android:id="@+id/edt_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="3"
             android:imeOptions="actionSend" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,9 +52,8 @@
         android:layout_height="@dimen/dp_0"
         android:adjustViewBounds="true"
         android:padding="@dimen/dp_16"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/text_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_layout"
         app:srcCompat="@drawable/ico_send" />
 </androidx.constraintlayout.widget.ConstraintLayout>
