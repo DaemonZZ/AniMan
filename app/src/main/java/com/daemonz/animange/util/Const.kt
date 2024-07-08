@@ -11,6 +11,7 @@ const val TERMS_URL =
     "https://doc-hosting.flycricket.io/phim-free-terms-of-use/31f92dc4-0e1b-47e0-bece-f1032e12ee8b/terms"
 
 const val THEME_KEY = "theme_key"
+const val NIGHT_MODE_KEY = "night_mode_key"
 
 const val ACCOUNT_COLLECTION = "account"
 const val VERSION_COLLECTION = "appVersion"

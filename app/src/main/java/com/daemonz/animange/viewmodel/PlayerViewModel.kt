@@ -211,7 +211,7 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
                     _rateAvg.value = data ?: 0.0
                 }
             } else {
-                ALog.e(TAG, "getRatingAvg: ${it.exception?.message}")
+//                ALog.e(TAG, "getRatingAvg: ${it.exception?.message}")
             }
         }
     }

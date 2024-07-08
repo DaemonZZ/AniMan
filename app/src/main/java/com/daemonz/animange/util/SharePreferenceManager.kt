@@ -14,6 +14,13 @@ class SharePreferenceManager(context: Context) {
     fun getInt(key: String, defaultValue: Int): Int {
         return sharedPreferences.getInt(key, defaultValue)
     }
+    fun setBoolean(key: String, value: Boolean) {
+        sharedPreferences.edit().putBoolean(key, value).apply()
+    }
+
+    fun getBoolean(key: String, defaultValue: Boolean): Boolean {
+        return sharedPreferences.getBoolean(key, defaultValue)
+    }
 
     fun clear() {
         sharedPreferences.edit().clear().apply()

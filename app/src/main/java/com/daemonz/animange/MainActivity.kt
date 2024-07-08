@@ -39,6 +39,7 @@ import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
+import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.util.ThemeManager
 import com.daemonz.animange.viewmodel.LoginViewModel
@@ -174,6 +175,8 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
+        ThemeManager.setNightMode(nightMode)
         val currentTheme = ThemeManager.getTheme(sharePreferenceManager)
         theme.applyStyle(currentTheme, true)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -403,6 +406,7 @@ class MainActivity : AppCompatActivity() {
     private fun changeToolBarAction(fragment: Int) {
         when (fragment) {
             R.id.playerFragment -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -416,6 +420,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favouritesFragment -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -430,6 +435,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.profileFragment -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -444,6 +450,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.chooseUserFragment -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -457,7 +464,8 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
             }
 
-            R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.themeFragment -> {
+            R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
                 topAppBar?.setNavigationOnClickListener {
@@ -470,7 +478,12 @@ class MainActivity : AppCompatActivity() {
                 topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
                 topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
             }
+
+            R.id.themeFragment -> {
+                toggleToolBarShowing(false)
+            }
             else -> {
+                topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
                     ResourcesCompat.getDrawable(resources, R.drawable.app_logo, null)
                 topAppBar?.setNavigationOnClickListener {

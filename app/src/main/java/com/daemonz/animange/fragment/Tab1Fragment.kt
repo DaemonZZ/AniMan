@@ -168,19 +168,12 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
 
     override fun initData() {
         viewModel.getHomeData()
-        showLoadingOverlay("getHomeData")
         viewModel.getSeriesIncoming()
-        showLoadingOverlay("getSeriesIncoming")
         viewModel.getListFilmVietNam()
-        showLoadingOverlay("getListFilmVietNam")
         viewModel.getListAnime()
-        showLoadingOverlay("getListAnime")
         viewModel.getListMovies()
-        showLoadingOverlay("getListMovies")
         viewModel.getTvShows()
-        showLoadingOverlay("getTvShows")
         viewModel.getAllSeries()
-        showLoadingOverlay("getAllSeries")
     }
 
     override fun onSearch() {

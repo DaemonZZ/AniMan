@@ -1,0 +1,176 @@
+<resources>
+
+    <style name="ThemeOverlay.AppTheme.MediumContrast3" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_primary_mediumContrast_theme_3</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary_mediumContrast_theme_3</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorOnPrimaryContainer">
+            @color/md_theme_onPrimaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorSecondary">@color/md_theme_secondary_mediumContrast_theme_3</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary_mediumContrast_theme_3</item>
+        <item name="colorSecondaryContainer">
+            @color/md_theme_secondaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorOnSecondaryContainer">
+            @color/md_theme_onSecondaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorTertiary">@color/md_theme_tertiary_mediumContrast_theme_3</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary_mediumContrast_theme_3</item>
+        <item name="colorTertiaryContainer">
+            @color/md_theme_tertiaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorOnTertiaryContainer">
+            @color/md_theme_onTertiaryContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorError">@color/md_theme_error_mediumContrast_theme_3</item>
+        <item name="colorOnError">@color/md_theme_onError_mediumContrast_theme_3</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer_mediumContrast_theme_3
+        </item>
+        <item name="android:colorBackground">@color/md_theme_background_mediumContrast_theme_3
+        </item>
+        <item name="colorOnBackground">@color/md_theme_onBackground_mediumContrast_theme_3</item>
+        <item name="colorSurface">@color/md_theme_surface_mediumContrast_theme_3</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface_mediumContrast_theme_3</item>
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorOutline">@color/md_theme_outline_mediumContrast_theme_3</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceInverse">@color/md_theme_inverseSurface_mediumContrast_theme_3
+        </item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface_mediumContrast_theme_3
+        </item>
+        <item name="colorPrimaryInverse">@color/md_theme_inversePrimary_mediumContrast_theme_3
+        </item>
+        <item name="colorPrimaryFixed">@color/md_theme_primaryFixed_mediumContrast_theme_3</item>
+        <item name="colorOnPrimaryFixed">@color/md_theme_onPrimaryFixed_mediumContrast_theme_3
+        </item>
+        <item name="colorPrimaryFixedDim">@color/md_theme_primaryFixedDim_mediumContrast_theme_3
+        </item>
+        <item name="colorOnPrimaryFixedVariant">
+            @color/md_theme_onPrimaryFixedVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorSecondaryFixed">@color/md_theme_secondaryFixed_mediumContrast_theme_3
+        </item>
+        <item name="colorOnSecondaryFixed">@color/md_theme_onSecondaryFixed_mediumContrast_theme_3
+        </item>
+        <item name="colorSecondaryFixedDim">
+            @color/md_theme_secondaryFixedDim_mediumContrast_theme_3
+        </item>
+        <item name="colorOnSecondaryFixedVariant">
+            @color/md_theme_onSecondaryFixedVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorTertiaryFixed">@color/md_theme_tertiaryFixed_mediumContrast_theme_3</item>
+        <item name="colorOnTertiaryFixed">@color/md_theme_onTertiaryFixed_mediumContrast_theme_3
+        </item>
+        <item name="colorTertiaryFixedDim">@color/md_theme_tertiaryFixedDim_mediumContrast_theme_3
+        </item>
+        <item name="colorOnTertiaryFixedVariant">
+            @color/md_theme_onTertiaryFixedVariant_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceDim">@color/md_theme_surfaceDim_mediumContrast_theme_3</item>
+        <item name="colorSurfaceBright">@color/md_theme_surfaceBright_mediumContrast_theme_3</item>
+        <item name="colorSurfaceContainerLowest">
+            @color/md_theme_surfaceContainerLowest_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerLow">
+            @color/md_theme_surfaceContainerLow_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerHigh">
+            @color/md_theme_surfaceContainerHigh_mediumContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerHighest">
+            @color/md_theme_surfaceContainerHighest_mediumContrast_theme_3
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.AppTheme.HighContrast3" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_primary_highContrast_theme_3</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary_highContrast_theme_3</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorOnPrimaryContainer">
+            @color/md_theme_onPrimaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorSecondary">@color/md_theme_secondary_highContrast_theme_3</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary_highContrast_theme_3</item>
+        <item name="colorSecondaryContainer">
+            @color/md_theme_secondaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorOnSecondaryContainer">
+            @color/md_theme_onSecondaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorTertiary">@color/md_theme_tertiary_highContrast_theme_3</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary_highContrast_theme_3</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorOnTertiaryContainer">
+            @color/md_theme_onTertiaryContainer_highContrast_theme_3
+        </item>
+        <item name="colorError">@color/md_theme_error_highContrast_theme_3</item>
+        <item name="colorOnError">@color/md_theme_onError_highContrast_theme_3</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer_highContrast_theme_3</item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer_highContrast_theme_3
+        </item>
+        <item name="android:colorBackground">@color/md_theme_background_highContrast_theme_3</item>
+        <item name="colorOnBackground">@color/md_theme_onBackground_highContrast_theme_3</item>
+        <item name="colorSurface">@color/md_theme_surface_highContrast_theme_3</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface_highContrast_theme_3</item>
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant_highContrast_theme_3</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant_highContrast_theme_3
+        </item>
+        <item name="colorOutline">@color/md_theme_outline_highContrast_theme_3</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant_highContrast_theme_3</item>
+        <item name="colorSurfaceInverse">@color/md_theme_inverseSurface_highContrast_theme_3</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface_highContrast_theme_3
+        </item>
+        <item name="colorPrimaryInverse">@color/md_theme_inversePrimary_highContrast_theme_3</item>
+        <item name="colorPrimaryFixed">@color/md_theme_primaryFixed_highContrast_theme_3</item>
+        <item name="colorOnPrimaryFixed">@color/md_theme_onPrimaryFixed_highContrast_theme_3</item>
+        <item name="colorPrimaryFixedDim">@color/md_theme_primaryFixedDim_highContrast_theme_3
+        </item>
+        <item name="colorOnPrimaryFixedVariant">
+            @color/md_theme_onPrimaryFixedVariant_highContrast_theme_3
+        </item>
+        <item name="colorSecondaryFixed">@color/md_theme_secondaryFixed_highContrast_theme_3</item>
+        <item name="colorOnSecondaryFixed">@color/md_theme_onSecondaryFixed_highContrast_theme_3
+        </item>
+        <item name="colorSecondaryFixedDim">@color/md_theme_secondaryFixedDim_highContrast_theme_3
+        </item>
+        <item name="colorOnSecondaryFixedVariant">
+            @color/md_theme_onSecondaryFixedVariant_highContrast_theme_3
+        </item>
+        <item name="colorTertiaryFixed">@color/md_theme_tertiaryFixed_highContrast_theme_3</item>
+        <item name="colorOnTertiaryFixed">@color/md_theme_onTertiaryFixed_highContrast_theme_3
+        </item>
+        <item name="colorTertiaryFixedDim">@color/md_theme_tertiaryFixedDim_highContrast_theme_3
+        </item>
+        <item name="colorOnTertiaryFixedVariant">
+            @color/md_theme_onTertiaryFixedVariant_highContrast_theme_3
+        </item>
+        <item name="colorSurfaceDim">@color/md_theme_surfaceDim_highContrast_theme_3</item>
+        <item name="colorSurfaceBright">@color/md_theme_surfaceBright_highContrast_theme_3</item>
+        <item name="colorSurfaceContainerLowest">
+            @color/md_theme_surfaceContainerLowest_highContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerLow">
+            @color/md_theme_surfaceContainerLow_highContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer_highContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerHigh">
+            @color/md_theme_surfaceContainerHigh_highContrast_theme_3
+        </item>
+        <item name="colorSurfaceContainerHighest">
+            @color/md_theme_surfaceContainerHighest_highContrast_theme_3
+        </item>
+    </style>
+</resources>

@@ -42,6 +42,8 @@ class MenuAdapter(private val onItemClickListener: OnItemClickListener<MenuItem>
         return when (theme) {
             0 -> R.color.md_theme_primary
             1 -> R.color.md_theme_primary_theme_1
+            2 -> R.color.md_theme_primary_theme_2
+            3 -> R.color.md_theme_primary_theme_3
             else -> R.color.md_theme_primary
         }
     }

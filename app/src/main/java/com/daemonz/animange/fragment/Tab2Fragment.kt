@@ -21,12 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class Tab2Fragment : BaseFragment<FragmentTab2Binding, HomeViewModel>(FragmentTab2Binding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
-    private val onItemClickListener = object : OnItemClickListener<Item> {
-        override fun onItemClick(item: Item, index: Int) {
+    private val onItemClickListener =
+        OnItemClickListener<Item> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
             navigateToPlayer(item)
         }
-    }
 
     private var moviesAdapter: GridAdapter? = null
 
