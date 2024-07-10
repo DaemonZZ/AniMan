@@ -19,6 +19,9 @@ class MenuAdapter(private val onItemClickListener: OnItemClickListener<MenuItem>
     override fun bindView(binding: MenuItemBinding, item: MenuItem, position: Int) {
         binding.apply {
             title.text = item.title
+            if (position == itemCount - 1) {
+                divider.isVisible = false
+            }
             when (item.type) {
                 MenuItemType.Theme -> {
                     arrow.isVisible = false
