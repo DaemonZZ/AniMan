@@ -2,28 +2,28 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tab1Fragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/tab1Fragment"
-        android:name="com.daemonz.animange.fragment.Tab1Fragment"
-        android:label="Tab1Fragment" />
+        android:id="@+id/homeFragment"
+        android:name="com.daemonz.animange.fragment.HomeFragment"
+        android:label="HomeFragment" />
     <fragment
-        android:id="@+id/tab2Fragment"
-        android:name="com.daemonz.animange.fragment.Tab2Fragment"
-        android:label="Tab2Fragment" />
+        android:id="@+id/moviesFragment"
+        android:name="com.daemonz.animange.fragment.MoviesFragment"
+        android:label="MoviesFragment" />
     <fragment
-        android:id="@+id/tab3Fragment"
-        android:name="com.daemonz.animange.fragment.Tab3Fragment"
-        android:label="Tab3Fragment" />
+        android:id="@+id/seriesFragment"
+        android:name="com.daemonz.animange.fragment.SeriesFragment"
+        android:label="SeriesFragment" />
     <fragment
-        android:id="@+id/tab4Fragment"
-        android:name="com.daemonz.animange.fragment.Tab4Fragment"
-        android:label="Tab4Fragment" />
+        android:id="@+id/tvShowFragment"
+        android:name="com.daemonz.animange.fragment.TvShowFragment"
+        android:label="TvShowFragment" />
     <fragment
-        android:id="@+id/tab5Fragment"
-        android:name="com.daemonz.animange.fragment.Tab5Fragment"
-        android:label="Tab5Fragment">
+        android:id="@+id/settingsFragment"
+        android:name="com.daemonz.animange.fragment.SettingsFragment"
+        android:label="SettingsFragment">
         <action
             android:id="@+id/action_tab5Fragment_to_chooseUserFragment"
             app:destination="@id/chooseUserFragment" />
@@ -44,17 +44,6 @@
         <argument
             android:name="item"
             app:argType="string" />
-        <!--        <deepLink-->
-        <!--            android:id="@+id/deepLinkPlayer"-->
-        <!--            app:action="android.intent.action.VIEW"-->
-        <!--            app:mimeType="text/html"-->
-        <!--            app:uri="daemonz://animan/play/{item}" />-->
-        <!--        <deepLink-->
-        <!--            android:id="@+id/deepLinkPlayer2"-->
-        <!--            app:action="android.intent.action.VIEW"-->
-        <!--            app:mimeType="text/html"-->
-        <!--            app:uri="http://www.animan.rf.gd/{item}" />-->
-
     </fragment>
     <fragment
         android:id="@+id/chooseUserFragment"

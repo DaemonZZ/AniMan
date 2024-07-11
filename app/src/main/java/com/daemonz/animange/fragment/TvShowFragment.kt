@@ -8,17 +8,16 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.FragmentTab2Binding
+import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.HomeViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class Tab2Fragment : BaseFragment<FragmentTab2Binding, HomeViewModel>(FragmentTab2Binding::inflate),
+class TvShowFragment :
+    BaseFragment<FragmentGridListBinding, HomeViewModel>(FragmentGridListBinding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
     private val onItemClickListener =
@@ -27,13 +26,13 @@ class Tab2Fragment : BaseFragment<FragmentTab2Binding, HomeViewModel>(FragmentTa
             navigateToPlayer(item)
         }
 
-    private var moviesAdapter: GridAdapter? = null
+    private var tvAdapter: GridAdapter? = null
 
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            moviesAdapter = GridAdapter(onItemClickListener)
-            moviesRecycler.adapter = moviesAdapter
+            tvAdapter = GridAdapter(onItemClickListener)
+            moviesRecycler.adapter = tvAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     ALog.i(TAG, "onScrollStateChanged: state: $newState")
@@ -50,10 +49,10 @@ class Tab2Fragment : BaseFragment<FragmentTab2Binding, HomeViewModel>(FragmentTa
     }
 
     override fun setupObservers() {
-        viewModel.movies.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "movies: ${it.data.items.size}")
-            moviesAdapter?.setData(it.data.items, it.data.imgDomain)
-            hideLoadingOverlay("getMovies")
+        viewModel.tvShows.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "getTvShows: ${it.data.items.size}")
+            tvAdapter?.setData(it.data.items, it.data.imgDomain)
+            hideLoadingOverlay("getTvShows")
         }
     }
 

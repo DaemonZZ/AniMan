@@ -16,7 +16,7 @@ import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Tab5Fragment :
+class SettingsFragment :
     BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate),
     BottomNavigationAction {
     override val viewModel: LoginViewModel by activityViewModels()
@@ -37,7 +37,7 @@ class Tab5Fragment :
                 } else {
                     LoginData.account?.id?.let {
                         findNavController().navigate(
-                            Tab5FragmentDirections.actionTab5FragmentToProfileFragment(
+                            SettingsFragmentDirections.actionTab5FragmentToProfileFragment(
                                 it
                             )
                         )
@@ -49,7 +49,7 @@ class Tab5Fragment :
             favourite.icon.setImageResource(R.drawable.ic_favourite)
             favourite.root.setOnClickListener {
                 if (viewModel.isLoggedIn()) {
-                    findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToFavouritesFragment())
+                    findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToFavouritesFragment())
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -62,7 +62,7 @@ class Tab5Fragment :
             feedback.textTitle.text = getString(R.string.theme)
             feedback.icon.setImageResource(R.drawable.ic_theme)
             feedback.root.setOnClickListener {
-                findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToThemeFragment())
+                findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToThemeFragment())
             }
             support.textTitle.text = getString(R.string.support)
             support.icon.setImageResource(R.drawable.ic_support)
@@ -93,7 +93,7 @@ class Tab5Fragment :
                     imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name
                     imgUser.setOnClickListener {
-                        findNavController().navigate(Tab5FragmentDirections.actionTab5FragmentToChooseUserFragment())
+                        findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToChooseUserFragment())
                     }
                 }
             } else {

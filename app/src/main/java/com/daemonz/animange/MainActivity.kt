@@ -79,11 +79,11 @@ class MainActivity : AppCompatActivity() {
     private var appBarLayout: AppBarLayout? = null
     private var bottomNavigation: BottomNavigationView? = null
     private val listFragmentsWithNavbar = listOf(
-        R.id.tab1Fragment,
-        R.id.tab2Fragment,
-        R.id.tab3Fragment,
-        R.id.tab4Fragment,
-        R.id.tab5Fragment
+        R.id.homeFragment,
+        R.id.moviesFragment,
+        R.id.seriesFragment,
+        R.id.tvShowFragment,
+        R.id.settingsFragment
     )
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
     private val initialLayoutComplete = AtomicBoolean(false)
@@ -100,7 +100,10 @@ class MainActivity : AppCompatActivity() {
             if (destination.id in listFragmentsWithNavbar) {
                 bottomNavigation?.visibility = View.VISIBLE
                 binding.adViewContainer.isVisible = true
-                toggleToolBarShowing(isShow = destination.id != R.id.tab5Fragment, autoHide = true)
+                toggleToolBarShowing(
+                    isShow = destination.id != R.id.settingsFragment,
+                    autoHide = true
+                )
             } else {
                 bottomNavigation?.visibility = View.GONE
                 binding.adViewContainer.isVisible = false

@@ -5,7 +5,7 @@ import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.FragmentTab1Binding
+import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
@@ -21,7 +21,7 @@ import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTab1Binding::inflate),
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate),
     BottomNavigationAction {
     override val viewModel: HomeViewModel by activityViewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
@@ -32,12 +32,11 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
     private var tvAdapter: CommonRecyclerAdapter? = null
 
 
-    private val onItemClickListener = object : OnItemClickListener<Item> {
-        override fun onItemClick(item: Item, index: Int) {
+    private val onItemClickListener =
+        OnItemClickListener<Item> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
             navigateToPlayer(item)
         }
-    }
 
     override fun setupViews() {
         setupHomeItemRecycler()
@@ -101,12 +100,10 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             val snapHelper = CarouselSnapHelper()
             homeItemRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(homeItemRecycler)
-            homeCarouselAdapter = HomeCarouselAdapter(object : OnItemClickListener<Item> {
-                override fun onItemClick(item:Item, index: Int) {
-                    ALog.i(TAG, "onItemClick: $index")
-                    navigateToPlayer(item)
-                }
-            })
+            homeCarouselAdapter = HomeCarouselAdapter { item, index ->
+                ALog.i(TAG, "onItemClick: $index")
+                navigateToPlayer(item)
+            }
             homeItemRecycler.adapter = homeCarouselAdapter
             val metric = requireActivity().windowManager.currentWindowMetrics.bounds
             val height = metric.width().coerceAtMost(metric.height()) //height
@@ -114,8 +111,6 @@ class Tab1Fragment : BaseFragment<FragmentTab1Binding, HomeViewModel>(FragmentTa
             params.height = (height * 90) / 100
             homeItemRecycler.layoutParams = params
             ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
-            //Indicator not good
-            //homeItemRecycler.addItemDecoration(CirclePagerIndicatorDecoration())
             root.setOnScrollChangeListener { _, _, _, _, _ ->
                 toggleToolBarShowing(isShow = true, autoHide = true)
             }
