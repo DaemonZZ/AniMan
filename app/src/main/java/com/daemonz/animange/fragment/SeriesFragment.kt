@@ -82,7 +82,7 @@ class SeriesFragment :
     }
 
     override fun onSearch() {
-//        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
+        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {

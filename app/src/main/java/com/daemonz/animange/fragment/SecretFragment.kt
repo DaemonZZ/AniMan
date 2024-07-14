@@ -10,6 +10,7 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentSecretBinding
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
@@ -23,9 +24,9 @@ class SecretFragment :
     BottomNavigationAction {
     override val viewModel: SecretViewModel by viewModels()
     private val onItemClickListener =
-        OnItemClickListener<Item> { item, index ->
-            ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
-            navigateToPlayer(item)
+        OnItemClickListener<PagingData<Item>> { item, index ->
+            ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
+            navigateToPlayer(item.data)
         }
 
     private var tvAdapter: GridAdapter? = null

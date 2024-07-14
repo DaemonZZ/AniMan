@@ -23,12 +23,6 @@ class MoviesFragment :
     BaseFragment<FragmentGridListBinding, MoviesViewModel>(FragmentGridListBinding::inflate),
     BottomNavigationAction {
     override val viewModel: MoviesViewModel by viewModels()
-    private val onItemClickListenerSearch =
-        OnItemClickListener<Item> { item, index ->
-            ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
-            navigateToPlayer(item)
-        }
-
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
@@ -88,7 +82,7 @@ class MoviesFragment :
     }
 
     override fun onSearch() {
-        SearchDialog(onItemClickListenerSearch).show(childFragmentManager, "SearchDialog")
+        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {

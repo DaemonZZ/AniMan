@@ -98,15 +98,7 @@ class DataRepository(
         return handleDataResponse(data)
     }
 
-    suspend fun searchFilm(query: String): ListData {
-        return handleDataResponse(apiService.search(query))
-    }
-
-    // Local Handle
-
-//     fun markItemAsFavourite(item: Item, img: String) {
-//          dao.insertAll(item.toFavouriteItem(img))
-//     }
+    suspend fun searchFilm(query: String, page: String) = apiService.search(query, page)
 
     fun unMarkItemAsFavourite(slug: String) {
         dao.delete(slug)

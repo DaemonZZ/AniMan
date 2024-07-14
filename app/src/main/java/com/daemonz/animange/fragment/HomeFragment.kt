@@ -7,6 +7,7 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
@@ -37,6 +38,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
             navigateToPlayer(item)
         }
+    private val onSearchItemClickListener =
+        OnItemClickListener<PagingData<Item>> { item, index ->
+            ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
+            navigateToPlayer(item.data)
+        }
+
 
     override fun setupViews() {
         setupHomeItemRecycler()
@@ -172,7 +179,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
     }
 
     override fun onSearch() {
-        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
+        SearchDialog(onSearchItemClickListener).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {

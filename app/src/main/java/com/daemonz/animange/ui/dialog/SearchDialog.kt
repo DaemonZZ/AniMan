@@ -10,11 +10,14 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SearchAdapter
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
@@ -24,7 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) : DialogFragment() {
+class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingData<Item>>) :
+    DialogFragment() {
     companion object {
         private const val TAG = "SearchDialog"
     }
@@ -70,6 +74,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
             lastSearch = SystemClock.elapsedRealtime()
             binding.searchView.postDelayed({
                 if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
+                    viewModel.clearCache()
                     viewModel.search(text.toString().trim())
                     (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, "search")
                 }
@@ -90,16 +95,35 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<Item>) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            resultAdapter = SearchAdapter(onItemClickListener) { item -> }
+            resultAdapter = SearchAdapter(onItemClickListener)
             resultRecycler.adapter = resultAdapter
+            resultRecycler.addOnScrollListener(object : OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        ALog.d(TAG, "load new page ${(resultAdapter?.lastPage ?: -88) + 1}")
+                        resultAdapter?.lastPage?.let {
+                            viewModel.search(searchView.editText.text.toString(), it + 1)
+                        }
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        ALog.d(TAG, "load previous page ${(resultAdapter?.firstPage ?: -88) - 1}")
+                        resultAdapter?.firstPage?.let {
+                            if (it > 1) {
+                                viewModel.search(searchView.editText.text.toString(), it - 1)
+                            }
+
+                        }
+                    }
+                }
+            })
         }
         viewModel.searchResult.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "searchResult: ${it.data.items.size}")
-            resultAdapter?.setData(it.data.items, it.data.imgDomain)
+            ALog.d(TAG, "searchResult: ${it.size}")
+            resultAdapter?.setData(it, viewModel.imgDomain)
             (activity as? MainActivity)?.hideLoadingOverlay("search")
             binding.apply {
-                textNoResult.isVisible = it.data.items.isEmpty()
-                resultRecycler.isVisible = it.data.items.isNotEmpty()
+                textNoResult.isVisible = it.isEmpty()
+                resultRecycler.isVisible = it.isNotEmpty()
             }
         }
 
