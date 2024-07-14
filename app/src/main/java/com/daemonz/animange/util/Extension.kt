@@ -19,9 +19,9 @@ import com.daemonz.animange.R
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
-import com.google.firebase.FirebaseApp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import retrofit2.Response
 
 private const val TAG = "Extension"
 
@@ -121,4 +121,18 @@ fun Activity.getToolbarHeight(): Int {
         return TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
     }
     return 0
+}
+
+fun <T> Response<T>.addOnCompleteListener(listener: (T) -> Unit): Response<T> {
+    if (this.isSuccessful && this.body() != null) {
+        this.body()?.let { listener.invoke(it) }
+    }
+    return this
+}
+
+fun <T> Response<T>.addOnFailureListener(listener: (String) -> Unit): Response<T> {
+    if (!this.isSuccessful || this.errorBody() != null) {
+        this.errorBody()?.let { listener.invoke(it.string()) }
+    }
+    return this
 }

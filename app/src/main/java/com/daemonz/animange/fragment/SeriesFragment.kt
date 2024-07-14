@@ -31,7 +31,7 @@ class SeriesFragment :
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            seriesAdapter = GridAdapter(onItemClickListener)
+//            seriesAdapter = GridAdapter(onItemClickListener)
             moviesRecycler.adapter = seriesAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -51,7 +51,7 @@ class SeriesFragment :
     override fun setupObservers() {
         viewModel.allSeries.observe(viewLifecycleOwner) {
             ALog.d(TAG, "getAllSeries: ${it.data.items.size}")
-            seriesAdapter?.setData(it.data.items, it.data.imgDomain)
+//            seriesAdapter?.setData(it.data.items, it.data.imgDomain)
             hideLoadingOverlay("getAllSeries")
         }
     }

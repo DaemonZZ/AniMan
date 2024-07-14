@@ -3,6 +3,8 @@ package com.daemonz.animange.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.util.addOnCompleteListener
+import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -66,9 +68,14 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
 
     fun getListMovies() {
         launchOnIO {
-            val data = repository.getListMovies()
-            withContext(Dispatchers.Main) {
-                _movies.value = data
+            repository.getListMovies().addOnCompleteListener { data ->
+                launchOnUI {
+                    _movies.value = data
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    errorMessage.value = it
+                }
             }
         }
     }

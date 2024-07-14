@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -60,6 +61,5 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
 
     suspend fun <T> asyncOnIOAwait(block: suspend CoroutineScope.() -> T): T =
         asyncOnIO(block).await()
-
 
 }

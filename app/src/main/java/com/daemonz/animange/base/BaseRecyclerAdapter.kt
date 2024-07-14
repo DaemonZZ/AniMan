@@ -14,7 +14,8 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
     protected var imgDomain = BuildConfig.IMG_BASE_URL
 
     protected val TAG = this::class.java.simpleName
-    private var data = listOf<Item>()
+    var data = mutableListOf<Item>()
+        private set
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -44,18 +45,16 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
 
     @SuppressLint("NotifyDataSetChanged")
     open fun setData(data: List<Item>) {
-        this.data = data
+        this.data = data.toMutableList()
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Item>, imgDomain: String) {
+    open fun setData(data: List<Item>, imgDomain: String) {
         this.imgDomain = imgDomain
-        this.data = data
+        this.data = data.toMutableList()
         notifyDataSetChanged()
     }
-
-    fun getData() = data
 
     fun getItem(position: Int): Item? = runCatching { data[position] }.getOrNull()
 

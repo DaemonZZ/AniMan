@@ -31,7 +31,7 @@ class TvShowFragment :
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            tvAdapter = GridAdapter(onItemClickListener)
+//            tvAdapter = GridAdapter(onItemClickListener)
             moviesRecycler.adapter = tvAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -51,7 +51,7 @@ class TvShowFragment :
     override fun setupObservers() {
         viewModel.tvShows.observe(viewLifecycleOwner) {
             ALog.d(TAG, "getTvShows: ${it.data.items.size}")
-            tvAdapter?.setData(it.data.items, it.data.imgDomain)
+//            tvAdapter?.setData(it.data.items, it.data.imgDomain)
             hideLoadingOverlay("getTvShows")
         }
     }

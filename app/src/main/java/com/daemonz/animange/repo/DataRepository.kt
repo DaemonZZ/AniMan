@@ -64,8 +64,8 @@ class DataRepository(
         return handleDataResponse(apiService.filterData(list = "hoat-hinh", country = "nhat-ban"))
     }
 
-    suspend fun getListMovies(): ListData {
-        return handleDataResponse(apiService.getMovies())
+    suspend fun getListMovies(page: String = ""): Response<ListData> {
+        return apiService.getMovies(page)
     }
 
     suspend fun getTvShows(): ListData {

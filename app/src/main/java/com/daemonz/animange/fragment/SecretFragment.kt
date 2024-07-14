@@ -33,7 +33,7 @@ class SecretFragment :
     override fun setupViews() {
         binding.apply {
             recycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            tvAdapter = GridAdapter(onItemClickListener)
+//            tvAdapter = GridAdapter(onItemClickListener)
             recycler.adapter = tvAdapter
             recycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -53,7 +53,7 @@ class SecretFragment :
     override fun setupObservers() {
         viewModel.listDataData.observe(viewLifecycleOwner) {
             ALog.d(TAG, "getTvShows: ${it.data.items.size}")
-            tvAdapter?.setData(it.data.items, it.data.imgDomain)
+//            tvAdapter?.setData(it.data.items, it.data.imgDomain)
         }
     }
 
