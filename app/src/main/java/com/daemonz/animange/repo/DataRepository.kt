@@ -72,9 +72,7 @@ class DataRepository(
         return handleDataResponse(apiService.getTvShows())
     }
 
-    suspend fun getAllSeries(): ListData {
-        return handleDataResponse(apiService.getAllSeries())
-    }
+    suspend fun getAllSeries(page: String) = apiService.getAllSeries(page)
 
     suspend fun getDataByCategory(category: String): ListData {
         return handleDataResponse(apiService.getCategoryData(category))

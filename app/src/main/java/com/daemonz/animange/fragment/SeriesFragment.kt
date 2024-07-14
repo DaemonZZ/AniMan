@@ -1,6 +1,7 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,20 +11,24 @@ import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.SeriesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SeriesFragment :
-    BaseFragment<FragmentGridListBinding, HomeViewModel>(FragmentGridListBinding::inflate),
+    BaseFragment<FragmentGridListBinding, SeriesViewModel>(FragmentGridListBinding::inflate),
     BottomNavigationAction {
-    override val viewModel: HomeViewModel by activityViewModels()
+    override val viewModel: SeriesViewModel by viewModels()
     private val onItemClickListener =
-        OnItemClickListener<Item> { item, index ->
-            ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
-            navigateToPlayer(item)
+        OnItemClickListener<PagingData<Item>> { item, index ->
+            ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
+            navigateToPlayer(item.data)
         }
 
     private var seriesAdapter: GridAdapter? = null
@@ -31,7 +36,7 @@ class SeriesFragment :
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-//            seriesAdapter = GridAdapter(onItemClickListener)
+            seriesAdapter = GridAdapter(onItemClickListener)
             moviesRecycler.adapter = seriesAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -42,6 +47,22 @@ class SeriesFragment :
                             autoHide = true
                         )
                     }
+                    if (!recyclerView.canScrollVertically(1)) {
+                        ALog.d(TAG, "load new page ${(seriesAdapter?.lastPage ?: -88) + 1}")
+                        seriesAdapter?.lastPage?.let {
+                            viewModel.getAllSeries(it + 1)
+                            showLoadingOverlay("getAllSeries")
+                        }
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        ALog.d(TAG, "load previous page ${(seriesAdapter?.firstPage ?: -88) - 1}")
+                        seriesAdapter?.firstPage?.let {
+                            if (it > 1) {
+                                viewModel.getAllSeries(it - 1)
+                                showLoadingOverlay("getAllSeries")
+                            }
+                        }
+                    }
                 }
             })
         }
@@ -49,15 +70,19 @@ class SeriesFragment :
     }
 
     override fun setupObservers() {
-        viewModel.allSeries.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "getAllSeries: ${it.data.items.size}")
-//            seriesAdapter?.setData(it.data.items, it.data.imgDomain)
-            hideLoadingOverlay("getAllSeries")
+        viewModel.series.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "getAllSeries: ${it.size}")
+            seriesAdapter?.apply {
+                setData(it, viewModel.imgDomain)
+                ALog.d(TAG, "lastPosition: $lastPosition")
+                binding.moviesRecycler.scrollToPosition(lastPosition)
+            }
+            binding.root.postDelayed({ hideLoadingOverlay("getAllSeries") }, 1000)
         }
     }
 
     override fun onSearch() {
-        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
+//        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {
@@ -69,9 +94,9 @@ class SeriesFragment :
     }
 
     override fun initData() {
-        if (viewModel.movies.value == null) {
-            viewModel.getListMovies()
-            showLoadingOverlay("getMovies")
+        if (viewModel.series.value == null) {
+            viewModel.getAllSeries(0)
+            showLoadingOverlay("getAllSeries")
         }
     }
 
