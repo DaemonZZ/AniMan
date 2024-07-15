@@ -81,10 +81,16 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     }
     fun getTvShows() {
         launchOnIO {
-            val data = repository.getTvShows()
-            withContext(Dispatchers.Main) {
-                _tvShows.value = data
+            repository.getTvShows("").addOnCompleteListener {
+                launchOnUI {
+                    _tvShows.value = it
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    errorMessage.value = it
+                }
             }
+
         }
     }
     fun getAllSeries() {

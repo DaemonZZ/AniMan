@@ -29,13 +29,13 @@ class SecretFragment :
             navigateToPlayer(item.data)
         }
 
-    private var tvAdapter: GridAdapter? = null
+    private var adapter: GridAdapter? = null
 
     override fun setupViews() {
         binding.apply {
             recycler.layoutManager = GridLayoutManager(requireContext(), 2)
-//            tvAdapter = GridAdapter(onItemClickListener)
-            recycler.adapter = tvAdapter
+            adapter = GridAdapter(onItemClickListener)
+            recycler.adapter = adapter
             recycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     ALog.i(TAG, "onScrollStateChanged: state: $newState")
@@ -45,6 +45,22 @@ class SecretFragment :
                             autoHide = true
                         )
                     }
+                    if (!recyclerView.canScrollVertically(1)) {
+                        ALog.d(TAG, "load new page ${(adapter?.lastPage ?: -88) + 1}")
+                        adapter?.lastPage?.let {
+                            viewModel.getSecret(it + 1)
+                            showLoadingOverlay("getSecret")
+                        }
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        ALog.d(TAG, "load previous page ${(adapter?.firstPage ?: -88) - 1}")
+                        adapter?.firstPage?.let {
+                            if (it > 1) {
+                                viewModel.getSecret(it - 1)
+                                showLoadingOverlay("getSecret")
+                            }
+                        }
+                    }
                 }
             })
         }
@@ -52,9 +68,14 @@ class SecretFragment :
     }
 
     override fun setupObservers() {
-        viewModel.listDataData.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "getTvShows: ${it.data.items.size}")
-//            tvAdapter?.setData(it.data.items, it.data.imgDomain)
+        viewModel.secret.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "getSecret: ${it.size}")
+            adapter?.apply {
+                setData(it, viewModel.imgDomain)
+                ALog.d(TAG, "lastPosition: $lastPosition")
+                binding.recycler.scrollToPosition(lastPosition)
+            }
+            binding.root.postDelayed({ hideLoadingOverlay("getSecret") }, 1000)
         }
     }
 
@@ -71,7 +92,8 @@ class SecretFragment :
     }
 
     override fun initData() {
-        viewModel.getSecretData()
+        viewModel.getSecret(0)
+        showLoadingOverlay("getSecret")
     }
 
     private fun navigateToPlayer(item: Item) {

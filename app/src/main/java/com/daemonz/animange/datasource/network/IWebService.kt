@@ -65,6 +65,7 @@ interface IWebService {
 
     @GET("the-loai/{slug}")
     suspend fun getCategoryData(
-        @Path("slug") slug: String
+        @Path("slug") slug: String,
+        @Query("page") page: String = ""
     ): Response<ListData>
 }

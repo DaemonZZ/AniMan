@@ -1,6 +1,6 @@
 package com.daemonz.animange.fragment
 
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +15,14 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.TvShowViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TvShowFragment :
-    BaseFragment<FragmentGridListBinding, HomeViewModel>(FragmentGridListBinding::inflate),
+    BaseFragment<FragmentGridListBinding, TvShowViewModel>(FragmentGridListBinding::inflate),
     BottomNavigationAction {
-    override val viewModel: HomeViewModel by activityViewModels()
+    override val viewModel: TvShowViewModel by viewModels()
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
@@ -32,7 +34,7 @@ class TvShowFragment :
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-//            tvAdapter = GridAdapter(onItemClickListener)
+            tvAdapter = GridAdapter(onItemClickListener)
             moviesRecycler.adapter = tvAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -43,6 +45,22 @@ class TvShowFragment :
                             autoHide = true
                         )
                     }
+                    if (!recyclerView.canScrollVertically(1)) {
+                        ALog.d(TAG, "load new page ${(tvAdapter?.lastPage ?: -88) + 1}")
+                        tvAdapter?.lastPage?.let {
+                            viewModel.getTvShows(it + 1)
+                            showLoadingOverlay("getTvShows")
+                        }
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        ALog.d(TAG, "load previous page ${(tvAdapter?.firstPage ?: -88) - 1}")
+                        tvAdapter?.firstPage?.let {
+                            if (it > 1) {
+                                viewModel.getTvShows(it - 1)
+                                showLoadingOverlay("getTvShows")
+                            }
+                        }
+                    }
                 }
             })
         }
@@ -50,10 +68,14 @@ class TvShowFragment :
     }
 
     override fun setupObservers() {
-        viewModel.tvShows.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "getTvShows: ${it.data.items.size}")
-//            tvAdapter?.setData(it.data.items, it.data.imgDomain)
-            hideLoadingOverlay("getTvShows")
+        viewModel.shows.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "getTvShows: ${it.size}")
+            tvAdapter?.apply {
+                setData(it, viewModel.imgDomain)
+                ALog.d(TAG, "lastPosition: $lastPosition")
+                binding.moviesRecycler.scrollToPosition(lastPosition)
+            }
+            binding.root.postDelayed({ hideLoadingOverlay("getTvShows") }, 1000)
         }
     }
 
@@ -70,10 +92,8 @@ class TvShowFragment :
     }
 
     override fun initData() {
-        if (viewModel.movies.value == null) {
-            viewModel.getListMovies()
-            showLoadingOverlay("getMovies")
-        }
+        viewModel.getTvShows(1)
+        showLoadingOverlay("getTvShows")
     }
 
     private fun navigateToPlayer(item: Item) {

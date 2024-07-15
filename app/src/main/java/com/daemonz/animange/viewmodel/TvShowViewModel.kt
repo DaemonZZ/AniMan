@@ -2,7 +2,6 @@ package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
@@ -12,16 +11,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SecretViewModel @Inject constructor() : BaseViewModel() {
-    private val _secret = MutableLiveData<List<PagingData<Item>>>()
-    val secret: LiveData<List<PagingData<Item>>> = _secret
+class TvShowViewModel @Inject constructor() : BaseViewModel() {
+    private val _shows = MutableLiveData<List<PagingData<Item>>>()
+    val shows: LiveData<List<PagingData<Item>>> = _shows
 
     private val cacheData: MutableMap<Int, List<Item>> = mutableMapOf()
     var imgDomain = ""
 
-    fun getSecret(page: Int) {
+    fun getTvShows(page: Int) {
         if (cacheData[page] != null) {
-            _secret.value = cacheData[page]?.map {
+            _shows.value = cacheData[page]?.map {
                 PagingData(
                     page = page,
                     data = it
@@ -29,19 +28,18 @@ class SecretViewModel @Inject constructor() : BaseViewModel() {
             }
         }
         launchOnIO {
-            repository.getDataByCategory(BuildConfig.SLUG_SECRET, page.toString())
-                .addOnCompleteListener {
-                    launchOnUI {
-                        imgDomain = it.data.imgDomain
-                        _secret.value = it.data.items.map {
-                            PagingData(
-                                page = page,
-                                data = it
-                            )
-                        }
-                        cacheData[page] = it.data.items
+            repository.getTvShows(page.toString()).addOnCompleteListener {
+                launchOnUI {
+                    imgDomain = it.data.imgDomain
+                    _shows.value = it.data.items.map {
+                        PagingData(
+                            page = page,
+                            data = it
+                        )
                     }
-                }.addOnFailureListener {
+                    cacheData[page] = it.data.items
+                }
+            }.addOnFailureListener {
                 launchOnUI {
                     errorMessage.value = it
                 }
