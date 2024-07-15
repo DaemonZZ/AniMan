@@ -1,20 +1,22 @@
 package com.daemonz.animange.fragment.player
 
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentSuggestionBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.daemonz.animange.viewmodel.SuggestionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SuggestionFragment :
-    BaseFragment<FragmentSuggestionBinding, HomeViewModel>(FragmentSuggestionBinding::inflate),
+    BaseFragment<FragmentSuggestionBinding, SuggestionViewModel>(FragmentSuggestionBinding::inflate),
     ChildPlayerFragmentActions {
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: SuggestionViewModel by viewModels()
     private var playerViewModel: PlayerViewModel? = null
     private var suggestionAdapter: SuggestionAdapter? = null
 
@@ -31,18 +33,51 @@ class SuggestionFragment :
                 }
             },
                 onItemClickListener = { item, _ ->
-                    ALog.d(TAG, "onItemClick: ${item.slug}")
-                    playerViewModel?.loadData(item.slug)
+                    ALog.d(TAG, "onItemClick: ${item.data.slug}")
+                    playerViewModel?.loadData(item.data.slug)
                 })
             recyclerSuggest.adapter = suggestionAdapter
+
+            recyclerSuggest.addOnScrollListener(object : OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        suggestionAdapter?.lastPage?.let { page ->
+                            playerViewModel?.playerData?.value?.data?.item?.category?.random()
+                                ?.let {
+                                    viewModel.getSuggestions(it, page + 1)
+                                    showLoadingOverlay("getSuggestions")
+                                }
+                        }
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        suggestionAdapter?.firstPage?.let { page ->
+                            if (page > 1) {
+                                playerViewModel?.playerData?.value?.data?.item?.category?.random()
+                                    ?.let {
+                                        viewModel.getSuggestions(it, page - 1)
+                                        showLoadingOverlay("getSuggestions")
+                                    }
+
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
 
     override fun setupObservers() {
-        playerViewModel?.suggestions?.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "suggestions: ${it.data.items.size}")
-            suggestionAdapter?.setData(it.data.items, it.data.imgDomain)
-            hideLoadingOverlay("")
+        viewModel.suggestions.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "suggestions: ${it.size}")
+            suggestionAdapter?.setData(it, viewModel.imgDomain)
+            hideLoadingOverlay("getSuggestions")
+        }
+        playerViewModel?.currentPlaying?.observe(viewLifecycleOwner) {
+            playerViewModel?.playerData?.value?.data?.item?.category?.random()?.let {
+                viewModel.getSuggestions(it, 0)
+                showLoadingOverlay("getSuggestions")
+            }
+
         }
     }
 

@@ -79,13 +79,13 @@ class DataRepository(
         return handleDataResponse(apiService.getFilmData(slug))
     }
 
-    suspend fun get24RelatedFilm(slug: String, category: String): ListData {
-        val data = apiService.filterData(
+    suspend fun getRelatedFilms(slug: String, category: String, page: String) =
+        apiService.filterData(
             list = slug,
-            category = category
+            category = category,
+            page = page
         )
-        return handleDataResponse(data)
-    }
+
 
     suspend fun getListFilmVietNam(): ListData {
         val data = apiService.filterData(
@@ -290,6 +290,7 @@ class DataRepository(
 
     fun loadRepliesForComment(id: String) =
         fireStoreDataBase.getReplyForComment(id)
+
     fun toggleLikeComment(comment: Comment) =
         fireStoreDataBase.updateDocument(
             collectionName = COMMENT_COLLECTION,
@@ -298,6 +299,7 @@ class DataRepository(
                 "liked" to comment.liked,
             )
         )
+
     fun updateAccount(account: Account) =
         fireStoreDataBase.addDocument(
             collectionName = ACCOUNT_COLLECTION,

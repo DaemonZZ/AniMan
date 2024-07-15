@@ -20,15 +20,12 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class PlayerViewModel @Inject constructor(): BaseViewModel() {
+class PlayerViewModel @Inject constructor() : BaseViewModel() {
     private val _playerData: MutableLiveData<ListData> = MutableLiveData()
     val playerData: LiveData<ListData> = _playerData
 
     private val _currentPlaying = MutableLiveData<Episode>()
     val currentPlaying: LiveData<Episode> = _currentPlaying
-
-    private val _suggestions = MutableLiveData<ListData>()
-    val suggestions: LiveData<ListData> = _suggestions
 
     private val _isFavourite = MutableLiveData<Boolean>()
     val isFavourite: LiveData<Boolean> = _isFavourite
@@ -61,9 +58,9 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
                     )
                 }
             }
-            getSuggestions()
         }
     }
+
     fun chooseEpisode(episode: Int, server: Int = 0) {
         if (episode == currentPlaying.value?.pivot && playerData.value?.data?.item?.episodes?.get(
                 server
@@ -87,36 +84,22 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
         }
     }
 
-    fun getSuggestions() = launchOnIO {
-        //FIXME fixme need to enhance: paging it
-        val cat = playerData.value?.data?.item?.category?.random()
-        cat?.let {
-            val data = repository.get24RelatedFilm(
-                slug = TypeList.New.value,
-                category = it.slug
-            )
-            withContext(Dispatchers.Main) {
-                _suggestions.value = data
-            }
-        }
-    }
-
     fun markItemAsFavorite(item: Item? = null) = launchOnIO {
         ALog.d(TAG, "markItemAsFavourite: $item")
-        if (item == null) {
-            playerData.value?.data?.let {
+        playerData.value?.data?.let {
+            if (item == null) {
                 if (it.item != null) {
                     repository.markItemAsFavourite(item = it.item, img = it.getImageUrl())
                     withContext(Dispatchers.Main) {
                         _isFavourite.value = true
                     }
                 }
+            } else {
+                repository.markItemAsFavourite(
+                    item = item,
+                    item.getImageUrl(it.getImageUrl())
+                )
             }
-        } else {
-            repository.markItemAsFavourite(
-                item = item,
-                item.getImageUrl(suggestions.value?.data?.imgDomain.toString())
-            )
         }
 
     }
@@ -196,10 +179,10 @@ class PlayerViewModel @Inject constructor(): BaseViewModel() {
                     _allRatings.value = data
                 }
             }.addOnFailureListener {
-            launchOnUI {
-                errorMessage.value = it.message
+                launchOnUI {
+                    errorMessage.value = it.message
+                }
             }
-        }
     }
 
     fun getRatingAvg(slug: String) = launchOnIO {
