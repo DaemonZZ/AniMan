@@ -137,7 +137,7 @@ class PlayerFragment :
         viewModel.getRatingAvg(slug)
         viewModel.getAllRating(slug)
         viewModel.loadComments(slug)
-        showLoadingOverlay("loadData")
+        showLoadingOverlay()
     }
 
     override fun setupViews() {
@@ -299,10 +299,10 @@ class PlayerFragment :
                     if (it.data.item?.slug != null && it.data.item.slug != slug) {
                         slug = it.data.item.slug
                         getData()
-                        showLoadingOverlay("getSuggestions")
+                        showLoadingOverlay()
                     }
                 }
-                hideLoadingOverlay("loadData")
+                hideLoadingOverlay()
 
             }
             currentPlaying.observe(viewLifecycleOwner) {

@@ -296,24 +296,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun showLoadingOverlay(fm: FragmentManager, id: String) {
-        if (SystemClock.elapsedRealtime() - lastLoadingAction > 1000) {
-            ALog.d(TAG, "showLoadingOverlay $id dd: ${loadingRequest.size}")
-            loadingRequest.add(id)
-            if (!loadingDialog.isAdded && loadingRequest.size == 1) {
-                ALog.d(TAG, "showLoadingOverlay showed")
-                loadingDialog.show(fm, "LoadingOverLay")
-            }
-        }
-        lastLoadingAction = SystemClock.elapsedRealtime()
+    fun showLoadingOverlay(fm: FragmentManager) {
+        loadingDialog.show(fm, "LoadingOverLay")
     }
 
-    fun hideLoadingOverlay(id: String) {
-        ALog.d(TAG, "hideLoadingOverlay $id dd: ${loadingRequest.size}")
-        loadingRequest.remove(id)
-        if ((loadingRequest.isEmpty() || id.isEmpty()) && loadingDialog.isAdded) {
-            loadingDialog.dismiss()
-        }
+    fun hideLoadingOverlay() {
+        loadingDialog.hide()
     }
 
     private fun setupViews() {

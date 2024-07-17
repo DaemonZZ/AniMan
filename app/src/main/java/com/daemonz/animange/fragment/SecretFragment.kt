@@ -49,7 +49,7 @@ class SecretFragment :
                         ALog.d(TAG, "load new page ${(adapter?.lastPage ?: -88) + 1}")
                         adapter?.lastPage?.let {
                             viewModel.getSecret(it + 1)
-                            showLoadingOverlay("getSecret")
+                            showLoadingOverlay()
                         }
                     }
                     if (!recyclerView.canScrollVertically(-1)) {
@@ -57,7 +57,7 @@ class SecretFragment :
                         adapter?.firstPage?.let {
                             if (it > 1) {
                                 viewModel.getSecret(it - 1)
-                                showLoadingOverlay("getSecret")
+                                showLoadingOverlay()
                             }
                         }
                     }
@@ -75,7 +75,7 @@ class SecretFragment :
                 ALog.d(TAG, "lastPosition: $lastPosition")
                 binding.recycler.scrollToPosition(lastPosition)
             }
-            binding.root.postDelayed({ hideLoadingOverlay("getSecret") }, 1000)
+            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
         }
     }
 
@@ -93,7 +93,7 @@ class SecretFragment :
 
     override fun initData() {
         viewModel.getSecret(0)
-        showLoadingOverlay("getSecret")
+        showLoadingOverlay()
     }
 
     private fun navigateToPlayer(item: Item) {

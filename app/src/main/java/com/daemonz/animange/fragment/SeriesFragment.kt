@@ -51,7 +51,7 @@ class SeriesFragment :
                         ALog.d(TAG, "load new page ${(seriesAdapter?.lastPage ?: -88) + 1}")
                         seriesAdapter?.lastPage?.let {
                             viewModel.getAllSeries(it + 1)
-                            showLoadingOverlay("getAllSeries")
+                            showLoadingOverlay()
                         }
                     }
                     if (!recyclerView.canScrollVertically(-1)) {
@@ -59,7 +59,7 @@ class SeriesFragment :
                         seriesAdapter?.firstPage?.let {
                             if (it > 1) {
                                 viewModel.getAllSeries(it - 1)
-                                showLoadingOverlay("getAllSeries")
+                                showLoadingOverlay()
                             }
                         }
                     }
@@ -77,7 +77,7 @@ class SeriesFragment :
                 ALog.d(TAG, "lastPosition: $lastPosition")
                 binding.moviesRecycler.scrollToPosition(lastPosition)
             }
-            binding.root.postDelayed({ hideLoadingOverlay("getAllSeries") }, 1000)
+            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
         }
     }
 
@@ -96,7 +96,7 @@ class SeriesFragment :
     override fun initData() {
         if (viewModel.series.value == null) {
             viewModel.getAllSeries(0)
-            showLoadingOverlay("getAllSeries")
+            showLoadingOverlay()
         }
     }
 

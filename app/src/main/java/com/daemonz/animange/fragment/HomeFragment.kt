@@ -133,37 +133,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
         viewModel.apply {
             listDataData.observe(viewLifecycleOwner) { home ->
                 ALog.d(TAG, "listDataData: ${home.data.getListUrl()}")
-                hideLoadingOverlay("getHomeData")
+                hideLoadingOverlay()
                 homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "seriesIncoming:")
-                hideLoadingOverlay("getSeriesIncoming")
+                hideLoadingOverlay()
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
-                hideLoadingOverlay("getListFilmVietNam")
+                hideLoadingOverlay()
                 vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             anime.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "anime: ${films.data.getListUrl()}")
-                hideLoadingOverlay("getListAnime")
+                hideLoadingOverlay()
                 animeAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             movies.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "movies: ${films.data.getListUrl()}")
-                hideLoadingOverlay("getListMovies")
+                hideLoadingOverlay()
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             tvShows.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "tvShows:")
-                hideLoadingOverlay("getTvShows")
+                hideLoadingOverlay()
                 tvAdapter?.setData(films.data.items, films.data.imgDomain)
             }
             allSeries.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "allSeries: ")
-                hideLoadingOverlay("getAllSeries")
+                hideLoadingOverlay()
             }
         }
     }

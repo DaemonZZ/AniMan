@@ -45,7 +45,7 @@ class SuggestionFragment :
                             playerViewModel?.playerData?.value?.data?.item?.category?.random()
                                 ?.let {
                                     viewModel.getSuggestions(it, page + 1)
-                                    showLoadingOverlay("getSuggestions")
+                                    showLoadingOverlay()
                                 }
                         }
                     }
@@ -55,7 +55,7 @@ class SuggestionFragment :
                                 playerViewModel?.playerData?.value?.data?.item?.category?.random()
                                     ?.let {
                                         viewModel.getSuggestions(it, page - 1)
-                                        showLoadingOverlay("getSuggestions")
+                                        showLoadingOverlay()
                                     }
 
                             }
@@ -70,12 +70,12 @@ class SuggestionFragment :
         viewModel.suggestions.observe(viewLifecycleOwner) {
             ALog.d(TAG, "suggestions: ${it.size}")
             suggestionAdapter?.setData(it, viewModel.imgDomain)
-            hideLoadingOverlay("getSuggestions")
+            hideLoadingOverlay()
         }
         playerViewModel?.currentPlaying?.observe(viewLifecycleOwner) {
             playerViewModel?.playerData?.value?.data?.item?.category?.random()?.let {
                 viewModel.getSuggestions(it, 0)
-                showLoadingOverlay("getSuggestions")
+                showLoadingOverlay()
             }
 
         }

@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
 import com.daemonz.animange.util.loadGif
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoadingOverLay : DialogFragment() {
     private var _binding: LoadingOverlayBinding? = null
     private val binding get() = _binding!!
+    private var countdown = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.FullScreenDialogStyle)
@@ -29,12 +33,25 @@ class LoadingOverLay : DialogFragment() {
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-        try {
-            super.show(manager, tag)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        lifecycleScope.launch {
+            try {
+                if (countdown >= 0) {
+                    if (!isAdded) {
+                        super.show(manager, tag)
+                    }
+                    countdown = 5000
+                    while (countdown > 0) {
+                        countdown -= 50
+                        delay(50)
+                    }
+                    dismiss()
+                } else {
+                    countdown = 5000
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,5 +63,9 @@ class LoadingOverLay : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun hide() {
+        countdown = 0
     }
 }

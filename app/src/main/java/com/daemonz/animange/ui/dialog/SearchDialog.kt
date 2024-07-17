@@ -76,7 +76,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingDa
                 if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
                     viewModel.clearCache()
                     viewModel.search(text.toString().trim())
-                    (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, "search")
+                    (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager)
                 }
             }, 2000L)
             if (text.toString().isEmpty()) {
@@ -120,7 +120,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingDa
         viewModel.searchResult.observe(viewLifecycleOwner) {
             ALog.d(TAG, "searchResult: ${it.size}")
             resultAdapter?.setData(it, viewModel.imgDomain)
-            (activity as? MainActivity)?.hideLoadingOverlay("search")
+            (activity as? MainActivity)?.hideLoadingOverlay()
             binding.apply {
                 textNoResult.isVisible = it.isEmpty()
                 resultRecycler.isVisible = it.isNotEmpty()

@@ -63,13 +63,12 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun showLoadingOverlay(id: String) {
-        ALog.d(TAG, "showLoadingOverlay $id")
-        (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager, id)
+    fun showLoadingOverlay() {
+        (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager)
     }
 
-    fun hideLoadingOverlay(id: String) {
-        (activity as? MainActivity)?.hideLoadingOverlay(id)
+    fun hideLoadingOverlay() {
+        (activity as? MainActivity)?.hideLoadingOverlay()
     }
 
     override fun onDestroyView() {

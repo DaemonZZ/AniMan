@@ -49,7 +49,7 @@ class TvShowFragment :
                         ALog.d(TAG, "load new page ${(tvAdapter?.lastPage ?: -88) + 1}")
                         tvAdapter?.lastPage?.let {
                             viewModel.getTvShows(it + 1)
-                            showLoadingOverlay("getTvShows")
+                            showLoadingOverlay()
                         }
                     }
                     if (!recyclerView.canScrollVertically(-1)) {
@@ -57,7 +57,7 @@ class TvShowFragment :
                         tvAdapter?.firstPage?.let {
                             if (it > 1) {
                                 viewModel.getTvShows(it - 1)
-                                showLoadingOverlay("getTvShows")
+                                showLoadingOverlay()
                             }
                         }
                     }
@@ -75,7 +75,7 @@ class TvShowFragment :
                 ALog.d(TAG, "lastPosition: $lastPosition")
                 binding.moviesRecycler.scrollToPosition(lastPosition)
             }
-            binding.root.postDelayed({ hideLoadingOverlay("getTvShows") }, 1000)
+            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
         }
     }
 
@@ -93,7 +93,7 @@ class TvShowFragment :
 
     override fun initData() {
         viewModel.getTvShows(1)
-        showLoadingOverlay("getTvShows")
+        showLoadingOverlay()
     }
 
     private fun navigateToPlayer(item: Item) {

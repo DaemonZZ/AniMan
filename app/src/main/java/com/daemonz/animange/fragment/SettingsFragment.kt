@@ -72,7 +72,7 @@ class SettingsFragment :
             logout.textTitle.text = getString(R.string.logout)
             logout.root.setOnClickListener {
                 viewModel.logout(requireContext())
-                showLoadingOverlay("logout")
+                showLoadingOverlay()
             }
         }
     }
@@ -117,7 +117,7 @@ class SettingsFragment :
             }
             account.observe(viewLifecycleOwner) {
                 loadViewState()
-                hideLoadingOverlay("logout")
+                hideLoadingOverlay()
             }
         }
     }
