@@ -9,11 +9,16 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.loadGif
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoadingOverLay : DialogFragment() {
+    companion object {
+        private const val TAG = "LoadingOverLay"
+    }
     private var _binding: LoadingOverlayBinding? = null
     private val binding get() = _binding!!
     private var countdown = 0
@@ -33,7 +38,10 @@ class LoadingOverLay : DialogFragment() {
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(CoroutineExceptionHandler { coroutineContext, throwable ->
+            ALog.e(TAG, "show: ${throwable.message}")
+            dismiss()
+        }) {
             try {
                 if (countdown >= 0) {
                     if (!isAdded) {
@@ -52,11 +60,6 @@ class LoadingOverLay : DialogFragment() {
                 e.printStackTrace()
             }
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
 

@@ -71,10 +71,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var sharePreferenceManager: SharePreferenceManager
 
-    private val loadingRequest = mutableSetOf<String>()
-    private val loadingDialog: LoadingOverLay by lazy {
-        LoadingOverLay()
-    }
+    private var loadingDialog: LoadingOverLay = LoadingOverLay()
+
     private var topAppBar: MaterialToolbar? = null
     private var appBarLayout: AppBarLayout? = null
     private var bottomNavigation: BottomNavigationView? = null
@@ -297,6 +295,9 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showLoadingOverlay(fm: FragmentManager) {
+        if (loadingDialog.isAdded)
+            loadingDialog.dismiss()
+        loadingDialog = LoadingOverLay()
         loadingDialog.show(fm, "LoadingOverLay")
     }
 
@@ -473,6 +474,7 @@ class MainActivity : AppCompatActivity() {
             R.id.themeFragment -> {
                 toggleToolBarShowing(false)
             }
+
             else -> {
                 topAppBar?.isVisible = true
                 topAppBar?.navigationIcon =
