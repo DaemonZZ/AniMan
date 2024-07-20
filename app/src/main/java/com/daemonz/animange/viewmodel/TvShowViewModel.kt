@@ -2,6 +2,7 @@ package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
@@ -31,7 +32,9 @@ class TvShowViewModel @Inject constructor() : BaseViewModel() {
             repository.getTvShows(page.toString()).addOnCompleteListener {
                 launchOnUI {
                     imgDomain = it.data.imgDomain
-                    _shows.value = it.data.items.map {
+                    _shows.value = it.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map {
                         PagingData(
                             page = page,
                             data = it
