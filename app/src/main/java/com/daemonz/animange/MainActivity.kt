@@ -3,11 +3,13 @@ package com.daemonz.animange
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.View
@@ -16,6 +18,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -40,6 +43,7 @@ import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.NIGHT_MODE_KEY
+import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.util.ThemeManager
 import com.daemonz.animange.viewmodel.LoginViewModel
@@ -53,6 +57,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.Constants
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,9 +78,6 @@ class MainActivity : AppCompatActivity() {
 
     private var loadingDialog: LoadingOverLay = LoadingOverLay()
 
-    private var topAppBar: MaterialToolbar? = null
-    private var appBarLayout: AppBarLayout? = null
-    private var bottomNavigation: BottomNavigationView? = null
     private val listFragmentsWithNavbar = listOf(
         R.id.homeFragment,
         R.id.moviesFragment,
@@ -96,20 +98,19 @@ class MainActivity : AppCompatActivity() {
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
-                bottomNavigation?.visibility = View.VISIBLE
+                binding.bottomNavigation.visibility = View.VISIBLE
                 binding.adViewContainer.isVisible = true
                 toggleToolBarShowing(
                     isShow = destination.id != R.id.settingsFragment,
                     autoHide = true
                 )
             } else {
-                bottomNavigation?.visibility = View.GONE
+                binding.bottomNavigation.visibility = View.GONE
                 binding.adViewContainer.isVisible = false
             }
-            appBarLayout?.postDelayed({ changeToolBarAction(destination.id) }, 500)
+            binding.topAppBar.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }
     private var lastAction: Long = 0
-    private var lastLoadingAction: Long = 0
 
     private val adSize: AdSize
         get() {
@@ -183,18 +184,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(0, systemBars.top, 0, 0)
             insets
         }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        topAppBar = findViewById(R.id.topAppBar)
-        appBarLayout = findViewById(R.id.app_bar_layout)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
         initAdmob()
         askNotificationPermission()
         loadIntent()
+
+        viewModel.hasNewUpdate.observe(this) {
+            if (it != null) {
+                updateDialog.isOptional = it.isOptional
+                if (!updateDialog.isAdded) {
+                    updateDialog.show(supportFragmentManager, UpdateDialog.TAG)
+                }
+            }
+        }
+        ALog.w(TAG, "onCreate: ${intent.data}")
+        viewModel.checkForUpdate()
     }
 
     private fun loadIntent() {
@@ -264,21 +271,11 @@ class MainActivity : AppCompatActivity() {
                 )
             ).build()
         )
-        viewModel.hasNewUpdate.observe(this) {
-            if (it != null) {
-                updateDialog.isOptional = it.isOptional
-                if (!updateDialog.isAdded) {
-                    updateDialog.show(supportFragmentManager, UpdateDialog.TAG)
-                }
-            }
-        }
-        ALog.w(TAG, "onCreate: ${intent.data}")
     }
 
     override fun onStart() {
         super.onStart()
         setupViews()
-        viewModel.checkForUpdate()
     }
 
     override fun onResume() {
@@ -306,59 +303,63 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        val navController = Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
-        bottomNavigation?.setupWithNavController(navController)
-        setSupportActionBar(topAppBar)
-        supportActionBar?.title = null
-        topAppBar?.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.search -> {
-                    val navFrag = supportFragmentManager.fragments.find { it is NavHostFragment }
-                    navFrag?.childFragmentManager?.fragments?.forEach {
-                        (it as? BottomNavigationAction)?.onSearch()
+        binding.apply {
+            val navController =
+                Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
+            bottomNavigation.setupWithNavController(navController)
+            title.text = null
+            menuInflater.inflate(R.menu.top_bar_menu, rightMenu.menu)
+            rightMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.search -> {
+                        val navFrag =
+                            supportFragmentManager.fragments.find { it is NavHostFragment }
+                        navFrag?.childFragmentManager?.fragments?.forEach {
+                            (it as? BottomNavigationAction)?.onSearch()
+                        }
+                        true
                     }
-                    true
-                }
 
-                R.id.edit -> {
-                    val frag =
-                        supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
-                    (frag as? ChooseUserFragment)?.onEditEnable(true)
-                    topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-                    topAppBar?.menu?.findItem(R.id.close)?.isVisible = true
-                    true
-                }
+                    R.id.edit -> {
+                        val frag =
+                            supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                        (frag as? ChooseUserFragment)?.onEditEnable(true)
+                        rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                        rightMenu.menu?.findItem(R.id.close)?.isVisible = true
+                        true
+                    }
 
-                R.id.close -> {
-                    val frag =
-                        supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
-                    (frag as? ChooseUserFragment)?.onEditEnable(false)
-                    topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
-                    topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
-                    true
-                }
+                    R.id.close -> {
+                        val frag =
+                            supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                        (frag as? ChooseUserFragment)?.onEditEnable(false)
+                        rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
+                        rightMenu.menu?.findItem(R.id.close)?.isVisible = false
+                        true
+                    }
 
-                else -> false
+                    else -> false
+                }
             }
-        }
 //            NavigationBarView.OnItemSelectedListener { item ->
 //
 //                true
 //            }
-        bottomNavigation?.setOnItemReselectedListener { item ->
-            when (item.itemId) {
-//                    R.id.item_1 -> {
-//                        // Respond to navigation item 1 reselection
-//                    }
-//                    R.id.item_2 -> {
-//                        // Respond to navigation item 2 reselection
-//                    }
+            bottomNavigation.setOnItemReselectedListener { item ->
+                when (item.itemId) {
+                    //                    R.id.item_1 -> {
+                    //                        // Respond to navigation item 1 reselection
+                    //                    }
+                    //                    R.id.item_2 -> {
+                    //                        // Respond to navigation item 2 reselection
+                    //                    }
+                }
             }
         }
     }
 
     private fun showHideToolbar(isShow: Boolean) {
-        appBarLayout?.apply {
+        binding.topAppBar.apply {
             if (isShow) {
                 animate().translationY(0f).alpha(1f).setDuration(200)
                     .setListener(object : AnimatorListenerAdapter() {
@@ -383,11 +384,11 @@ class MainActivity : AppCompatActivity() {
         isShow?.let {
             showHideToolbar(it)
         } ?: kotlin.run {
-            showHideToolbar(appBarLayout?.isVisible != true)
+            showHideToolbar(!binding.topAppBar.isVisible)
         }
         if (isShow == true && autoHide) {
             lastAction = SystemClock.elapsedRealtime()
-            appBarLayout?.postDelayed({
+            binding.topAppBar.postDelayed({
                 if (SystemClock.elapsedRealtime() - lastAction > 2000L) {
                     showHideToolbar(false)
                 }
@@ -396,105 +397,133 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeToolBarAction(fragment: Int) {
-        when (fragment) {
-            R.id.playerFragment -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
+        binding.apply {
+            when (fragment) {
+                R.id.playerFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.arrow_back,
+                            null
+                        )
+                    )
+
+                    navIcon.setOnClickListener {
+                        val navController = findNavController(R.id.navHostFragment)
+                        navController.popBackStack()
+                    }
+                    topAppBar.fitsSystemWindows = false
+                    rightMenu.menu.findItem(R.id.search)?.isVisible = false
+                    title.text = STRING_EMPTY
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                 }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                topAppBar?.title = ""
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
+
+                R.id.favouritesFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.arrow_back,
+                            null
+                        )
+                    )
+                    navIcon.setOnClickListener {
+                        val navController = findNavController(R.id.navHostFragment)
+                        navController.popBackStack()
+                    }
+                    topAppBar.fitsSystemWindows = false
+                    rightMenu.menu.findItem(R.id.search)?.isVisible = false
+                    title.text = getString(R.string.favourites_filmes)
+                    toggleToolBarShowing(isShow = true, autoHide = false)
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                }
+
+                R.id.profileFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.arrow_back,
+                            null
+                        )
+                    )
+                    navIcon.setOnClickListener {
+                        val navController = findNavController(R.id.navHostFragment)
+                        navController.popBackStack()
+                    }
+                    topAppBar.fitsSystemWindows = false
+                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    title.text = getString(R.string.user_profile)
+                    toggleToolBarShowing(isShow = true, autoHide = false)
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                }
+
+                R.id.chooseUserFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.arrow_back,
+                            null
+                        )
+                    )
+
+                    navIcon.setOnClickListener {
+                        val navController = findNavController(R.id.navHostFragment)
+                        navController.popBackStack()
+                    }
+                    topAppBar.fitsSystemWindows = false
+                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    title.text = getString(R.string.who_watching)
+                    toggleToolBarShowing(isShow = true, autoHide = false)
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
+                }
+
+                R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.arrow_back,
+                            null
+                        )
+                    )
+                    navIcon.setOnClickListener {
+                        val navController = findNavController(R.id.navHostFragment)
+                        navController.popBackStack()
+                    }
+                    topAppBar.fitsSystemWindows = false
+                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    toggleToolBarShowing(isShow = true, autoHide = false)
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    rightMenu.menu?.findItem(R.id.close)?.isVisible = false
+                }
+
+                R.id.themeFragment -> {
+                    toggleToolBarShowing(false)
+                }
+
+                else -> {
+                    topAppBar.isVisible = true
+                    navIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.logo_landcape,
+                            null
+                        )
+                    )
+                    navIcon.setOnClickListener {
+                        //
+                    }
+                    topAppBar.fitsSystemWindows = true
+                    rightMenu.menu?.findItem(R.id.search)?.isVisible = true
+                    title.text = STRING_EMPTY
+                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                }
             }
 
-            R.id.favouritesFragment -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
-                }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                topAppBar?.title = getString(R.string.favourites_filmes)
-                toggleToolBarShowing(isShow = true, autoHide = false)
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-            }
-
-            R.id.profileFragment -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
-                }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                topAppBar?.title = getString(R.string.user_profile)
-                toggleToolBarShowing(isShow = true, autoHide = false)
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-            }
-
-            R.id.chooseUserFragment -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
-                }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                topAppBar?.title = getString(R.string.who_watching)
-                toggleToolBarShowing(isShow = true, autoHide = false)
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = true
-            }
-
-            R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.arrow_back, null)
-                topAppBar?.setNavigationOnClickListener {
-                    val navController = findNavController(R.id.navHostFragment)
-                    navController.popBackStack()
-                }
-                topAppBar?.fitsSystemWindows = false
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = false
-                toggleToolBarShowing(isShow = true, autoHide = false)
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-                topAppBar?.menu?.findItem(R.id.close)?.isVisible = false
-            }
-
-            R.id.themeFragment -> {
-                toggleToolBarShowing(false)
-            }
-
-            else -> {
-                topAppBar?.isVisible = true
-                topAppBar?.navigationIcon =
-                    ResourcesCompat.getDrawable(resources, R.drawable.app_logo, null)
-                topAppBar?.setNavigationOnClickListener {
-                    //
-                }
-                topAppBar?.fitsSystemWindows = true
-                topAppBar?.menu?.findItem(R.id.search)?.isVisible = true
-                topAppBar?.title = ""
-                topAppBar?.menu?.findItem(R.id.edit)?.isVisible = false
-            }
         }
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.top_bar_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-
     }
 
     private fun loadBanner() {
@@ -528,7 +557,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setTitle(title: String) {
-        topAppBar?.title = title
+        binding.title.text = title
     }
 
     override fun onNewIntent(intent: Intent) {
