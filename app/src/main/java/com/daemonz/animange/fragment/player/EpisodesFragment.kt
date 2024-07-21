@@ -19,10 +19,13 @@ class EpisodesFragment :
 
     override fun setupViews() {
         binding.apply {
-            episodeAdapter = EpisodeListAdapter({ _, index ->
-                episodeAdapter?.setPivot(index)
-                playerViewModel?.chooseEpisode(index)
-            }, requireContext())
+            episodeAdapter = EpisodeListAdapter(
+                onItemClickListener = { _, index ->
+                    episodeAdapter?.setPivot(index)
+                    playerViewModel?.chooseEpisode(index)
+                },
+                theme = currentTheme
+            )
             recyclerEpisodes.adapter = episodeAdapter
         }
     }

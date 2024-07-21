@@ -6,10 +6,16 @@ import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FilmCarouselItemBinding
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.setImageFromUrl
 
-class FilmCarouselAdapter(private val onItemClickListener: OnItemClickListener<Item>) :
-    BaseRecyclerAdapter<Item, FilmCarouselItemBinding>(onItemClickListener = onItemClickListener) {
+class FilmCarouselAdapter(
+    private val onItemClickListener: OnItemClickListener<Item>,
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<Item, FilmCarouselItemBinding>(
+    onItemClickListener = onItemClickListener,
+    theme = theme
+) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FilmCarouselItemBinding
         get() = FilmCarouselItemBinding::inflate
 

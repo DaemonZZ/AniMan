@@ -7,10 +7,17 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.CommonRecyclerItemBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.setImageFromUrl
 
-class CommonRecyclerAdapter(private val onItemClickListener: OnItemClickListener<Item>) :
-    BaseRecyclerAdapter<Item, CommonRecyclerItemBinding>(onItemClickListener = onItemClickListener) {
+class CommonRecyclerAdapter(
+    private val onItemClickListener: OnItemClickListener<Item>,
+    private val theme: AnimanTheme
+) :
+    BaseRecyclerAdapter<Item, CommonRecyclerItemBinding>(
+        onItemClickListener = onItemClickListener,
+        theme = theme
+    ) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CommonRecyclerItemBinding
         get() = CommonRecyclerItemBinding::inflate
 

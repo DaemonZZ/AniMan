@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
 
     private fun setupTvRecycler() {
         binding.apply {
-            tvAdapter = CommonRecyclerAdapter(onItemClickListener)
+            tvAdapter = CommonRecyclerAdapter(onItemClickListener, currentTheme)
             tvRecycler.adapter = tvAdapter
         }
     }
@@ -67,14 +67,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             val snapHelper = CarouselSnapHelper()
             movERecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(movERecycler)
-            moviesAdapter = FilmCarouselAdapter(onItemClickListener)
+            moviesAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             movERecycler.adapter = moviesAdapter
         }
     }
 
     private fun setupAnimeRecycler() {
         binding.apply {
-            animeAdapter = CommonRecyclerAdapter(onItemClickListener)
+            animeAdapter = CommonRecyclerAdapter(onItemClickListener, currentTheme)
             animeRecycler.adapter = animeAdapter
         }
     }
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             val snapHelper = CarouselSnapHelper()
             vietNamRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(vietNamRecycler)
-            vietNamAdapter = FilmCarouselAdapter(onItemClickListener)
+            vietNamAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             vietNamRecycler.adapter = vietNamAdapter
         }
     }
@@ -96,7 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             val snapHelper = CarouselSnapHelper()
             seriesRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(seriesRecycler)
-            seriesIncomingAdapter = FilmCarouselAdapter(onItemClickListener)
+            seriesIncomingAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             seriesRecycler.adapter = seriesIncomingAdapter
         }
     }
@@ -107,10 +107,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             val snapHelper = CarouselSnapHelper()
             homeItemRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(homeItemRecycler)
-            homeCarouselAdapter = HomeCarouselAdapter { item, index ->
-                ALog.i(TAG, "onItemClick: $index")
-                navigateToPlayer(item)
-            }
+            homeCarouselAdapter = HomeCarouselAdapter(
+                theme = currentTheme,
+                onItemClickListener = { item, index ->
+                    ALog.i(TAG, "onItemClick: $index")
+                    navigateToPlayer(item)
+                }
+            )
             homeItemRecycler.adapter = homeCarouselAdapter
             val metric = requireActivity().windowManager.currentWindowMetrics.bounds
             val height = metric.width().coerceAtMost(metric.height()) //height

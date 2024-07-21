@@ -48,7 +48,8 @@ class CommentFragment :
             onClickItem = { _, _ ->
                 binding.edtComment.clearFocus()
                 imm?.hideSoftInputFromWindow(view?.windowToken, 0)
-            }
+            },
+            theme = currentTheme
         )
         binding.recyclerComment.adapter = adapter
         binding.apply {

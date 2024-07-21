@@ -10,13 +10,18 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SuggestionVideoItemBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.setImageFromUrl
 
 class SuggestionAdapter(
     private val onItemClickListener: OnItemClickListener<PagingData<Item>>,
     private val onFavourite: (Item) -> Unit,
-) : BasePagingAdapter<Item, PagingData<Item>, SuggestionVideoItemBinding>(onItemClickListener) {
+    private val theme: AnimanTheme
+) : BasePagingAdapter<Item, PagingData<Item>, SuggestionVideoItemBinding>(
+    onItemClickListener,
+    theme
+) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> SuggestionVideoItemBinding
         get() = SuggestionVideoItemBinding::inflate
 

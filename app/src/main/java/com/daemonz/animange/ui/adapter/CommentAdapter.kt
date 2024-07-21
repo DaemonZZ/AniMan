@@ -11,6 +11,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemCommentBinding
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
 
@@ -19,8 +20,8 @@ class CommentAdapter(
     private val loadReplies: OnItemClickListener<Comment>,
     private val onReplyClicked: OnItemClickListener<Comment>,
     private val onClickItem: OnItemClickListener<Comment>,
-) :
-    BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem) {
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemCommentBinding
         get() = ItemCommentBinding::inflate
     private var slug = ""
@@ -88,7 +89,8 @@ class CommentAdapter(
                 onLikeClicked = onLikeClicked,
                 loadReplies = loadReplies,
                 onReplyClicked = onReplyClicked,
-                onClickItem = onClickItem
+                onClickItem = onClickItem,
+                theme = theme
             )
         binding.recyclerReply.adapter = adapter
         adapter.setData(items)

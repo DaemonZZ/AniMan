@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 
 
-abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(private val onItemClickListener: OnItemClickListener<Item>) :
+abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(
+    private val onItemClickListener: OnItemClickListener<Item>,
+    theme: AnimanTheme
+) :
     RecyclerView.Adapter<BaseRecyclerAdapter.BaseViewHolder<ViewBinding>>() {
 
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding

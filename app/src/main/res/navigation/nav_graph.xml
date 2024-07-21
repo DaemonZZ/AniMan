@@ -84,6 +84,6 @@
         app:destination="@id/playerFragment" />
     <fragment
         android:id="@+id/themeFragment"
-        android:name="com.daemonz.animange.fragment.ThemeFragment"
+        android:name="com.daemonz.animange.fragment.ThemeChoosingFragment"
         android:label="ThemeFragment" />
 </navigation>

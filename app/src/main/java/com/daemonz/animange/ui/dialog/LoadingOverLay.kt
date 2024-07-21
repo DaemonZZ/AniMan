@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class LoadingOverLay : DialogFragment() {
+class LoadingOverLay : BaseDialog() {
     companion object {
         private const val TAG = "LoadingOverLay"
     }

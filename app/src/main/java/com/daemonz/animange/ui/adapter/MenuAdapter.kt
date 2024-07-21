@@ -10,9 +10,12 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.MenuItemBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemType
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 
-class MenuAdapter(private val onItemClickListener: OnItemClickListener<MenuItem>) :
-    BaseRecyclerAdapter<MenuItem, MenuItemBinding>(onItemClickListener) {
+class MenuAdapter(
+    private val onItemClickListener: OnItemClickListener<MenuItem>,
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<MenuItem, MenuItemBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> MenuItemBinding
         get() = MenuItemBinding::inflate
 

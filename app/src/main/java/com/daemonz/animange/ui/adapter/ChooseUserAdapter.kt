@@ -10,12 +10,13 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemChooseUserBinding
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.loadImageFromStorage
 
 class ChooseUserAdapter(
     onItemClickListener: OnItemClickListener<User>,
-) :
-    BaseRecyclerAdapter<User, ItemChooseUserBinding>(onItemClickListener) {
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<User, ItemChooseUserBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemChooseUserBinding
         get() = ItemChooseUserBinding::inflate
 

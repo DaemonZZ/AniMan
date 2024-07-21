@@ -13,17 +13,21 @@ import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
+import com.daemonz.animange.ui.thememanager.LightTheme
+import com.dolatkia.animatedThemeManager.AppTheme
+import com.dolatkia.animatedThemeManager.ThemeFragment
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     private val inflate: Inflate<VB>
-) : Fragment() {
+) : ThemeFragment() {
     protected val TAG: String = this::class.java.simpleName
     private var _binding: VB? = null
     protected val binding: VB by lazy { _binding!! }
     protected abstract val viewModel: VM
-
+    protected var currentTheme: AnimanTheme = LightTheme()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +87,19 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     open fun initData() {
         //empty
     }
+
     fun toggleToolBarShowing(isShow: Boolean? = null, autoHide: Boolean = false) {
         (activity as? MainActivity)?.toggleToolBarShowing(isShow, autoHide)
+    }
+
+    override fun syncTheme(appTheme: AppTheme) {
+        currentTheme = appTheme as AnimanTheme
+        syncTheme()
+    }
+
+    open fun syncTheme() {
+        currentTheme.apply {
+            binding.root.setBackgroundColor(firstActivityBackgroundColor(requireContext()))
+        }
     }
 }

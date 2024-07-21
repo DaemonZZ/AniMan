@@ -9,10 +9,13 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.CardItemBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.setImageFromUrl
 
-class GridAdapter(private val onItemClickListener: OnItemClickListener<PagingData<Item>>) :
-    BasePagingAdapter<Item, PagingData<Item>, CardItemBinding>(onItemClickListener) {
+class GridAdapter(
+    private val onItemClickListener: OnItemClickListener<PagingData<Item>>,
+    private val theme: AnimanTheme
+) : BasePagingAdapter<Item, PagingData<Item>, CardItemBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CardItemBinding
         get() = CardItemBinding::inflate
 

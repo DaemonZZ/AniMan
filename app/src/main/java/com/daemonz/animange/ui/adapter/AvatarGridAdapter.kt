@@ -5,10 +5,14 @@ import android.view.ViewGroup
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.AvtCardItemBinding
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.loadImageFromStorage
 
-class AvatarGridAdapter(onItemClickListener: OnItemClickListener<Int>) :
-    BaseRecyclerAdapter<Int, AvtCardItemBinding>(onItemClickListener) {
+class AvatarGridAdapter(
+    onItemClickListener: OnItemClickListener<Int>,
+    private val theme: AnimanTheme
+) :
+    BaseRecyclerAdapter<Int, AvtCardItemBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> AvtCardItemBinding
         get() = AvtCardItemBinding::inflate
 

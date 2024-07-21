@@ -33,7 +33,7 @@ class ChooseAvatarFragment :
             avtRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 justifyContent = JustifyContent.CENTER
             }
-            avtAdapter = AvatarGridAdapter(onItemClickListener)
+            avtAdapter = AvatarGridAdapter(onItemClickListener, currentTheme)
             avtRecycler.adapter = avtAdapter
             avtAdapter?.setData((1..21).map { it })
             avtRecycler.addOnScrollListener(object : OnScrollListener() {

@@ -8,10 +8,13 @@ import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemRatingBinding
 import com.daemonz.animange.entity.FilmRating
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.loadImageFromStorage
 
-class RatingAdapter(onclick: OnItemClickListener<FilmRating>) :
-    BaseRecyclerAdapter<FilmRating, ItemRatingBinding>(onclick) {
+class RatingAdapter(
+    onclick: OnItemClickListener<FilmRating>,
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<FilmRating, ItemRatingBinding>(onclick, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemRatingBinding
         get() = ItemRatingBinding::inflate
     private var listStar: List<AppCompatImageView> = listOf()

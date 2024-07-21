@@ -17,7 +17,7 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.dpToPx
 
 
-class PlayerMaskDialog : DialogFragment() {
+class PlayerMaskDialog : BaseDialog() {
     private var _binding: TransparentLayoutBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {

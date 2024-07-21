@@ -51,6 +51,7 @@ class ChooseUserFragment :
                     }
                 }
             },
+            theme = currentTheme
         )
         binding.userRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
             justifyContent = JustifyContent.CENTER

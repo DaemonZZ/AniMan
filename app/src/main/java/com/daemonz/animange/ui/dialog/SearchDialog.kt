@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingData<Item>>) :
-    DialogFragment() {
+    BaseDialog() {
     companion object {
         private const val TAG = "SearchDialog"
     }
@@ -95,7 +95,7 @@ class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingDa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            resultAdapter = SearchAdapter(onItemClickListener)
+            resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
             resultRecycler.adapter = resultAdapter
             resultRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

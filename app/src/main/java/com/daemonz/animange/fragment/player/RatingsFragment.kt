@@ -16,7 +16,10 @@ class RatingsFragment :
     private var adapter: RatingAdapter? = null
 
     override fun setupViews() {
-        adapter = RatingAdapter { _, _ -> }
+        adapter = RatingAdapter(
+            onclick = { _, _ -> },
+            theme = currentTheme
+        )
         binding.recycler.adapter = adapter
     }
 

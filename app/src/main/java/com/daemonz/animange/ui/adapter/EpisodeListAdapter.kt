@@ -1,6 +1,5 @@
 package com.daemonz.animange.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.daemonz.animange.R
@@ -9,11 +8,12 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.EpisodeItemBinding
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.EpisodeDetail
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 
 class EpisodeListAdapter(
     private val onItemClickListener: OnItemClickListener<EpisodeDetail>,
-    private val context: Context
-) : BaseRecyclerAdapter<EpisodeDetail, EpisodeItemBinding>(onItemClickListener) {
+    private val theme: AnimanTheme
+) : BaseRecyclerAdapter<EpisodeDetail, EpisodeItemBinding>(onItemClickListener, theme) {
     private var pivot = 0
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> EpisodeItemBinding
         get() = EpisodeItemBinding::inflate

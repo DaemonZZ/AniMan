@@ -34,7 +34,7 @@ class MoviesFragment :
     override fun setupViews() {
         binding.apply {
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            moviesAdapter = GridAdapter(onItemClickListener)
+            moviesAdapter = GridAdapter(onItemClickListener, currentTheme)
             moviesRecycler.adapter = moviesAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

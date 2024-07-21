@@ -34,7 +34,7 @@ class SecretFragment :
     override fun setupViews() {
         binding.apply {
             recycler.layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = GridAdapter(onItemClickListener)
+            adapter = GridAdapter(onItemClickListener, currentTheme)
             recycler.adapter = adapter
             recycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

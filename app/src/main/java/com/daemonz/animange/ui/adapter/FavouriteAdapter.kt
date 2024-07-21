@@ -8,14 +8,16 @@ import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SuggestionVideoItemBinding
 import com.daemonz.animange.entity.FavouriteItem
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.setImageFromUrl
 
 class FavouriteAdapter(
     private val onItemClickListener: OnItemClickListener<FavouriteItem>,
     private val onFavourite: (FavouriteItem) -> Unit,
+    private val theme: AnimanTheme
 ) :
-    BaseRecyclerAdapter<FavouriteItem, SuggestionVideoItemBinding>(onItemClickListener) {
+    BaseRecyclerAdapter<FavouriteItem, SuggestionVideoItemBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> SuggestionVideoItemBinding
         get() = SuggestionVideoItemBinding::inflate
 

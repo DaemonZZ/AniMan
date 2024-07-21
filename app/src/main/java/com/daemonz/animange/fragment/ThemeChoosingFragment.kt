@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ThemeFragment :
+class ThemeChoosingFragment :
     BaseFragment<FragmentMenuBinding, ThemeViewModel>(FragmentMenuBinding::inflate) {
     override val viewModel: ThemeViewModel by viewModels()
 
@@ -35,8 +35,8 @@ class ThemeFragment :
         binding.recycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = MenuAdapter(
-            onItemClickListener = { item, _ ->
-            }
+            onItemClickListener = { item, _ -> },
+            theme = currentTheme
         )
         binding.recycler.adapter = adapter
         val data = (0..<AppThemeManager.themes.size).map {

@@ -20,20 +20,23 @@ class FavouritesFragment :
 
     override fun setupViews() {
         binding.apply {
-            adapter = FavouriteAdapter(onFavourite = { item ->
-                LoginData.getActiveUser()?.let {
-                    ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
-                    if (it.isFavourite(item.slug)) {
-                        viewModel.unMarkItemAsFavorite(item)
-                    } else {
-                        viewModel.markItemAsFavorite(item)
+            adapter = FavouriteAdapter(
+                onFavourite = { item ->
+                    LoginData.getActiveUser()?.let {
+                        ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
+                        if (it.isFavourite(item.slug)) {
+                            viewModel.unMarkItemAsFavorite(item)
+                        } else {
+                            viewModel.markItemAsFavorite(item)
+                        }
                     }
-                }
-            },
+                },
                 onItemClickListener = { item, _ ->
                     ALog.d(TAG, "onItemClick: ${item.slug}")
                     findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = item.slug))
-                })
+                },
+                theme = currentTheme
+            )
             recycler.adapter = adapter
             LoginData.getActiveUser()?.favorites?.let {
                 if (it.isEmpty()) {

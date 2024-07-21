@@ -22,20 +22,23 @@ class SuggestionFragment :
 
     override fun setupViews() {
         binding.apply {
-            suggestionAdapter = SuggestionAdapter(onFavourite = { item ->
-                LoginData.getActiveUser()?.let {
-                    ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
-                    if (it.isFavourite(item.slug)) {
-                        playerViewModel?.unMarkItemAsFavorite(item)
-                    } else {
-                        playerViewModel?.markItemAsFavorite(item)
+            suggestionAdapter = SuggestionAdapter(
+                onFavourite = { item ->
+                    LoginData.getActiveUser()?.let {
+                        ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
+                        if (it.isFavourite(item.slug)) {
+                            playerViewModel?.unMarkItemAsFavorite(item)
+                        } else {
+                            playerViewModel?.markItemAsFavorite(item)
+                        }
                     }
-                }
-            },
+                },
                 onItemClickListener = { item, _ ->
                     ALog.d(TAG, "onItemClick: ${item.data.slug}")
                     playerViewModel?.loadData(item.data.slug)
-                })
+                },
+                theme = currentTheme
+            )
             recyclerSuggest.adapter = suggestionAdapter
 
             recyclerSuggest.addOnScrollListener(object : OnScrollListener() {
