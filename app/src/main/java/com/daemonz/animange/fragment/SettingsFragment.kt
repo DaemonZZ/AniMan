@@ -138,4 +138,22 @@ class SettingsFragment :
 
     }
 
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.apply {
+            profile.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
+            favourite.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
+            feedback.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
+            logout.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
+            support.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
+            textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            profile.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            favourite.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            feedback.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            logout.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            support.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            title.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+        }
+    }
+
 }

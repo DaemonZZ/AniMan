@@ -30,6 +30,7 @@ class GridAdapter(
             )
             textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             textSubtitle.setTextColor(theme.firstActivityTextColor(root.context))
+            root.setCardBackgroundColor(theme.menuItemBackground(root.context))
         }
     }
 }

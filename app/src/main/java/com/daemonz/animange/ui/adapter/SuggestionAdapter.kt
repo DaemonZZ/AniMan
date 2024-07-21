@@ -35,9 +35,13 @@ class SuggestionAdapter(
                 item.data.getImageUrl(imgDomain),
                 cornerRadius = 100
             )
+            root.setCardBackgroundColor(theme.firstActivityBackgroundColor(root.context))
             textTitle.text = item.data.name
+            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             textDesc.text = item.data.originName
+            textDesc.setTextColor(theme.firstActivityTextColor(root.context))
             textStatus.text = item.data.year
+            textStatus.setTextColor(theme.firstActivityTextColor(root.context))
             root.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }

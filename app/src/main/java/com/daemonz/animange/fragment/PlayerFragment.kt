@@ -365,4 +365,24 @@ class PlayerFragment :
             viewModel.loadData(slug)
         }
     }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.apply {
+            tabSuggest.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabSuggest.setTabTextColors(
+                currentTheme.tabTextColorDefault(requireContext()),
+                currentTheme.tabTextColorSelected(requireContext())
+            )
+            textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textDesc.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textYear.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textCountry.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textCategory.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textDuration.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textEpisodes.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textOriginName.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+        }
+    }
 }
