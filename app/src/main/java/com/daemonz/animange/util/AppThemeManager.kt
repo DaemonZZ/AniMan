@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import com.daemonz.animange.R
 
-object ThemeManager {
+object AppThemeManager {
     val themes = listOf(
         R.style.AppTheme,
         R.style.AppTheme1,
@@ -15,16 +15,10 @@ object ThemeManager {
     )
 
     fun changeTheme(
-        context: Context,
         activity: FragmentActivity,
-        sharePreferenceManager: SharePreferenceManager,
-        themeIndex: Int
+        theme: Int
     ) {
-        sharePreferenceManager.setInt(THEME_KEY, themeIndex)
-        val intent = activity.intent
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        activity.finish()
-        context.startActivity(intent)
+        activity.recreate()
     }
 
     fun getTheme(sharePreferenceManager: SharePreferenceManager): Int {

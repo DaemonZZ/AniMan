@@ -40,12 +40,14 @@ import com.daemonz.animange.ui.thememanager.DarkTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
+import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
+import com.dolatkia.animatedThemeManager.ThemeAnimationListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -200,6 +202,26 @@ class MainActivity : ThemeActivity() {
         }
         ALog.w(TAG, "onCreate: ${intent.data}")
         viewModel.checkForUpdate()
+        setThemeAnimationListener(object : ThemeAnimationListener {
+            override fun onAnimationCancel(animation: Animator) {
+                //
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
+                val theme = if (nightMode) DarkTheme() else LightTheme()
+                AppThemeManager.changeTheme(this@MainActivity, theme.mainTheme())
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+                //
+            }
+
+            override fun onAnimationStart(animation: Animator) {
+                //
+            }
+
+        })
     }
 
     private fun loadIntent() {

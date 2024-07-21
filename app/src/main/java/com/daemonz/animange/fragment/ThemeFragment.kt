@@ -1,9 +1,7 @@
 package com.daemonz.animange.fragment
 
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daemonz.animange.MainActivity
@@ -13,11 +11,14 @@ import com.daemonz.animange.databinding.FragmentMenuBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemType
 import com.daemonz.animange.ui.adapter.MenuAdapter
+import com.daemonz.animange.ui.thememanager.AnimanTheme
+import com.daemonz.animange.ui.thememanager.DarkTheme
+import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.SharePreferenceManager
-import com.daemonz.animange.util.ThemeManager
-import com.daemonz.animange.util.getToolbarHeight
+import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.viewmodel.ThemeViewModel
+import com.dolatkia.animatedThemeManager.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,16 +36,10 @@ class ThemeFragment :
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = MenuAdapter(
             onItemClickListener = { item, _ ->
-                ThemeManager.changeTheme(
-                    requireContext().applicationContext,
-                    requireActivity(),
-                    sharePreferenceManager,
-                    item.icon
-                )
             }
         )
         binding.recycler.adapter = adapter
-        val data = (0..<ThemeManager.themes.size).map {
+        val data = (0..<AppThemeManager.themes.size).map {
             MenuItem(it, "Theme ${it + 1}", type = MenuItemType.Theme)
         }
         adapter?.setData(data)
@@ -54,9 +49,17 @@ class ThemeFragment :
         binding.dayNightSwitch.setIsNight(nightMode, false)
         binding.dayNightSwitch.setListener { isNightMode ->
             binding.root.postDelayed({
-                ThemeManager.setNightMode(isNightMode)
+                val theme: AnimanTheme = if (isNightMode) {
+                    DarkTheme()
+                } else {
+                    LightTheme()
+                }
                 sharePreferenceManager.setBoolean(NIGHT_MODE_KEY, isNightMode)
-            }, 1000L)
+                ThemeManager.instance.reverseChangeTheme(
+                    theme,
+                    binding.dayNightSwitch
+                )
+            }, 500L)
         }
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()

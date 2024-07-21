@@ -12,7 +12,7 @@
         android:fillColor="@color/bg_light"
         android:pathData="M2.4,7h20v14h-20z" />
     <path
-        android:fillColor="@color/bg_light"
+        android:fillColor="@color/icon_light"
         android:pathData="M9.4,18V10L16.4,14L9.4,18Z" />
   </group>
 </vector>
