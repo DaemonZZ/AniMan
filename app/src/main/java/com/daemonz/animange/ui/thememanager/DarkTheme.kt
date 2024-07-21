@@ -27,15 +27,15 @@ class DarkTheme : AnimanTheme {
         return ContextCompat.getColor(context, R.color.iconText_dark)
     }
 
-    override fun homeNavIcon(context: Context) = R.drawable.home_selector_night
+    override fun homeNavIcon() = R.drawable.home_selector_night
 
-    override fun cinemaNavIcon(context: Context) = R.drawable.movies_selector_night
+    override fun cinemaNavIcon() = R.drawable.movies_selector_night
 
-    override fun seriesNavIcon(context: Context) = R.drawable.series_selector_night
+    override fun seriesNavIcon() = R.drawable.series_selector_night
 
-    override fun tvShowNavIcon(context: Context) = R.drawable.tv_selector_night
+    override fun tvShowNavIcon() = R.drawable.tv_selector_night
 
-    override fun settingNavIcon(context: Context) = R.drawable.setting_selector_night
+    override fun settingNavIcon() = R.drawable.setting_selector_night
 
     override fun tabTextColorDefault(context: Context) =
         ContextCompat.getColor(context, R.color.textTab_dark)
@@ -45,6 +45,10 @@ class DarkTheme : AnimanTheme {
 
     override fun menuItemBackground(context: Context) =
         ContextCompat.getColor(context, R.color.menuItemBg_dark)
+
+    override fun iconBack() = R.drawable.arrow_back_night
+    override fun iconNext() = R.drawable.chevron_right_night
+    override fun loadingIcon() = R.drawable.ic_loading
 
     override fun id(): Int {
         return 1

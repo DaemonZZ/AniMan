@@ -10,12 +10,15 @@ interface AnimanTheme : AppTheme {
     fun firstActivityIconColor(context: Context): Int
     fun textNavColor(context: Context): Int
     fun iconTextColor(context: Context): Int
-    fun homeNavIcon(context: Context): Int
-    fun cinemaNavIcon(context: Context): Int
-    fun seriesNavIcon(context: Context): Int
-    fun tvShowNavIcon(context: Context): Int
-    fun settingNavIcon(context: Context): Int
+    fun homeNavIcon(): Int
+    fun cinemaNavIcon(): Int
+    fun seriesNavIcon(): Int
+    fun tvShowNavIcon(): Int
+    fun settingNavIcon(): Int
     fun tabTextColorDefault(context: Context): Int
     fun tabTextColorSelected(context: Context): Int
     fun menuItemBackground(context: Context): Int
+    fun iconBack(): Int
+    fun iconNext(): Int
+    fun loadingIcon(): Int
 }

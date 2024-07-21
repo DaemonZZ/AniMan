@@ -27,15 +27,15 @@ class LightTheme : AnimanTheme {
         return ContextCompat.getColor(context, R.color.iconText_light)
     }
 
-    override fun homeNavIcon(context: Context) = R.drawable.home_selector
+    override fun homeNavIcon() = R.drawable.home_selector
 
-    override fun cinemaNavIcon(context: Context) = R.drawable.movies_selector
+    override fun cinemaNavIcon() = R.drawable.movies_selector
 
-    override fun seriesNavIcon(context: Context) = R.drawable.series_selector
+    override fun seriesNavIcon() = R.drawable.series_selector
 
-    override fun tvShowNavIcon(context: Context) = R.drawable.tv_selector
+    override fun tvShowNavIcon() = R.drawable.tv_selector
 
-    override fun settingNavIcon(context: Context) = R.drawable.setting_selector
+    override fun settingNavIcon() = R.drawable.setting_selector
 
     override fun tabTextColorDefault(context: Context) =
         ContextCompat.getColor(context, R.color.textTab_light)
@@ -45,6 +45,10 @@ class LightTheme : AnimanTheme {
 
     override fun menuItemBackground(context: Context) =
         ContextCompat.getColor(context, R.color.menuItemBg_light)
+
+    override fun iconBack() = R.drawable.arrow_back
+    override fun iconNext() = R.drawable.chevron_right
+    override fun loadingIcon() = R.drawable.ic_loading
 
     override fun id(): Int = 0
 }

@@ -74,4 +74,12 @@ class ThemeChoosingFragment :
         super.onResume()
         (activity as? MainActivity)?.setTitle(getString(R.string.theme))
     }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.apply {
+            title.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            btnBack.setImageResource(currentTheme.iconBack())
+        }
+    }
 }

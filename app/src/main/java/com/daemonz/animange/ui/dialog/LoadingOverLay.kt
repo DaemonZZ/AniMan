@@ -4,8 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
@@ -22,6 +28,7 @@ class LoadingOverLay : BaseDialog() {
     private var _binding: LoadingOverlayBinding? = null
     private val binding get() = _binding!!
     private var countdown = 0
+    private var animation: Animation? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.FullScreenDialogStyle)
@@ -33,7 +40,12 @@ class LoadingOverLay : BaseDialog() {
         savedInstanceState: Bundle?
     ): View {
         _binding = LoadingOverlayBinding.inflate(inflater, container, false)
-        binding.img.loadGif(R.drawable.loading_288px)
+        binding.img.setImageResource(currentTheme.loadingIcon())
+        animation = AnimationUtils.loadAnimation(requireContext(), R.anim.loop_rotate)
+        animation?.interpolator = FastOutSlowInInterpolator()
+        animation?.repeatCount = Animation.INFINITE
+        animation?.repeatMode = Animation.RESTART
+        binding.img.startAnimation(animation)
         return binding.root
     }
 

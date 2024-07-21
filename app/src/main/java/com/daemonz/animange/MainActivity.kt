@@ -306,19 +306,19 @@ class MainActivity : ThemeActivity() {
             title.setTextColor(theme.firstActivityTextColor(this@MainActivity))
             bottomNavigation.setBackgroundColor(theme.firstActivityBackgroundColor(this@MainActivity))
             bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
-                theme.homeNavIcon(this@MainActivity)
+                theme.homeNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.moviesFragment).setIcon(
-                theme.cinemaNavIcon(this@MainActivity)
+                theme.cinemaNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.seriesFragment).setIcon(
-                theme.seriesNavIcon(this@MainActivity)
+                theme.seriesNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.tvShowFragment).setIcon(
-                theme.tvShowNavIcon(this@MainActivity)
+                theme.tvShowNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.settingsFragment).setIcon(
-                theme.settingNavIcon(this@MainActivity)
+                theme.settingNavIcon()
             )
         }
     }

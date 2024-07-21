@@ -21,13 +21,16 @@ class MenuAdapter(
 
     override fun bindView(binding: MenuItemBinding, item: MenuItem, position: Int) {
         binding.apply {
+            root.setBackgroundColor(theme.menuItemBackground(root.context))
             title.text = item.title
+            title.setTextColor(theme.firstActivityTextColor(root.context))
             if (position == itemCount - 1) {
                 divider.isVisible = false
             }
             when (item.type) {
                 MenuItemType.Theme -> {
                     arrow.isVisible = false
+                    arrow.setImageResource(theme.iconNext())
                     icon.setColorFilter(
                         ContextCompat.getColor(
                             root.context,
