@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AniMan</string>
     <string name="watch_now">Xem ngay</string>
     <string name="toast_full_screen">Chế độ xem sẽ tự động chuyển đổi ở chế độ tự động xoay màn hình</string>
     <string name="over_view">Tổng quan</string>

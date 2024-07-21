@@ -4,27 +4,21 @@
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_search_dark"
         android:title="@string/search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/edit"
-        android:icon="@drawable/ico_edit"
+        android:icon="@drawable/ico_edit_dark"
         android:title="@string/edit"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/close"
-        android:icon="@drawable/close"
+        android:icon="@drawable/ic_close_dark"
         android:title="@string/exit"
         android:visible="false"
         app:showAsAction="ifRoom" />
-
-    <!--    <item-->
-    <!--        android:id="@+id/genre"-->
-    <!--        android:icon="@drawable/ic_today"-->
-    <!--        android:title="test" />-->
-
 </menu>

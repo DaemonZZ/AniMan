@@ -203,4 +203,6 @@ dependencies {
     //flexbox
     implementation(libs.flexbox)
     implementation(libs.feature.delivery)
+
+    implementation(libs.animated.theme.manager)
 }

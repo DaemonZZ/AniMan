@@ -3,22 +3,17 @@ package com.daemonz.animange
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.AttributeSet
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.view.WindowMetrics
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -40,24 +35,24 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
+import com.daemonz.animange.ui.thememanager.DarkTheme
+import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.SharePreferenceManager
-import com.daemonz.animange.util.ThemeManager
 import com.daemonz.animange.viewmodel.LoginViewModel
+import com.dolatkia.animatedThemeManager.AppTheme
+import com.dolatkia.animatedThemeManager.ThemeActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.Constants
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +61,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ThemeActivity() {
     companion object {
         private const val TAG = "MainActivity"
     }
@@ -172,15 +167,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun getStartTheme(): AppTheme {
+        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
+        val theme = if (nightMode) DarkTheme() else LightTheme()
+        this@MainActivity.setTheme(theme.mainTheme())
+        return theme
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
-        ThemeManager.setNightMode(nightMode)
-        val currentTheme = ThemeManager.getTheme(sharePreferenceManager)
-        theme.applyStyle(currentTheme, true)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
@@ -276,6 +274,31 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         setupViews()
+    }
+
+    override fun syncTheme(appTheme: AppTheme) {
+        val theme = appTheme as AnimanTheme
+        ALog.d(TAG, "syncTheme: id = ${theme.id()}")
+        binding.apply {
+            root.setBackgroundColor(theme.firstActivityBackgroundColor(this@MainActivity))
+            title.setTextColor(theme.firstActivityTextColor(this@MainActivity))
+            bottomNavigation.setBackgroundColor(theme.firstActivityBackgroundColor(this@MainActivity))
+            bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
+                theme.homeNavIcon(this@MainActivity)
+            )
+            bottomNavigation.menu.findItem(R.id.moviesFragment).setIcon(
+                theme.cinemaNavIcon(this@MainActivity)
+            )
+            bottomNavigation.menu.findItem(R.id.seriesFragment).setIcon(
+                theme.seriesNavIcon(this@MainActivity)
+            )
+            bottomNavigation.menu.findItem(R.id.tvShowFragment).setIcon(
+                theme.tvShowNavIcon(this@MainActivity)
+            )
+            bottomNavigation.menu.findItem(R.id.settingsFragment).setIcon(
+                theme.settingNavIcon(this@MainActivity)
+            )
+        }
     }
 
     override fun onResume() {

@@ -27,7 +27,7 @@
             android:layout_gravity="end"
             android:adjustViewBounds="true"
             android:background="@color/white"
-            app:srcCompat="@drawable/ico_edit" />
+            app:srcCompat="@drawable/ic_edit" />
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0-beta02"
+animatedThemeManager = "1.1.4"
 artifactid = "version"
 coreSplashscreen = "1.0.1"
 credentials = "1.2.2"
@@ -69,6 +70,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomRuntime" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+animated-theme-manager = { module = "com.dolatkia:animated-theme-manager", version.ref = "animatedThemeManager" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gson" }
 daynightswitch = { module = "com.github.Mahfa:DayNightSwitch", version.ref = "daynightswitch" }

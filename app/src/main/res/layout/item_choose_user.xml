@@ -37,7 +37,7 @@
             android:scaleX="0.4"
             android:scaleY="0.4"
             android:visibility="gone"
-            app:srcCompat="@drawable/ico_edit" />
+            app:srcCompat="@drawable/ic_edit" />
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/user_name"

@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="25dp"
+    android:height="24dp"
+    android:viewportWidth="25"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@color/bg_light"
+        android:fillType="evenOdd"
+        android:pathData="M12.8,2.75C11.005,2.75 9.55,4.205 9.55,6C9.55,7.795 11.005,9.25 12.8,9.25C14.595,9.25 16.05,7.795 16.05,6C16.05,4.205 14.595,2.75 12.8,2.75ZM8.05,6C8.05,3.377 10.177,1.25 12.8,1.25C15.423,1.25 17.55,3.377 17.55,6C17.55,8.623 15.423,10.75 12.8,10.75C10.177,10.75 8.05,8.623 8.05,6Z" />
+    <path
+        android:fillColor="@color/bg_light"
+        android:fillType="evenOdd"
+        android:pathData="M2.8,22.214C2.8,16.573 7.277,12 12.8,12C18.323,12 22.8,16.573 22.8,22.214C22.8,22.648 22.456,23 22.031,23C21.606,23 21.262,22.648 21.262,22.214C21.262,17.441 17.473,13.571 12.8,13.571C8.127,13.571 4.339,17.441 4.339,22.214C4.339,22.648 3.994,23 3.569,23C3.144,23 2.8,22.648 2.8,22.214Z" />
+    <path
+        android:fillColor="@color/bg_light"
+        android:pathData="M17.8,14.5C21,15.7 21.8,20.333 21.8,22.5H3.8C3.467,21.333 3.4,18.4 5.8,16C8.8,13 13.8,13 17.8,14.5Z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/bg_light"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="@color/bg_light"
+        android:pathData="M12.8,6m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+</vector>

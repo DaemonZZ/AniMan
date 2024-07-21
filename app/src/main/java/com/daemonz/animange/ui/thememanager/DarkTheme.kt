@@ -1,0 +1,44 @@
+package com.daemonz.animange.ui.thememanager
+
+import android.content.Context
+import androidx.core.content.ContextCompat
+import com.daemonz.animange.R
+
+class DarkTheme : AnimanTheme {
+    override fun mainTheme() = R.style.AppTheme_Dark
+
+    override fun firstActivityBackgroundColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.bg_dark)
+    }
+
+    override fun firstActivityTextColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.text_dark)
+    }
+
+    override fun firstActivityIconColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.icon_dark)
+    }
+
+    override fun textNavColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.textNav_dark)
+    }
+
+    override fun iconTextColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.iconText_dark)
+    }
+
+    override fun homeNavIcon(context: Context) = R.drawable.home_selector_night
+
+    override fun cinemaNavIcon(context: Context) = R.drawable.movies_selector_night
+
+    override fun seriesNavIcon(context: Context) = R.drawable.series_selector_night
+
+    override fun tvShowNavIcon(context: Context) = R.drawable.tv_selector_night
+
+    override fun settingNavIcon(context: Context) = R.drawable.setting_selector_night
+
+
+    override fun id(): Int {
+        return 1
+    }
+}

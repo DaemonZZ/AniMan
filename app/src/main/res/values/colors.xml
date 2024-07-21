@@ -1,12 +1,24 @@
 <resources>
-    <color name="md_theme_primary">#8C4F27</color>
-    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="bg_light">#fff5f5f5</color>
+    <color name="bg_dark">#ff14181f</color>
+    <color name="text_light">#ff14181f</color>
+    <color name="text_dark">#fff0f2ff</color>
+    <color name="icon_light">#ff091e3c</color>
+    <color name="icon_dark">#ffcacfe0</color>
+    <color name="textNav_light">#ff334562</color>
+    <color name="textNav_dark">#ff7f8aa1</color>
+    <color name="iconText_light">#fff0f2ff</color>
+    <color name="iconText_dark">#ff091e3c</color>
+
+
+    <color name="md_theme_primary">@color/icon_light</color>
+    <color name="md_theme_onPrimary">@color/bg_light</color>
     <color name="md_theme_primaryContainer">#FFDBC9</color>
     <color name="md_theme_onPrimaryContainer">#321200</color>
     <color name="md_theme_secondary">#765847</color>
     <color name="md_theme_onSecondary">#FFFFFF</color>
-    <color name="md_theme_secondaryContainer">#FFDBC9</color>
-    <color name="md_theme_onSecondaryContainer">#2B160A</color>
+    <color name="md_theme_secondaryContainer">@color/text_light</color>
+    <color name="md_theme_onSecondaryContainer">@color/text_dark</color>
     <color name="md_theme_tertiary">#626033</color>
     <color name="md_theme_onTertiary">#FFFFFF</color>
     <color name="md_theme_tertiaryContainer">#E9E5AB</color>
@@ -140,5 +152,5 @@
     <color name="md_theme_surfaceContainer_highContrast">#FCEAE2</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#F6E5DD</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#F0DFD7</color>
-    <color name="carousel_text_color">#FF6500</color>
+    <color name="carousel_text_color">@color/text_dark</color>
 </resources>

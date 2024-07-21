@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PhimFree</string>
+    <string name="app_name" translatable="false">A Movie</string>
     <string name="watch_now">Xem ngay</string>
     <string name="aa" translatable="false">aa</string>
     <string name="toast_full_screen">Chế độ xem sẽ tự động chuyển đổi ở chế độ tự động xoay màn hình</string>
