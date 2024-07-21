@@ -27,6 +27,12 @@ class HomeCarouselAdapter(
             textCountry.text = item.country.firstOrNull()?.name ?: item.category.firstOrNull()?.name
             textEpisode.text = item.episodeCurrent
             textTitle.text = item.name
+            textYear.setTextColor(theme.firstActivityTextColor(root.context))
+            textCountry.setTextColor(theme.firstActivityTextColor(root.context))
+            textEpisode.setTextColor(theme.firstActivityTextColor(root.context))
+            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
+            btnWatch.setTextColor(theme.firstActivityBackgroundColor(root.context))
+            btnWatch.setBackgroundColor(theme.firstActivityIconColor(root.context))
         }
     }
 }

@@ -43,7 +43,7 @@
         <item name="colorSurfaceDim">@color/md_theme_surfaceDim</item>
         <item name="colorSurfaceBright">@color/md_theme_surfaceBright</item>
         <item name="colorSurfaceContainerLowest">@color/md_theme_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/md_theme_surfaceContainerLow</item>
+        <item name="colorSurfaceContainerLow">@color/menuItemBg_light</item>
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
@@ -94,6 +94,7 @@
         <item name="colorSecondaryContainer">@color/text_dark</item>
         <item name="colorOnSecondaryContainer">@color/text_light</item>
         <item name="colorOnSurface">@color/icon_dark</item>
+        <item name="colorSurfaceContainerLow">@color/menuItemBg_dark</item>
     </style>
 
 </resources>

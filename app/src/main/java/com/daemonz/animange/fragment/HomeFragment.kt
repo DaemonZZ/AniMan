@@ -193,4 +193,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
         //TODO
     }
 
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.apply {
+            tabAnime.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabTv.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabMovies.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabSeries.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabVietNam.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabAnime.setTabTextColors(
+                currentTheme.tabTextColorDefault(requireContext()),
+                currentTheme.tabTextColorSelected(requireContext())
+            )
+        }
+    }
+
 }

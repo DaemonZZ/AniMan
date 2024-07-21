@@ -9,6 +9,10 @@
     <color name="textNav_dark">#ff7f8aa1</color>
     <color name="iconText_light">#fff0f2ff</color>
     <color name="iconText_dark">#ff091e3c</color>
+    <color name="textTab_dark">#596781</color>
+    <color name="textTab_light">#74777B</color>
+    <color name="menuItemBg_light">#ffffff</color>
+    <color name="menuItemBg_dark">#B5B6B8</color>
 
 
     <color name="md_theme_primary">@color/icon_light</color>
@@ -54,7 +58,7 @@
     <color name="md_theme_surfaceDim">#E7D7CF</color>
     <color name="md_theme_surfaceBright">#FFF8F5</color>
     <color name="md_theme_surfaceContainerLowest">#FFFFFF</color>
-    <color name="md_theme_surfaceContainerLow">#FFF1EB</color>
+    <color name="md_theme_surfaceContainerLow">@color/menuItemBg_light</color>
     <color name="md_theme_surfaceContainer">#FCEAE2</color>
     <color name="md_theme_surfaceContainerHigh">#F6E5DD</color>
     <color name="md_theme_surfaceContainerHighest">#F0DFD7</color>

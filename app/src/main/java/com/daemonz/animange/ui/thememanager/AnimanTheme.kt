@@ -15,4 +15,7 @@ interface AnimanTheme : AppTheme {
     fun seriesNavIcon(context: Context): Int
     fun tvShowNavIcon(context: Context): Int
     fun settingNavIcon(context: Context): Int
+    fun tabTextColorDefault(context: Context): Int
+    fun tabTextColorSelected(context: Context): Int
+    fun menuItemBackground(context: Context): Int
 }

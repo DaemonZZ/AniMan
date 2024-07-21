@@ -28,6 +28,8 @@ class GridAdapter(
                     R.string.bullet
                 )
             )
+            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
+            textSubtitle.setTextColor(theme.firstActivityTextColor(root.context))
         }
     }
 }
