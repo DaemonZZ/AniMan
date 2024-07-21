@@ -73,7 +73,7 @@ class MainActivity : ThemeActivity() {
     @Inject
     lateinit var sharePreferenceManager: SharePreferenceManager
 
-    private var loadingDialog: LoadingOverLay = LoadingOverLay()
+    private var loadingDialog: LoadingOverLay = LoadingOverLay(LightTheme())
 
     private val listFragmentsWithNavbar = listOf(
         R.id.homeFragment,
@@ -339,7 +339,9 @@ class MainActivity : ThemeActivity() {
     fun showLoadingOverlay(fm: FragmentManager) {
         if (loadingDialog.isAdded)
             loadingDialog.dismiss()
-        loadingDialog = LoadingOverLay()
+        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
+        val currentTheme = if (nightMode) DarkTheme() else LightTheme()
+        loadingDialog = LoadingOverLay(currentTheme)
         loadingDialog.show(fm, "LoadingOverLay")
     }
 

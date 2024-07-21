@@ -20,6 +20,8 @@ import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SearchAdapter
+import com.daemonz.animange.ui.thememanager.AnimanTheme
+import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
 import com.daemonz.animange.util.makeSearchText
 import com.daemonz.animange.viewmodel.SearchViewModel
@@ -27,8 +29,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SearchDialog(private val onItemClickListener: OnItemClickListener<PagingData<Item>>) :
-    BaseDialog() {
+class SearchDialog(
+    private val onItemClickListener: OnItemClickListener<PagingData<Item>>,
+    theme: AnimanTheme
+) :
+    BaseDialog(theme) {
     companion object {
         private const val TAG = "SearchDialog"
     }

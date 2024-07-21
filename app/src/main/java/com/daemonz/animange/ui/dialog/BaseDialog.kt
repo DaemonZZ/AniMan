@@ -13,14 +13,4 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-abstract class BaseDialog : DialogFragment() {
-    protected var currentTheme: AnimanTheme = LightTheme()
-
-    @Inject
-    lateinit var sharePreferenceManager: SharePreferenceManager
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
-        currentTheme = if (nightMode) DarkTheme() else LightTheme()
-    }
-}
+abstract class BaseDialog(protected var currentTheme: AnimanTheme) : DialogFragment()

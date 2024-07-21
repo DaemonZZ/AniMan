@@ -182,7 +182,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
     }
 
     override fun onSearch() {
-        SearchDialog(onSearchItemClickListener).show(childFragmentManager, "SearchDialog")
+        SearchDialog(onSearchItemClickListener, currentTheme).show(
+            childFragmentManager,
+            "SearchDialog"
+        )
     }
 
     override fun onRefresh() {

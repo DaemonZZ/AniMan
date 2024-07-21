@@ -48,7 +48,7 @@ class DarkTheme : AnimanTheme {
 
     override fun iconBack() = R.drawable.arrow_back_night
     override fun iconNext() = R.drawable.chevron_right_night
-    override fun loadingIcon() = R.drawable.ic_loading
+    override fun loadingIcon() = R.drawable.ic_loading_night
 
     override fun id(): Int {
         return 1

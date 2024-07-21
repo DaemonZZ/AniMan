@@ -35,4 +35,5 @@
     <dimen name="dp_76">76dp</dimen>
     <dimen name="dp_84">84dp</dimen>
     <dimen name="dp_32">32dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
 </resources>

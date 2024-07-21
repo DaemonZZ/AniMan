@@ -82,7 +82,7 @@ class MoviesFragment :
     }
 
     override fun onSearch() {
-        SearchDialog(onItemClickListener).show(childFragmentManager, "SearchDialog")
+        SearchDialog(onItemClickListener, currentTheme).show(childFragmentManager, "SearchDialog")
     }
 
     override fun onRefresh() {

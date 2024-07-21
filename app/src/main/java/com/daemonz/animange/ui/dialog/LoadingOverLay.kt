@@ -16,12 +16,13 @@ import androidx.lifecycle.lifecycleScope
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.loadGif
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class LoadingOverLay : BaseDialog() {
+class LoadingOverLay(theme: AnimanTheme) : BaseDialog(theme) {
     companion object {
         private const val TAG = "LoadingOverLay"
     }
@@ -40,13 +41,19 @@ class LoadingOverLay : BaseDialog() {
         savedInstanceState: Bundle?
     ): View {
         _binding = LoadingOverlayBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.img.setImageResource(currentTheme.loadingIcon())
+        binding.textLoading.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         animation = AnimationUtils.loadAnimation(requireContext(), R.anim.loop_rotate)
-        animation?.interpolator = FastOutSlowInInterpolator()
+        animation?.interpolator = LinearInterpolator()
         animation?.repeatCount = Animation.INFINITE
         animation?.repeatMode = Animation.RESTART
         binding.img.startAnimation(animation)
-        return binding.root
+        dialog?.window?.setDimAmount(0.7f)
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
