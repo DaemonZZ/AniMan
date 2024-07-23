@@ -1,5 +1,6 @@
 package com.daemonz.animange.fragment
 
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.NavGraphDirections
@@ -52,6 +53,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
         setupAnimeRecycler()
         setupMovieRecycler()
         setupTvRecycler()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // disable swipe back gesture
+            }
+        })
     }
 
     private fun setupTvRecycler() {

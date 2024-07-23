@@ -15,11 +15,11 @@ import com.daemonz.animange.entity.UpdateData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.POLICY_URL
 import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.util.TERMS_URL
-import com.daemonz.animange.util.AppThemeManager
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -69,13 +69,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             AuthUI.IdpConfig.GoogleBuilder().build(),
         )
 
-        val layout = listOf(
-            R.layout.login_layout,
-            R.layout.login_layout2,
-            R.layout.login_layout3,
-        ).random()
-
-        val customLayout = AuthMethodPickerLayout.Builder(layout)
+        val customLayout = AuthMethodPickerLayout.Builder(R.layout.login_layout)
             .setEmailButtonId(R.id.email_login)
             .setTosAndPrivacyPolicyId(R.id.text_tos)
             .setGoogleButtonId(R.id.google_login)

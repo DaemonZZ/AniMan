@@ -97,4 +97,12 @@
         <item name="colorSurfaceContainerLow">@color/menuItemBg_dark</item>
     </style>
 
+    <style name="ImageView.Corner" parent="">
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomLeft">24dp</item>
+        <item name="cornerSizeBottomRight">24dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>

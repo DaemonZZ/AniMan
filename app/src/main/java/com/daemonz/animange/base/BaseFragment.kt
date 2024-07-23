@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
-import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
 import com.dolatkia.animatedThemeManager.AppTheme
@@ -97,6 +96,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         syncTheme()
     }
 
+    @CallSuper
     open fun syncTheme() {
         currentTheme.apply {
             binding.root.setBackgroundColor(firstActivityBackgroundColor(requireContext()))

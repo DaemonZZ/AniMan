@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -14,6 +15,8 @@ import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment :
@@ -116,8 +119,16 @@ class SettingsFragment :
                 }
             }
             account.observe(viewLifecycleOwner) {
-                loadViewState()
-                hideLoadingOverlay()
+                if (it == null) {
+                    lifecycleScope.launch {
+                        delay(1000)
+                        hideLoadingOverlay()
+                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToWelcomeFragment())
+                    }
+                } else {
+                    loadViewState()
+                    hideLoadingOverlay()
+                }
             }
         }
     }

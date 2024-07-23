@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient android:angle="270"
-        android:startColor="#f0FFFFFF"
-        android:centerColor="#50ffffff"
-        android:endColor="@color/md_theme_surface"
-        android:centerY="0.6"/>
-</shape>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="311dp"
+    android:viewportWidth="360"
+    android:viewportHeight="311">
+    <group>
+        <clip-path android:pathData="M0 0H360V311H0V0Z" />
+        <group
+            android:pivotX="180"
+            android:pivotY="155.5"
+            android:rotation="90"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:translateX="1"
+            android:translateY="0">
+            <path android:pathData="M0 0V311H360V0">
+                <aapt:attr name="android:fillColor">
+                    <gradient
+                        android:endX="270"
+                        android:endY="155.5"
+                        android:startX="90"
+                        android:startY="155.5"
+                        android:type="linear">
+                        <item
+                            android:color="#14181F"
+                            android:offset="0" />
+                        <item
+                            android:color="#CACFE0"
+                            android:offset="0.58" />
+                    </gradient>
+                </aapt:attr>
+            </path>
+        </group>
+    </group>
+</vector>

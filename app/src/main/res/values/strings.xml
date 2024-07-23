@@ -115,4 +115,6 @@
     <string name="no_comment">Chưa có bình luận nào.</string>
     <string name="no_rating">Chưa có đánh giá nào</string>
     <string name="rate_avg" translatable="false">(%s)</string>
+    <string name="loading_data">Đang tải dữ liệu…</string>
+    <string name="check_login">Đang kiểm tra trạng thái đăng nhập…</string>
 </resources>

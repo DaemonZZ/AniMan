@@ -15,14 +15,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.55"/>
-    <androidx.appcompat.widget.AppCompatImageView
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/lycoris"
+        android:alpha="0.7"
         android:scaleType="centerCrop"
-        android:foreground="@drawable/custom_background_login"
+        android:background="@drawable/custom_background_login"
+        android:src="@drawable/login_img"
         app:layout_constraintBottom_toTopOf="@id/guideline55"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
+        android:layout_marginBottom="@dimen/dp_20"
+        app:layout_constraintBottom_toTopOf="@id/card_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/app_logo" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
