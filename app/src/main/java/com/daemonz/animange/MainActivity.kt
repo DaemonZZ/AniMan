@@ -186,6 +186,10 @@ class MainActivity : ThemeActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
             insets
         }
+        binding.navIcon.setOnClickListener {
+            val navController = findNavController(R.id.navHostFragment)
+            navController.popBackStack()
+        }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         initAdmob()
@@ -304,6 +308,8 @@ class MainActivity : ThemeActivity() {
         binding.apply {
             root.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
             title.setTextColor(currentTheme.firstActivityTextColor(this@MainActivity))
+            appLogo.setImageResource(currentTheme.appLogoLandscape())
+            navIcon.setImageResource(currentTheme.iconBack())
             bottomNavigation.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
             bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
                 currentTheme.homeNavIcon()
@@ -448,57 +454,29 @@ class MainActivity : ThemeActivity() {
             when (fragment) {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            currentTheme.arrowBackIcon(),
-                            null
-                        )
-                    )
-
-                    navIcon.setOnClickListener {
-                        val navController = findNavController(R.id.navHostFragment)
-                        navController.popBackStack()
-                    }
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu.findItem(R.id.search)?.isVisible = false
                     title.text = STRING_EMPTY
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    navIcon.isVisible = true
+                    appLogo.isVisible = false
                 }
 
                 R.id.favouritesFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            currentTheme.arrowBackIcon(),
-                            null
-                        )
-                    )
-                    navIcon.setOnClickListener {
-                        val navController = findNavController(R.id.navHostFragment)
-                        navController.popBackStack()
-                    }
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.favourites_filmes)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    navIcon.isVisible = true
+                    appLogo.isVisible = false
                 }
 
                 R.id.profileFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            currentTheme.arrowBackIcon(),
-                            null
-                        )
-                    )
-                    navIcon.setOnClickListener {
-                        val navController = findNavController(R.id.navHostFragment)
-                        navController.popBackStack()
-                    }
+                    navIcon.isVisible = true
+                    appLogo.isVisible = false
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.user_profile)
@@ -508,18 +486,8 @@ class MainActivity : ThemeActivity() {
 
                 R.id.chooseUserFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            currentTheme.arrowBackIcon(),
-                            null
-                        )
-                    )
-
-                    navIcon.setOnClickListener {
-                        val navController = findNavController(R.id.navHostFragment)
-                        navController.popBackStack()
-                    }
+                    navIcon.isVisible = true
+                    appLogo.isVisible = false
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.who_watching)
@@ -529,17 +497,8 @@ class MainActivity : ThemeActivity() {
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            currentTheme.arrowBackIcon(),
-                            null
-                        )
-                    )
-                    navIcon.setOnClickListener {
-                        val navController = findNavController(R.id.navHostFragment)
-                        navController.popBackStack()
-                    }
+                    navIcon.isVisible = true
+                    appLogo.isVisible = false
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     toggleToolBarShowing(isShow = true, autoHide = false)
@@ -553,16 +512,8 @@ class MainActivity : ThemeActivity() {
 
                 else -> {
                     topAppBar.isVisible = true
-                    navIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.logo_landcape,
-                            null
-                        )
-                    )
-                    navIcon.setOnClickListener {
-                        //
-                    }
+                    navIcon.isVisible = false
+                    appLogo.isVisible = true
                     topAppBar.fitsSystemWindows = true
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = true
                     title.text = STRING_EMPTY

@@ -40,23 +40,40 @@
         tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/nav_icon"
+            android:id="@+id/app_logo"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo_landcape" />
+            app:srcCompat="@drawable/logo_landscape"
+            tools:visibility="gone" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/nav_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_8"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/arrow_back" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
             style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_16"
             android:gravity="center_vertical"
             app:layout_constraintEnd_toStartOf="@id/right_menu"
             app:layout_constraintStart_toEndOf="@id/nav_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="title" />
 
         <androidx.appcompat.widget.ActionMenuView

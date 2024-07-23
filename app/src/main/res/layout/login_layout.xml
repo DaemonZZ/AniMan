@@ -47,9 +47,10 @@
         app:strokeColor="@color/alpha0">
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/button_group"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_50"
+            android:background="@color/white"
             android:orientation="vertical">
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
@@ -62,12 +63,12 @@
                 app:iconGravity="start"
                 android:id="@+id/email_login"/>
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_24"
-                app:cornerRadius="@dimen/dp_8"
-                android:foreground="@drawable/sign_in_google"
+                android:foreground="@drawable/sign_in_google_btn_fg"
+                app:srcCompat="@drawable/sign_in_google"
                 android:id="@+id/google_login"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_tos"

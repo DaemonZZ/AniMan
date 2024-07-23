@@ -22,5 +22,5 @@ interface AnimanTheme : AppTheme {
     fun iconNext(): Int
     fun loadingIcon(): Int
     fun appLogo(): Int
-    fun arrowBackIcon(): Int
+    fun appLogoLandscape(): Int
 }
