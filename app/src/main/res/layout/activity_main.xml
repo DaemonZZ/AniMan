@@ -35,7 +35,7 @@
         android:layout_marginHorizontal="@dimen/dp_8"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 

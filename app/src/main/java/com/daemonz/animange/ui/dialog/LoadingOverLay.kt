@@ -6,18 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.LoadingOverlayBinding
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
-import com.daemonz.animange.util.loadGif
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -53,7 +48,7 @@ class LoadingOverLay(theme: AnimanTheme) : BaseDialog(theme) {
         animation?.repeatCount = Animation.INFINITE
         animation?.repeatMode = Animation.RESTART
         binding.img.startAnimation(animation)
-        dialog?.window?.setDimAmount(0.7f)
+        dialog?.window?.setDimAmount(0.4f)
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

@@ -50,6 +50,7 @@ class LightTheme : AnimanTheme {
     override fun iconNext() = R.drawable.chevron_right
     override fun loadingIcon() = R.drawable.ic_loading
     override fun appLogo() = R.drawable.app_logo
+    override fun arrowBackIcon() = R.drawable.arrow_back
 
     override fun id(): Int = 0
 }

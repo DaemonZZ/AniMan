@@ -297,28 +297,28 @@ class MainActivity : ThemeActivity() {
         super.onStart()
         setupViews()
     }
-
+    private var currentTheme: AnimanTheme = LightTheme()
     override fun syncTheme(appTheme: AppTheme) {
-        val theme = appTheme as AnimanTheme
-        ALog.d(TAG, "syncTheme: id = ${theme.id()}")
+        currentTheme = appTheme as AnimanTheme
+        ALog.d(TAG, "syncTheme: id = ${currentTheme.id()}")
         binding.apply {
-            root.setBackgroundColor(theme.firstActivityBackgroundColor(this@MainActivity))
-            title.setTextColor(theme.firstActivityTextColor(this@MainActivity))
-            bottomNavigation.setBackgroundColor(theme.firstActivityBackgroundColor(this@MainActivity))
+            root.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
+            title.setTextColor(currentTheme.firstActivityTextColor(this@MainActivity))
+            bottomNavigation.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
             bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
-                theme.homeNavIcon()
+                currentTheme.homeNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.moviesFragment).setIcon(
-                theme.cinemaNavIcon()
+                currentTheme.cinemaNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.seriesFragment).setIcon(
-                theme.seriesNavIcon()
+                currentTheme.seriesNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.tvShowFragment).setIcon(
-                theme.tvShowNavIcon()
+                currentTheme.tvShowNavIcon()
             )
             bottomNavigation.menu.findItem(R.id.settingsFragment).setIcon(
-                theme.settingNavIcon()
+                currentTheme.settingNavIcon()
             )
         }
     }
@@ -451,7 +451,7 @@ class MainActivity : ThemeActivity() {
                     navIcon.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
-                            R.drawable.arrow_back,
+                            currentTheme.arrowBackIcon(),
                             null
                         )
                     )
@@ -471,7 +471,7 @@ class MainActivity : ThemeActivity() {
                     navIcon.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
-                            R.drawable.arrow_back,
+                            currentTheme.arrowBackIcon(),
                             null
                         )
                     )
@@ -491,7 +491,7 @@ class MainActivity : ThemeActivity() {
                     navIcon.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
-                            R.drawable.arrow_back,
+                            currentTheme.arrowBackIcon(),
                             null
                         )
                     )
@@ -511,7 +511,7 @@ class MainActivity : ThemeActivity() {
                     navIcon.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
-                            R.drawable.arrow_back,
+                            currentTheme.arrowBackIcon(),
                             null
                         )
                     )
@@ -532,7 +532,7 @@ class MainActivity : ThemeActivity() {
                     navIcon.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
-                            R.drawable.arrow_back,
+                            currentTheme.arrowBackIcon(),
                             null
                         )
                     )
