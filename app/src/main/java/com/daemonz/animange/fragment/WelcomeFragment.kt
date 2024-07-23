@@ -84,6 +84,7 @@ class WelcomeFragment :
         super.syncTheme()
         binding.loader.setImageResource(currentTheme.loadingIcon())
         binding.guideText.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+        binding.logo.setImageResource(currentTheme.appLogo())
     }
 
 }
