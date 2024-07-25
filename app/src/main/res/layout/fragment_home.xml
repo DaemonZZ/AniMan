@@ -15,19 +15,17 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_series"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/home_item_recycler"
-            app:tabMode="scrollable">
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/hot_series"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hot_series" />
-
-        </com.google.android.material.tabs.TabLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/series_recycler"
@@ -36,19 +34,16 @@
             android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintTop_toBottomOf="@id/tab_series" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_viet_nam"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/series_recycler"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/viet_nam_must_watch" />
-
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/viet_nam_must_watch"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/viet_nam_recycler"
@@ -57,43 +52,37 @@
             android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintTop_toBottomOf="@id/tab_viet_nam" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_anime"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/viet_nam_recycler"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/anime" />
-
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/anime"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/anime_recycler"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_200"
             android:layout_marginVertical="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_4"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/tab_anime" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_movies"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/anime_recycler"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hot_in_cinema" />
-
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/hot_in_cinema"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movíe_recycler"
@@ -102,19 +91,16 @@
             android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintTop_toBottomOf="@id/tab_movies" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_tv"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/movíe_recycler"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_shows" />
-
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/tv_shows"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tv_recycler"

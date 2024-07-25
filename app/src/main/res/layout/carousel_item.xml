@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/carousel_item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,17 +15,31 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_watch"
         style="@style/Widget.Material3.Button.Icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_8"
         android:text="@string/watch_now"
-        android:textSize="@dimen/sp_18"
-        app:cornerRadius="@dimen/dp_8"
-        app:icon="@drawable/smart_display"
-        app:iconGravity="textStart"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintBottom_toBottomOf="@id/carousel_image_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/chips_layout"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginStart="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="@id/btn_watch"
+        app:layout_constraintEnd_toStartOf="@id/btn_watch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_watch">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </HorizontalScrollView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_title"
@@ -40,60 +53,9 @@
         android:lines="1"
         android:textColor="@color/text_dark"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/layout_info"
+        app:layout_constraintBottom_toTopOf="@+id/chips_layout"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/layout_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_10"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/btn_watch">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_year"
-            style="@style/TextAppearance.Material3.TitleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/text_dark"
-            tools:text="2023" />
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.Material3.HeadlineLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="@dimen/dp_2"
-            android:text="@string/bullet" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_country"
-            style="@style/TextAppearance.Material3.TitleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/text_dark"
-            tools:text="Việt Nam" />
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.Material3.HeadlineLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="@dimen/dp_2"
-            android:text="@string/bullet" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_episode"
-            style="@style/TextAppearance.Material3.TitleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="Tập 3"
-            android:textColor="@color/text_dark" />
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
