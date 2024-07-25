@@ -51,6 +51,11 @@ class LightTheme : AnimanTheme {
     override fun loadingIcon() = R.drawable.ic_loading
     override fun appLogo() = R.drawable.app_logo
     override fun appLogoLandscape() = R.drawable.logo_landscape
+    override fun indicatorActive(context: Context) =
+        ContextCompat.getColor(context, R.color.text_light)
+
+    override fun indicatorInactive(context: Context) =
+        ContextCompat.getColor(context, R.color.grayFrame_light)
 
     override fun id(): Int = 0
 }

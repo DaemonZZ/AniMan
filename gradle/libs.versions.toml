@@ -7,6 +7,7 @@ credentials = "1.2.2"
 credentialsPlayServicesAuth = "1.5.0-alpha01"
 credentialsVersion = "1.5.0-alpha01"
 daynightswitch = "1.5"
+easyRecyclerviewIndicator = "1.3"
 facebookAndroidSdk = "5.0.0"
 featureDelivery = "2.1.0"
 firebaseBom = "33.1.0"
@@ -74,6 +75,7 @@ animated-theme-manager = { module = "com.dolatkia:animated-theme-manager", versi
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gson" }
 daynightswitch = { module = "com.github.Mahfa:DayNightSwitch", version.ref = "daynightswitch" }
+easy-recyclerview-indicator = { module = "com.kingfisherphuoc:easy-recyclerview-indicator", version.ref = "easyRecyclerviewIndicator" }
 feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "featureDelivery" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }

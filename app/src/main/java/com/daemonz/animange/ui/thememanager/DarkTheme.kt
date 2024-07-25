@@ -51,6 +51,11 @@ class DarkTheme : AnimanTheme {
     override fun loadingIcon() = R.drawable.ic_loading_night
     override fun appLogo() = R.drawable.app_logo_night
     override fun appLogoLandscape() = R.drawable.logo_landscape_night
+    override fun indicatorActive(context: Context) =
+        ContextCompat.getColor(context, R.color.text_dark)
+
+    override fun indicatorInactive(context: Context) =
+        ContextCompat.getColor(context, R.color.grayFrame_dark)
 
     override fun id(): Int {
         return 1

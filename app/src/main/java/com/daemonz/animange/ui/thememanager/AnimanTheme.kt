@@ -23,4 +23,6 @@ interface AnimanTheme : AppTheme {
     fun loadingIcon(): Int
     fun appLogo(): Int
     fun appLogoLandscape(): Int
+    fun indicatorActive(context: Context): Int
+    fun indicatorInactive(context: Context): Int
 }

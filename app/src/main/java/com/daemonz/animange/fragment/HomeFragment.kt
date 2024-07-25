@@ -3,6 +3,8 @@ package com.daemonz.animange.fragment
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -15,10 +17,10 @@ import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.dialog.SearchDialog
+import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
-import com.google.android.material.carousel.FullScreenCarouselStrategy
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -110,8 +112,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
 
     private fun setupHomeItemRecycler() {
         binding.apply {
-            homeItemRecycler.layoutManager = CarouselLayoutManager(FullScreenCarouselStrategy())
-            val snapHelper = CarouselSnapHelper()
+            homeItemRecycler.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            val snapHelper = PagerSnapHelper()
             homeItemRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(homeItemRecycler)
             homeCarouselAdapter = HomeCarouselAdapter(
@@ -122,6 +125,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
                 }
             )
             homeItemRecycler.adapter = homeCarouselAdapter
+            homeItemRecycler.addItemDecoration(
+                CirclePagerIndicatorDecoration(
+                    colorInactive = currentTheme.indicatorInactive(requireContext()),
+                    colorActive = currentTheme.indicatorActive(requireContext())
+                )
+            )
             val metric = requireActivity().windowManager.currentWindowMetrics.bounds
             val height = metric.width().coerceAtMost(metric.height()) //height
             val params = homeItemRecycler.layoutParams

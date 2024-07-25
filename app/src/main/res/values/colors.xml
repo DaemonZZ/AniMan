@@ -13,6 +13,20 @@
     <color name="textTab_light">#74777B</color>
     <color name="menuItemBg_light">#CACFE0</color>
     <color name="menuItemBg_dark">#B5B6B8</color>
+    <color name="button_light">#ff3a4d94</color>
+    <color name="button_dark">#ffb5d3ff</color>
+    <color name="textGray_light">#ff74777b</color>
+    <color name="textGray_dark">#ff74777b</color>
+    <color name="grayFrame_light">#ffd9d9d9</color>
+    <color name="grayFrame_dark">#ff606467</color>
+    <color name="blueFrame_light">#ffcacfe0</color>
+    <color name="blueFrame_dark">#ff071b39</color>
+    <color name="placeholder_light">#ff606467</color>
+    <color name="placeholder_dark">#ffd9d9d9</color>
+    <color name="warning_light">#ffcc3300</color>
+    <color name="warning_dark">#ffcc3300</color>
+    <color name="star_light">#ffe7b700</color>
+    <color name="star_dark">#ffe7b700</color>
 
 
     <color name="md_theme_primary">@color/icon_light</color>
