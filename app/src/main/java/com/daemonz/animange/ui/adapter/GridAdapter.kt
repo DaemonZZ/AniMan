@@ -19,18 +19,25 @@ class GridAdapter(
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CardItemBinding
         get() = CardItemBinding::inflate
 
+
     override fun bindView(binding: CardItemBinding, item: PagingData<Item>, position: Int) {
         binding.apply {
             imgView.setImageFromUrl(item.data.getImageUrl(imgDomain))
             textTitle.text = item.data.name
-            textSubtitle.text = item.data.category.map { it.name }.joinToString(
+            textSubtitle.text = item.data.category.joinToString(
                 binding.root.context.getString(
                     R.string.bullet
                 )
-            )
-            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
-            textSubtitle.setTextColor(theme.firstActivityTextColor(root.context))
+            ) { it.name }
+
             root.setCardBackgroundColor(theme.menuItemBackground(root.context))
         }
+    }
+
+    override fun setupLayout(binding: CardItemBinding, parent: ViewGroup) {
+        //set item height according to screen size
+        val lp = binding.root.layoutParams
+        lp.height = parent.height / 3
+        binding.root.layoutParams = lp
     }
 }

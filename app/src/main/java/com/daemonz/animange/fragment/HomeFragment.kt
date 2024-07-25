@@ -112,8 +112,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
 
     private fun setupHomeItemRecycler() {
         binding.apply {
-            homeItemRecycler.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             val snapHelper = PagerSnapHelper()
             homeItemRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(homeItemRecycler)
@@ -131,12 +129,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
                     colorActive = currentTheme.indicatorActive(requireContext())
                 )
             )
-            val metric = requireActivity().windowManager.currentWindowMetrics.bounds
-            val height = metric.width().coerceAtMost(metric.height()) //height
-            val params = homeItemRecycler.layoutParams
-            params.height = (height * 90) / 100
-            homeItemRecycler.layoutParams = params
-            ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
+            val llm = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            llm.isAutoMeasureEnabled = false
+            homeItemRecycler.layoutManager = llm
+//            val metric = requireActivity().windowManager.currentWindowMetrics.bounds
+//            val height = metric.width().coerceAtMost(metric.height()) //height
+//            val params = homeItemRecycler.layoutParams
+//            params.height = (height * 90) / 100
+//            homeItemRecycler.layoutParams = params
+//            ALog.i(TAG, "height homeItemRecycler: ${homeItemRecycler.layoutParams.height}")
             root.setOnScrollChangeListener { _, _, _, _, _ ->
                 toggleToolBarShowing(isShow = true, autoHide = true)
             }

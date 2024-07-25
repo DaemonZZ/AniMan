@@ -2,19 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/carousel_item_container"
+    android:background="#FF0000"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/carousel_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:foreground="@drawable/custom_background_banner"
-        android:scaleType="centerCrop" />
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/lycoris" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_watch"
-        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
@@ -22,7 +28,7 @@
         android:lineHeight="@dimen/sp_20"
         android:lineSpacingExtra="@dimen/dp_8"
         android:text="@string/watch_now"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_22"
         app:layout_constraintBottom_toBottomOf="@id/carousel_image_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -39,23 +45,25 @@
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
 
     </HorizontalScrollView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_title"
         style="@style/TextAppearance.Material3.TitleLarge"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginHorizontal="@dimen/dp_16"
         android:ellipsize="end"
         android:labelFor="@+id/btn_share"
         android:lineHeight="@dimen/sp_40"
-        android:lines="1"
+        android:layout_marginBottom="@dimen/dp_16"
         android:textColor="@color/text_dark"
         android:textStyle="bold"
+        android:maxLines="3"
         app:layout_constraintBottom_toTopOf="@+id/chips_layout"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -38,4 +38,5 @@
     <dimen name="dp_12">12dp</dimen>
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_40">40sp</dimen>
+    <dimen name="sp_22">22sp</dimen>
 </resources>

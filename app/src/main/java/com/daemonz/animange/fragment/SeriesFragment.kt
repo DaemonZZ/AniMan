@@ -35,7 +35,6 @@ class SeriesFragment :
 
     override fun setupViews() {
         binding.apply {
-            moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
             seriesAdapter = GridAdapter(onItemClickListener, currentTheme)
             moviesRecycler.adapter = seriesAdapter
             moviesRecycler.addOnScrollListener(object : OnScrollListener() {
@@ -65,6 +64,7 @@ class SeriesFragment :
                     }
                 }
             })
+            moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         }
 
     }

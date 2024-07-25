@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 
@@ -24,11 +25,17 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): BaseViewHolder<ViewBinding> {
-        return BaseViewHolder(bindingInflater.invoke(
+        val binding = bindingInflater.invoke(
             LayoutInflater.from(parent.context), parent, false
         ).apply {
             bindFirstTime(this)
-        })
+        }
+        setupLayout(binding, parent)
+        return BaseViewHolder(binding)
+    }
+
+    open fun setupLayout(binding: ViewBinding, parent: ViewGroup) {
+
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding>, position: Int) {
