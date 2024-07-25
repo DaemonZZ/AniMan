@@ -25,4 +25,5 @@ interface AnimanTheme : AppTheme {
     fun appLogoLandscape(): Int
     fun indicatorActive(context: Context): Int
     fun indicatorInactive(context: Context): Int
+    fun textGray(context: Context): Int
 }

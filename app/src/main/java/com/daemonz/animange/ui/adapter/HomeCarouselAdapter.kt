@@ -1,6 +1,5 @@
 package com.daemonz.animange.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.daemonz.animange.base.BaseRecyclerAdapter
@@ -30,10 +29,10 @@ class HomeCarouselAdapter(
             btnWatch.setTextColor(theme.firstActivityBackgroundColor(root.context))
             btnWatch.setBackgroundColor(theme.firstActivityIconColor(root.context))
             chipGroup.removeAllViews()
-            item.category.distinctBy { it.name }.forEach {
+            item.category.distinctBy { it.name }.take(2).forEach {
                 val chip = Chip(root.context).apply {
                     text = it.name
-                    setBackgroundColor(Color.TRANSPARENT)
+                    setChipBackgroundColorResource(android.R.color.transparent)
                     val shape = shapeAppearanceModel.withCornerSize(50f)
                     shapeAppearanceModel = shape
                 }

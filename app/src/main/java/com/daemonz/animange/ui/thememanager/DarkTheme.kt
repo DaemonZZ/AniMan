@@ -57,6 +57,8 @@ class DarkTheme : AnimanTheme {
     override fun indicatorInactive(context: Context) =
         ContextCompat.getColor(context, R.color.grayFrame_dark)
 
+    override fun textGray(context: Context) = ContextCompat.getColor(context, R.color.textGray_dark)
+
     override fun id(): Int {
         return 1
     }
