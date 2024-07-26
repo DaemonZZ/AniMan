@@ -8,10 +8,20 @@ data class MenuItem(
     val title: String,
     val type: MenuItemType = MenuItemType.Arrow,
     val isShow: Boolean = true,
+    val menuFunction: MenuItemFunction = MenuItemFunction.None
 )
 
 @Keep
 enum class MenuItemType {
     Arrow,
     Theme
+}
+
+@Keep
+enum class MenuItemFunction {
+    None,
+    AccountInfo,
+    Favorites,
+    UserManagement,
+    FeedBack,
 }

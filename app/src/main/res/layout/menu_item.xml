@@ -8,13 +8,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/dp_36"
-        android:layout_height="@dimen/dp_36"
-        android:layout_margin="@dimen/dp_16"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         android:tint="@color/carousel_text_color_theme_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="@dimen/dp_10"
         app:srcCompat="@drawable/circle" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -22,31 +22,30 @@
         style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="@dimen/dp_0"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_16"
+        android:layout_marginHorizontal="@dimen/dp_8"
         android:ellipsize="end"
         android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/arrow"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="@dimen/dp_10"
         tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/arrow"
-        android:layout_width="@dimen/dp_36"
-        android:layout_height="@dimen/dp_36"
-        android:layout_margin="@dimen/dp_16"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="@dimen/dp_10"
         app:srcCompat="@drawable/chevron_right" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:dividerInsetEnd="@dimen/dp_40"
-        app:dividerInsetStart="@dimen/dp_40"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

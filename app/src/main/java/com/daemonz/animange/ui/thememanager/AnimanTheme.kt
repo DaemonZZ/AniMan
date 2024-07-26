@@ -26,4 +26,9 @@ interface AnimanTheme : AppTheme {
     fun indicatorActive(context: Context): Int
     fun indicatorInactive(context: Context): Int
     fun textGray(context: Context): Int
+    fun userMenuItem(): Int
+    fun favoriteMenuItem(): Int
+    fun userManagementMenuItem(): Int
+    fun feedbackMenuItem(): Int
+    fun menuBackground(): Int
 }

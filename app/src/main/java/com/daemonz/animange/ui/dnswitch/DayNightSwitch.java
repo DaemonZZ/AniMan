@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -56,7 +55,7 @@ public class DayNightSwitch extends View implements Animator.AnimatorListener {
             }
         });
         lightBackDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT
-                , new int[]{Color.parseColor("#21b5e7"), Color.parseColor("#59ccda")});
+                , new int[]{Color.parseColor("#7E95C4"), Color.parseColor("#9E95C4")});
         lightBackDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
 

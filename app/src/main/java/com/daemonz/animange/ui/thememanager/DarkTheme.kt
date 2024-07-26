@@ -44,7 +44,7 @@ class DarkTheme : AnimanTheme {
         ContextCompat.getColor(context, R.color.iconText_light)
 
     override fun menuItemBackground(context: Context) =
-        ContextCompat.getColor(context, R.color.menuItemBg_dark)
+        ContextCompat.getColor(context, R.color.blueFrame_dark)
 
     override fun iconBack() = R.drawable.arrow_back_night
     override fun iconNext() = R.drawable.chevron_right_night
@@ -58,6 +58,14 @@ class DarkTheme : AnimanTheme {
         ContextCompat.getColor(context, R.color.grayFrame_dark)
 
     override fun textGray(context: Context) = ContextCompat.getColor(context, R.color.textGray_dark)
+    override fun userMenuItem() = R.drawable.person_night
+
+    override fun favoriteMenuItem() = R.drawable.bookmark_night
+
+    override fun userManagementMenuItem() = R.drawable.personal_privacy_night
+
+    override fun feedbackMenuItem() = R.drawable.help_night
+    override fun menuBackground() = R.drawable.round_corner_night
 
     override fun id(): Int {
         return 1

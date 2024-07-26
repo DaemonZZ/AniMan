@@ -13,8 +13,8 @@
     <color name="textTab_light">#74777B</color>
     <color name="menuItemBg_light">#CACFE0</color>
     <color name="menuItemBg_dark">#B5B6B8</color>
-    <color name="button_light">#ff3a4d94</color>
-    <color name="button_dark">#ffb5d3ff</color>
+    <color name="button_light">#3A4D94</color>
+    <color name="button_dark">#B5D3FF</color>
     <color name="textGray_light">#ff74777b</color>
     <color name="textGray_dark">#ff74777b</color>
     <color name="grayFrame_light">#ffd9d9d9</color>

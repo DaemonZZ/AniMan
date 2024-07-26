@@ -15,7 +15,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -48,6 +47,7 @@ import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
 import com.dolatkia.animatedThemeManager.ThemeAnimationListener
+import com.dolatkia.animatedThemeManager.ThemeManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -96,10 +96,10 @@ class MainActivity : ThemeActivity() {
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
                 binding.bottomNavigation.visibility = View.VISIBLE
-                binding.adViewContainer.isVisible = true
+                binding.adViewContainer.isVisible = destination.id != R.id.settingsFragment
                 toggleToolBarShowing(
-                    isShow = destination.id != R.id.settingsFragment,
-                    autoHide = true
+                    isShow = true,
+                    autoHide = destination.id != R.id.settingsFragment
                 )
             } else {
                 binding.bottomNavigation.visibility = View.GONE
@@ -226,6 +226,23 @@ class MainActivity : ThemeActivity() {
             }
 
         })
+        val nightMode = sharePreferenceManager.getBoolean(NIGHT_MODE_KEY, false)
+        binding.dayNightSwitch.isVisible = true
+        binding.dayNightSwitch.setIsNight(nightMode, false)
+        binding.dayNightSwitch.setListener { isNightMode ->
+            binding.root.postDelayed({
+                val theme: AnimanTheme = if (isNightMode) {
+                    DarkTheme()
+                } else {
+                    LightTheme()
+                }
+                sharePreferenceManager.setBoolean(NIGHT_MODE_KEY, isNightMode)
+                ThemeManager.instance.reverseChangeTheme(
+                    theme,
+                    binding.dayNightSwitch
+                )
+            }, 500L)
+        }
     }
 
     private fun loadIntent() {
@@ -460,6 +477,8 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
 
                 R.id.favouritesFragment -> {
@@ -471,6 +490,8 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
 
                 R.id.profileFragment -> {
@@ -482,6 +503,8 @@ class MainActivity : ThemeActivity() {
                     title.text = getString(R.string.user_profile)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
 
                 R.id.chooseUserFragment -> {
@@ -493,6 +516,8 @@ class MainActivity : ThemeActivity() {
                     title.text = getString(R.string.who_watching)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
@@ -504,10 +529,21 @@ class MainActivity : ThemeActivity() {
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     rightMenu.menu?.findItem(R.id.close)?.isVisible = false
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
 
                 R.id.themeFragment -> {
                     toggleToolBarShowing(false)
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
+                }
+
+                R.id.settingsFragment -> {
+                    rightMenu.isVisible = false
+                    appLogo.isVisible = false
+                    dayNightSwitch.isVisible = true
+                    toggleToolBarShowing(isShow = true, autoHide = false)
                 }
 
                 else -> {
@@ -518,6 +554,8 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = true
                     title.text = STRING_EMPTY
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    dayNightSwitch.isVisible = false
+                    rightMenu.isVisible = true
                 }
             }
 

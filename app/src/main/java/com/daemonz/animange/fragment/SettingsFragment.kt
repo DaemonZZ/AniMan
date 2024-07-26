@@ -1,19 +1,22 @@
 package com.daemonz.animange.fragment
 
-import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
+import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentSettingBinding
+import com.daemonz.animange.entity.MenuItem
+import com.daemonz.animange.entity.MenuItemFunction
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
+import com.daemonz.animange.ui.adapter.MenuAdapter
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.LoginViewModel
+import com.dolatkia.animatedThemeManager.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,60 +27,47 @@ class SettingsFragment :
     BottomNavigationAction {
     override val viewModel: LoginViewModel by activityViewModels()
 
+    private var adapter: MenuAdapter? = null
+    private val onItemClickListener =
+        OnItemClickListener<MenuItem> { item, index ->
+            ALog.i(TAG, "onItemClick: $index")
 
+        }
     override fun setupViews() {
         loadViewState()
+        val listItem = listOf(
+            MenuItem(
+                currentTheme.userMenuItem(),
+                getString(R.string.profile),
+                menuFunction = MenuItemFunction.AccountInfo
+            ),
+            MenuItem(
+                currentTheme.favoriteMenuItem(),
+                getString(R.string.favourite),
+                menuFunction = MenuItemFunction.Favorites
+            ),
+            MenuItem(
+                currentTheme.userManagementMenuItem(),
+                getString(R.string.user_management),
+                menuFunction = MenuItemFunction.UserManagement
+            ),
+            MenuItem(
+                currentTheme.feedbackMenuItem(),
+                getString(R.string.feedback),
+                menuFunction = MenuItemFunction.FeedBack
+            ),
+        )
         binding.apply {
-            profile.textTitle.text = getString(R.string.profile)
-            profile.icon.setImageResource(R.drawable.ic_profile)
-            profile.root.setOnClickListener {
-                if (LoginData.account == null) {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.user_not_logged_in,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    LoginData.account?.id?.let {
-                        findNavController().navigate(
-                            SettingsFragmentDirections.actionTab5FragmentToProfileFragment(
-                                it
-                            )
-                        )
-                    }
-                }
-
-            }
-            favourite.textTitle.text = getString(R.string.favourite)
-            favourite.icon.setImageResource(R.drawable.ic_favourite)
-            favourite.root.setOnClickListener {
-                if (viewModel.isLoggedIn()) {
-                    findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToFavouritesFragment())
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.user_not_logged_in,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-            }
-            feedback.textTitle.text = getString(R.string.theme)
-            feedback.icon.setImageResource(R.drawable.ic_theme)
-            feedback.root.setOnClickListener {
-                findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToThemeFragment())
-            }
-            support.textTitle.text = getString(R.string.support)
-            support.icon.setImageResource(R.drawable.ic_support)
-            support.root.setOnClickListener {
-                showToastNotImplemented()
-            }
-            logout.textTitle.text = getString(R.string.logout)
-            logout.root.setOnClickListener {
-                viewModel.logout(requireContext())
-                showLoadingOverlay()
-            }
+            adapter = MenuAdapter(onItemClickListener, currentTheme)
+            recyclerMenu.adapter = adapter
+            adapter?.setData(listItem)
+            recyclerMenu.setBackgroundResource(currentTheme.menuBackground())
         }
+    }
+
+    override fun syncTheme(appTheme: AppTheme) {
+        super.syncTheme(appTheme)
+        setupViews()
     }
 
     private fun loadViewState() {
@@ -87,8 +77,6 @@ class SettingsFragment :
         )
         binding.apply {
             if (viewModel.isLoggedIn()) {
-                layoutLogin.isVisible = false
-                groupAccount.visibility = View.VISIBLE
                 val activeUser = LoginData.getActiveUser()
                     ?: LoginData.account?.users?.firstOrNull { it.isMainUser }
                 activeUser?.let {
@@ -100,13 +88,9 @@ class SettingsFragment :
                     }
                 }
             } else {
-                layoutLogin.isVisible = true
-                groupAccount.visibility = View.INVISIBLE
-                layoutLogin.setOnClickListener {
-                    viewModel.createSigningLauncher()
-                }
+
             }
-            logout.root.isVisible = viewModel.isLoggedIn()
+
         }
     }
 
@@ -152,18 +136,9 @@ class SettingsFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
-            profile.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
-            favourite.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
-            feedback.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
-            logout.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
-            support.root.setBackgroundColor(currentTheme.menuItemBackground(requireContext()))
-            textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            profile.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            favourite.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            feedback.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            logout.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            support.textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            title.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+
+        textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+
         }
     }
 

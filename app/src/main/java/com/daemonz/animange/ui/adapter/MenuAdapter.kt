@@ -27,6 +27,7 @@ class MenuAdapter(
             if (position == itemCount - 1) {
                 divider.isVisible = false
             }
+            divider.dividerColor = theme.firstActivityIconColor(root.context)
             when (item.type) {
                 MenuItemType.Theme -> {
                     arrow.isVisible = false
@@ -42,7 +43,13 @@ class MenuAdapter(
                     }
                 }
 
-                else -> {}
+                else -> {
+                    arrow.setImageResource(theme.iconNext())
+                    icon.setImageResource(item.icon)
+                    root.setOnClickListener {
+                        onItemClickListener.onItemClick(item, position)
+                    }
+                }
             }
         }
     }
