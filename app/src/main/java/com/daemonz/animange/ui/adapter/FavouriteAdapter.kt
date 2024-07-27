@@ -6,6 +6,8 @@ import android.widget.Toast
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
+import com.daemonz.animange.databinding.CardItemBinding
+import com.daemonz.animange.databinding.FavoritesItemBinding
 import com.daemonz.animange.databinding.SuggestionVideoItemBinding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.ui.thememanager.AnimanTheme
@@ -17,22 +19,22 @@ class FavouriteAdapter(
     private val onFavourite: (FavouriteItem) -> Unit,
     private val theme: AnimanTheme
 ) :
-    BaseRecyclerAdapter<FavouriteItem, SuggestionVideoItemBinding>(onItemClickListener, theme) {
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> SuggestionVideoItemBinding
-        get() = SuggestionVideoItemBinding::inflate
+    BaseRecyclerAdapter<FavouriteItem, FavoritesItemBinding>(onItemClickListener, theme) {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FavoritesItemBinding
+        get() = FavoritesItemBinding::inflate
 
-    override fun bindView(binding: SuggestionVideoItemBinding, item: FavouriteItem, position: Int) {
+    override fun bindView(binding: FavoritesItemBinding, item: FavouriteItem, position: Int) {
         binding.apply {
             image.setImageFromUrl(item.imageUrl)
             textTitle.text = item.name
-            textDesc.text = item.originName
+            textStatus.text = item.episodeCurrent
             root.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }
             if (LoginData.getActiveUser()?.isFavourite(item.slug) == true) {
-                favourite.setImageResource(R.drawable.favorite_filled)
+                favourite.setImageResource(R.drawable.bookmark_filled_night)
             } else {
-                favourite.setImageResource(R.drawable.favorite)
+                favourite.setImageResource(R.drawable.bookmark_night)
             }
             favourite.setOnClickListener {
                 LoginData.getActiveUser()?.let {
@@ -45,5 +47,12 @@ class FavouriteAdapter(
 
             }
         }
+    }
+
+    override fun setupLayout(binding: FavoritesItemBinding, parent: ViewGroup) {
+        //set item height according to screen size
+        val lp = binding.root.layoutParams
+        lp.height = parent.height / 5
+        binding.image.layoutParams = lp
     }
 }

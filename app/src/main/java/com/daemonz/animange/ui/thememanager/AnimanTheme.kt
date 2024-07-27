@@ -31,4 +31,6 @@ interface AnimanTheme : AppTheme {
     fun userManagementMenuItem(): Int
     fun feedbackMenuItem(): Int
     fun menuBackground(): Int
+    fun bookmarkIcon(): Int
+    fun bookmarkFilledIcon(): Int
 }

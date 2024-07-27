@@ -100,7 +100,8 @@ fun Item.toFavouriteItem(img: String): FavouriteItem = FavouriteItem(
     name = name,
     category = category.map { it.name },
     imageUrl = img,
-    originName = originName
+    originName = originName,
+    episodeCurrent = episodeCurrent
 )
 
 fun String.makeSearchText(): String {

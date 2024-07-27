@@ -89,7 +89,10 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
         playerData.value?.data?.let {
             if (item == null) {
                 if (it.item != null) {
-                    repository.markItemAsFavourite(item = it.item, img = it.getImageUrl())
+                    repository.markItemAsFavourite(
+                        item = it.item,
+                        img = it.getImageUrl().replace("thumb", "poster")
+                    )
                     withContext(Dispatchers.Main) {
                         _isFavourite.value = true
                     }

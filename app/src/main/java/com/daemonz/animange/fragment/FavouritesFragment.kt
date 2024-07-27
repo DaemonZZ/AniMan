@@ -3,7 +3,9 @@ package com.daemonz.animange.fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentFavouritesBinding
 import com.daemonz.animange.log.ALog
@@ -19,6 +21,7 @@ class FavouritesFragment :
     private var adapter: FavouriteAdapter? = null
 
     override fun setupViews() {
+        (activity as? MainActivity)?.setTitle(getString(R.string.favourite))
         binding.apply {
             adapter = FavouriteAdapter(
                 onFavourite = { item ->

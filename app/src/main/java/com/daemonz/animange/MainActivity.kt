@@ -499,6 +499,7 @@ class MainActivity : ThemeActivity() {
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.favourites_filmes)
+                    title.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     navIcon.isVisible = true
