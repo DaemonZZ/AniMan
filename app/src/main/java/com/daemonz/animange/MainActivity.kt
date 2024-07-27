@@ -18,8 +18,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -58,6 +60,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
@@ -88,6 +95,7 @@ class MainActivity : ThemeActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
+    private var hideToolbarJob = Job()
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
@@ -458,11 +466,16 @@ class MainActivity : ThemeActivity() {
         }
         if (isShow == true && autoHide) {
             lastAction = SystemClock.elapsedRealtime()
-            binding.topAppBar.postDelayed({
+            hideToolbarJob = Job()
+            CoroutineScope(Dispatchers.Main + hideToolbarJob).launch {
+                delay(2000)
                 if (SystemClock.elapsedRealtime() - lastAction > 2000L) {
                     showHideToolbar(false)
                 }
-            }, 2000)
+            }
+        }
+        if (!autoHide) {
+            hideToolbarJob.cancel()
         }
     }
 
@@ -477,7 +490,7 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
@@ -490,7 +503,7 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
@@ -498,12 +511,13 @@ class MainActivity : ThemeActivity() {
                     topAppBar.isVisible = true
                     navIcon.isVisible = true
                     appLogo.isVisible = false
+                    title.isVisible = true
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.user_profile)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
@@ -511,37 +525,41 @@ class MainActivity : ThemeActivity() {
                     topAppBar.isVisible = true
                     navIcon.isVisible = true
                     appLogo.isVisible = false
+                    title.isVisible = true
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     title.text = getString(R.string.who_watching)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
-                R.id.userInfoFragment, R.id.chooseAvatarFragment -> {
+                R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment -> {
                     topAppBar.isVisible = true
                     navIcon.isVisible = true
                     appLogo.isVisible = false
+                    title.isVisible = true
                     topAppBar.fitsSystemWindows = false
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = false
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
                     rightMenu.menu?.findItem(R.id.close)?.isVisible = false
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
                 R.id.themeFragment -> {
                     toggleToolBarShowing(false)
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
 
                 R.id.settingsFragment -> {
                     rightMenu.isVisible = false
-                    appLogo.isVisible = false
+                    appLogo.isVisible = true
+                    navIcon.isVisible = false
+                    title.isVisible = false
                     dayNightSwitch.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
                 }
@@ -554,7 +572,7 @@ class MainActivity : ThemeActivity() {
                     rightMenu.menu?.findItem(R.id.search)?.isVisible = true
                     title.text = STRING_EMPTY
                     rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
-                    dayNightSwitch.isVisible = false
+                    dayNightSwitch.isInvisible = true
                     rightMenu.isVisible = true
                 }
             }

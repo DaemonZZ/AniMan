@@ -7,6 +7,7 @@ import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.FavouriteItem
+import com.daemonz.animange.entity.FeedBack
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
@@ -16,6 +17,7 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.Country
+import com.daemonz.animange.util.FEEDBACK_COLLECTION
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.RATING_COLLECTION
 import com.daemonz.animange.util.TypeList
@@ -321,5 +323,13 @@ class DataRepository(
 
     fun getRating(slug: String, userId: String) = fireStoreDataBase.getRating(slug, userId)
     fun getRatingAvg(slug: String) = fireStoreDataBase.getRatingAverage(slug)
+
+    fun sendFeedBack(data: FeedBack): Task<Void> {
+        return fireStoreDataBase.addDocument(
+            collectionName = FEEDBACK_COLLECTION,
+            documentId = data.id,
+            data = data
+        )
+    }
 
 }

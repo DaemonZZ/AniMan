@@ -118,4 +118,11 @@
     <string name="loading_data">Đang tải dữ liệu…</string>
     <string name="check_login">Đang kiểm tra trạng thái đăng nhập…</string>
     <string name="user_management">Quản lý người dùng</string>
+    <string name="need_support">Bạn cần hỗ trợ thêm?</string>
+    <string name="what_yr_name">Tên bạn là gì?</string>
+    <string name="email_addr">Địa chỉ email</string>
+    <string name="your_comment">Ý kiến của bạn</string>
+    <string name="text_send">Gửi</string>
+    <string name="feedback_success">Yêu cầu đã đc gửi, chúng tôi sẽ phản hồi trong thời gian sớm nhất</string>
+    <string name="feedback_fail">Không thể gửi phản hồi, vui lòng thử lại sau</string>
 </resources>

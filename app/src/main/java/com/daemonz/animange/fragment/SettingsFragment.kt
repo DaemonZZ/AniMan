@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -29,9 +30,29 @@ class SettingsFragment :
 
     private var adapter: MenuAdapter? = null
     private val onItemClickListener =
-        OnItemClickListener<MenuItem> { item, index ->
-            ALog.i(TAG, "onItemClick: $index")
+        OnItemClickListener<MenuItem> { item, _ ->
+            ALog.i(TAG, "onItemClick: $item")
+            when (item.menuFunction) {
+                MenuItemFunction.AccountInfo -> findNavController().navigate(
+                    SettingsFragmentDirections.actionTab5FragmentToProfileFragment(LoginData.account?.id.toString())
+                )
 
+                MenuItemFunction.Favorites -> findNavController().navigate(
+                    SettingsFragmentDirections.actionTab5FragmentToFavouritesFragment()
+                )
+
+                MenuItemFunction.UserManagement -> findNavController().navigate(
+                    SettingsFragmentDirections.actionTab5FragmentToChooseUserFragment()
+                )
+
+                MenuItemFunction.FeedBack -> findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToSupportFragment()
+                )
+
+                else -> {
+                    showToastNotImplemented()
+                }
+            }
         }
     override fun setupViews() {
         loadViewState()
@@ -62,6 +83,10 @@ class SettingsFragment :
             recyclerMenu.adapter = adapter
             adapter?.setData(listItem)
             recyclerMenu.setBackgroundResource(currentTheme.menuBackground())
+            textEmail.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textEmail.text = LoginData.account?.email
+            textVer.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textVer.text = BuildConfig.VERSION_NAME
         }
     }
 
@@ -83,9 +108,6 @@ class SettingsFragment :
                     ALog.d(TAG, "user: ${it.image}")
                     imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name
-                    imgUser.setOnClickListener {
-                        findNavController().navigate(SettingsFragmentDirections.actionTab5FragmentToChooseUserFragment())
-                    }
                 }
             } else {
 
