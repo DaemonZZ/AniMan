@@ -9,6 +9,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -48,9 +49,21 @@ fun AppCompatImageView.loadGif(res: Int) {
 fun AppCompatImageView.loadImageFromStorage(id: Int) {
     val ref = Firebase.storage.reference.child("avatar/avt_$id.png")
     ref.downloadUrl.addOnSuccessListener { url ->
-        Glide.with(this.context)
-            .load(url)
-            .into(this)
+        try {
+            Glide.with(this.context)
+                .load(url)
+                .placeholder(R.drawable.user_placeholder)
+                .error(R.drawable.user_placeholder)
+                .into(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(
+                this.context,
+                this.context.getString(R.string.error_when_load_image),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
 }
 

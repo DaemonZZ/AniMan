@@ -53,14 +53,14 @@
     <string name="edit">Chỉnh sửa</string>
     <string name="back">back</string>
     <string name="checked">checked</string>
-    <string name="save">Lưu</string>
+    <string name="save">Lưu thay đổi</string>
     <string name="phone_num">Số điện thoại</string>
     <string name="email">Email</string>
     <string name="user_name">Tên người dùng</string>
     <string name="please_login_first">Hãy đăng nhập để lưu phim yêu thích</string>
     <string name="favourites_filmes">Phim yêu thích</string>
     <string name="user_profile">Thông tin người dùng</string>
-    <string name="update_complete">\"Cập nhật thành công\"</string>
+    <string name="update_complete">Cập nhật thành công</string>
     <string name="who_watching">Ai đang xem?</string>
     <string name="exit">Thoát</string>
     <string name="user_limit_reached">Chỉ tạo được tối đa 5 user</string>
@@ -112,4 +112,6 @@
     <string name="text_send">Gửi</string>
     <string name="feedback_success">Yêu cầu đã đc gửi, chúng tôi sẽ phản hồi trong thời gian sớm nhất</string>
     <string name="feedback_fail">Không thể gửi phản hồi, vui lòng thử lại sau</string>
+    <string name="acc_name">Tên tài khoản</string>
+    <string name="error_when_load_image">Có lỗi xảy ra khi cố gắng load ảnh</string>
 </resources>

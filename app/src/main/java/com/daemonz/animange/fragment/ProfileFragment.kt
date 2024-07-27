@@ -2,6 +2,8 @@ package com.daemonz.animange.fragment
 
 import android.os.SystemClock
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -73,10 +75,27 @@ class ProfileFragment :
                     findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSecretFragment())
                 }
             }
+            edtName.doAfterTextChanged {
+                save.isEnabled =
+                    !(edtName.text.isNullOrEmpty() || edtEmail.text.isNullOrEmpty() || edtPhone.text.isNullOrEmpty())
+            }
+            edtPhone.doAfterTextChanged {
+                save.isEnabled =
+                    !(edtName.text.isNullOrEmpty() || edtEmail.text.isNullOrEmpty() || edtPhone.text.isNullOrEmpty())
+            }
         }
     }
 
     override fun setupObservers() {
 
+    }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.apply {
+            edtName.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            edtEmail.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            edtPhone.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+        }
     }
 }
