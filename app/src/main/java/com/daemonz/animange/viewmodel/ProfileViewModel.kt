@@ -35,7 +35,6 @@ class ProfileViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun switchUser(id: String) {
-        if (LoginData.getActiveUser()?.id == id) return
         repository.switchUser(id)
     }
 

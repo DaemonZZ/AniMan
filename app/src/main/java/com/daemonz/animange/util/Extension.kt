@@ -35,8 +35,8 @@ fun AppCompatImageView.setImageFromUrl(
 ) {
     url?.let {
         Glide.with(this).load(it)
-            .error(error ?: R.drawable.app_logo_gray)
-            .placeholder(placeHolder ?: R.drawable.loading_288px)
+            .error(error ?: R.drawable.film_placeholder)
+            .placeholder(placeHolder ?: R.drawable.film_placeholder)
             .transform(RoundedCorners(cornerRadius))
             .into(this)
     }

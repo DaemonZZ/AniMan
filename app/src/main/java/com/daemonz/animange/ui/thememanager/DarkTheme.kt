@@ -70,7 +70,7 @@ class DarkTheme : AnimanTheme {
     override fun bookmarkFilledIcon(): Int = R.drawable.bookmark_filled_night
     override fun iconClose(): Int = R.drawable.ic_close_dark
     override fun iconEdit(): Int = R.drawable.ico_edit_dark
-
+    override fun iconLock(): Int = R.drawable.ic_lock_night
     override fun id(): Int {
         return 1
     }

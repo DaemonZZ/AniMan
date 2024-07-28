@@ -1,25 +1,19 @@
 package com.daemonz.animange.fragment
 
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentChooseUserBinding
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.ChooseUserAdapter
 import com.daemonz.animange.ui.view_helper.ZoomOutCenterLayoutManager
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.util.dpToPx
 import com.daemonz.animange.viewmodel.ProfileViewModel
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +21,7 @@ class ChooseUserFragment :
     BaseFragment<FragmentChooseUserBinding, ProfileViewModel>(FragmentChooseUserBinding::inflate) {
     override val viewModel: ProfileViewModel by viewModels<ProfileViewModel>()
     private var adapter: ChooseUserAdapter? = null
+    private var choosingId: String = LoginData.getActiveUser()?.id.toString()
 
     override fun setupViews() {
         adapter = ChooseUserAdapter(
@@ -52,8 +47,8 @@ class ChooseUserFragment :
                 } else {
                     if (!item.isActive) {
                         item.id?.let {
-                            viewModel.switchUser(it)
-                            loadDataUser()
+                            choosingId = it
+                            adapter?.setActive(it)
                         }
                     }
                 }
@@ -88,5 +83,13 @@ class ChooseUserFragment :
     override fun setupObservers() {}
     fun onEditEnable(enable: Boolean) {
         adapter?.toggleEditMode(enable)
+    }
+
+    override fun onBack() {
+        LoginData.getActiveUser()?.let {
+            ALog.d(TAG, "onBack ${it.name}")
+            viewModel.switchUser(it.id.toString())
+        }
+        super.onBack()
     }
 }

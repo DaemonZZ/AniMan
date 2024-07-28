@@ -29,11 +29,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
+import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.BottomNavigationAction
+import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
@@ -184,6 +186,11 @@ class MainActivity : ThemeActivity() {
         return theme
     }
 
+    fun onBack() {
+        val frag =
+            supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is CommonAction }
+        (frag as? CommonAction)?.onBack()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -195,8 +202,7 @@ class MainActivity : ThemeActivity() {
             insets
         }
         binding.navIcon.setOnClickListener {
-            val navController = findNavController(R.id.navHostFragment)
-            navController.popBackStack()
+            onBack()
         }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)

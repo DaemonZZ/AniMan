@@ -35,4 +35,5 @@ interface AnimanTheme : AppTheme {
     fun bookmarkFilledIcon(): Int
     fun iconClose(): Int
     fun iconEdit(): Int
+    fun iconLock(): Int
 }

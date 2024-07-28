@@ -52,4 +52,22 @@ class ChooseUserAdapter(
     fun isEditModeEnabled(): Boolean {
         return isEditMode
     }
+
+    fun setActive(id: String) {
+        var old = -1
+        var new = -1
+        data.forEachIndexed { index, user ->
+            if (user.isActive) old = index
+            if (user.id == id) {
+                user.isActive = true
+                new = index
+            } else {
+                user.isActive = false
+            }
+        }
+        if (new >= 0 && old >= 0) {
+            notifyItemChanged(old)
+            notifyItemChanged(new)
+        }
+    }
 }

@@ -24,81 +24,71 @@
             android:id="@+id/edit_overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center|bottom"
             android:adjustViewBounds="true"
-            android:background="@color/white"
-            app:srcCompat="@drawable/ic_edit" />
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="@color/alpha0"
+            app:srcCompat="@drawable/ic_camera" />
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
-        android:id="@+id/layout_name"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_name"
+        android:hint="@string/user_name"
         android:layout_marginHorizontal="@dimen/dp_24"
         android:layout_marginTop="@dimen/dp_36"
-        android:orientation="horizontal"
+        app:boxCornerRadiusBottomEnd="@dimen/dp_12"
+        app:boxCornerRadiusBottomStart="@dimen/dp_12"
+        app:boxCornerRadiusTopEnd="@dimen/dp_12"
+        app:boxCornerRadiusTopStart="@dimen/dp_12"
+        app:hintAnimationEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_avt">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.Material3.LabelMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/user_name" />
-
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_name"
-            style="@style/TextAppearance.Material3.LabelMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_weight="2"
-            android:text="aasdasd" />
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/person"
+            android:lines="1"
+            android:drawablePadding="@dimen/dp_8"
+            android:maxLength="50" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_password"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_password"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginHorizontal="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_16"
-        android:clickable="true"
-        android:orientation="horizontal"
+        android:hint="@string/password"
+        app:boxCornerRadiusBottomEnd="@dimen/dp_12"
+        app:boxCornerRadiusBottomStart="@dimen/dp_12"
+        app:boxCornerRadiusTopEnd="@dimen/dp_12"
+        app:boxCornerRadiusTopStart="@dimen/dp_12"
+        app:hintAnimationEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_name">
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.Material3.LabelMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/password" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edt_email"
-            style="@style/TextAppearance.Material3.LabelMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_weight="2"
-            android:enabled="false"
-            android:inputType="numberPassword" />
-    </LinearLayout>
-
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="@dimen/dp_8"
+            android:inputType="numberPassword"
+            android:maxLength="6" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_36"
-        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginHorizontal="@dimen/dp_16"
         android:text="@string/complete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_password" />
@@ -106,15 +96,14 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/delete"
         style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_36"
-        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="@string/delete_user_title"
         android:textColor="@color/warning"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/save"
-        app:layout_constraintTop_toBottomOf="@id/layout_password"
+        app:layout_constraintTop_toBottomOf="@id/save"
         app:strokeColor="@color/warning"
         app:strokeWidth="@dimen/dp_1" />
 

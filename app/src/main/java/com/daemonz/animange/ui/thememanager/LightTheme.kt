@@ -70,5 +70,6 @@ class LightTheme : AnimanTheme {
     override fun bookmarkFilledIcon(): Int = R.drawable.ic_bookmark_filled
     override fun iconClose(): Int = R.drawable.close
     override fun iconEdit(): Int = R.drawable.ic_edit
+    override fun iconLock(): Int = R.drawable.ic_lock
     override fun id(): Int = 0
 }

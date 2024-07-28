@@ -10,8 +10,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
 import com.dolatkia.animatedThemeManager.AppTheme
@@ -21,7 +24,7 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     private val inflate: Inflate<VB>
-) : ThemeFragment() {
+) : ThemeFragment(), CommonAction {
     protected val TAG: String = this::class.java.simpleName
     private var _binding: VB? = null
     protected val binding: VB by lazy { _binding!! }
@@ -101,5 +104,9 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
         currentTheme.apply {
             binding.root.setBackgroundColor(firstActivityBackgroundColor(requireContext()))
         }
+    }
+    override fun onBack() {
+        ALog.d(TAG, "onBack")
+        findNavController().popBackStack()
     }
 }
