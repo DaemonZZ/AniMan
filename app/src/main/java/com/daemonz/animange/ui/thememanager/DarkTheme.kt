@@ -68,6 +68,9 @@ class DarkTheme : AnimanTheme {
     override fun menuBackground() = R.drawable.round_corner_night
     override fun bookmarkIcon(): Int = R.drawable.bookmark_night
     override fun bookmarkFilledIcon(): Int = R.drawable.bookmark_filled_night
+    override fun iconClose(): Int = R.drawable.ic_close_dark
+    override fun iconEdit(): Int = R.drawable.ico_edit_dark
+
     override fun id(): Int {
         return 1
     }

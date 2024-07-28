@@ -351,6 +351,8 @@ class MainActivity : ThemeActivity() {
             bottomNavigation.menu.findItem(R.id.settingsFragment).setIcon(
                 currentTheme.settingNavIcon()
             )
+            actionClose.setImageResource(currentTheme.iconClose())
+            actionEdit.setImageResource(currentTheme.iconEdit())
         }
     }
 
@@ -386,43 +388,27 @@ class MainActivity : ThemeActivity() {
                 Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
             bottomNavigation.setupWithNavController(navController)
             title.text = null
-            menuInflater.inflate(R.menu.top_bar_menu, rightMenu.menu)
-            rightMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.search -> {
-                        val navFrag =
-                            supportFragmentManager.fragments.find { it is NavHostFragment }
-                        navFrag?.childFragmentManager?.fragments?.forEach {
-                            (it as? BottomNavigationAction)?.onSearch()
-                        }
-                        true
-                    }
-
-                    R.id.edit -> {
-                        val frag =
-                            supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
-                        (frag as? ChooseUserFragment)?.onEditEnable(true)
-                        rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
-                        rightMenu.menu?.findItem(R.id.close)?.isVisible = true
-                        true
-                    }
-
-                    R.id.close -> {
-                        val frag =
-                            supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
-                        (frag as? ChooseUserFragment)?.onEditEnable(false)
-                        rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
-                        rightMenu.menu?.findItem(R.id.close)?.isVisible = false
-                        true
-                    }
-
-                    else -> false
+            actionEdit.setOnClickListener {
+                val frag =
+                    supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                (frag as? ChooseUserFragment)?.onEditEnable(true)
+                actionEdit.isVisible = false
+                actionClose.isVisible = true
+            }
+            actionClose.setOnClickListener {
+                val frag =
+                    supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is ChooseUserFragment }
+                (frag as? ChooseUserFragment)?.onEditEnable(false)
+                actionEdit.isVisible = true
+                actionClose.isVisible = false
+            }
+            actionSearch.setOnClickListener {
+                val navFrag =
+                    supportFragmentManager.fragments.find { it is NavHostFragment }
+                navFrag?.childFragmentManager?.fragments?.forEach {
+                    (it as? BottomNavigationAction)?.onSearch()
                 }
             }
-//            NavigationBarView.OnItemSelectedListener { item ->
-//
-//                true
-//            }
             bottomNavigation.setOnItemReselectedListener { item ->
                 when (item.itemId) {
                     //                    R.id.item_1 -> {
@@ -485,27 +471,25 @@ class MainActivity : ThemeActivity() {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    rightMenu.menu.findItem(R.id.search)?.isVisible = false
+                    actionSearch.isVisible = false
                     title.text = STRING_EMPTY
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    actionEdit.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.favouritesFragment -> {
                     topAppBar.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    rightMenu.menu.findItem(R.id.search)?.isVisible = false
+                    actionSearch.isVisible = false
                     title.text = getString(R.string.favourites_filmes)
                     title.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    actionEdit.isVisible = false
                     navIcon.isVisible = true
                     appLogo.isVisible = false
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.profileFragment -> {
@@ -514,12 +498,11 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    actionSearch.isVisible = false
                     title.text = getString(R.string.user_profile)
                     toggleToolBarShowing(isShow = true, autoHide = false)
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    actionEdit.isVisible = false
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.chooseUserFragment -> {
@@ -528,12 +511,11 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    actionSearch.isVisible = false
                     title.text = getString(R.string.who_watching)
                     toggleToolBarShowing(isShow = true, autoHide = false)
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = true
+                    actionEdit.isVisible = true
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment -> {
@@ -542,22 +524,19 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    rightMenu.menu?.findItem(R.id.search)?.isVisible = false
+                    actionSearch.isVisible = false
                     toggleToolBarShowing(isShow = true, autoHide = false)
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
-                    rightMenu.menu?.findItem(R.id.close)?.isVisible = false
+                    actionEdit.isVisible = false
+                    actionClose.isVisible = false
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.themeFragment -> {
                     toggleToolBarShowing(false)
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
 
                 R.id.settingsFragment -> {
-                    rightMenu.isVisible = false
                     appLogo.isVisible = true
                     navIcon.isVisible = false
                     title.isVisible = false
@@ -570,11 +549,10 @@ class MainActivity : ThemeActivity() {
                     navIcon.isVisible = false
                     appLogo.isVisible = true
                     topAppBar.fitsSystemWindows = true
-                    rightMenu.menu?.findItem(R.id.search)?.isVisible = true
+                    actionSearch.isVisible = true
                     title.text = STRING_EMPTY
-                    rightMenu.menu?.findItem(R.id.edit)?.isVisible = false
+                    actionEdit.isVisible = false
                     dayNightSwitch.isInvisible = true
-                    rightMenu.isVisible = true
                 }
             }
 

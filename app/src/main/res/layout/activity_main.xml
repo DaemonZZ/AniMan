@@ -69,20 +69,45 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp_16"
             android:gravity="center_vertical"
-            app:layout_constraintEnd_toStartOf="@id/right_menu"
+            app:layout_constraintEnd_toStartOf="@id/action_layout"
             app:layout_constraintStart_toEndOf="@id/nav_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="title" />
 
-        <androidx.appcompat.widget.ActionMenuView
-            android:id="@+id/right_menu"
+        <LinearLayout
+            android:id="@+id/action_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/action_search"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_search_dark" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/action_edit"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ico_edit_dark" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/action_close"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_close_dark" />
+        </LinearLayout>
         <com.daemonz.animange.ui.dnswitch.DayNightSwitch
             android:id="@+id/day_night_switch"
             android:layout_width="76dp"
@@ -93,8 +118,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

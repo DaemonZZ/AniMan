@@ -33,4 +33,6 @@ interface AnimanTheme : AppTheme {
     fun menuBackground(): Int
     fun bookmarkIcon(): Int
     fun bookmarkFilledIcon(): Int
+    fun iconClose(): Int
+    fun iconEdit(): Int
 }
