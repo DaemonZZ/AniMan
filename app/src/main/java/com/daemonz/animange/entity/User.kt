@@ -24,4 +24,5 @@ enum class UserType {
     ADULT,
     CHILD,
     ADD,
+    EMPTY
 }

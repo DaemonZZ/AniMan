@@ -1,15 +1,22 @@
 package com.daemonz.animange.fragment
 
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentChooseUserBinding
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.ui.adapter.ChooseUserAdapter
+import com.daemonz.animange.ui.view_helper.ZoomOutCenterLayoutManager
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.dpToPx
 import com.daemonz.animange.viewmodel.ProfileViewModel
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -53,18 +60,26 @@ class ChooseUserFragment :
             },
             theme = currentTheme
         )
-        binding.userRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
-            justifyContent = JustifyContent.CENTER
+        binding.apply {
+            val lm = ZoomOutCenterLayoutManager(requireContext())
+            userRecycler.layoutManager = lm
+            userRecycler.onFlingListener = null
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(userRecycler)
+            loadDataUser()
         }
-        loadDataUser()
+
     }
 
     private fun loadDataUser() {
         LoginData.account?.let {
             binding.userRecycler.adapter = adapter
-            val users = it.users.toMutableList()
+            val users = mutableListOf(User(userType = UserType.EMPTY))
+            users.addAll(it.users.toMutableList())
             if (users.isNotEmpty() && it.users.size < 5) {
                 users.add(User(userType = UserType.ADD))
+            } else {
+                users.add(User(userType = UserType.EMPTY))
             }
             adapter?.setData(users)
         }

@@ -28,6 +28,8 @@ class ChooseUserAdapter(
             if (item.userType == UserType.ADD) {
                 avatar.setImageResource(R.drawable.ic_add)
                 userName.text = root.context.getString(R.string.add_user)
+            } else if (item.userType == UserType.EMPTY) {
+                avatar.alpha = 0f
             } else {
                 avatar.loadImageFromStorage(item.image ?: 1)
                 userName.text = item.name
