@@ -2,7 +2,6 @@ package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.EpisodeItemBinding
@@ -14,17 +13,17 @@ class EpisodeListAdapter(
     private val onItemClickListener: OnItemClickListener<EpisodeDetail>,
     private val theme: AnimanTheme
 ) : BaseRecyclerAdapter<EpisodeDetail, EpisodeItemBinding>(onItemClickListener, theme) {
-    private var pivot = 0
+    private var pivot = ""
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> EpisodeItemBinding
         get() = EpisodeItemBinding::inflate
 
     override fun bindView(binding: EpisodeItemBinding, item: EpisodeDetail, position: Int) {
         binding.epChip.apply {
-            text = context.getString(R.string.episode_num, (position + 1).toString())
+            text = item.name
             setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }
-            isChecked = position == pivot
+            isChecked = item.slug == pivot
         }
     }
 
@@ -33,10 +32,11 @@ class EpisodeListAdapter(
         setData(data.serverData)
     }
 
-    fun setPivot(pivot: Int) {
-        val oldPivot = this.pivot
+    fun setPivot(pivot: String) {
+        val oldPivot = data.indexOfFirst { it.slug == this.pivot }
+        val newPivot = data.indexOfFirst { it.slug == pivot }
         this.pivot = pivot
-        notifyItemChanged(pivot)
-        notifyItemChanged(oldPivot)
+        if (oldPivot >= 0) notifyItemChanged(oldPivot)
+        if (newPivot >= 0) notifyItemChanged(newPivot)
     }
 }

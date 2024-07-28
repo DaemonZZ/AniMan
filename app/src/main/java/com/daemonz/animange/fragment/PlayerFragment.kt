@@ -269,22 +269,22 @@ class PlayerFragment :
             }
             currentPlaying.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "currentPlaying: ${it.pivot}")
-                binding.videoView.loadUrl(it.getCurrentEpisodeDetail().url)
+                binding.videoView.loadUrl(it.getCurrentEpisodeDetail()?.url.toString())
                 binding.textTitle.text = requireContext().getString(
                     R.string.player_title,
                     viewModel.playerData.value?.data?.item?.name,
-                    (it.pivot + 1).toString()
+                    (it.pivot)
                 )
             }
             isFavourite.observe(viewLifecycleOwner) {
                 if (it) {
-                    binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0, R.drawable.ic_bookmark_filled, 0, 0
+                    binding.btnFollow.icon = ContextCompat.getDrawable(
+                        requireContext(),
+                        currentTheme.bookmarkFilledIcon()
                     )
                 } else {
-                    binding.btnFollow.setCompoundDrawablesWithIntrinsicBounds(
-                        0, R.drawable.ic_bookmark, 0, 0
-                    )
+                    binding.btnFollow.icon =
+                        ContextCompat.getDrawable(requireContext(), currentTheme.bookmarkIcon())
                 }
             }
             lastRating.observe(viewLifecycleOwner) {

@@ -54,14 +54,14 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
                 isItemFavourite()
                 defaultEpisode?.let {
                     _currentPlaying.value = it.copy(
-                        pivot = 0,
+                        pivot = defaultEpisode.serverData.first().slug,
                     )
                 }
             }
         }
     }
 
-    fun chooseEpisode(episode: Int, server: Int = 0) {
+    fun chooseEpisode(episode: String, server: Int = 0) {
         if (episode == currentPlaying.value?.pivot && playerData.value?.data?.item?.episodes?.get(
                 server
             )?.serverName == currentPlaying.value?.serverName
