@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -14,6 +15,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,6 +39,8 @@ import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.PLAYER_DEEP_LINK
+import com.daemonz.animange.util.makeTextLink
+
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -339,7 +343,24 @@ class PlayerFragment :
 
     private fun loadPlayerData(data: ListData) {
         binding.apply {
-            textDesc.text = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
+            val desc = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
+            if (desc.length > 150) {
+                val displayText = desc.substring(
+                    0,
+                    125
+                ) + getString(R.string.three_dot) + getString(R.string.expand_text)
+                textDesc.text = displayText
+                textDesc.makeTextLink(
+                    textLink = getString(R.string.expand_text),
+                    underline = true,
+                    bold = true,
+                    color = ContextCompat.getColor(requireContext(), R.color.button_light),
+                    onClick = {}
+                )
+            } else {
+                textDesc.text = desc
+            }
+
             textYear.text = requireContext().getString(R.string.created_year, data.data.item?.year)
             textCategory.text = requireContext().getString(
                 R.string.category,
@@ -354,7 +375,6 @@ class PlayerFragment :
             textCountry.text = requireContext().getString(
                 R.string.country,
                 data.data.item?.country?.joinToString { it.name })
-
         }
     }
 

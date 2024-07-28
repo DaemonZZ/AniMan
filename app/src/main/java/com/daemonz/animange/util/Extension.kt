@@ -9,6 +9,8 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -20,9 +22,11 @@ import com.daemonz.animange.R
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import retrofit2.Response
+
 
 private const val TAG = "Extension"
 
@@ -71,6 +75,7 @@ fun AppCompatTextView.makeTextLink(
     textLink: String,
     underline: Boolean = false,
     color: Int? = ContextCompat.getColor(context, R.color.md_theme_primary),
+    bold: Boolean = false,
     onClick: () -> Unit
 ) {
     val spannableString = SpannableString(text)
@@ -84,6 +89,7 @@ fun AppCompatTextView.makeTextLink(
             super.updateDrawState(ds)
             ds.isUnderlineText = underline
             ds.color = textColor
+            ds.isFakeBoldText = bold
         }
     }
     val index = spannableString.indexOf(textLink)

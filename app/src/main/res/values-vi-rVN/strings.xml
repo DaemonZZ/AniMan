@@ -114,4 +114,5 @@
     <string name="feedback_fail">Không thể gửi phản hồi, vui lòng thử lại sau</string>
     <string name="acc_name">Tên tài khoản</string>
     <string name="error_when_load_image">Có lỗi xảy ra khi cố gắng load ảnh</string>
+    <string name="expand_text">&#8623;Xem thêm</string>
 </resources>
