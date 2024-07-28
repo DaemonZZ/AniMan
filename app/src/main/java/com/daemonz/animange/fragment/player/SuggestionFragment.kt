@@ -1,11 +1,13 @@
 package com.daemonz.animange.fragment.player
 
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentSuggestionBinding
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.PlayerViewModel
@@ -23,16 +25,6 @@ class SuggestionFragment :
     override fun setupViews() {
         binding.apply {
             suggestionAdapter = SuggestionAdapter(
-                onFavourite = { item ->
-                    LoginData.getActiveUser()?.let {
-                        ALog.d(TAG, "onFavourite: ${it.isFavourite(item.slug)}")
-                        if (it.isFavourite(item.slug)) {
-                            playerViewModel?.unMarkItemAsFavorite(item)
-                        } else {
-                            playerViewModel?.markItemAsFavorite(item)
-                        }
-                    }
-                },
                 onItemClickListener = { item, _ ->
                     ALog.d(TAG, "onItemClick: ${item.data.slug}")
                     playerViewModel?.loadData(item.data.slug)
@@ -40,10 +32,12 @@ class SuggestionFragment :
                 theme = currentTheme
             )
             recyclerSuggest.adapter = suggestionAdapter
+            recyclerSuggest.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             recyclerSuggest.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (!recyclerView.canScrollVertically(1)) {
+                    if (!recyclerView.canScrollHorizontally(1)) {
                         suggestionAdapter?.lastPage?.let { page ->
                             playerViewModel?.playerData?.value?.data?.item?.category?.random()
                                 ?.let {
@@ -52,7 +46,7 @@ class SuggestionFragment :
                                 }
                         }
                     }
-                    if (!recyclerView.canScrollVertically(-1)) {
+                    if (!recyclerView.canScrollHorizontally(-1)) {
                         suggestionAdapter?.firstPage?.let { page ->
                             if (page > 1) {
                                 playerViewModel?.playerData?.value?.data?.item?.category?.random()

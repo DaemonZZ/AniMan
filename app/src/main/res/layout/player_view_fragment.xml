@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.35" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,227 +27,105 @@
         app:layout_constraintTop_toBottomOf="@id/guideline">
 
         <LinearLayout
-            android:id="@+id/title_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/dp_20"
+            android:id="@+id/stars_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_title"
-                style="?attr/textAppearanceHeadlineSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:clickable="true"
-                android:drawableEnd="@drawable/keyboard_arrow_down"
-                android:minHeight="@dimen/dp_48"
-                android:textStyle="bold"
-                tools:text="@string/player_title" />
-
-            <ScrollView
-                android:id="@+id/info_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_desc"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        tools:text="@string/lorem" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_origin_name"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        tools:text="@string/original_name" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_duration"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:lines="1"
-                        tools:text="@string/duration" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_country"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:lines="1"
-                        tools:text="@string/country" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_category"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        tools:text="@string/category" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_episodes"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:lines="1"
-                        tools:text="@string/num_of_episode" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/text_year"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:lines="1"
-                        tools:text="@string/created_year" />
-                </LinearLayout>
-            </ScrollView>
-
-            <LinearLayout
-                android:id="@+id/stars_layout"
+                android:id="@+id/rateAvg"
+                style="@style/TextAppearance.Material3.HeadlineMedium"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_36"
-                android:layout_marginTop="@dimen/dp_16"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/text_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/text_name">
+                android:layout_height="match_parent"
+                android:textAlignment="center"
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
+                android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/start1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_2"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/star_filled" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/rateAvg"
-                    style="@style/TextAppearance.Material3.TitleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/rate_avg"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_title"
+            style="?attr/textAppearanceHeadlineSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/stars_layout"
+            tools:text="@string/player_title" />
         <LinearLayout
             android:id="@+id/function_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
+            android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/title_layout">
+            app:layout_constraintTop_toBottomOf="@id/text_title">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_follow"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="@dimen/dp_80"
-                android:layout_height="@dimen/dp_80"
-                android:drawableTop="@drawable/ic_bookmark"
-                android:text="@string/follow"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                app:cornerRadius="8dp" />
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
+                android:layout_gravity="center"
+                android:contentDescription="@string/follow"
+                app:cornerRadius="@dimen/dp_20"
+                app:icon="@drawable/ic_bookmark" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="@dimen/dp_80"
-                android:layout_height="@dimen/dp_80"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
+                android:layout_gravity="center"
                 android:drawableTop="@drawable/share"
-                android:text="@string/share"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                app:cornerRadius="8dp" />
+                android:contentDescription="@string/share"
+                app:cornerRadius="@dimen/dp_20" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_rate"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="@dimen/dp_80"
-                android:layout_height="@dimen/dp_80"
-                android:drawableTop="@drawable/ic_rating"
-                android:text="@string/rate"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                app:cornerRadius="8dp" />
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
+                android:layout_gravity="center"
+                android:contentDescription="@string/rate"
+                android:drawableTop="@drawable/rate"
+                app:cornerRadius="@dimen/dp_20" />
         </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_desc"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@id/function_layout"
+            tools:text="@string/lorem" />
+
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_suggest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/function_layout"
-            app:tabMode="scrollable" />
+            app:layout_constraintTop_toBottomOf="@+id/text_desc"
+            app:tabMode="fixed" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -255,8 +133,6 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tab_suggest" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

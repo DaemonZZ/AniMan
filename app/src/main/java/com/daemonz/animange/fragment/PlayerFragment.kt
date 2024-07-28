@@ -2,7 +2,6 @@ package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -146,15 +145,6 @@ class PlayerFragment :
 
     override fun setupViews() {
         binding.apply {
-            textTitle.setOnClickListener {
-                if (infoLayout.visibility == View.VISIBLE) {
-                    expandView(false)
-                } else {
-                    expandView(true)
-                }
-            }
-
-
             btnFollow.setOnClickListener {
                 if (LoginData.account == null) {
                     Toast.makeText(
@@ -212,26 +202,6 @@ class PlayerFragment :
         }
     }
 
-    private fun expandView(expand: Boolean) {
-        binding.apply {
-            infoLayout.isVisible = expand
-            functionLayout.isVisible = !expand
-            tabSuggest.isVisible = !expand
-            viewPager.isVisible = !expand
-            starsLayout.isVisible = !expand
-            if (expand) {
-                textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.close, 0
-                )
-            } else {
-                textTitle.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.keyboard_arrow_down, 0
-                )
-            }
-        }
-
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding.videoView.saveState(outState)
@@ -247,24 +217,12 @@ class PlayerFragment :
     override fun setupObservers() {
         viewModel.apply {
             rateAvg.observe(viewLifecycleOwner) {
-                binding.apply {
-                    rateAvg.text =
-                        getString(R.string.rate_avg, String.format(Locale.getDefault(), "%.1f", it))
-                    val listStar = listOf(
-                        start1, start2, start3, start4, start5
-                    )
-                    listStar.forEachIndexed { index, star ->
-                        if (index + 1 <= it) {
-                            star.setImageResource(R.drawable.star_filled)
-                        } else {
-                            if (index + 1 - it >= 1) {
-                                star.setImageResource(R.drawable.star_outline)
-                            } else {
-                                star.setImageResource(R.drawable.star_half)
-                            }
-
-                        }
-                    }
+                if (it == 0.0) {
+                    binding.starsLayout.isVisible = false
+                } else {
+                    binding.starsLayout.isVisible = true
+                    binding.rateAvg.text =
+                        String.format(Locale.getDefault(), "%.1f", it)
                 }
             }
             comments.observe(viewLifecycleOwner) { comments ->
@@ -360,21 +318,6 @@ class PlayerFragment :
             } else {
                 textDesc.text = desc
             }
-
-            textYear.text = requireContext().getString(R.string.created_year, data.data.item?.year)
-            textCategory.text = requireContext().getString(
-                R.string.category,
-                data.data.item?.category?.joinToString { it.name })
-            textDuration.text = requireContext().getString(R.string.duration, data.data.item?.time)
-            textEpisodes.text = requireContext().getString(
-                R.string.num_of_episode,
-                data.data.item?.episodeTotal,
-            )
-            textOriginName.text =
-                requireContext().getString(R.string.original_name, data.data.item?.originName)
-            textCountry.text = requireContext().getString(
-                R.string.country,
-                data.data.item?.country?.joinToString { it.name })
         }
     }
 
@@ -396,12 +339,6 @@ class PlayerFragment :
             )
             textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             textDesc.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textYear.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textCountry.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textCategory.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textDuration.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textEpisodes.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            textOriginName.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         }
     }
