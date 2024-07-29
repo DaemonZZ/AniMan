@@ -33,7 +33,7 @@
     <string name="user">User</string>
     <string name="tv_shows">Chương trình truyền hình</string>
     <string name="search">Search</string>
-    <string name="search_for_name">Tìm kiếm tên phim</string>
+    <string name="search_for_name">Tìm kiếm tập phim</string>
     <string name="close">Close</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
     <string name="loading">Loading…</string>

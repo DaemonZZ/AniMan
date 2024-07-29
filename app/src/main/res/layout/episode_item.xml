@@ -3,16 +3,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="@dimen/dp_4"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="@dimen/dp_4">
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/ep_chip"
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:chipCornerRadius="@dimen/dp_16"
-        style="@style/Widget.Material3.Chip.Suggestion"
-        android:checkable="true"
-        tools:text="Hello" />
+        android:id="@+id/ep_chip"
+        style="@style/TextAppearance.Material3.LabelLarge"
+        android:background="@drawable/round_corner_dp16"
+        android:minWidth="@dimen/dp_48"
+        android:paddingHorizontal="@dimen/dp_8"
+        android:paddingVertical="@dimen/dp_4"
+        android:textAlignment="center"
+        tools:text="3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

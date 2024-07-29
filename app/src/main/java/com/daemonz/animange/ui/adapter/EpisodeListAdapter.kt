@@ -7,6 +7,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.EpisodeItemBinding
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.EpisodeDetail
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 
 class EpisodeListAdapter(
@@ -23,7 +24,7 @@ class EpisodeListAdapter(
             setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }
-            isChecked = item.slug == pivot
+//            isChecked = item.slug == pivot
         }
     }
 
@@ -38,5 +39,14 @@ class EpisodeListAdapter(
         this.pivot = pivot
         if (oldPivot >= 0) notifyItemChanged(oldPivot)
         if (newPivot >= 0) notifyItemChanged(newPivot)
+    }
+
+    fun searchItem(ep: String): Boolean {
+        data.forEach {
+            if (it.name == ep) {
+                return true
+            }
+        }
+        return false
     }
 }

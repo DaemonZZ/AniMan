@@ -154,7 +154,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
             listDataData.observe(viewLifecycleOwner) { home ->
                 ALog.d(TAG, "listDataData: ${home.data.getListUrl()}")
                 hideLoadingOverlay()
-                homeCarouselAdapter?.setData(home.data.items, home.data.imgDomain)
+                homeCarouselAdapter?.setData(home.data.items.take(5), home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "seriesIncoming:")

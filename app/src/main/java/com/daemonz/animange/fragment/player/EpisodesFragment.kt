@@ -1,9 +1,12 @@
 package com.daemonz.animange.fragment.player
 
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentEpisodeBinding
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.EpPagerAdapter
 import com.daemonz.animange.ui.adapter.EpisodeListAdapter
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
@@ -30,6 +33,8 @@ class EpisodesFragment :
                 }
             )
             recyclerPager.adapter = pagerAdapter
+            recyclerPager.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             recyclerPager.addItemDecoration(
                 CirclePagerIndicatorDecoration(
                     colorInactive = currentTheme.indicatorInactive(requireContext()),
@@ -38,6 +43,19 @@ class EpisodesFragment :
             )
             val snapHelper = LinearSnapHelper()
             snapHelper.attachToRecyclerView(recyclerPager)
+
+            edtSearch.setOnEditorActionListener { v, _, _ ->
+                val text = v.text.toString()
+                ALog.d(TAG, "onEditorAction: , $text")
+                if (text.isNotEmpty() && pagerAdapter != null) {
+                    pagerAdapter!!.markItemFindOut(text, onFindOut = { index ->
+                        ALog.d(TAG, "find episode $text at position $index")
+                        recyclerPager.smoothScrollToPosition(index)
+                    })
+                    return@setOnEditorActionListener true
+                }
+                false
+            }
         }
     }
 
@@ -48,10 +66,14 @@ class EpisodesFragment :
 //                binding.recyclerEpisodes.smoothScrollToPosition(it.pivot)
             }
             playerData.observe(viewLifecycleOwner) { data ->
-                data.data.item?.let { pagerAdapter?.setDataEp(it.episodes.first().serverData) }
+                data.data.item?.let {
+                    pagerAdapter?.let { pager ->
+                        pager.setDataEp(it.episodes.first().serverData)
+                        binding.recyclerPager.smoothScrollToPosition(pager.itemCount - 1)
+                    }
+                }
             }
         }
-
     }
 
     override fun setupViewModel(viewModel: PlayerViewModel) {

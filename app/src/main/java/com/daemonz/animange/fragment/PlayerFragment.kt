@@ -273,7 +273,7 @@ class PlayerFragment :
                 binding.textTitle.text = requireContext().getString(
                     R.string.player_title,
                     viewModel.playerData.value?.data?.item?.name,
-                    (it.pivot)
+                    (it.getCurrentEpisodeDetail()?.name)
                 )
             }
             isFavourite.observe(viewLifecycleOwner) {
