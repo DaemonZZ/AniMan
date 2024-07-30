@@ -71,5 +71,10 @@ class LightTheme : AnimanTheme {
     override fun iconClose(): Int = R.drawable.close
     override fun iconEdit(): Int = R.drawable.ic_edit
     override fun iconLock(): Int = R.drawable.ic_lock
+    override fun chipBgSelected(): Int = R.drawable.round_corner_dp16_night
+    override fun chipBg(): Int = R.drawable.round_corner_dp16
+    override fun iconSearch(): Int = R.drawable.ic_search
+    override fun iconRate(): Int = R.drawable.rate
+    override fun iconShare(): Int = R.drawable.share
     override fun id(): Int = 0
 }

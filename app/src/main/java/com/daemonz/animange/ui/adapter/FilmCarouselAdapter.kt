@@ -13,8 +13,7 @@ class FilmCarouselAdapter(
     private val onItemClickListener: OnItemClickListener<Item>,
     private val theme: AnimanTheme
 ) : BaseRecyclerAdapter<Item, FilmCarouselItemBinding>(
-    onItemClickListener = onItemClickListener,
-    theme = theme
+    onItemClickListener = onItemClickListener
 ) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FilmCarouselItemBinding
         get() = FilmCarouselItemBinding::inflate

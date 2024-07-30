@@ -1,6 +1,5 @@
 package com.daemonz.animange.base
 
-import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 
@@ -8,7 +7,7 @@ import com.daemonz.animange.ui.thememanager.AnimanTheme
 abstract class BasePagingAdapter<T, Item, ViewBinding : androidx.viewbinding.ViewBinding>(
     private val onItemClickListener: OnItemClickListener<Item>,
     theme: AnimanTheme
-) : BaseRecyclerAdapter<Item, ViewBinding>(onItemClickListener, theme) {
+) : BaseRecyclerAdapter<Item, ViewBinding>(onItemClickListener) {
     var firstPage = 1
         private set
     var lastPage = 1

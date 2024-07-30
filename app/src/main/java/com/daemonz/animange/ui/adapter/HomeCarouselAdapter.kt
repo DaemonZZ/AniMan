@@ -4,8 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.CarouselItemBinding
@@ -14,14 +12,12 @@ import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.dpToPx
 import com.daemonz.animange.util.setImageFromUrl
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.chip.Chip
 
 class HomeCarouselAdapter(
     private val onItemClickListener: OnItemClickListener<Item>,
     private val theme: AnimanTheme
 ) : BaseRecyclerAdapter<Item, CarouselItemBinding>(
-    onItemClickListener = onItemClickListener,
-    theme = theme
+    onItemClickListener = onItemClickListener
 ) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CarouselItemBinding
         get() = CarouselItemBinding::inflate

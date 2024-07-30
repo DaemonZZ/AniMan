@@ -6,9 +6,7 @@ import android.widget.Toast
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
-import com.daemonz.animange.databinding.CardItemBinding
 import com.daemonz.animange.databinding.FavoritesItemBinding
-import com.daemonz.animange.databinding.SuggestionVideoItemBinding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.LoginData
@@ -19,7 +17,7 @@ class FavouriteAdapter(
     private val onFavourite: (FavouriteItem) -> Unit,
     private val theme: AnimanTheme
 ) :
-    BaseRecyclerAdapter<FavouriteItem, FavoritesItemBinding>(onItemClickListener, theme) {
+    BaseRecyclerAdapter<FavouriteItem, FavoritesItemBinding>(onItemClickListener) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FavoritesItemBinding
         get() = FavoritesItemBinding::inflate
 

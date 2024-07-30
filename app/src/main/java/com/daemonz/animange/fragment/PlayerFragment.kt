@@ -340,6 +340,8 @@ class PlayerFragment :
             textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             textDesc.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            btnRate.setIconResource(currentTheme.iconRate())
+            btnShare.setIconResource(currentTheme.iconShare())
         }
     }
 }

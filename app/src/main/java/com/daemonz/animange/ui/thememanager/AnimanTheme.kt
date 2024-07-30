@@ -36,4 +36,9 @@ interface AnimanTheme : AppTheme {
     fun iconClose(): Int
     fun iconEdit(): Int
     fun iconLock(): Int
+    fun chipBgSelected(): Int
+    fun chipBg(): Int
+    fun iconSearch(): Int
+    fun iconRate(): Int
+    fun iconShare(): Int
 }

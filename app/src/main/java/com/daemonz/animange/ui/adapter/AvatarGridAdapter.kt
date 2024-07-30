@@ -12,7 +12,7 @@ class AvatarGridAdapter(
     onItemClickListener: OnItemClickListener<Int>,
     private val theme: AnimanTheme
 ) :
-    BaseRecyclerAdapter<Int, AvtCardItemBinding>(onItemClickListener, theme) {
+    BaseRecyclerAdapter<Int, AvtCardItemBinding>(onItemClickListener) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> AvtCardItemBinding
         get() = AvtCardItemBinding::inflate
 

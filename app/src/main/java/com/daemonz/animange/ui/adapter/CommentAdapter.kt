@@ -21,7 +21,7 @@ class CommentAdapter(
     private val onReplyClicked: OnItemClickListener<Comment>,
     private val onClickItem: OnItemClickListener<Comment>,
     private val theme: AnimanTheme
-) : BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem, theme) {
+) : BaseRecyclerAdapter<Comment, ItemCommentBinding>(onClickItem) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemCommentBinding
         get() = ItemCommentBinding::inflate
     private var slug = ""

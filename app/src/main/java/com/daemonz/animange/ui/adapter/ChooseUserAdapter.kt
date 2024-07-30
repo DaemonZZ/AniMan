@@ -16,7 +16,7 @@ import com.daemonz.animange.util.loadImageFromStorage
 class ChooseUserAdapter(
     onItemClickListener: OnItemClickListener<User>,
     private val theme: AnimanTheme
-) : BaseRecyclerAdapter<User, ItemChooseUserBinding>(onItemClickListener, theme) {
+) : BaseRecyclerAdapter<User, ItemChooseUserBinding>(onItemClickListener) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ItemChooseUserBinding
         get() = ItemChooseUserBinding::inflate
 

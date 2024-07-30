@@ -15,7 +15,7 @@ import com.daemonz.animange.ui.thememanager.AnimanTheme
 class MenuAdapter(
     private val onItemClickListener: OnItemClickListener<MenuItem>,
     private val theme: AnimanTheme
-) : BaseRecyclerAdapter<MenuItem, MenuItemBinding>(onItemClickListener, theme) {
+) : BaseRecyclerAdapter<MenuItem, MenuItemBinding>(onItemClickListener) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> MenuItemBinding
         get() = MenuItemBinding::inflate
 

@@ -94,7 +94,7 @@
                 android:layout_width="@dimen/dp_48"
                 android:layout_height="@dimen/dp_48"
                 android:layout_gravity="center"
-                android:drawableTop="@drawable/share"
+                android:drawableTop="@drawable/share_night"
                 android:contentDescription="@string/share"
                 app:cornerRadius="@dimen/dp_20" />
 

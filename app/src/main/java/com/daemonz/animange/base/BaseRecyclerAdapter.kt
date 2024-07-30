@@ -4,14 +4,11 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.BuildConfig
-import com.daemonz.animange.ui.thememanager.AnimanTheme
 
 
 abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(
-    private val onItemClickListener: OnItemClickListener<Item>,
-    theme: AnimanTheme
+    private val onItemClickListener: OnItemClickListener<Item>
 ) : RecyclerView.Adapter<BaseRecyclerAdapter.BaseViewHolder<ViewBinding>>() {
 
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding

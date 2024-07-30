@@ -71,6 +71,11 @@ class DarkTheme : AnimanTheme {
     override fun iconClose(): Int = R.drawable.ic_close_dark
     override fun iconEdit(): Int = R.drawable.ico_edit_dark
     override fun iconLock(): Int = R.drawable.ic_lock_night
+    override fun chipBgSelected(): Int = R.drawable.round_corner_dp16
+    override fun chipBg(): Int = R.drawable.round_corner_dp16_night
+    override fun iconSearch(): Int = R.drawable.ic_search_dark
+    override fun iconRate(): Int = R.drawable.rate_night
+    override fun iconShare(): Int = R.drawable.share_night
     override fun id(): Int {
         return 1
     }

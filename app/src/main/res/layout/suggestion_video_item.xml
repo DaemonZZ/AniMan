@@ -20,7 +20,7 @@
             android:layout_height="@dimen/dp_100"
             android:foreground="@drawable/custom_background_banner"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/share" />
+            app:srcCompat="@drawable/share_night" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
