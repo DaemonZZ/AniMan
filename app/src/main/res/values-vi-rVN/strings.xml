@@ -78,7 +78,7 @@
     <string name="update_sheet_decs_required">Hiện tại đã có bản update mới trên nền tảng Google Play. Hãy update để tiếp tục sử dụng.</string>
     <string name="comment">Bình luận</string>
     <string name="like">Thích</string>
-    <string name="comment_hint">Hãy để lại bình luận thân thiện ( ˘▽˘)っ♨</string>
+    <string name="comment_hint">Để lại bình luận của bạn ( ˘▽˘)っ♨</string>
     <string name="comment_time_minute">%d phút</string>
     <string name="comment_time_hour">%d giờ</string>
     <string name="comment_time_day">%d ngày trước\n</string>

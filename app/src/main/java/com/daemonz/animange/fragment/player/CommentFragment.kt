@@ -15,6 +15,7 @@ import com.daemonz.animange.entity.User
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.CommentAdapter
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.CommentViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,39 +30,20 @@ class CommentFragment :
     private var adapter: CommentAdapter? = null
 
     override fun setupViews() {
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        adapter = CommentAdapter(
-            loadReplies = { parent, pos ->
-                ALog.d(TAG, "loadReplies: $parent $pos")
-                playerViewModel?.loadReplies(parent, pos)
-            },
-            onReplyClicked = { item, _ ->
-                ALog.d(TAG, "onReplyClicked: $item")
-                playerViewModel?.waitingReplyFor = item.replyFor ?: item.id
-                binding.edtComment.requestFocus()
-                imm?.showSoftInput(binding.edtComment, InputMethodManager.SHOW_IMPLICIT)
-            },
-            onLikeClicked = { item, pos ->
-                ALog.d(TAG, "onLikeClicked: $item $pos")
-                playerViewModel?.toggleLike(item)
-            },
-            onClickItem = { _, _ ->
-                binding.edtComment.clearFocus()
-                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
-            },
-            theme = currentTheme
-        )
-        binding.recyclerComment.adapter = adapter
         binding.apply {
+            LoginData.getActiveUser()?.image?.let {
+                imgAvt.loadImageFromStorage(it)
+            }
+            textLayout.isEndIconVisible = false
             edtComment.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-                btnSend.isVisible = hasFocus
+                textLayout.isEndIconVisible = hasFocus
                 if (!hasFocus && edtComment.text.isNullOrEmpty()) {
                     playerViewModel?.waitingReplyFor = null
                 }
             }
-            btnSend.setOnClickListener {
+            textLayout.setEndIconOnClickListener {
                 if (binding.edtComment.text.toString().trim().isEmpty()) {
-                    return@setOnClickListener
+                    return@setEndIconOnClickListener
                 }
                 val user = LoginData.getActiveUser()?.let {
                     User(
@@ -79,6 +61,8 @@ class CommentFragment :
                     replyFor = playerViewModel?.waitingReplyFor
                 )
                 playerViewModel?.sendComment(comment)
+                val imm =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(view?.windowToken, 0)
                 edtComment.clearFocus()
                 edtComment.text?.clear()
@@ -118,5 +102,38 @@ class CommentFragment :
 
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
+    }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        adapter = CommentAdapter(
+            loadReplies = { parent, pos ->
+                ALog.d(TAG, "loadReplies: $parent $pos")
+                playerViewModel?.loadReplies(parent, pos)
+            },
+            onReplyClicked = { item, _ ->
+                ALog.d(TAG, "onReplyClicked: $item")
+                playerViewModel?.waitingReplyFor = item.replyFor ?: item.id
+                binding.edtComment.requestFocus()
+                imm?.showSoftInput(binding.edtComment, InputMethodManager.SHOW_IMPLICIT)
+            },
+            onLikeClicked = { item, pos ->
+                ALog.d(TAG, "onLikeClicked: $item $pos")
+                playerViewModel?.toggleLike(item)
+            },
+            onClickItem = { _, _ ->
+                binding.edtComment.clearFocus()
+                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+            },
+            theme = currentTheme
+        )
+        binding.recyclerComment.adapter = adapter
+        binding.edtComment.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+        playerViewModel?.comments?.value?.let {
+            binding.recyclerComment.isVisible = it.isNotEmpty()
+            binding.textNoComment.isVisible = it.isEmpty()
+            adapter?.setData(it)
+        }
     }
 }

@@ -38,10 +38,10 @@ class DarkTheme : AnimanTheme {
     override fun settingNavIcon() = R.drawable.setting_selector_night
 
     override fun tabTextColorDefault(context: Context) =
-        ContextCompat.getColor(context, R.color.textTab_dark)
+        ContextCompat.getColor(context, R.color.textGray_dark)
 
     override fun tabTextColorSelected(context: Context) =
-        ContextCompat.getColor(context, R.color.iconText_light)
+        ContextCompat.getColor(context, R.color.icon_dark)
 
     override fun menuItemBackground(context: Context) =
         ContextCompat.getColor(context, R.color.blueFrame_dark)

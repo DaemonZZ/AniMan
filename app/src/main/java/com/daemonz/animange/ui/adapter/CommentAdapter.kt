@@ -34,11 +34,15 @@ class CommentAdapter(
     override fun bindView(binding: ItemCommentBinding, item: Comment, position: Int) {
         binding.apply {
             textName.text = item.user.name
+            textName.setTextColor(theme.tabTextColorSelected(root.context))
             textContent.text = item.content
+            textContent.setTextColor(theme.firstActivityTextColor(root.context))
             imgAvt.loadImageFromStorage(item.user.image ?: 1)
             textTime.text = getTextTime(item.createdAt, root.context)
+            textTime.setTextColor(theme.textGray(root.context))
             if (item.liked.isNotEmpty()) {
                 textLikeCount.text = item.liked.size.toString()
+                textLikeCount.setTextColor(theme.firstActivityTextColor(root.context))
                 textLikeCount.isVisible = true
             } else {
                 textLikeCount.isVisible = false
@@ -63,22 +67,24 @@ class CommentAdapter(
             textReply.setOnClickListener {
                 onReplyClicked.onItemClick(item, position)
             }
+            textReply.setTextColor(theme.tabTextColorSelected(root.context))
             if (recyclerReply.isVisible) {
                 groupReplyCompact.isVisible = false
                 loadReplies.onItemClick(item, position)
             }
             LoginData.getActiveUser()?.id?.let { user ->
                 if (item.liked.contains(user)) {
-                    textLike.setTextColor(root.context.getColor(R.color.md_theme_primary))
+                    textLike.setTextColor(root.context.getColor(R.color.warning))
                     textLike.setTypeface(null, Typeface.BOLD)
                 } else {
-                    textLike.setTextColor(root.context.getColor(R.color.md_theme_onSurface_highContrast))
+                    textLike.setTextColor(theme.firstActivityIconColor(root.context))
                     textLike.setTypeface(null, Typeface.NORMAL)
                 }
             }
             textLike.setOnClickListener {
                 onLikeClicked.onItemClick(item, position)
             }
+            divider.setBackgroundColor(theme.firstActivityTextColor(root.context))
         }
     }
 

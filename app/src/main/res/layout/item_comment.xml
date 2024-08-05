@@ -8,8 +8,8 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_avt"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_48"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
         app:cardCornerRadius="@dimen/dp_30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,42 +22,41 @@
             app:srcCompat="@drawable/ic_adult" />
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_content"
-        android:layout_width="@dimen/dp_0"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_name"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        app:cardCornerRadius="@dimen/dp_20"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/dp_10"
+        android:lines="1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/card_avt"
         app:layout_constraintStart_toEndOf="@id/card_avt"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="@dimen/dp_0">
+        app:layout_constraintTop_toTopOf="@id/card_avt"
+        tools:text="ThangDN6" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_theme_surfaceContainerHighest"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/dp_16"
-            android:paddingVertical="@dimen/dp_8">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_like"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:clickable="true"
+        android:text="@string/like"
+        android:textColor="@color/md_theme_onSurface_highContrast"
+        app:layout_constraintStart_toStartOf="@id/card_avt"
+        app:layout_constraintTop_toBottomOf="@id/text_content" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_name"
-                style="@style/TextAppearance.Material3.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:textStyle="bold"
-                tools:text="ThangDN6" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_content"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_avt"
+        tools:text="Phim ny qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oi" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.Material3.BodySmall"
-                tools:text="Phim ny qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oi" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_time"
@@ -65,24 +64,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_8"
         android:textColor="@color/md_theme_onSurface"
-        app:layout_constraintStart_toStartOf="@id/card_content"
-        app:layout_constraintTop_toBottomOf="@id/card_content"
+        app:layout_constraintBottom_toBottomOf="@id/card_avt"
+        app:layout_constraintStart_toEndOf="@id/text_name"
+        app:layout_constraintTop_toTopOf="@id/card_avt"
         tools:text="10 hours" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_like"
-        style="@style/TextAppearance.Material3.LabelMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
-        android:clickable="true"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="@string/like"
-        android:textColor="@color/md_theme_onSurface_highContrast"
-        app:layout_constraintStart_toEndOf="@id/text_time"
-        app:layout_constraintTop_toBottomOf="@id/card_content" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_reply"
@@ -95,27 +82,34 @@
         android:layout_marginTop="@dimen/dp_8"
         android:textColor="@color/md_theme_onSurface_highContrast"
         app:layout_constraintStart_toEndOf="@id/text_like"
-        app:layout_constraintTop_toBottomOf="@id/card_content" />
+        app:layout_constraintTop_toBottomOf="@id/text_content" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_like_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/ic_like"
-        app:layout_constraintBottom_toBottomOf="@id/text_time"
+        app:layout_constraintTop_toBottomOf="@id/text_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_time"
         tools:text="1" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        app:dividerThickness="@dimen/dp_1"
+        app:layout_constraintTop_toBottomOf="@id/text_like" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_avt_reply"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
-
         android:clickable="true"
         app:cardCornerRadius="@dimen/dp_30"
-        app:layout_constraintStart_toStartOf="@id/card_content"
-        app:layout_constraintTop_toBottomOf="@id/text_time">
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintStart_toStartOf="@id/text_reply"
+        app:layout_constraintTop_toBottomOf="@id/divider">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_avt_new_rep"
@@ -148,12 +142,11 @@
         android:id="@+id/recycler_reply"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
         android:orientation="vertical"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card_avt"
-        app:layout_constraintTop_toBottomOf="@id/text_time" />
+        app:layout_constraintTop_toBottomOf="@id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
