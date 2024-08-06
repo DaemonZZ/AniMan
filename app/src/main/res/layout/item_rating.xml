@@ -8,9 +8,8 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_avt"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginStart="@dimen/dp_8"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
         app:cardCornerRadius="@dimen/dp_30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,108 +22,108 @@
             app:srcCompat="@drawable/ic_adult" />
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_content"
-        android:layout_width="@dimen/dp_0"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_name"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:lines="1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/card_avt"
+        app:layout_constraintStart_toEndOf="@id/card_avt"
+        app:layout_constraintTop_toTopOf="@id/card_avt"
+        tools:text="ThangDN6" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_content"
+        style="@style/TextAppearance.Material3.BodySmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stars_layout"
+        tools:text="Phim ny qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oi" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_time"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
-        app:cardCornerRadius="@dimen/dp_20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/card_avt"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="@dimen/dp_0">
+        android:textColor="@color/md_theme_onSurface"
+        app:layout_constraintBottom_toBottomOf="@id/card_avt"
+        app:layout_constraintStart_toEndOf="@id/text_name"
+        app:layout_constraintTop_toTopOf="@id/card_avt"
+        tools:text="10 hours" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/dp_16"
-            android:paddingVertical="@dimen/dp_8">
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        app:dividerThickness="@dimen/dp_1"
+        app:layout_constraintTop_toBottomOf="@id/text_content" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_name"
-                style="@style/TextAppearance.Material3.LabelMedium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_8"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/stars_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="ThangDN6" />
+    <LinearLayout
+        android:id="@+id/stars_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_avt">
 
-            <LinearLayout
-                android:id="@+id/stars_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/text_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/text_name">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/start1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/star_outline" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/start2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/star_outline" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/start3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/star_outline" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/start4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/star_outline" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/start5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_2"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/star_outline" />
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_content"
-                style="@style/TextAppearance.Material3.BodySmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/text_name"
-                tools:text="Phim ny qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oiPhim nay hay qua de ma oi" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/start5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/star_outline" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
