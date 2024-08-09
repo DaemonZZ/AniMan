@@ -21,7 +21,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -29,12 +28,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
-import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
@@ -409,11 +406,9 @@ class MainActivity : ThemeActivity() {
                 actionClose.isVisible = false
             }
             actionSearch.setOnClickListener {
-                val navFrag =
-                    supportFragmentManager.fragments.find { it is NavHostFragment }
-                navFrag?.childFragmentManager?.fragments?.forEach {
-                    (it as? BottomNavigationAction)?.onSearch()
-                }
+                toggleToolBarShowing(false)
+                supportFragmentManager.fragments.first().findNavController()
+                    .navigate(NavGraphDirections.actionGlobalSearchFragment())
             }
             bottomNavigation.setOnItemReselectedListener { item ->
                 when (item.itemId) {

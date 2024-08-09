@@ -42,4 +42,5 @@ interface AnimanTheme : AppTheme {
     fun iconRate(): Int
     fun iconShare(): Int
     fun dividerColorRes(): Int
+    fun iconFilter(): Int
 }

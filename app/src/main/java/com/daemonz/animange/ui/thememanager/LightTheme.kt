@@ -77,6 +77,7 @@ class LightTheme : AnimanTheme {
     override fun iconRate(): Int = R.drawable.rate
     override fun iconShare(): Int = R.drawable.share
     override fun dividerColorRes(): Int = R.color.icon_light
+    override fun iconFilter(): Int = R.drawable.ic_filter
 
     override fun id(): Int = 0
 }
