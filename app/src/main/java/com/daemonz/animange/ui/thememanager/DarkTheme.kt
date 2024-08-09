@@ -76,6 +76,7 @@ class DarkTheme : AnimanTheme {
     override fun iconSearch(): Int = R.drawable.ic_search_dark
     override fun iconRate(): Int = R.drawable.rate_night
     override fun iconShare(): Int = R.drawable.share_night
+    override fun dividerColorRes(): Int = R.color.icon_dark
     override fun id(): Int {
         return 1
     }

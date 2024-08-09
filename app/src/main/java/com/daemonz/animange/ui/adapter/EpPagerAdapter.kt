@@ -44,7 +44,7 @@ class EpPagerAdapter(
                 FlexWrap.WRAP
             ).apply {
                 alignItems = AlignItems.CENTER
-                justifyContent = JustifyContent.SPACE_BETWEEN
+                justifyContent = JustifyContent.FLEX_START
             }
             episodeAdapter.setData(item)
             listChildAdapter[position] = episodeAdapter

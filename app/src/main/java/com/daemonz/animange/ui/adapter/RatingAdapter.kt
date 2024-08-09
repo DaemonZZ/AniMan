@@ -25,8 +25,11 @@ class RatingAdapter(
                 start1, start2, start3, start4, start5
             )
             textName.text = item.user?.name
+            textName.setTextColor(theme.tabTextColorSelected(root.context))
             imgAvt.loadImageFromStorage(item.user?.image ?: 1)
             textContent.text = item.comment
+            textContent.setTextColor(theme.firstActivityTextColor(root.context))
+            textTime.setTextColor(theme.textGray(root.context))
             listStar.forEachIndexed { i, star ->
                 if (i <= item.rating - 1) {
                     star.setImageResource(R.drawable.star_filled)
@@ -34,6 +37,7 @@ class RatingAdapter(
                     star.setImageResource(R.drawable.star_outline)
                 }
             }
+            divider.setDividerColorResource(theme.dividerColorRes())
 
         }
     }

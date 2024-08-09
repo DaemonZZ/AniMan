@@ -84,7 +84,7 @@ class CommentAdapter(
             textLike.setOnClickListener {
                 onLikeClicked.onItemClick(item, position)
             }
-            divider.setBackgroundColor(theme.firstActivityTextColor(root.context))
+            divider.setDividerColorResource(theme.dividerColorRes())
         }
     }
 
