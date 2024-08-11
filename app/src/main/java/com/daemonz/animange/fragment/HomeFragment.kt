@@ -39,12 +39,6 @@ class HomeFragment :
             ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
             navigateToPlayer(item)
         }
-    private val onSearchItemClickListener =
-        OnItemClickListener<PagingData<Item>> { item, index ->
-            ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
-            navigateToPlayer(item.data)
-        }
-
 
     override fun setupViews() {
         setupHomeItemRecycler()

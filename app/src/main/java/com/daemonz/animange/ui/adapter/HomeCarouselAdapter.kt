@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
+import com.daemonz.animange.databinding.CardItemBinding
 import com.daemonz.animange.databinding.CarouselItemBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.ui.thememanager.AnimanTheme
@@ -44,5 +45,11 @@ class HomeCarouselAdapter(
                 chipGroup.addView(chip)
             }
         }
+    }
+    override fun setupLayout(binding: CarouselItemBinding, parent: ViewGroup) {
+        //set item height according to screen size
+        val lp = binding.root.layoutParams
+        lp.height = (parent.height * 0.95f).toInt()
+        binding.root.layoutParams = lp
     }
 }
