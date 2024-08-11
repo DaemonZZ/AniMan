@@ -86,7 +86,13 @@ android {
                         }
                     }"
                 ) {
-                    delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
+                    if (name == "debug") {
+                        delete(listOf("${rootDir}/app/debug"))
+                    }
+                    if (name == "release") {
+                        delete(listOf("${rootDir}/app/release"))
+                    }
+
                 }
                 copyApk.dependsOn(deleteApks)
                 copyApks.dependsOn(copyApk)
