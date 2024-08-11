@@ -1,6 +1,5 @@
 package com.daemonz.animange.fragment
 
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,17 +12,13 @@ import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.SeriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SeriesFragment :
-    BaseFragment<FragmentGridListBinding, SeriesViewModel>(FragmentGridListBinding::inflate),
-    BottomNavigationAction {
+    BaseFragment<FragmentGridListBinding, SeriesViewModel>(FragmentGridListBinding::inflate) {
     override val viewModel: SeriesViewModel by viewModels()
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
@@ -79,18 +74,6 @@ class SeriesFragment :
             }
             binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
         }
-    }
-
-    override fun onSearch() {
-        SearchDialog(onItemClickListener, currentTheme).show(childFragmentManager, "SearchDialog")
-    }
-
-    override fun onRefresh() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onReSelectBottomNavigationItem(itemId: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun initData() {

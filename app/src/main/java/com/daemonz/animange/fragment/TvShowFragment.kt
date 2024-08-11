@@ -12,16 +12,13 @@ import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.TvShowViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TvShowFragment :
-    BaseFragment<FragmentGridListBinding, TvShowViewModel>(FragmentGridListBinding::inflate),
-    BottomNavigationAction {
+    BaseFragment<FragmentGridListBinding, TvShowViewModel>(FragmentGridListBinding::inflate) {
     override val viewModel: TvShowViewModel by viewModels()
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
@@ -78,19 +75,6 @@ class TvShowFragment :
             binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
         }
     }
-
-    override fun onSearch() {
-        SearchDialog(onItemClickListener, currentTheme).show(childFragmentManager, "SearchDialog")
-    }
-
-    override fun onRefresh() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onReSelectBottomNavigationItem(itemId: Int) {
-        TODO("Not yet implemented")
-    }
-
     override fun initData() {
         viewModel.getTvShows(1)
         showLoadingOverlay()

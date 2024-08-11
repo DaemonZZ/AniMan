@@ -40,19 +40,18 @@ class SearchFragment :
     }
 
     override fun setupViews() {
-        binding.searchView.setupWithSearchBar(binding.searchBar)
-        binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
-            if (binding.searchView.editText.text.toString()
-                    .makeSearchText() != binding.searchView.editText.text.toString()
+        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
+            if (binding.edtSearch.text.toString()
+                    .makeSearchText() != binding.edtSearch.text.toString()
             ) {
-                binding.searchView.editText.setText(
-                    binding.searchView.editText.text.toString().makeSearchText()
+                binding.edtSearch.setText(
+                    binding.edtSearch.text.toString().makeSearchText()
                 )
-                binding.searchView.editText.setSelection(binding.searchView.editText.length())
+                binding.edtSearch.setSelection(binding.edtSearch.length())
                 return@doOnTextChanged
             }
             lastSearch = SystemClock.elapsedRealtime()
-            binding.searchView.postDelayed({
+            binding.searchLayout.postDelayed({
                 if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
                     viewModel.clearCache()
                     viewModel.search(text.toString().trim())
@@ -63,12 +62,6 @@ class SearchFragment :
                 resultAdapter?.setData(listOf())
             }
         }
-        binding.searchBar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.close) {
-                findNavController().popBackStack()
-                true
-            } else false
-        }
         binding.apply {
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
             resultRecycler.adapter = resultAdapter
@@ -77,14 +70,14 @@ class SearchFragment :
                     if (!recyclerView.canScrollVertically(1)) {
                         ALog.d(TAG, "load new page ${(resultAdapter?.lastPage ?: -88) + 1}")
                         resultAdapter?.lastPage?.let {
-                            viewModel.search(searchView.editText.text.toString(), it + 1)
+                            viewModel.search(edtSearch.text.toString(), it + 1)
                         }
                     }
                     if (!recyclerView.canScrollVertically(-1)) {
                         ALog.d(TAG, "load previous page ${(resultAdapter?.firstPage ?: -88) - 1}")
                         resultAdapter?.firstPage?.let {
                             if (it > 1) {
-                                viewModel.search(searchView.editText.text.toString(), it - 1)
+                                viewModel.search(edtSearch.text.toString(), it - 1)
                             }
 
                         }
@@ -109,8 +102,7 @@ class SearchFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
-            appBarLayout.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
-            searchBar.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            btnFilter.setImageResource(currentTheme.iconFilter())
 
         }
     }

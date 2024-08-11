@@ -12,16 +12,13 @@ import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.GridAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MoviesFragment :
-    BaseFragment<FragmentGridListBinding, MoviesViewModel>(FragmentGridListBinding::inflate),
-    BottomNavigationAction {
+    BaseFragment<FragmentGridListBinding, MoviesViewModel>(FragmentGridListBinding::inflate) {
     override val viewModel: MoviesViewModel by viewModels()
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
@@ -79,18 +76,6 @@ class MoviesFragment :
             binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
 
         }
-    }
-
-    override fun onSearch() {
-        SearchDialog(onItemClickListener, currentTheme).show(childFragmentManager, "SearchDialog")
-    }
-
-    override fun onRefresh() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onReSelectBottomNavigationItem(itemId: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun initData() {

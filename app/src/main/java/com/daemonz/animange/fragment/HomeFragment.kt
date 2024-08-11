@@ -12,11 +12,9 @@ import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
-import com.daemonz.animange.ui.dialog.SearchDialog
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
@@ -25,8 +23,8 @@ import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate),
-    BottomNavigationAction {
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by activityViewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
@@ -196,21 +194,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
         viewModel.getListMovies()
         viewModel.getTvShows()
         viewModel.getAllSeries()
-    }
-
-    override fun onSearch() {
-        SearchDialog(onSearchItemClickListener, currentTheme).show(
-            childFragmentManager,
-            "SearchDialog"
-        )
-    }
-
-    override fun onRefresh() {
-        //TODO
-    }
-
-    override fun onReSelectBottomNavigationItem(itemId: Int) {
-        //TODO
     }
 
     override fun syncTheme() {

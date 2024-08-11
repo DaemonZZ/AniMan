@@ -16,7 +16,3 @@ interface OnRefreshCallback {
     fun onRefreshComplete()
     fun onRefreshError()
 }
-
-interface BottomNavigationAction : MainScreenAction {
-    fun onSearch()
-}

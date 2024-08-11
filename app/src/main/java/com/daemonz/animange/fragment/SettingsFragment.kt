@@ -12,7 +12,6 @@ import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemFunction
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.BottomNavigationAction
 import com.daemonz.animange.ui.adapter.MenuAdapter
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
@@ -24,8 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment :
-    BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate),
-    BottomNavigationAction {
+    BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate) {
     override val viewModel: LoginViewModel by activityViewModels()
 
     private var adapter: MenuAdapter? = null
@@ -138,19 +136,6 @@ class SettingsFragment :
             }
         }
     }
-
-    override fun onSearch() {
-        //
-    }
-
-    override fun onRefresh() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onReSelectBottomNavigationItem(itemId: Int) {
-        TODO("Not yet implemented")
-    }
-
     override fun initData() {
 
     }
