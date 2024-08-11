@@ -86,7 +86,7 @@
     <string name="update_sheet_title">Có bản cập nhật mới</string>
     <string name="update_sheet_decs">Bản cập nhật mới đã được phát hành trên nền tảng Google Play. Bạn có muốn cập nhật ngay và luôn không?</string>
     <string name="update_now">Cập nhật ngay</string>
-    <string name="next_time">Lúc khác</string>
+    <string name="next_time">Nhắc tôi sau</string>
     <string name="update_sheet_decs_required">Hiện tại đã có bản update mới trên nền tảng Google Play. Hãy update để tiếp tục sử dụng.</string>
     <string name="comment">Bình luận</string>
     <string name="like">Thích</string>

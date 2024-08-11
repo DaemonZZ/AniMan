@@ -57,20 +57,21 @@ android {
                         Locale.getDefault()
                     ) else it.toString()
                 }) {
+                    if (name == "release") {
+                        // Copy output files from the task that produces the APK...
+                        from(packageApplicationProvider)
 
-                    // Copy output files from the task that produces the APK...
-                    from(packageApplicationProvider)
+                        // ...into a directory relative to module source root.
+                        into(file(name))
 
-                    // ...into a directory relative to module source root.
-                    into(file(name))
+                        // Filter out any metadata files, only include APKs.
+                        include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
 
-                    // Filter out any metadata files, only include APKs.
-                    include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
-
-                    // Change the output file name.
-                    // Only works if there's a single APK for each variant.
-                    // This will not work with APK splits enabled.
-//                    rename { "${name}.apk" }
+                        // Change the output file name.
+                        // Only works if there's a single APK for each variant.
+                        // This will not work with APK splits enabled.
+                        //                    rename { "${name}.apk" }
+                    }
                 }
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
@@ -87,7 +88,9 @@ android {
                         }
                     }"
                 ) {
-                    delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
+                    if (name == "release") {
+                        delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
+                    }
                 }
                 copyApk.dependsOn(deleteApks)
                 copyApks.dependsOn(copyApk)
