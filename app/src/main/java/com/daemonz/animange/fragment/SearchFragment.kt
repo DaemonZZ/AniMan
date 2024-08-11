@@ -1,6 +1,8 @@
 package com.daemonz.animange.fragment
 
+import android.content.res.ColorStateList
 import android.os.SystemClock
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -84,6 +86,9 @@ class SearchFragment :
                     }
                 }
             })
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -103,7 +108,16 @@ class SearchFragment :
         super.syncTheme()
         binding.apply {
             btnFilter.setImageResource(currentTheme.iconFilter())
-
+            btnBack.setImageResource(currentTheme.iconBack())
+            searchLayout.hintTextColor =
+                ColorStateList.valueOf(currentTheme.firstActivityTextColor(requireContext()))
+            searchLayout.boxStrokeColor = currentTheme.firstActivityTextColor(requireContext())
+            edtSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    currentTheme.iconSearch()
+                ), null, null, null
+            )
         }
     }
 }
