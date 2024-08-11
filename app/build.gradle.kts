@@ -1,6 +1,6 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import java.text.SimpleDateFormat
-import java.util.Date
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+import java.util.Locale
 import java.util.Properties
 
 plugins {
@@ -13,11 +13,13 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 val versionMajor = 1
-val versionMinor = 4
-val versionPatch = 3
+val versionMinor = 5
+val versionPatch = 0
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
+
+val copyApks = tasks.register("copyApks")
 
 android {
     namespace = "com.daemonz.animange"
@@ -49,15 +51,47 @@ android {
             )
             signingConfig = signingConfigs.getByName("debug")
             applicationVariants.all {
-                val date = Date()
-                val sdf = SimpleDateFormat("yyyyMMddHHmm")
-                val formattedDate = sdf.format(date)
+                // Create variant-specific task that collects the APK.
+                val copyApk = tasks.register<Copy>(name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }) {
+
+                    // Copy output files from the task that produces the APK...
+                    from(packageApplicationProvider)
+
+                    // ...into a directory relative to module source root.
+                    into(file(name))
+
+                    // Filter out any metadata files, only include APKs.
+                    include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
+
+                    // Change the output file name.
+                    // Only works if there's a single APK for each variant.
+                    // This will not work with APK splits enabled.
+//                    rename { "${name}.apk" }
+                }
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
                     output?.outputFileName =
-                        "PhimFree_${buildType.name}_v${generateVersionName()}_${formattedDate}.apk"
+                        "PhimFree_${buildType.name}_v${generateVersionName()}.apk"
                     setProperty("archivesBaseName", "PhimFree-v$versionName")
                 }
+                val deleteApks = tasks.register<Delete>(
+                    "delete${
+                        name.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.getDefault()
+                            ) else it.toString()
+                        }
+                    }"
+                ) {
+                    delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
+                }
+                copyApk.dependsOn(deleteApks)
+                copyApks.dependsOn(copyApk)
+                assembleProvider.dependsOn(copyApk)
             }
             val projectProperties = readProperties(file("../local.properties"))
             val admobAppId = projectProperties.getProperty("ADMOB_ID_PROD")
@@ -106,6 +140,9 @@ fun generateVersionName(): String {
 //        versionName += "-" + ext.versionClassifier
 //    }
     return versionName;
+}
+tasks.clean {
+    delete += listOf("${rootDir}/app/release", "${rootDir}/app/debug")
 }
 dependencies {
 //    kapt(libs.artifactid)
