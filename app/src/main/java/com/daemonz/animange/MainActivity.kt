@@ -3,6 +3,7 @@ package com.daemonz.animange
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import android.view.WindowInsets.Type
 import android.view.WindowMetrics
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,9 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -95,12 +100,14 @@ class MainActivity : ThemeActivity() {
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
     private var hideToolbarJob = Job()
+    private var windowInsetsController: WindowInsetsControllerCompat? = null
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
     private val navChangeListener =
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
+            showHideSystemBar(false)
             if (destination.id in listFragmentsWithNavbar) {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.adViewContainer.isVisible = destination.id != R.id.settingsFragment
@@ -195,6 +202,8 @@ class MainActivity : ThemeActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
             insets
         }
@@ -212,6 +221,7 @@ class MainActivity : ThemeActivity() {
                 updateDialog.isOptional = it.isOptional
                 if (!updateDialog.isAdded) {
                     updateDialog.show(supportFragmentManager, UpdateDialog.TAG)
+                    updateDialog.setTheme(currentTheme)
                 }
             }
         }
@@ -356,6 +366,7 @@ class MainActivity : ThemeActivity() {
             )
             actionClose.setImageResource(currentTheme.iconClose())
             actionEdit.setImageResource(currentTheme.iconEdit())
+            updateDialog.setTheme(currentTheme)
         }
     }
 
@@ -421,6 +432,20 @@ class MainActivity : ThemeActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("WrongConstant")
+    fun showHideSystemBar(isShow: Boolean) {
+        if (isShow) {
+            lifecycleScope.launch {
+                windowInsetsController?.show(Type.systemBars())
+                delay(3000)
+                windowInsetsController?.hide(Type.systemBars())
+            }
+        } else {
+            windowInsetsController?.hide(Type.systemBars())
+        }
+
     }
 
     private fun showHideToolbar(isShow: Boolean) {

@@ -78,6 +78,12 @@ class LightTheme : AnimanTheme {
     override fun iconShare(): Int = R.drawable.share
     override fun dividerColorRes(): Int = R.color.icon_light
     override fun iconFilter(): Int = R.drawable.ic_filter
+    override fun bottomSheetBg(): Int = R.drawable.bottom_sheet_bg
 
     override fun id(): Int = 0
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is LightTheme) return false
+        return this.javaClass.simpleName == other.javaClass.simpleName
+    }
 }

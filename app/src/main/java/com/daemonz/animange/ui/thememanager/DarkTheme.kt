@@ -78,7 +78,13 @@ class DarkTheme : AnimanTheme {
     override fun iconShare(): Int = R.drawable.share_night
     override fun dividerColorRes(): Int = R.color.icon_dark
     override fun iconFilter(): Int = R.drawable.ic_filter_night
+    override fun bottomSheetBg(): Int = R.drawable.bottom_sheet_bg_night
     override fun id(): Int {
         return 1
+    }
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        if (other !is LightTheme) return false
+        return this.javaClass.simpleName == other.javaClass.simpleName
     }
 }

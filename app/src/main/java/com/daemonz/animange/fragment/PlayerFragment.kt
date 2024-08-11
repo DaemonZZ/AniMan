@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
@@ -41,6 +42,7 @@ import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.util.makeTextLink
 
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -199,6 +201,18 @@ class PlayerFragment :
                     3 -> tab.text = getString(R.string.rating)
                 }
             }.attach()
+            tabSuggest.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    (activity as? MainActivity)?.showHideSystemBar(false)
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
         }
     }
 
