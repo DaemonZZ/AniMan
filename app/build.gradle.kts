@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 1
 val versionMinor = 5
-val versionPatch = 0
+val versionPatch = 1
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -57,21 +57,19 @@ android {
                         Locale.getDefault()
                     ) else it.toString()
                 }) {
-                    if (name == "release") {
-                        // Copy output files from the task that produces the APK...
-                        from(packageApplicationProvider)
+                    // Copy output files from the task that produces the APK...
+                    from(packageApplicationProvider)
 
-                        // ...into a directory relative to module source root.
-                        into(file(name))
+                    // ...into a directory relative to module source root.
+                    into(file(name))
 
-                        // Filter out any metadata files, only include APKs.
-                        include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
+                    // Filter out any metadata files, only include APKs.
+                    include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
 
-                        // Change the output file name.
-                        // Only works if there's a single APK for each variant.
-                        // This will not work with APK splits enabled.
-                        //                    rename { "${name}.apk" }
-                    }
+                    // Change the output file name.
+                    // Only works if there's a single APK for each variant.
+                    // This will not work with APK splits enabled.
+                    //                    rename { "${name}.apk" }
                 }
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
@@ -88,9 +86,7 @@ android {
                         }
                     }"
                 ) {
-                    if (name == "release") {
-                        delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
-                    }
+                    delete(listOf("${rootDir}/app/release", "${rootDir}/app/debug"))
                 }
                 copyApk.dependsOn(deleteApks)
                 copyApks.dependsOn(copyApk)
@@ -129,6 +125,7 @@ fun readProperties(propertiesFile: File) = Properties().apply {
         load(fis)
     }
 }
+
 fun generateVersionCode(): Int {
     return minimumSdkVersion * 10000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
 }
@@ -167,38 +164,38 @@ dependencies {
 
     // Feature module Support
     implementation(libs.androidx.navigation.dynamic.features.fragment)
-    kapt (libs.androidx.lifecycle.compiler)
+    kapt(libs.androidx.lifecycle.compiler)
 
     //Coroutine
-    implementation (libs.kotlinx.coroutines.core)
-    implementation (libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     // Glide
-    implementation (libs.glide)
-    annotationProcessor (libs.compiler)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
 
     //Room
-    implementation (libs.androidx.room.runtime)
-    annotationProcessor (libs.androidx.room.compiler)
-    implementation (libs.androidx.room.rxjava3)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.rxjava3)
     implementation(libs.androidx.room.paging)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
 
     //Lifecycle
     // ViewModel
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     // LiveData
-    implementation (libs.androidx.lifecycle.livedata.ktx)
-    implementation (libs.androidx.lifecycle.extensions)
-    implementation (libs.androidx.lifecycle.runtime.ktx)
-    implementation (libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.fragment.ktx)
     // Annotation processor
 
     // Retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.rxjava3.retrofit.adapter)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.rxjava3.retrofit.adapter)
 
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
