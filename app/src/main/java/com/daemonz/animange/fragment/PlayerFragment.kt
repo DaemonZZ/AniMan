@@ -8,6 +8,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -70,6 +71,7 @@ class PlayerFragment :
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val b = super.onCreateView(inflater, container, savedInstanceState)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         binding.apply {
             activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
                 findNavController().popBackStack()
@@ -357,5 +359,10 @@ class PlayerFragment :
             btnRate.setIconResource(currentTheme.iconRate())
             btnShare.setIconResource(currentTheme.iconShare())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }
