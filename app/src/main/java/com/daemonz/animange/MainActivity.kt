@@ -4,8 +4,12 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
@@ -13,6 +17,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets.Type
 import android.view.WindowMetrics
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -38,6 +43,7 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
+import com.daemonz.animange.ui.dialog.InternetDialog
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
@@ -46,6 +52,7 @@ import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.AppThemeManager
+import com.daemonz.animange.util.ConnectionLiveData
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.SharePreferenceManager
@@ -99,6 +106,7 @@ class MainActivity : ThemeActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
+    private val internetDialog: InternetDialog by lazy { InternetDialog() }
     private var hideToolbarJob = Job()
     private var windowInsetsController: WindowInsetsControllerCompat? = null
 
@@ -143,6 +151,7 @@ class MainActivity : ThemeActivity() {
             // TODO: Inform user that that your app will not show notifications.
         }
     }
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     private fun askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
@@ -207,6 +216,15 @@ class MainActivity : ThemeActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { _, insets ->
             insets
         }
+        connectionLiveData = ConnectionLiveData(this)
+        connectionLiveData.observe(this) { isNetworkAvailable ->
+            ALog.d(TAG, "Connection status: $isNetworkAvailable")
+            isNetworkAvailable?.let {
+                if (!it) {
+                    showInternetDialog()
+                }
+            }
+        }
         binding.navIcon.setOnClickListener {
             onBack()
         }
@@ -263,6 +281,13 @@ class MainActivity : ThemeActivity() {
                     binding.dayNightSwitch
                 )
             }, 500L)
+        }
+    }
+
+    private fun showInternetDialog() {
+        if (!internetDialog.isAdded) {
+            internetDialog.show(supportFragmentManager, InternetDialog.TAG)
+            internetDialog.setTheme(currentTheme)
         }
     }
 
@@ -338,6 +363,11 @@ class MainActivity : ThemeActivity() {
     override fun onStart() {
         super.onStart()
         setupViews()
+        val conMgr = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = conMgr.activeNetworkInfo
+        if (netInfo == null) {
+            showInternetDialog()
+        }
     }
     private var currentTheme: AnimanTheme = LightTheme()
     override fun syncTheme(appTheme: AppTheme) {

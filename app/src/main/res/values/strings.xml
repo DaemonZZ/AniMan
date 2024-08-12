@@ -129,4 +129,8 @@
     <string name="error_when_load_image">Có lỗi xảy ra khi cố gắng load ảnh...</string>
     <string name="expand_text">&#8623;Xem thêm</string>
     <string name="three_dot" translatable="false">&#8230;</string>
+    <string name="internet_title">Mất kết nối internet</string>
+    <string name="internet_decs">Không thể truy cập internet. Vui lòng kiểm tra kết nối để tiếp tục sử dụng</string>
+    <string name="quit">Thoát ứng dụng</string>
+    <string name="go_setting">Cài đặt</string>
 </resources>
