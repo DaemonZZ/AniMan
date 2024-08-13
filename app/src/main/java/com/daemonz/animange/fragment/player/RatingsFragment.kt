@@ -34,4 +34,9 @@ class RatingsFragment :
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
     }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        binding.textNoComment.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+    }
 }

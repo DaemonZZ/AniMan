@@ -135,5 +135,6 @@ class CommentFragment :
             binding.textNoComment.isVisible = it.isEmpty()
             adapter?.setData(it)
         }
+        binding.textNoComment.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
     }
 }
