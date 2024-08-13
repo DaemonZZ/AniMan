@@ -8,12 +8,14 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.daemonz.animange.R
 import com.daemonz.animange.databinding.DialogRatingBinding
 import com.daemonz.animange.entity.FilmRating
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class RatingDialog(
     private val currentRating: FilmRating? = null,
     private val onYes: (Int, String, String?) -> Unit,
+    private var theme: AnimanTheme
 ) : BottomSheetDialogFragment() {
     private var _binding: DialogRatingBinding? = null
     private val binding get() = _binding!!
@@ -48,6 +50,7 @@ class RatingDialog(
                 comment.setText(currentRating.comment)
             }
         }
+        syncTheme()
         return binding.root
     }
 
@@ -70,6 +73,19 @@ class RatingDialog(
             3 -> R.drawable.star_4
             4 -> R.drawable.star_5
             else -> R.drawable.star_outline
+        }
+    }
+    fun setTheme(theme: AnimanTheme) {
+        this.theme = theme
+        syncTheme()
+    }
+
+    fun syncTheme() {
+        _binding?.apply {
+            root.setBackgroundResource(theme.bottomSheetBg())
+            textTitle.setTextColor(theme.firstActivityTextColor(requireContext()))
+            btnYes.setTextColor(theme.firstActivityBackgroundColor(requireContext()))
+            btnYes.setBackgroundColor(theme.firstActivityIconColor(requireContext()))
         }
     }
 

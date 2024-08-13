@@ -309,7 +309,8 @@ class PlayerFragment :
                     it,
                     onYes = { score, comment, id ->
                         viewModel.rateItem(score, comment, id)
-                    }
+                    },
+                    currentTheme
                 ).show(childFragmentManager, "RatingDialog")
             }
         }
