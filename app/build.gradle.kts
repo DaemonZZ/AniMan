@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 1
 val versionMinor = 5
-val versionPatch = 1
+val versionPatch = 2
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -86,10 +86,10 @@ android {
                         }
                     }"
                 ) {
-                    if (name == "debug") {
+                    if (name == "deleteDebug") {
                         delete(listOf("${rootDir}/app/debug"))
                     }
-                    if (name == "release") {
+                    if (name == "deleteRelease") {
                         delete(listOf("${rootDir}/app/release"))
                     }
 
