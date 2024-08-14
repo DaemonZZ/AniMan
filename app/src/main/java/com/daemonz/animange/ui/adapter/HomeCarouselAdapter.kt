@@ -47,9 +47,9 @@ class HomeCarouselAdapter(
         }
     }
     override fun setupLayout(binding: CarouselItemBinding, parent: ViewGroup) {
-        //set item height according to screen size
-        val lp = binding.root.layoutParams
-        lp.height = (parent.height * 0.95f).toInt()
-        binding.root.layoutParams = lp
+//        //set item height according to screen size
+//        val lp = binding.root.layoutParams
+//        lp.height = (parent.height * 0.95f).toInt()
+//        binding.root.layoutParams = lp
     }
 }
