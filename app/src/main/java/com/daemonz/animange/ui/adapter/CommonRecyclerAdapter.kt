@@ -23,6 +23,9 @@ class CommonRecyclerAdapter(
         binding.apply {
             carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
             title.text = item.name
+            title.requestFocus()
+            title.setTextColor(theme.firstActivityTextColor(root.context))
+            rate.setTextColor(theme.firstActivityTextColor(root.context))
         }
     }
 }

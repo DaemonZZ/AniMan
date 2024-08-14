@@ -23,14 +23,12 @@ class GridAdapter(
     override fun bindView(binding: CardItemBinding, item: PagingData<Item>, position: Int) {
         binding.apply {
             imgView.setImageFromUrl(item.data.getImageUrl(imgDomain))
+            imgView.setOnClickListener {
+                onItemClickListener.onItemClick(item, position)
+            }
             textTitle.text = item.data.name
-            textSubtitle.text = item.data.category.joinToString(
-                binding.root.context.getString(
-                    R.string.bullet
-                )
-            ) { it.name }
-
-            root.setCardBackgroundColor(theme.menuItemBackground(root.context))
+            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
+            textRate.setTextColor(theme.firstActivityTextColor(root.context))
         }
     }
 

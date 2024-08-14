@@ -231,7 +231,7 @@ class MainActivity : ThemeActivity() {
         }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        initAdmob()
+//        initAdmob()
         askNotificationPermission()
         loadIntent()
 

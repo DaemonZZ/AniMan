@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
-
+        <!--        do not delete title view -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
             style="@style/TextAppearance.Material3.TitleMedium"
@@ -28,6 +28,7 @@
             android:layout_marginBottom="@dimen/dp_16"
             android:textColor="@color/design_default_color_on_primary"
             android:ellipsize="end"
+            android:visibility="gone"
             android:lines="1"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />

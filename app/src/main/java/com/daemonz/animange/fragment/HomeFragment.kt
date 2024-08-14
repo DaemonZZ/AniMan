@@ -4,8 +4,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import com.daemonz.animange.NavGraphDirections
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentHomeBinding
@@ -20,6 +24,7 @@ import com.daemonz.animange.viewmodel.HomeViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
+import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -70,11 +75,27 @@ class HomeFragment :
             snapHelper.attachToRecyclerView(movERecycler)
             moviesAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             movERecycler.adapter = moviesAdapter
+            movERecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val view = snapHelper.findSnapView(recyclerView.layoutManager)
+                        val title = view?.findViewById<MaterialTextView>(R.id.title)
+                        title?.let {
+                            ALog.d(TAG, "onScrolled: ${it.text}")
+                            titleMovies.text = it.text
+                        }
+                    }
+                }
+
+            })
         }
     }
 
     private fun setupAnimeRecycler() {
         binding.apply {
+            val snapHelper = LinearSnapHelper()
+            animeRecycler.onFlingListener = null
+            snapHelper.attachToRecyclerView(animeRecycler)
             animeAdapter = CommonRecyclerAdapter(onItemClickListener, currentTheme)
             animeRecycler.adapter = animeAdapter
         }
@@ -88,6 +109,19 @@ class HomeFragment :
             snapHelper.attachToRecyclerView(vietNamRecycler)
             vietNamAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             vietNamRecycler.adapter = vietNamAdapter
+            vietNamRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val view = snapHelper.findSnapView(recyclerView.layoutManager)
+                        val title = view?.findViewById<MaterialTextView>(R.id.title)
+                        title?.let {
+                            ALog.d(TAG, "onScrolled: ${it.text}")
+                            titleVn.text = it.text
+                        }
+                    }
+                }
+
+            })
         }
     }
 
@@ -99,6 +133,20 @@ class HomeFragment :
             snapHelper.attachToRecyclerView(seriesRecycler)
             seriesIncomingAdapter = FilmCarouselAdapter(onItemClickListener, currentTheme)
             seriesRecycler.adapter = seriesIncomingAdapter
+
+            seriesRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val view = snapHelper.findSnapView(recyclerView.layoutManager)
+                        val title = view?.findViewById<MaterialTextView>(R.id.title)
+                        title?.let {
+                            ALog.d(TAG, "onScrolled: ${it.text}")
+                            titleSeries.text = it.text
+                        }
+                    }
+                }
+
+            })
         }
     }
 
@@ -152,11 +200,15 @@ class HomeFragment :
                 ALog.d(TAG, "seriesIncoming:")
                 hideLoadingOverlay()
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
+                binding.titleSeries.text = films.data.items.first().name
+                binding.titleSeries.requestFocus()
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
                 hideLoadingOverlay()
                 vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
+                binding.titleVn.text = films.data.items.first().name
+                binding.titleVn.requestFocus()
             }
             anime.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "anime: ${films.data.getListUrl()}")
@@ -167,6 +219,8 @@ class HomeFragment :
                 ALog.d(TAG, "movies: ${films.data.getListUrl()}")
                 hideLoadingOverlay()
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
+                binding.titleMovies.text = films.data.items.first().name
+                binding.titleMovies.requestFocus()
             }
             tvShows.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "tvShows:")
@@ -198,6 +252,12 @@ class HomeFragment :
             tabMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabSeries.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabVietNam.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            titleSeries.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            seriesRate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            titleVn.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            vnRate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            titleMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            moviesRate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         }
     }
 

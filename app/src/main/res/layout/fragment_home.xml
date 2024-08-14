@@ -45,11 +45,40 @@
             app:layout_constraintTop_toBottomOf="@id/tab_series" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title_series"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:maxLines="1"
+            android:text="@string/viet_nam_must_watch"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/series_recycler" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/series_rate"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:drawableEnd="@drawable/star_filled_24"
+            android:maxHeight="@dimen/dp_24"
+            android:text="5.0"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_series" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_viet_nam"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/series_recycler"
+            app:layout_constraintTop_toBottomOf="@id/series_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
             android:text="@string/viet_nam_must_watch"
@@ -63,11 +92,40 @@
             app:layout_constraintTop_toBottomOf="@id/tab_viet_nam" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title_vn"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:maxLines="1"
+            android:text="@string/viet_nam_must_watch"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viet_nam_recycler" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/vn_rate"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:drawableEnd="@drawable/star_filled_24"
+            android:maxHeight="@dimen/dp_24"
+            android:text="5.0"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_vn" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_anime"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/viet_nam_recycler"
+            app:layout_constraintTop_toBottomOf="@id/vn_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
             android:text="@string/anime"
@@ -76,7 +134,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/anime_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+            android:layout_height="@dimen/dp_350"
             android:layout_marginVertical="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_4"
             android:orientation="horizontal"
@@ -102,11 +160,40 @@
             app:layout_constraintTop_toBottomOf="@id/tab_movies" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title_movies"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:maxLines="1"
+            android:text="@string/viet_nam_must_watch"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movíe_recycler" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/movies_rate"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:drawableEnd="@drawable/star_filled_24"
+            android:maxHeight="@dimen/dp_24"
+            android:text="5.0"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_movies" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tab_tv"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/movíe_recycler"
+            app:layout_constraintTop_toBottomOf="@id/movies_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
             android:text="@string/tv_shows"
@@ -115,7 +202,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tv_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+            android:layout_height="@dimen/dp_400"
             android:layout_marginVertical="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
             android:orientation="horizontal"
