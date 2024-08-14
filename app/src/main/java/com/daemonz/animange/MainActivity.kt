@@ -55,6 +55,7 @@ import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.ConnectionLiveData
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.STRING_EMPTY
+import com.daemonz.animange.util.Session
 import com.daemonz.animange.util.SharePreferenceManager
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
@@ -235,11 +236,12 @@ class MainActivity : ThemeActivity() {
         loadIntent()
 
         viewModel.hasNewUpdate.observe(this) {
-            if (it != null) {
+            if (it != null && !Session.isUpdateShown) {
                 updateDialog.isOptional = it.isOptional
                 if (!updateDialog.isAdded) {
                     updateDialog.show(supportFragmentManager, UpdateDialog.TAG)
                     updateDialog.setTheme(currentTheme)
+                    Session.isUpdateShown = true
                 }
             }
         }
