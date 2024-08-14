@@ -35,7 +35,7 @@ class GridAdapter(
     override fun setupLayout(binding: CardItemBinding, parent: ViewGroup) {
         //set item height according to screen size
         val lp = binding.root.layoutParams
-        lp.height = parent.height / 3
+        lp.height = (parent.height / 2.5).toInt()
         binding.root.layoutParams = lp
     }
 }
