@@ -247,6 +247,8 @@ class HomeFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
+            setupAnimeRecycler()
+            setupTvRecycler()
             tabAnime.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabTv.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
