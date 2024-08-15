@@ -85,6 +85,10 @@ class SettingsFragment :
             textEmail.text = LoginData.account?.email
             textVer.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             textVer.text = BuildConfig.VERSION_NAME
+            btnLogout.setOnClickListener {
+                viewModel.logout(requireContext())
+                findNavController().popBackStack(R.id.welcomeFragment, false)
+            }
         }
     }
 
@@ -143,7 +147,6 @@ class SettingsFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
-
         textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
 
         }
