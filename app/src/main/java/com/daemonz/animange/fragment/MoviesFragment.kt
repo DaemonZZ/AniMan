@@ -89,4 +89,9 @@ class MoviesFragment :
         ALog.i(TAG, "navigateToPlayer: $item")
         findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = item.slug))
     }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        setupViews()
+    }
 }

@@ -7,11 +7,11 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
-import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
@@ -65,8 +65,10 @@ class SearchFragment :
             }
         }
         binding.apply {
+            ALog.d(TAG, "bindViewabc: $currentTheme")
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
             resultRecycler.adapter = resultAdapter
+            resultRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
             resultRecycler.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     if (!recyclerView.canScrollVertically(1)) {
@@ -107,6 +109,7 @@ class SearchFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
+            setupViews()
             btnFilter.setImageResource(currentTheme.iconFilter())
             btnBack.setImageResource(currentTheme.iconBack())
             searchLayout.hintTextColor =

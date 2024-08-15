@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentSuggestionBinding
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.ui.adapter.SuggestionAdapter
-import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.daemonz.animange.viewmodel.SuggestionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,5 +78,10 @@ class SuggestionFragment :
 
     override fun setupViewModel(viewModel: PlayerViewModel) {
         playerViewModel = viewModel
+    }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        setupViews()
     }
 }
