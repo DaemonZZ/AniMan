@@ -317,32 +317,33 @@ class PlayerFragment :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadPlayerData(data: ListData) {
         binding.apply {
             val desc = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
             if (desc.length > 150) {
-                val displayText = desc.substring(
+                textDesc.text = desc.substring(
                     0,
                     125
                 ) + getString(R.string.three_dot) + getString(R.string.expand_text)
-                textDesc.text = displayText
-                textDesc.makeTextLink(
-                    textLink = getString(R.string.expand_text),
-                    underline = true,
-                    bold = true,
-                    color = ContextCompat.getColor(requireContext(), R.color.button_light),
-                    onClick = {
-                        viewModel.playerData.value?.let {
-                            FilmInfoDialog(currentTheme, it).show(
-                                childFragmentManager,
-                                TAG
-                            )
-                        }
-                    }
-                )
             } else {
-                textDesc.text = desc
+                textDesc.text = desc.toString()
+                    .trim() + getString(R.string.three_dot) + getString(R.string.expand_text)
             }
+            textDesc.makeTextLink(
+                textLink = getString(R.string.expand_text),
+                underline = true,
+                bold = true,
+                color = ContextCompat.getColor(requireContext(), R.color.button_light),
+                onClick = {
+                    viewModel.playerData.value?.let {
+                        FilmInfoDialog(currentTheme, it).show(
+                            childFragmentManager,
+                            TAG
+                        )
+                    }
+                }
+            )
         }
     }
 
