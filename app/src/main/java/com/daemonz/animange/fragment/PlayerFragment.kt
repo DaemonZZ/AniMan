@@ -33,6 +33,7 @@ import com.daemonz.animange.fragment.player.RatingsFragment
 import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
+import com.daemonz.animange.ui.dialog.FilmInfoDialog
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.dialog.RatingDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
@@ -330,7 +331,14 @@ class PlayerFragment :
                     underline = true,
                     bold = true,
                     color = ContextCompat.getColor(requireContext(), R.color.button_light),
-                    onClick = {}
+                    onClick = {
+                        viewModel.playerData.value?.let {
+                            FilmInfoDialog(currentTheme, it).show(
+                                childFragmentManager,
+                                TAG
+                            )
+                        }
+                    }
                 )
             } else {
                 textDesc.text = desc

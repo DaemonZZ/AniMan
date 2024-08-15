@@ -44,4 +44,5 @@ interface AnimanTheme : AppTheme {
     fun dividerColorRes(): Int
     fun iconFilter(): Int
     fun bottomSheetBg(): Int
+    fun dialogBg(): Int
 }

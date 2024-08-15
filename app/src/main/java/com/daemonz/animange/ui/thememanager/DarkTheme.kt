@@ -79,6 +79,7 @@ class DarkTheme : AnimanTheme {
     override fun dividerColorRes(): Int = R.color.icon_dark
     override fun iconFilter(): Int = R.drawable.ic_filter_night
     override fun bottomSheetBg(): Int = R.drawable.bottom_sheet_bg_night
+    override fun dialogBg(): Int = R.drawable.dialog_bg_night
     override fun id(): Int {
         return 1
     }

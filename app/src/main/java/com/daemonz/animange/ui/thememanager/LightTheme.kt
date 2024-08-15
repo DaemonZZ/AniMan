@@ -79,6 +79,7 @@ class LightTheme : AnimanTheme {
     override fun dividerColorRes(): Int = R.color.icon_light
     override fun iconFilter(): Int = R.drawable.ic_filter
     override fun bottomSheetBg(): Int = R.drawable.bottom_sheet_bg
+    override fun dialogBg(): Int = R.drawable.dialog_bg
 
     override fun id(): Int = 0
     override fun equals(other: Any?): Boolean {
