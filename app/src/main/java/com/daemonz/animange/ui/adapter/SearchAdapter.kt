@@ -26,9 +26,9 @@ class SearchAdapter(
         position: Int
     ) {
         binding.apply {
-            imgView.setImageFromUrl(
-                item.data.getImageUrl(imgDomain)
-            )
+            val img =
+                if (imgDomain.isEmpty()) item.data.thumbUrl else item.data.getImageUrl(imgDomain)
+            imgView.setImageFromUrl(img)
             imgView.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }

@@ -71,19 +71,30 @@
             android:layout_marginHorizontal="@dimen/dp_8"
             android:orientation="vertical"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/lb_history"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_layout"
-            tools:listitem="@layout/suggestion_video_item" />
+            tools:visibility="visible" />
 
-        <TextView
+    <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_no_result"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center"
+        android:visibility="gone"
             android:labelFor="@id/result_recycler"
             android:text="@string/no_result"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/top_layout" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lb_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/recent_search"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/top_layout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

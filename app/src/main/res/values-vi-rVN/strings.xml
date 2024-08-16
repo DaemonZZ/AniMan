@@ -120,4 +120,5 @@
     <string name="quit">Thoát ứng dụng</string>
     <string name="go_setting">Cài đặt</string>
     <string name="send_review">Gửi đánh giá</string>
+    <string name="recent_search">Tìm kiếm gần đây</string>
 </resources>

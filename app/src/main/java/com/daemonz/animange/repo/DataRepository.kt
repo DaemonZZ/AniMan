@@ -11,6 +11,8 @@ import com.daemonz.animange.entity.FeedBack
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.SearchHistory
+import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
@@ -20,6 +22,7 @@ import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.FEEDBACK_COLLECTION
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.RATING_COLLECTION
+import com.daemonz.animange.util.SEARCH_HISTORY
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.VERSION_COLLECTION
 import com.daemonz.animange.util.VERSION_DOCS
@@ -332,4 +335,11 @@ class DataRepository(
         )
     }
 
+    fun getSearchHistory() = fireStoreDataBase.getSearchHistory()
+
+    fun updateSearchHistory(items: List<SearchHistory>) = fireStoreDataBase.addDocument(
+        collectionName = SEARCH_HISTORY,
+        documentId = LoginData.getActiveUser()?.id.toString(),
+        data = SearchHistoryData(items)
+    )
 }

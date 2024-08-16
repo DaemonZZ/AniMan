@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +16,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
+import com.daemonz.animange.entity.toItem
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SearchAdapter
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
@@ -38,11 +38,12 @@ class SearchFragment :
 
     private fun navigateToPlayer(data: Item) {
         ALog.i(TAG, "navigateToPlayer: $data")
+        viewModel.saveSearchHistory(data)
         findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = data.slug))
     }
 
     override fun setupViews() {
-        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
+        binding.edtSearch.setOnEditorActionListener { v, actionId, event ->
             if (binding.edtSearch.text.toString()
                     .makeSearchText() != binding.edtSearch.text.toString()
             ) {
@@ -50,19 +51,20 @@ class SearchFragment :
                     binding.edtSearch.text.toString().makeSearchText()
                 )
                 binding.edtSearch.setSelection(binding.edtSearch.length())
-                return@doOnTextChanged
+                return@setOnEditorActionListener true
             }
             lastSearch = SystemClock.elapsedRealtime()
             binding.searchLayout.postDelayed({
-                if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && text.toString().length > 3) {
+                if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && v.text.toString().length > 3) {
                     viewModel.clearCache()
-                    viewModel.search(text.toString().trim())
+                    viewModel.search(v.text.toString().trim())
                     (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager)
                 }
             }, 2000L)
-            if (text.toString().isEmpty()) {
+            if (v.text.toString().isEmpty()) {
                 resultAdapter?.setData(listOf())
             }
+            true
         }
         binding.apply {
             ALog.d(TAG, "bindViewabc: $currentTheme")
@@ -104,6 +106,24 @@ class SearchFragment :
                 resultRecycler.isVisible = it.isNotEmpty()
             }
         }
+        viewModel.searchHistoryData.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "searchHistoryData: ${it.size}")
+            binding.apply {
+                if (it.isEmpty()) {
+                    textNoResult.isVisible = true
+                    resultRecycler.isVisible = false
+                    lbHistory.isVisible = false
+                } else {
+                    textNoResult.isVisible = false
+                    resultRecycler.isVisible = true
+                    lbHistory.isVisible = true
+                    resultAdapter?.setData(it.map {
+                        PagingData(0, it.toItem())
+                    }, "")
+                }
+            }
+
+        }
     }
 
     override fun syncTheme() {
@@ -122,5 +142,9 @@ class SearchFragment :
                 ), null, null, null
             )
         }
+    }
+
+    override fun initData() {
+        viewModel.getSearchHistory()
     }
 }

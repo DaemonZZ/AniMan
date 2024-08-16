@@ -1,7 +1,9 @@
 package com.daemonz.animange.datasource.firebase
 
 import com.daemonz.animange.util.COMMENT_COLLECTION
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.RATING_COLLECTION
+import com.daemonz.animange.util.SEARCH_HISTORY
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.AggregateField
 import com.google.firebase.firestore.AggregateSource
@@ -74,5 +76,6 @@ class FireBaseDataBase(
         .where(Filter.equalTo("slug", slug))
         .aggregate(AggregateField.average("rating")).get(AggregateSource.SERVER)
 
-
+    fun getSearchHistory() =
+        db.collection(SEARCH_HISTORY).document(LoginData.getActiveUser()?.id.toString()).get()
 }
