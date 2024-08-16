@@ -19,6 +19,7 @@ abstract class BasePagingAdapter<T, Item, ViewBinding : androidx.viewbinding.Vie
         if (this.data.isEmpty()) {
             super.setData(data, imgDomain)
         } else {
+            this.imgDomain = imgDomain
             val page = (data.firstOrNull() as? PagingData<T>)?.page ?: return
             if (page < firstPage) {
                 this.data.addAll(0, data)

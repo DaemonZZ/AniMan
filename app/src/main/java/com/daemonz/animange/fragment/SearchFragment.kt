@@ -16,11 +16,15 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
+import com.daemonz.animange.entity.SearchHistory
 import com.daemonz.animange.entity.toItem
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SearchAdapter
+import com.daemonz.animange.ui.adapter.SearchHistoryAdapter
 import com.daemonz.animange.util.SEARCH_TIME_DELAY
+import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.makeSearchText
+import com.daemonz.animange.util.setupClearButtonWithAction
 import com.daemonz.animange.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,17 +32,22 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment :
     BaseFragment<SearchDialogBinding, SearchViewModel>(SearchDialogBinding::inflate) {
     override val viewModel: SearchViewModel by viewModels()
-    private var lastSearch: Long = 0L
     private var resultAdapter: SearchAdapter? = null
+    private var historyAdapter: SearchHistoryAdapter? = null
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
             ALog.i(TAG, "onItemClick: $index, status: ${item.data.status}")
+            viewModel.saveSearchHistory(item.data)
             navigateToPlayer(item.data)
+        }
+    private val onItemHistoryClickListener =
+        OnItemClickListener<Item> { item, index ->
+            ALog.i(TAG, "onItemClick: $index, status: ${item.status}")
+            navigateToPlayer(item)
         }
 
     private fun navigateToPlayer(data: Item) {
         ALog.i(TAG, "navigateToPlayer: $data")
-        viewModel.saveSearchHistory(data)
         findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = data.slug))
     }
 
@@ -53,21 +62,18 @@ class SearchFragment :
                 binding.edtSearch.setSelection(binding.edtSearch.length())
                 return@setOnEditorActionListener true
             }
-            lastSearch = SystemClock.elapsedRealtime()
-            binding.searchLayout.postDelayed({
-                if (SystemClock.elapsedRealtime() - lastSearch > SEARCH_TIME_DELAY && v.text.toString().length > 3) {
-                    viewModel.clearCache()
-                    viewModel.search(v.text.toString().trim())
-                    (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager)
-                }
-            }, 2000L)
+            viewModel.clearCache()
+            viewModel.search(v.text.toString().trim())
+            (activity as? MainActivity)?.showLoadingOverlay(parentFragmentManager)
             if (v.text.toString().isEmpty()) {
                 resultAdapter?.setData(listOf())
             }
             true
         }
         binding.apply {
-            ALog.d(TAG, "bindViewabc: $currentTheme")
+            ALog.d(TAG, "bindView: $currentTheme")
+            edtSearch.setText(STRING_EMPTY)
+            edtSearch.clearFocus()
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
             resultRecycler.adapter = resultAdapter
             resultRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -93,6 +99,10 @@ class SearchFragment :
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            historyAdapter = SearchHistoryAdapter(onItemHistoryClickListener, currentTheme)
+            historyRecycler.adapter = historyAdapter
+            historyRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
 
@@ -104,25 +114,31 @@ class SearchFragment :
             binding.apply {
                 textNoResult.isVisible = it.isEmpty()
                 resultRecycler.isVisible = it.isNotEmpty()
+                lbHistory.isVisible = false
+                historyRecycler.isVisible = false
+
             }
         }
         viewModel.searchHistoryData.observe(viewLifecycleOwner) {
             ALog.d(TAG, "searchHistoryData: ${it.size}")
-            binding.apply {
-                if (it.isEmpty()) {
-                    textNoResult.isVisible = true
-                    resultRecycler.isVisible = false
-                    lbHistory.isVisible = false
-                } else {
-                    textNoResult.isVisible = false
-                    resultRecycler.isVisible = true
-                    lbHistory.isVisible = true
-                    resultAdapter?.setData(it.map {
-                        PagingData(0, it.toItem())
-                    }, "")
-                }
-            }
+            updateHistoryData(it)
+        }
+    }
 
+    private fun updateHistoryData(data: List<SearchHistory>) {
+        ALog.d(TAG, "updateHistoryData: ${data.size}")
+        binding.apply {
+            resultRecycler.isVisible = false
+            if (data.isEmpty()) {
+                textNoResult.isVisible = true
+                historyRecycler.isVisible = false
+                lbHistory.isVisible = false
+            } else {
+                textNoResult.isVisible = false
+                historyRecycler.isVisible = true
+                lbHistory.isVisible = true
+                historyAdapter?.setData(data.map { it.toItem() })
+            }
         }
     }
 
@@ -130,11 +146,18 @@ class SearchFragment :
         super.syncTheme()
         binding.apply {
             setupViews()
+            binding.edtSearch.setupClearButtonWithAction(currentTheme) {
+                viewModel.searchHistoryData.value?.let {
+                    updateHistoryData(it)
+                }
+            }
             btnFilter.setImageResource(currentTheme.iconFilter())
             btnBack.setImageResource(currentTheme.iconBack())
             searchLayout.hintTextColor =
                 ColorStateList.valueOf(currentTheme.firstActivityTextColor(requireContext()))
             searchLayout.boxStrokeColor = currentTheme.firstActivityTextColor(requireContext())
+            textNoResult.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            lbHistory.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             edtSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 ContextCompat.getDrawable(
                     requireContext(),

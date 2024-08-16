@@ -7,9 +7,9 @@
     android:background="@color/md_theme_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/top_layout"
         android:fitsSystemWindows="true"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -64,27 +64,38 @@
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/result_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/dp_8"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/lb_history"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:visibility="visible" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/result_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lb_history"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lb_history"
+        tools:visibility="visible" />
 
     <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_no_result"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
+        android:id="@+id/text_no_result"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:labelFor="@id/result_recycler"
+        android:text="@string/no_result"
         android:visibility="gone"
-            android:labelFor="@id/result_recycler"
-            android:text="@string/no_result"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_layout" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_layout" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lb_history"

@@ -78,6 +78,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun saveSearchHistory(item: Item) = launchOnIO {
+        ALog.d(TAG, "Save search history: ${item.getImageUrl(imgDomain)}")
         val searchData = SearchHistory(
             slug = item.slug,
             title = item.name,

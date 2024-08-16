@@ -1,15 +1,20 @@
 package com.daemonz.animange.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.text.Editable
 import android.text.SpannableString
 import android.text.TextPaint
+import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -22,6 +27,7 @@ import com.daemonz.animange.R
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -155,4 +161,32 @@ fun <T> Response<T>.addOnFailureListener(listener: (String) -> Unit): Response<T
         this.errorBody()?.let { listener.invoke(it.string()) }
     }
     return this
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.setupClearButtonWithAction(theme: AnimanTheme, action: () -> Unit) {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(editable: Editable?) {
+            val clearIcon = if (editable?.isNotEmpty() == true) theme.iconClose() else 0
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, clearIcon, 0)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+    })
+
+    setOnTouchListener(View.OnTouchListener { _, event ->
+        if (event.action == MotionEvent.ACTION_UP) {
+            if (event.rawX >= (this.right - this.compoundPaddingRight)) {
+                if (text.toString().isNotEmpty()) {
+                    this.setText(STRING_EMPTY)
+                    this.clearFocus()
+                    AppUtils.hideKeyboard(context, this)
+                    action.invoke()
+                }
+                return@OnTouchListener true
+            }
+        }
+        return@OnTouchListener false
+    })
 }
