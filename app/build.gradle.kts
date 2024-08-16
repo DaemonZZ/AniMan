@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 1
 val versionMinor = 5
-val versionPatch = 6
+val versionPatch = 7
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -74,8 +74,8 @@ android {
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
                     output?.outputFileName =
-                        "PhimFree_${buildType.name}_v${generateVersionName()}.apk"
-                    setProperty("archivesBaseName", "PhimFree-v$versionName")
+                        "AMovies_${buildType.name}_v${generateVersionName()}.apk"
+                    setProperty("archivesBaseName", "AMovies-v$versionName")
                 }
                 val deleteApks = tasks.register<Delete>(
                     "delete${
