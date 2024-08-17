@@ -80,6 +80,9 @@ class DarkTheme : AnimanTheme {
     override fun iconFilter(): Int = R.drawable.ic_filter_night
     override fun bottomSheetBg(): Int = R.drawable.bottom_sheet_bg_night
     override fun dialogBg(): Int = R.drawable.dialog_bg_night
+    override fun filledBtnDisableColor(context: Context): Int =
+        ContextCompat.getColor(context, R.color.textGray_dark)
+
     override fun id(): Int {
         return 1
     }

@@ -45,4 +45,5 @@ interface AnimanTheme : AppTheme {
     fun iconFilter(): Int
     fun bottomSheetBg(): Int
     fun dialogBg(): Int
+    fun filledBtnDisableColor(context: Context): Int
 }

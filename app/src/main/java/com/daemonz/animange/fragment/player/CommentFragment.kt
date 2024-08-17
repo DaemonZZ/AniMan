@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment.player
 
 import android.content.Context
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -41,31 +42,14 @@ class CommentFragment :
                     playerViewModel?.waitingReplyFor = null
                 }
             }
-            textLayout.setEndIconOnClickListener {
-                if (binding.edtComment.text.toString().trim().isEmpty()) {
-                    return@setEndIconOnClickListener
+            edtComment.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    sendComment()
                 }
-                val user = LoginData.getActiveUser()?.let {
-                    User(
-                        id = it.id,
-                        name = it.name,
-                        image = it.image
-                    )
-                } ?: User()
-                val comment = Comment(
-                    id = UUID.randomUUID().toString(),
-                    slug = playerViewModel?.playerData?.value?.data?.item?.slug.toString(),
-                    content = binding.edtComment.text.toString().trim(),
-                    user = user,
-                    createdAt = System.currentTimeMillis(),
-                    replyFor = playerViewModel?.waitingReplyFor
-                )
-                playerViewModel?.sendComment(comment)
-                val imm =
-                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
-                edtComment.clearFocus()
-                edtComment.text?.clear()
+                true
+            }
+            textLayout.setEndIconOnClickListener {
+                sendComment()
             }
             if (LoginData.account == null) {
                 edtComment.isEnabled = false
@@ -98,6 +82,33 @@ class CommentFragment :
                 }
             }
         }
+    }
+
+    fun sendComment() {
+        if (binding.edtComment.text.toString().trim().isEmpty()) {
+            return
+        }
+        val user = LoginData.getActiveUser()?.let {
+            User(
+                id = it.id,
+                name = it.name,
+                image = it.image
+            )
+        } ?: User()
+        val comment = Comment(
+            id = UUID.randomUUID().toString(),
+            slug = playerViewModel?.playerData?.value?.data?.item?.slug.toString(),
+            content = binding.edtComment.text.toString().trim(),
+            user = user,
+            createdAt = System.currentTimeMillis(),
+            replyFor = playerViewModel?.waitingReplyFor
+        )
+        playerViewModel?.sendComment(comment)
+        val imm =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+        binding.edtComment.clearFocus()
+        binding.edtComment.text?.clear()
     }
 
     override fun setupViewModel(viewModel: PlayerViewModel) {

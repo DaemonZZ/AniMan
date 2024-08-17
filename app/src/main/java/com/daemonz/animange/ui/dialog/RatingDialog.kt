@@ -20,7 +20,7 @@ class RatingDialog(
     private var _binding: DialogRatingBinding? = null
     private val binding get() = _binding!!
     private var listStar: List<AppCompatImageView> = listOf()
-    private var userSelected: Int = 0
+    private var userSelected: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +41,7 @@ class RatingDialog(
                     onStarClicked(index)
                 }
             }
+            btnYes.isEnabled = currentRating != null
             btnYes.setOnClickListener {
                 onYes.invoke(userSelected, comment.text.toString(), currentRating?.id)
                 dismiss()
@@ -55,6 +56,8 @@ class RatingDialog(
     }
 
     private fun onStarClicked(index: Int) {
+        binding.btnYes.isEnabled = true
+        binding.btnYes.setBackgroundColor(theme.firstActivityIconColor(requireContext()))
         userSelected = index
         listStar.forEachIndexed { i, star ->
             if (i <= index) {
@@ -75,6 +78,7 @@ class RatingDialog(
             else -> R.drawable.star_outline
         }
     }
+
     fun setTheme(theme: AnimanTheme) {
         this.theme = theme
         syncTheme()
@@ -86,6 +90,11 @@ class RatingDialog(
             textTitle.setTextColor(theme.firstActivityTextColor(requireContext()))
             btnYes.setTextColor(theme.firstActivityBackgroundColor(requireContext()))
             btnYes.setBackgroundColor(theme.firstActivityIconColor(requireContext()))
+            if (btnYes.isEnabled) {
+                btnYes.setBackgroundColor(theme.firstActivityIconColor(requireContext()))
+            } else {
+                btnYes.setBackgroundColor(theme.filledBtnDisableColor(requireContext()))
+            }
         }
     }
 

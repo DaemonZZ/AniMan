@@ -42,7 +42,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_rate"
-        style="@style/TextAppearance.Material3.TitleMedium"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/star_filled_24"
