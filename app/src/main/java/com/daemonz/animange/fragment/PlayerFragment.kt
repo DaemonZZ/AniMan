@@ -16,7 +16,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -42,7 +41,6 @@ import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.util.makeTextLink
-
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -234,13 +232,10 @@ class PlayerFragment :
     override fun setupObservers() {
         viewModel.apply {
             rateAvg.observe(viewLifecycleOwner) {
-                if (it == 0.0) {
-                    binding.starsLayout.isVisible = false
-                } else {
-                    binding.starsLayout.isVisible = true
-                    binding.rateAvg.text =
-                        String.format(Locale.getDefault(), "%.1f", it)
-                }
+                if (it == 0.0)
+                    binding.start1.setImageResource(R.drawable.star_outline_36)
+                binding.rateAvg.text =
+                    String.format(Locale.getDefault(), "%.1f", it)
             }
             comments.observe(viewLifecycleOwner) { comments ->
                 ALog.d(TAG, "comments: ${comments.size}")
@@ -358,7 +353,11 @@ class PlayerFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
-            tabSuggest.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabSuggest.setBackgroundColor(
+                currentTheme.firstActivityBackgroundColor(
+                    requireContext()
+                )
+            )
             tabSuggest.setTabTextColors(
                 currentTheme.tabTextColorDefault(requireContext()),
                 currentTheme.tabTextColorSelected(requireContext())
