@@ -44,18 +44,6 @@ class SuggestionFragment :
                                 }
                         }
                     }
-                    if (!recyclerView.canScrollHorizontally(-1)) {
-                        suggestionAdapter?.firstPage?.let { page ->
-                            if (page > 1) {
-                                playerViewModel?.playerData?.value?.data?.item?.category?.random()
-                                    ?.let {
-                                        viewModel.getSuggestions(it, page - 1)
-                                        showLoadingOverlay()
-                                    }
-
-                            }
-                        }
-                    }
                 }
             })
         }
@@ -83,5 +71,9 @@ class SuggestionFragment :
     override fun syncTheme() {
         super.syncTheme()
         setupViews()
+        viewModel.suggestions.value?.let {
+            suggestionAdapter?.setData(it, viewModel.imgDomain)
+            hideLoadingOverlay()
+        }
     }
 }
