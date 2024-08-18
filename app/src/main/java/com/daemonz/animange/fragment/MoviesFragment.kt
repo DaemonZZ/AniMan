@@ -66,16 +66,19 @@ class MoviesFragment :
     }
 
     override fun setupObservers() {
-        viewModel.movies.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "movies: ${it.size}")
-            moviesAdapter?.apply {
-                setData(it, viewModel.imgDomain)
-                ALog.d(TAG, "lastPosition: $lastPosition")
-                binding.moviesRecycler.scrollToPosition(lastPosition)
-            }
-            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
-
+        viewModel.movies.observe(viewLifecycleOwner) { movies ->
+            populateData(movies)
         }
+    }
+
+    private fun populateData(movies: List<PagingData<Item>>) {
+        ALog.d(TAG, "movies: ${movies.size}")
+        moviesAdapter?.apply {
+            setData(movies, viewModel.imgDomain)
+            ALog.d(TAG, "lastPosition: $lastPosition")
+            binding.moviesRecycler.scrollToPosition(lastPosition)
+        }
+        binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
     }
 
     override fun initData() {
@@ -93,5 +96,8 @@ class MoviesFragment :
     override fun syncTheme() {
         super.syncTheme()
         setupViews()
+        viewModel.movies.value?.let { movies ->
+            populateData(movies)
+        }
     }
 }

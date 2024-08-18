@@ -48,15 +48,6 @@ class SeriesFragment :
                             showLoadingOverlay()
                         }
                     }
-                    if (!recyclerView.canScrollVertically(-1)) {
-                        ALog.d(TAG, "load previous page ${(seriesAdapter?.firstPage ?: -88) - 1}")
-                        seriesAdapter?.firstPage?.let {
-                            if (it > 1) {
-                                viewModel.getAllSeries(it - 1)
-                                showLoadingOverlay()
-                            }
-                        }
-                    }
                 }
             })
             moviesRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -66,13 +57,7 @@ class SeriesFragment :
 
     override fun setupObservers() {
         viewModel.series.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "getAllSeries: ${it.size}")
-            seriesAdapter?.apply {
-                setData(it, viewModel.imgDomain)
-                ALog.d(TAG, "lastPosition: $lastPosition")
-                binding.moviesRecycler.scrollToPosition(lastPosition)
-            }
-            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
+            populateData(it)
         }
     }
 
@@ -91,5 +76,17 @@ class SeriesFragment :
     override fun syncTheme() {
         super.syncTheme()
         setupViews()
+        viewModel.series.value?.let { data ->
+            populateData(data)
+        }
+    }
+
+    private fun populateData(data: List<PagingData<Item>>) {
+        seriesAdapter?.apply {
+            setData(data, viewModel.imgDomain)
+            ALog.d(TAG, "lastPosition: $lastPosition")
+            binding.moviesRecycler.scrollToPosition(lastPosition)
+        }
+        binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
     }
 }

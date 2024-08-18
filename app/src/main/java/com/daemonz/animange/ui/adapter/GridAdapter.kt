@@ -27,6 +27,13 @@ class GridAdapter(
                 onItemClickListener.onItemClick(item, position)
             }
             textTitle.text = item.data.name
+            textRate.text = if (item.data.rating.isNaN()) "0.0" else item.data.rating.toString()
+            textRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (item.data.rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                0
+            )
             textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             textRate.setTextColor(theme.firstActivityTextColor(root.context))
         }

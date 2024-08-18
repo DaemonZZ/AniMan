@@ -49,15 +49,6 @@ class TvShowFragment :
                             showLoadingOverlay()
                         }
                     }
-                    if (!recyclerView.canScrollVertically(-1)) {
-                        ALog.d(TAG, "load previous page ${(tvAdapter?.firstPage ?: -88) - 1}")
-                        tvAdapter?.firstPage?.let {
-                            if (it > 1) {
-                                viewModel.getTvShows(it - 1)
-                                showLoadingOverlay()
-                            }
-                        }
-                    }
                 }
             })
         }
@@ -66,13 +57,7 @@ class TvShowFragment :
 
     override fun setupObservers() {
         viewModel.shows.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "getTvShows: ${it.size}")
-            tvAdapter?.apply {
-                setData(it, viewModel.imgDomain)
-                ALog.d(TAG, "lastPosition: $lastPosition")
-                binding.moviesRecycler.scrollToPosition(lastPosition)
-            }
-            binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
+            populateData(it)
         }
     }
     override fun initData() {
@@ -88,5 +73,18 @@ class TvShowFragment :
     override fun syncTheme() {
         super.syncTheme()
         setupViews()
+        viewModel.shows.value?.let { data ->
+            populateData(data)
+        }
+    }
+
+    private fun populateData(data: List<PagingData<Item>>) {
+        ALog.d(TAG, "getTvShows: ${data.size}")
+        tvAdapter?.apply {
+            setData(data, viewModel.imgDomain)
+            ALog.d(TAG, "lastPosition: $lastPosition")
+            binding.moviesRecycler.scrollToPosition(lastPosition)
+        }
+        binding.root.postDelayed({ hideLoadingOverlay() }, 1000)
     }
 }

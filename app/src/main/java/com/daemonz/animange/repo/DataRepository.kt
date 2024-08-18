@@ -323,6 +323,10 @@ class DataRepository(
         ALog.d(TAG, "getRatingBySlug: $slug")
         return fireStoreDataBase.getRatingBySlug(slug)
     }
+    fun getRatingBySlugs(slugs: List<String>): Task<QuerySnapshot> {
+        ALog.d(TAG, "getRatingBySlugs: $slugs")
+        return fireStoreDataBase.getRatingBySlugs(slugs)
+    }
 
     fun getRating(slug: String, userId: String) = fireStoreDataBase.getRating(slug, userId)
     fun getRatingAvg(slug: String) = fireStoreDataBase.getRatingAverage(slug)
