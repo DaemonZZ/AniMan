@@ -60,6 +60,7 @@
                 android:layout_marginBottom="@dimen/dp_16"
                 android:text="@string/continue_with_your_email"
                 app:icon="@drawable/ic_phone"
+                android:visibility="gone"
                 app:iconGravity="start"
                 android:id="@+id/email_login"/>
 
@@ -74,6 +75,7 @@
                 android:id="@+id/text_tos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_16"
                 android:text="@string/tos_and_pp"
                 android:layout_marginTop="@dimen/dp_36"/>
 
