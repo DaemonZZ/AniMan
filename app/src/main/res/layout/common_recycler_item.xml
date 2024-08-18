@@ -4,7 +4,7 @@
     android:id="@+id/carousel_item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/dp_10">
+    android:layout_marginHorizontal="@dimen/dp_10">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
-        style="@style/TextAppearance.Material3.TitleMedium"
+        style="@style/TextAppearance.Material3.LabelLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
@@ -38,7 +38,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/rate"
-        style="@style/TextAppearance.Material3.TitleMedium"
+        style="@style/TextAppearance.Material3.LabelMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
@@ -47,7 +47,6 @@
         android:maxHeight="@dimen/dp_24"
         android:text="5.0"
         android:textColor="@color/design_default_color_on_primary"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
