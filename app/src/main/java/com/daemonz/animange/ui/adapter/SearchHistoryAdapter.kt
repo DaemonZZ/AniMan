@@ -2,6 +2,7 @@ package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BasePagingAdapter
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
@@ -27,14 +28,21 @@ class SearchHistoryAdapter(
         position: Int
     ) {
         binding.apply {
-            ALog.d(TAG, "bindView: ${item.thumbUrl}")
+            ALog.d(TAG, "bindViewdd: ${item.rating}")
             imgView.setImageFromUrl(item.thumbUrl)
             imgView.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }
             textTitle.text = item.name
+            textRate.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
             textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             textRate.setTextColor(theme.firstActivityTextColor(root.context))
+            textRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (item.rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                0
+            )
             root.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }

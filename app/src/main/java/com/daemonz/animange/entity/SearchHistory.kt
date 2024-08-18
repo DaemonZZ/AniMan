@@ -8,12 +8,14 @@ data class SearchHistory(
     val title: String = "",
     val cover: String = "",
     val fullImgUrl: String = "",
-    val timeStamp: Long = 0L
+    val timeStamp: Long = 0L,
+    var rating: Double = 0.0
 )
 
 fun SearchHistory.toItem() = Item(
     slug = slug,
     name = title,
     thumbUrl = fullImgUrl,
-    id = timeStamp.toString() //for fun
+    id = timeStamp.toString(), //for fun
+    rating = rating
 )

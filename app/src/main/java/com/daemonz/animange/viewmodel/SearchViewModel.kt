@@ -2,7 +2,9 @@ package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.entity.SearchHistory
@@ -36,20 +38,36 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
             return
         }
         launchOnIO {
-            repository.searchFilm(query, page.toString()).addOnCompleteListener { data ->
-                launchOnUI {
-                    if (data.data.items.isEmpty()) {
-                        return@launchOnUI
+            repository.searchFilm(query, page.toString()).addOnCompleteListener { movies ->
+                imgDomain = movies.data.imgDomain
+                repository.getRatingBySlugs(movies.data.items.map { it.slug })
+                    .addOnSuccessListener {
+                        val rates = it.toObjects(FilmRating::class.java)
+                        val data = movies.data.items.filter {
+                            it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                        }.map { item ->
+                            item.rating =
+                                rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                            PagingData(
+                                page = page,
+                                data = item
+                            )
+                        }
+                        launchOnUI {
+                            _searchResult.value = data
+                            cacheData[page] = movies.data.items.map { item ->
+                                val avg =
+                                    rates.filter { it.slug == item.slug }.map { it.rating }
+                                        .average()
+                                item.copy(rating = avg)
+                            }
+                        }
+                    }.addOnFailureListener {
+                        launchOnUI {
+                            ALog.d(TAG, "Series slugs: ${it.message}")
+                            errorMessage.value = it.message
+                        }
                     }
-                    imgDomain = data.data.imgDomain
-                    _searchResult.value = data.data.items.map {
-                        PagingData(
-                            page = page,
-                            data = it
-                        )
-                    }
-                    cacheData[page] = data.data.items
-                }
             }.addOnFailureListener {
                 launchOnUI {
                     errorMessage.value = it
@@ -65,9 +83,18 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
 
     fun getSearchHistory() = launchOnIO {
         repository.getSearchHistory().addOnSuccessListener { res ->
-            res.toObject(SearchHistoryData::class.java)?.let {
-                launchOnUI {
-                    _searchData.value = it.data
+            res.toObject(SearchHistoryData::class.java)?.let { searchData ->
+                repository.getRatingBySlugs(searchData.data.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    ALog.d("tdn6", rates.first().rating.toString())
+                    val data = searchData.data.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    launchOnUI {
+                        _searchData.value = data
+                    }
                 }
             }
         }.addOnFailureListener {

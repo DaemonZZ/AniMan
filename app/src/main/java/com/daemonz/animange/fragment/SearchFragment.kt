@@ -108,7 +108,6 @@ class SearchFragment :
 
     override fun setupObservers() {
         viewModel.searchResult.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "searchResult: ${it.size}")
             resultAdapter?.setData(it, viewModel.imgDomain)
             (activity as? MainActivity)?.hideLoadingOverlay()
             binding.apply {
@@ -120,13 +119,11 @@ class SearchFragment :
             }
         }
         viewModel.searchHistoryData.observe(viewLifecycleOwner) {
-            ALog.d(TAG, "searchHistoryData: ${it.size}")
             updateHistoryData(it)
         }
     }
 
     private fun updateHistoryData(data: List<SearchHistory>) {
-        ALog.d(TAG, "updateHistoryData: ${data.size}")
         binding.apply {
             resultRecycler.isVisible = false
             if (data.isEmpty()) {
