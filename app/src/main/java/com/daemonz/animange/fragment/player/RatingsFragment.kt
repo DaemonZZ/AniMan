@@ -37,6 +37,12 @@ class RatingsFragment :
 
     override fun syncTheme() {
         super.syncTheme()
+        setupViews()
+        playerViewModel?.allRatings?.value?.let {
+            binding.recycler.isVisible = it.isNotEmpty()
+            binding.textNoComment.isVisible = it.isEmpty()
+            adapter?.setData(it)
+        }
         binding.textNoComment.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
     }
 }
