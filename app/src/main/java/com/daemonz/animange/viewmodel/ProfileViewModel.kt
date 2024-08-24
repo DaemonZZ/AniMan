@@ -17,8 +17,8 @@ class ProfileViewModel @Inject constructor() : BaseViewModel() {
         repository.updateProfile(name, email, phone)
     }
 
-    fun updateUser(name: String? = null, image: Int? = null, userId: String) {
-        repository.updateUser(name, image, userId)
+    fun updateUser(name: String? = null, password: String?, image: Int? = null, userId: String) {
+        repository.updateUser(name, password, image, userId)
     }
 
     fun chooseAvt(id: Int) {
@@ -27,9 +27,9 @@ class ProfileViewModel @Inject constructor() : BaseViewModel() {
 
     fun newUser(
         name: String?,
+        password: String? = null,
         image: Int,
         userType: UserType = UserType.ADULT,
-        password: String? = null
     ) {
         repository.newUser(name, image, userType, password)
     }

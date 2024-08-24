@@ -219,10 +219,11 @@ class DataRepository(
 
     }
 
-    fun updateUser(name: String?, image: Int?, userId: String) {
+    fun updateUser(name: String?, password: String?, image: Int?, userId: String) {
         LoginData.account?.users?.firstOrNull { it.id == userId }?.apply {
             image?.let { this.image = it }
             name?.let { this.name = it }
+            password?.let { this.password = it }
             fireStoreDataBase.addDocument(
                 collectionName = ACCOUNT_COLLECTION,
                 documentId = LoginData.account?.id.toString(),

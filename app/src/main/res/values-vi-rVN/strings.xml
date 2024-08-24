@@ -121,4 +121,5 @@
     <string name="go_setting">Cài đặt</string>
     <string name="send_review">Gửi đánh giá</string>
     <string name="recent_search">Tìm kiếm gần đây</string>
+    <string name="invalid_passord">Mật khẩu gồm 6 kí tự số, để trống nếu không sử dụng mật khẩu</string>
 </resources>

@@ -27,6 +27,7 @@ class UserInfoFragment :
         binding.apply {
             imgUser.loadImageFromStorage(args.user?.image ?: 1)
             edtName.setText(args.user?.name)
+            edtPassword.setText(args.user?.password ?: "")
             imgUser.setOnClickListener {
                 findNavController().navigate(UserInfoFragmentDirections.actionUserInfoFragmentToChooseAvatarFragment())
             }
@@ -39,12 +40,22 @@ class UserInfoFragment :
                     ).show()
                     return@setOnClickListener
                 }
+                if (edtPassword.text?.length != 0 && edtPassword.text?.length != 6) {
+                    Toast.makeText(
+                        requireContext(),
+                        edtPassword.text?.length.toString() + getString(R.string.invalid_passord),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
                 val name =
                     if (edtName.text.isNullOrEmpty()) args.user?.name else edtName.text.toString()
+                val password =
+                    if (edtPassword.text?.length == 6) edtPassword.text?.toString() else null
                 args.user?.id?.let { id ->
-                    viewModel.updateUser(name, viewModel.currentAvt.value, id)
+                    viewModel.updateUser(name, password, viewModel.currentAvt.value, id)
                 } ?: run {
-                    viewModel.newUser(name, viewModel.currentAvt.value ?: 1)
+                    viewModel.newUser(name, password, viewModel.currentAvt.value ?: 1)
                 }
                 findNavController().popBackStack()
             }
