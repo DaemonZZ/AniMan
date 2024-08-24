@@ -82,6 +82,7 @@ class LightTheme : AnimanTheme {
     override fun dialogBg(): Int = R.drawable.dialog_bg
     override fun filledBtnDisableColor(context: Context): Int =
         ContextCompat.getColor(context, R.color.textGray_light)
+    override fun carouselBg(): Int = R.drawable.custom_background_banner
     override fun id(): Int = 0
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

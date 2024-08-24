@@ -249,6 +249,7 @@ class HomeFragment :
         binding.apply {
             setupAnimeRecycler()
             setupTvRecycler()
+            setupHomeItemRecycler()
             tabAnime.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabTv.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             tabMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))

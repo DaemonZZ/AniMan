@@ -83,6 +83,8 @@ class DarkTheme : AnimanTheme {
     override fun filledBtnDisableColor(context: Context): Int =
         ContextCompat.getColor(context, R.color.textGray_dark)
 
+    override fun carouselBg(): Int = R.drawable.custom_background_banner_dark
+
     override fun id(): Int {
         return 1
     }

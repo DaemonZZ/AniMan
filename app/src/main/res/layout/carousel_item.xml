@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/carousel_item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/carousel_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:foreground="@drawable/custom_background_banner"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,37 +19,77 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/lycoris" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <View
+        android:id="@+id/gradient_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/custom_background_banner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_watch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
-        android:lineHeight="@dimen/sp_20"
         android:lineSpacingExtra="@dimen/dp_8"
         android:text="@string/watch_now"
-        android:textSize="@dimen/sp_22"
+        android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toBottomOf="@id/carousel_image_view"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <HorizontalScrollView
-        android:id="@+id/chips_layout"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_0"
-        android:layout_marginStart="@dimen/dp_16"
-        app:layout_constraintBottom_toBottomOf="@id/btn_watch"
-        app:layout_constraintEnd_toStartOf="@id/btn_watch"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_cate"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:ellipsize="end"
+        android:labelFor="@+id/btn_share"
+        android:lineHeight="@dimen/sp_40"
+        android:maxLines="1"
+        android:textColor="@color/text_dark"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btn_watch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_watch">
+        tools:text="Thể loại" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_follow"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="center"
+        android:contentDescription="@string/follow"
+        app:cornerRadius="@dimen/dp_20"
+        app:icon="@drawable/ic_bookmark"
+        app:layout_constraintStart_toEndOf="@id/btn_watch"
+        app:layout_constraintBottom_toBottomOf="@id/btn_watch"
+        app:layout_constraintTop_toTopOf="@id/btn_watch" />
 
-    </HorizontalScrollView>
-
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/rating"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:drawableEnd="@drawable/star_filled_24"
+        android:drawablePadding="@dimen/dp_8"
+        android:maxHeight="@dimen/dp_24"
+        android:text="5.0"
+        app:layout_constraintBottom_toTopOf="@id/text_title"
+        app:layout_constraintStart_toStartOf="parent" />
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_title"
         style="@style/TextAppearance.Material3.TitleLarge"
@@ -63,9 +104,8 @@
         android:textColor="@color/text_dark"
         android:textStyle="bold"
         android:maxLines="3"
-        app:layout_constraintBottom_toTopOf="@+id/chips_layout"
+        app:layout_constraintBottom_toTopOf="@id/text_cate"
+        tools:text="Title"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
