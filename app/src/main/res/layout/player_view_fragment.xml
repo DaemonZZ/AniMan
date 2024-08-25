@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_2"
                 android:layout_weight="1"
+                android:layout_marginStart="@dimen/dp_8"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/star_filled" />

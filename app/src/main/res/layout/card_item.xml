@@ -48,6 +48,7 @@
         android:drawableEnd="@drawable/star_filled_24"
         android:paddingBottom="@dimen/dp_8"
         android:text="5.0"
+        android:drawablePadding="@dimen/dp_8"
         android:textColor="@color/text_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

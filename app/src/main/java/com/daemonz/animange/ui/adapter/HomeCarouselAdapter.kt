@@ -31,6 +31,12 @@ class HomeCarouselAdapter(
             btnWatch.setOnClickListener { onItemClickListener.onItemClick(item, position) }
             textTitle.text = item.name
             rating.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
+            rating.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (item.rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                0
+            )
             textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             rating.setTextColor(theme.firstActivityTextColor(root.context))
             textCate.setTextColor(theme.firstActivityTextColor(root.context))

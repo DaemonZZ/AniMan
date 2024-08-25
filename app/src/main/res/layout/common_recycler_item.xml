@@ -45,6 +45,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:drawableEnd="@drawable/star_filled_24"
         android:maxHeight="@dimen/dp_24"
+        android:drawablePadding="@dimen/dp_8"
         android:text="5.0"
         android:textColor="@color/design_default_color_on_primary"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,6 +2,7 @@ package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.CommonRecyclerItemBinding
@@ -23,9 +24,16 @@ class CommonRecyclerAdapter(
         binding.apply {
             carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
             title.text = item.name
+            rate.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
             title.requestFocus()
             title.setTextColor(theme.firstActivityTextColor(root.context))
             rate.setTextColor(theme.firstActivityTextColor(root.context))
+            rate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (item.rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                0
+            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.daemonz.animange.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
@@ -15,7 +16,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): BaseViewModel() {
+class HomeViewModel @Inject constructor() : BaseViewModel() {
     private val _listDataData: MutableLiveData<ListData> = MutableLiveData()
     val listDataData: MutableLiveData<ListData> = _listDataData
 
@@ -26,7 +27,7 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     val vietNamFilm: MutableLiveData<ListData> = _vietNamFilm
 
     private val _anime = MutableLiveData<ListData>()
-    val anime: MutableLiveData<ListData> = _anime
+    val anime: LiveData<ListData> = _anime
 
     private val _movies = MutableLiveData<ListData>()
     val movies: MutableLiveData<ListData> = _movies
@@ -60,6 +61,7 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
             }
         }
     }
+
     fun getSeriesIncoming() {
         launchOnIO {
             repository.getSeriesInComing().addOnCompleteListener { res ->
@@ -89,26 +91,75 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
 
     fun getListFilmVietNam() {
         launchOnIO {
-            val data = repository.getListFilmVietNam()
-            withContext(Dispatchers.Main) {
-                _vietNamFilm.value = data
+            repository.getListFilmVietNam().addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _vietNamFilm.value = finalListData
+                    }
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    errorMessage.value = it
+                }
             }
         }
     }
+
     fun getListAnime() {
         launchOnIO {
-            val data = repository.getListAnime()
-            withContext(Dispatchers.Main) {
-                anime.value = data
+            repository.getListAnime().addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _anime.value = finalListData
+                    }
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    errorMessage.value = it
+                }
             }
         }
     }
 
     fun getListMovies() {
         launchOnIO {
-            repository.getListMovies().addOnCompleteListener { data ->
-                launchOnUI {
-                    _movies.value = data
+            repository.getListMovies().addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _movies.value = finalListData
+                    }
                 }
             }.addOnFailureListener {
                 launchOnUI {
@@ -117,11 +168,24 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
             }
         }
     }
+
     fun getTvShows() {
         launchOnIO {
-            repository.getTvShows("").addOnCompleteListener {
-                launchOnUI {
-                    _tvShows.value = it
+            repository.getTvShows("").addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _tvShows.value = finalListData
+                    }
                 }
             }.addOnFailureListener {
                 launchOnUI {

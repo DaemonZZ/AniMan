@@ -9,14 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
-import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
@@ -94,6 +92,10 @@ class HomeFragment :
                             ALog.d(TAG, "onScrolled: ${it.text}")
                             titleMovies.text = it.text
                         }
+                        val rateView = view?.findViewById<MaterialTextView>(R.id.rate)
+                        rateView?.let {
+                            moviesRate.text = it.text
+                        }
                     }
                 }
 
@@ -127,6 +129,10 @@ class HomeFragment :
                         title?.let {
                             ALog.d(TAG, "onScrolled: ${it.text}")
                             titleVn.text = it.text
+                        }
+                        val rateView = view?.findViewById<MaterialTextView>(R.id.rate)
+                        rateView?.let {
+                            vnRate.text = it.text
                         }
                     }
                 }
@@ -232,7 +238,15 @@ class HomeFragment :
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
                 binding.titleSeries.text = films.data.items.first().name
                 binding.titleSeries.requestFocus()
-                binding.seriesRate.text = films.data.items.first().rating.toString()
+                binding.seriesRate.text = if (films.data.items.first().rating.isNaN())
+                    "0.0" else
+                    films.data.items.first().rating.toString()
+                binding.seriesRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (films.data.items.first().rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                    0
+                )
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
@@ -240,6 +254,15 @@ class HomeFragment :
                 vietNamAdapter?.setData(films.data.items, films.data.imgDomain)
                 binding.titleVn.text = films.data.items.first().name
                 binding.titleVn.requestFocus()
+                binding.vnRate.text = if (films.data.items.first().rating.isNaN())
+                    "0.0" else
+                    films.data.items.first().rating.toString()
+                binding.vnRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (films.data.items.first().rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                    0
+                )
             }
             anime.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "anime: ${films.data.getListUrl()}")
@@ -252,6 +275,15 @@ class HomeFragment :
                 moviesAdapter?.setData(films.data.items, films.data.imgDomain)
                 binding.titleMovies.text = films.data.items.first().name
                 binding.titleMovies.requestFocus()
+                binding.moviesRate.text = if (films.data.items.first().rating.isNaN())
+                    "0.0" else
+                    films.data.items.first().rating.toString()
+                binding.moviesRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (films.data.items.first().rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                    0
+                )
             }
             tvShows.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "tvShows:")

@@ -65,8 +65,8 @@ class DataRepository(
         return apiService.getSeriesInComing()
     }
 
-    suspend fun getListAnime(): ListData {
-        return handleDataResponse(apiService.filterData(list = "hoat-hinh", country = "nhat-ban"))
+    suspend fun getListAnime(): Response<ListData> {
+        return apiService.filterData(list = "hoat-hinh", country = "nhat-ban")
     }
 
     suspend fun getListMovies(page: String = ""): Response<ListData> {
@@ -92,12 +92,12 @@ class DataRepository(
         )
 
 
-    suspend fun getListFilmVietNam(): ListData {
+    suspend fun getListFilmVietNam(): Response<ListData> {
         val data = apiService.filterData(
             list = TypeList.Movie.value,
             country = Country.VietNam.value,
         )
-        return handleDataResponse(data)
+        return data
     }
 
     suspend fun searchFilm(query: String, page: String) = apiService.search(query, page)
