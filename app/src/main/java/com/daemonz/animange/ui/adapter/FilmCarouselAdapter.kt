@@ -22,6 +22,7 @@ class FilmCarouselAdapter(
         binding.apply {
             carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
             title.text = item.name
+            rate.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
         }
     }
 }

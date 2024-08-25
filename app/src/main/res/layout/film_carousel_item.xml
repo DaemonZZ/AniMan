@@ -33,6 +33,20 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/rate"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/design_default_color_on_primary"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.carousel.MaskableFrameLayout>

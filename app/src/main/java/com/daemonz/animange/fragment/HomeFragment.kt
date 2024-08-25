@@ -1,7 +1,9 @@
 package com.daemonz.animange.fragment
 
+import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -20,7 +22,9 @@ import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
+import com.daemonz.animange.util.isFavorite
 import com.daemonz.animange.viewmodel.HomeViewModel
+import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
@@ -31,13 +35,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
     override val viewModel: HomeViewModel by activityViewModels()
+    private val playerViewModel: PlayerViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
     private var seriesIncomingAdapter: FilmCarouselAdapter? = null
     private var vietNamAdapter: FilmCarouselAdapter? = null
     private var animeAdapter: CommonRecyclerAdapter? = null
     private var moviesAdapter: FilmCarouselAdapter? = null
     private var tvAdapter: CommonRecyclerAdapter? = null
-
+    private var itemDecor: CirclePagerIndicatorDecoration? = null
 
     private val onItemClickListener =
         OnItemClickListener<Item> { item, index ->
@@ -45,8 +50,13 @@ class HomeFragment :
             navigateToPlayer(item)
         }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ALog.d(TAG, "onCreate")
+    }
+
     override fun setupViews() {
-        setupHomeItemRecycler()
+        ALog.d(TAG, "setupView")
         setupNewFilmRecycler()
         setupVietNamRecycler()
         setupAnimeRecycler()
@@ -120,7 +130,6 @@ class HomeFragment :
                         }
                     }
                 }
-
             })
         }
     }
@@ -136,14 +145,22 @@ class HomeFragment :
 
             seriesRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        val view = snapHelper.findSnapView(recyclerView.layoutManager)
-                        val title = view?.findViewById<MaterialTextView>(R.id.title)
-                        title?.let {
-                            ALog.d(TAG, "onScrolled: ${it.text}")
-                            titleSeries.text = it.text
+                    try {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                            val view = snapHelper.findSnapView(recyclerView.layoutManager)
+                            val title = view?.findViewById<MaterialTextView>(R.id.title)
+                            title?.let {
+                                titleSeries.text = it.text
+                            }
+                            val rateView = view?.findViewById<MaterialTextView>(R.id.rate)
+                            rateView?.let {
+                                seriesRate.text = it.text
+                            }
                         }
+                    } catch (e: Exception) {
+                        ALog.e(TAG, "Error on scroll: $e")
                     }
+
                 }
 
             })
@@ -151,7 +168,10 @@ class HomeFragment :
     }
 
     private fun setupHomeItemRecycler() {
+        ALog.d(TAG, "setupHomeItemRecycler")
         binding.apply {
+            homeCarouselAdapter = null
+            homeItemRecycler.adapter = null
             val snapHelper = PagerSnapHelper()
             homeItemRecycler.onFlingListener = null
             snapHelper.attachToRecyclerView(homeItemRecycler)
@@ -160,15 +180,25 @@ class HomeFragment :
                 onItemClickListener = { item, index ->
                     ALog.i(TAG, "onItemClick: $index")
                     navigateToPlayer(item)
+                },
+                onFollowClicked = { item, img ->
+                    ALog.i(TAG, "onFollowClick: ${item.isFavorite()}")
+                    if (item.isFavorite()) {
+                        playerViewModel.unMarkItemAsFavorite(item)
+                    } else {
+                        playerViewModel.markItemAsFavorite(item, img)
+                    }
                 }
             )
             homeItemRecycler.adapter = homeCarouselAdapter
-            homeItemRecycler.addItemDecoration(
-                CirclePagerIndicatorDecoration(
+            if (itemDecor == null) {
+                itemDecor = CirclePagerIndicatorDecoration(
                     colorInactive = currentTheme.indicatorInactive(requireContext()),
                     colorActive = currentTheme.indicatorActive(requireContext())
                 )
-            )
+                homeItemRecycler.addItemDecoration(itemDecor!!)
+            }
+
             val llm = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 //            llm.isAutoMeasureEnabled = false
             homeItemRecycler.layoutManager = llm
@@ -197,11 +227,12 @@ class HomeFragment :
                 homeCarouselAdapter?.setData(home.data.items.take(5), home.data.imgDomain)
             }
             seriesIncoming.observe(viewLifecycleOwner) { films ->
-                ALog.d(TAG, "seriesIncoming:")
+                ALog.d(TAG, "seriesIncoming: ${films.data.items.first().rating}")
                 hideLoadingOverlay()
                 seriesIncomingAdapter?.setData(films.data.items, films.data.imgDomain)
                 binding.titleSeries.text = films.data.items.first().name
                 binding.titleSeries.requestFocus()
+                binding.seriesRate.text = films.data.items.first().rating.toString()
             }
             vietNamFilm.observe(viewLifecycleOwner) { films ->
                 ALog.d(TAG, "vietNamFilm: ${films.data.getListUrl()}")
@@ -227,10 +258,6 @@ class HomeFragment :
                 hideLoadingOverlay()
                 tvAdapter?.setData(films.data.items, films.data.imgDomain)
             }
-            allSeries.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "allSeries: ")
-                hideLoadingOverlay()
-            }
         }
     }
 
@@ -241,10 +268,10 @@ class HomeFragment :
         viewModel.getListAnime()
         viewModel.getListMovies()
         viewModel.getTvShows()
-        viewModel.getAllSeries()
     }
 
     override fun syncTheme() {
+        ALog.d(TAG, "syncTheme")
         super.syncTheme()
         binding.apply {
             setupAnimeRecycler()

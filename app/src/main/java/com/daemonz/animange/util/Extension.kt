@@ -190,3 +190,13 @@ fun EditText.setupClearButtonWithAction(theme: AnimanTheme, action: () -> Unit) 
         return@OnTouchListener false
     })
 }
+
+fun Item.isFavorite(): Boolean {
+    return LoginData.getActiveUser()?.favorites?.map { it.slug }?.let {
+        if (it.contains(slug)) {
+            return@let true
+        } else {
+            return@let false
+        }
+    } ?: false
+}

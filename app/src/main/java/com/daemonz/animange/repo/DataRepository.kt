@@ -53,16 +53,16 @@ class DataRepository(
         }
     }
 
-    suspend fun getHomeData(): ListData {
-        return handleDataResponse(apiService.getHomeData())
+    suspend fun getHomeData(): Response<ListData> {
+        return apiService.getHomeData()
     }
 
     suspend fun getNewFilms(): ListData {
         return handleDataResponse(apiService.getNewFilms())
     }
 
-    suspend fun getSeriesInComing(): ListData {
-        return handleDataResponse(apiService.getSeriesInComing())
+    suspend fun getSeriesInComing(): Response<ListData> {
+        return apiService.getSeriesInComing()
     }
 
     suspend fun getListAnime(): ListData {

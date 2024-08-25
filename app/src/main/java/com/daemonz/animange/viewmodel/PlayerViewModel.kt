@@ -84,7 +84,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun markItemAsFavorite(item: Item? = null) = launchOnIO {
+    fun markItemAsFavorite(item: Item? = null, img: String? = null) = launchOnIO {
         ALog.d(TAG, "markItemAsFavourite: $item")
         playerData.value?.data?.let {
             if (item == null) {
@@ -103,6 +103,9 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
                     item.getImageUrl(it.getImageUrl())
                 )
             }
+        }
+        if (img != null && item != null) {
+            repository.markItemAsFavourite(item, img)
         }
 
     }

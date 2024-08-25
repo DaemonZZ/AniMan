@@ -1,8 +1,12 @@
 package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.PagingData
+import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.addOnCompleteListener
 import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,21 +34,55 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     private val _tvShows = MutableLiveData<ListData>()
     val tvShows: MutableLiveData<ListData> = _tvShows
 
-    private val _allSeries = MutableLiveData<ListData>()
-    val allSeries: MutableLiveData<ListData> = _allSeries
     fun getHomeData() {
         launchOnIO {
-            val data = repository.getHomeData()
-            withContext(Dispatchers.Main) {
-                _listDataData.value = data
+            repository.getHomeData().addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _listDataData.value = finalListData
+                    }
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    errorMessage.value = it
+                }
             }
         }
     }
     fun getSeriesIncoming() {
         launchOnIO {
-            val data = repository.getSeriesInComing()
-            withContext(Dispatchers.Main) {
-                _seriesIncoming.value = data
+            repository.getSeriesInComing().addOnCompleteListener { res ->
+                repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
+                    val rates = it.toObjects(FilmRating::class.java)
+                    val data = res.data.items.filter {
+                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+                    }.map { item ->
+                        item.rating =
+                            rates.filter { it.slug == item.slug }.map { it.rating }.average()
+                        item
+                    }
+                    val finalData = res.data.copy(items = data)
+                    val finalListData = res.copy(data = finalData)
+                    launchOnUI {
+                        _seriesIncoming.value = finalListData
+                    }
+                }
+            }.addOnFailureListener {
+                launchOnUI {
+                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    errorMessage.value = it
+                }
             }
         }
     }
@@ -91,14 +129,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                 }
             }
 
-        }
-    }
-    fun getAllSeries() {
-        launchOnIO {
-            val data = repository.getHomeData()
-            withContext(Dispatchers.Main) {
-                _allSeries.value = data
-            }
         }
     }
 }
