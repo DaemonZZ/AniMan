@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp_16">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lb_cate"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:text="@string/category_title"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_cate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lb_cate" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lb_country"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:text="@string/country_title"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/chip_cate" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/lb_country" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,7 +84,7 @@ class DarkTheme : AnimanTheme {
         ContextCompat.getColor(context, R.color.textGray_dark)
 
     override fun carouselBg(): Int = R.drawable.custom_background_banner_dark
-
+    override fun chipStyle(): Int = R.style.ChipCustomNight
     override fun id(): Int {
         return 1
     }

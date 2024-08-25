@@ -576,7 +576,7 @@ class MainActivity : ThemeActivity() {
                     dayNightSwitch.isInvisible = true
                 }
 
-                R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment -> {
+                R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment -> {
                     topAppBar.isVisible = true
                     navIcon.isVisible = true
                     appLogo.isVisible = false
@@ -600,6 +600,9 @@ class MainActivity : ThemeActivity() {
                     title.isVisible = false
                     dayNightSwitch.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
+                }
+                R.id.searchFragment -> {
+                    toggleToolBarShowing(isShow = false)
                 }
 
                 else -> {

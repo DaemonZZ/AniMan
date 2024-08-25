@@ -105,4 +105,24 @@
         <item name="cornerFamily">rounded</item>
     </style>
 
+    <style name="ChipCustom" parent="Widget.Material3.Chip.Filter.Elevated">
+        <item name="chipBackgroundColor">@color/bg_light</item>
+        <item name="chipCornerRadius">@dimen/dp_16</item>
+        <item name="chipStrokeColor">@color/text_light</item>
+        <item name="android:textColor">@color/text_light</item>
+        <item name="chipIconTint">@color/text_light</item>
+        <item name="chipIconVisible">true</item>
+    </style>
+
+    <style name="ChipCustomNight" parent="Widget.Material3.Chip.Filter.Elevated">
+        <item name="chipBackgroundColor">@color/bg_dark</item>
+        <item name="chipCornerRadius">@dimen/dp_16</item>
+        <item name="chipStrokeColor">@color/text_dark</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="chipIcon">@drawable/ic_checked</item>
+        <item name="chipIconTint">@color/text_dark</item>
+        <item name="chipIconVisible">true</item>
+
+    </style>
+
 </resources>

@@ -5,12 +5,15 @@ import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
+import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
@@ -31,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchFragment :
     BaseFragment<SearchDialogBinding, SearchViewModel>(SearchDialogBinding::inflate) {
-    override val viewModel: SearchViewModel by viewModels()
+    override val viewModel: SearchViewModel by hiltNavGraphViewModels(R.id.nav_search)
     private var resultAdapter: SearchAdapter? = null
     private var historyAdapter: SearchHistoryAdapter? = null
     private val onItemClickListener =
@@ -72,6 +75,9 @@ class SearchFragment :
         }
         binding.apply {
             ALog.d(TAG, "bindView: $currentTheme")
+            btnFilter.setOnClickListener {
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
+            }
             edtSearch.setText(STRING_EMPTY)
             edtSearch.clearFocus()
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)

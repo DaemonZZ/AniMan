@@ -10,9 +10,13 @@ import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.entity.SearchHistory
 import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.Category
+import com.daemonz.animange.util.Country
+import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.addOnCompleteListener
 import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.internal.toImmutableList
 import java.time.Instant
 import javax.inject.Inject
 
@@ -25,6 +29,9 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     val searchHistoryData: LiveData<List<SearchHistory>> = _searchData
 
     private val cacheData: MutableMap<Int, List<Item>> = mutableMapOf()
+    val allCategories = Category.entries.toImmutableList()
+    val allCountries = Country.entries.toImmutableList()
+    val allTypes = TypeList.entries.toImmutableList()
     var imgDomain = ""
     fun search(query: String, page: Int = 0) {
         ALog.d(TAG, "Searching for $query")

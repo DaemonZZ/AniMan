@@ -24,7 +24,7 @@ enum class TypeList(val value: String, val title: Int) {
 }
 
 enum class Category(val value: String, val title: Int) {
-    All("", 0),
+    All("", R.string.phim_all),
     Action("hanh-dong", R.string.action),
     Romance("tinh-cam", R.string.romance),
     Comedy("hai-huoc", R.string.comedy),

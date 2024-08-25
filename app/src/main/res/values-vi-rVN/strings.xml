@@ -160,4 +160,8 @@
     <string name="trung_quoc">Trung Quốc</string>
     <string name="nhat_ban">Nhật Bản</string>
     <string name="anh">Anh</string>
+    <string name="filter">Bộ lọc</string>
+    <string name="category_title">Thể loại</string>
+    <string name="phim_all">Tất cả</string>
+    <string name="country_title">Quốc gia</string>
 </resources>
