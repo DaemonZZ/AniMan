@@ -1,55 +1,58 @@
 package com.daemonz.animange.util
 
+import com.daemonz.animange.R
+
 enum class SortField(val value: String) {
     Time("_id"),
     LastUpdated("modified.time"),
     CreatedYear("year")
 }
 
-enum class TypeList(val value: String) {
-    New("phim-moi"),
-    Series("phim-bo"),
-    Movie("phim-le"),
-    TvShow("tv-shows"),
-    Anime("hoat-hinh"),
-    VietSub("phim-vietsub"),
-    VietDub("phim-thuyet-minh"),
-    VietFakeSub("phim-long-tieng"),
-    OnGoing("phim-bo-dang-chieu"),
-    Completed("phim-bo-hoan-thanh"),
-    ComingSoon("phim-sap-chieu"),
-    SubTeam("subteam")
+enum class TypeList(val value: String, val title: Int) {
+    New("phim-moi", R.string.phim_moi),
+    Series("phim-bo", R.string.phim_bo),
+    Movie("phim-le", R.string.phim_le),
+    TvShow("tv-shows", R.string.tv_shows),
+    Anime("hoat-hinh", R.string.hoat_hinh),
+    VietSub("phim-vietsub", R.string.phim_vietsub),
+    VietDub("phim-thuyet-minh", R.string.phim_thuyet_minh),
+    VietFakeSub("phim-long-tieng", R.string.phim_long_tieng),
+    OnGoing("phim-bo-dang-chieu", R.string.phim_bo_dang_chieu),
+    Completed("phim-bo-hoan-thanh", R.string.phim_bo_hoan_thanh),
+    ComingSoon("phim-sap-chieu", R.string.phim_sap_chieu),
+    SubTeam("subteam", R.string.phim_subteam),
 }
 
-enum class Category(val value: String) {
-    All(""),
-    Action("hanh-dong"),
-    Romance("tinh-cam"),
-    Comedy("hai-huoc"),
-    CoTrang("co-trang"),
-    TamLy("tam-ly"),
-    HinhSu("hinh-su"),
-    ChienTranh("chien-tranh"),
-    TheThao("the-thao"),
-    VoThuat("vo-thuat"),
-    VienTuong("vien-tuong"),
-    PhieuLuu("phieu-luu"),
-    KhoaHoc("khoa-hoc"),
-    KinhDi("kinh-di"),
-    AmNhac("am-nhac"),
-    ThanThoai("thanh-thoai"),
-    TaiLieu("tai-lieu"),
-    GiaDinh("gia-dinh"),
-    ChinhKich("chinh-kich"),
-    BiAn("bi-an"),
-    HocDuong("hoc-duong"),
-    KinhDien("kinh-dien"),
-    Phim18("phim-18")
+enum class Category(val value: String, val title: Int) {
+    All("", 0),
+    Action("hanh-dong", R.string.action),
+    Romance("tinh-cam", R.string.romance),
+    Comedy("hai-huoc", R.string.comedy),
+    CoTrang("co-trang", R.string.co_trang),
+    TamLy("tam-ly", R.string.tam_ly),
+    HinhSu("hinh-su", R.string.hinh_su),
+    ChienTranh("chien-tranh", R.string.chien_tranh),
+    TheThao("the-thao", R.string.the_thao),
+    VoThuat("vo-thuat", R.string.vo_thuat),
+    VienTuong("vien-tuong", R.string.vien_tuong),
+    PhieuLuu("phieu-luu", R.string.phieu_luu),
+    KhoaHoc("khoa-hoc", R.string.khoa_hoc),
+    KinhDi("kinh-di", R.string.kinh_di),
+    AmNhac("am-nhac", R.string.am_nhac),
+    ThanThoai("than-thoai", R.string.than_thoai),
+    TaiLieu("tai-lieu", R.string.tai_lieu),
+    GiaDinh("gia-dinh", R.string.gia_dinh),
+    ChinhKich("chinh-kich", R.string.chinh_kich),
+    BiAn("bi-an", R.string.bi_an),
+    HocDuong("hoc-duong", R.string.hoc_duong),
+    KinhDien("kinh-dien", R.string.kinh_dien),
+    Phim18("phim-18", R.string.phim_18),
 }
-enum class Country(val value: String) {
-    VietNam("viet-nam"),
-    AuMy("au-my"),
-    TrungQuoc("trung-quoc"),
-    NhatBan("nhat-ban"),
-    Anh("anh")
+
+enum class Country(val value: String, val title: Int) {
+    VietNam("viet-nam", R.string.viet_nam),
+    AuMy("au-my", R.string.au_my),
+    TrungQuoc("trung-quoc", R.string.trung_quoc),
+    NhatBan("nhat-ban", R.string.nhat_ban),
+    Anh("anh", R.string.anh),
 }
