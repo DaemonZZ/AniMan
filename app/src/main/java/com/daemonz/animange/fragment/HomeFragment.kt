@@ -21,6 +21,7 @@ import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
 import com.daemonz.animange.util.isFavorite
+import com.daemonz.animange.util.makeTextLink
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
@@ -309,11 +310,31 @@ class HomeFragment :
             setupAnimeRecycler()
             setupTvRecycler()
             setupHomeItemRecycler()
-            tabAnime.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            tabTv.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            tabMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            tabSeries.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-            tabVietNam.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            tabAnime.makeTextLink(
+                textLink = tabAnime.text.toString(),
+                underline = true,
+                color = currentTheme.firstActivityTextColor(requireContext())
+            )
+            tabTv.makeTextLink(
+                textLink = tabTv.text.toString(),
+                underline = true,
+                color = currentTheme.firstActivityTextColor(requireContext())
+            )
+            tabMovies.makeTextLink(
+                textLink = tabMovies.text.toString(),
+                underline = true,
+                color = currentTheme.firstActivityTextColor(requireContext())
+            )
+            tabSeries.makeTextLink(
+                textLink = tabSeries.text.toString(),
+                underline = true,
+                color = currentTheme.firstActivityTextColor(requireContext())
+            )
+            tabVietNam.makeTextLink(
+                textLink = tabVietNam.text.toString(),
+                underline = true,
+                color = currentTheme.firstActivityTextColor(requireContext())
+            )
             titleSeries.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             seriesRate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             titleVn.setTextColor(currentTheme.firstActivityTextColor(requireContext()))

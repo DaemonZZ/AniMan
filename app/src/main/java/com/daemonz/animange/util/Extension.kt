@@ -82,7 +82,7 @@ fun AppCompatTextView.makeTextLink(
     underline: Boolean = false,
     color: Int? = ContextCompat.getColor(context, R.color.md_theme_primary),
     bold: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     val spannableString = SpannableString(text)
     val textColor = color ?: currentTextColor
