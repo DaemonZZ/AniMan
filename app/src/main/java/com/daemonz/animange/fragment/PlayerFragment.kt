@@ -305,6 +305,7 @@ class PlayerFragment :
                     it,
                     onYes = { score, comment, id ->
                         viewModel.rateItem(score, comment, id)
+                        binding.start1.setImageResource(R.drawable.star_filled)
                     },
                     currentTheme
                 ).show(childFragmentManager, "RatingDialog")
