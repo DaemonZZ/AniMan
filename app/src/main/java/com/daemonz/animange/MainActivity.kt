@@ -116,7 +116,6 @@ class MainActivity : ThemeActivity() {
     private val navChangeListener =
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
-            showHideSystemBar(false)
             if (destination.id in listFragmentsWithNavbar) {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.adViewContainer.isVisible = destination.id != R.id.settingsFragment
