@@ -24,7 +24,9 @@ class SearchFilterFragment :
             chipCate.setChipSpacing(requireContext().dpToPx(4))
             chipCate.setChipSpacingVerticalResource(R.dimen.dp_0)
             chipCountry.setChipSpacing(requireContext().dpToPx(4))
+            chipYear.setChipSpacing(requireContext().dpToPx(4))
             chipCountry.setChipSpacingVerticalResource(R.dimen.dp_0)
+            chipYear.setChipSpacingVerticalResource(R.dimen.dp_0)
             viewModel.allCategories.forEach { category ->
                 val chip = Chip(requireContext())
                 chip.text = getString(category.title)
@@ -45,6 +47,20 @@ class SearchFilterFragment :
                 }
                 chipCountry.addView(chip)
             }
+            viewModel.allYears.forEach { year ->
+                val chip = Chip(requireContext())
+                if (year.value.isEmpty()) {
+                    chip.text = getString(R.string.phim_all)
+                } else {
+                    chip.text = year.value
+                }
+                chip.isCheckable = true
+                chip.setOnCheckedChangeListener { _, isChecked ->
+                    ALog.d(TAG, "onCheckedChange: $isChecked")
+                    chip.isChipIconVisible = isChecked
+                }
+                chipYear.addView(chip)
+            }
         }
 
     }
@@ -58,6 +74,7 @@ class SearchFilterFragment :
         binding.apply {
             lbCate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             lbCountry.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            lbYear.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             chipCate.children.forEach {
                 (it as? Chip)?.let { chip ->
                     chip.setChipDrawable(
@@ -73,6 +90,20 @@ class SearchFilterFragment :
                 }
             }
             chipCountry.children.forEach {
+                (it as? Chip)?.let { chip ->
+                    chip.setChipDrawable(
+                        ChipDrawable.createFromAttributes(
+                            requireContext(),
+                            null,
+                            0,
+                            currentTheme.chipStyle()
+                        )
+                    )
+                    chip.setChipIconResource(R.drawable.ic_checked)
+                    chip.isChipIconVisible = false
+                }
+            }
+            chipYear.children.forEach {
                 (it as? Chip)?.let { chip ->
                     chip.setChipDrawable(
                         ChipDrawable.createFromAttributes(

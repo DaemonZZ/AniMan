@@ -13,6 +13,7 @@ import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.Category
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.TypeList
+import com.daemonz.animange.util.Year
 import com.daemonz.animange.util.addOnCompleteListener
 import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +33,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     val allCategories = Category.entries.toImmutableList()
     val allCountries = Country.entries.toImmutableList()
     val allTypes = TypeList.entries.toImmutableList()
+    val allYears = Year.entries.toImmutableList()
     var imgDomain = ""
     fun search(query: String, page: Int = 0) {
         ALog.d(TAG, "Searching for $query")

@@ -178,4 +178,5 @@
     <string name="category_title">Thể loại</string>
     <string name="phim_all">Tất cả</string>
     <string name="country_title">Quốc gia</string>
+    <string name="created_year_title">Năm Phát Hành</string>
 </resources>
