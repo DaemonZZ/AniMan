@@ -4,10 +4,7 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
@@ -17,7 +14,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets.Type
 import android.view.WindowMetrics
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -25,7 +21,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -230,7 +225,7 @@ class MainActivity : ThemeActivity() {
         }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-//        initAdmob()
+        initAdmob()
         askNotificationPermission()
         loadIntent()
 
@@ -646,6 +641,7 @@ class MainActivity : ThemeActivity() {
         // Load an ad.
         if (initialLayoutComplete.get()) {
             loadBanner()
+            (application as? AnimanApp)?.loadAd(this)
         }
     }
 
