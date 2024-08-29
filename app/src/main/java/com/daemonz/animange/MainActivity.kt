@@ -37,6 +37,7 @@ import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.AdmobHandler
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.dialog.InternetDialog
 import com.daemonz.animange.ui.dialog.LoadingOverLay
@@ -98,7 +99,6 @@ class MainActivity : ThemeActivity() {
     )
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
     private val initialLayoutComplete = AtomicBoolean(false)
-    private var adView: AdView? = null
     private lateinit var binding: ActivityMainBinding
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
@@ -113,14 +113,12 @@ class MainActivity : ThemeActivity() {
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             if (destination.id in listFragmentsWithNavbar) {
                 binding.bottomNavigation.visibility = View.VISIBLE
-                binding.adViewContainer.isVisible = destination.id != R.id.settingsFragment
                 toggleToolBarShowing(
                     isShow = true,
                     autoHide = destination.id != R.id.settingsFragment
                 )
             } else {
                 binding.bottomNavigation.visibility = View.GONE
-                binding.adViewContainer.isVisible = false
             }
             binding.topAppBar.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }
@@ -305,9 +303,6 @@ class MainActivity : ThemeActivity() {
     }
 
     private fun initAdmob() {
-        adView = AdView(this)
-        binding.adViewContainer.addView(adView)
-
         // Log the Mobile Ads SDK version.
         Log.d(TAG, "Google Mobile Ads SDK Version: " + MobileAds.getVersion())
 
@@ -332,14 +327,6 @@ class MainActivity : ThemeActivity() {
             initializeMobileAdsSdk()
         }
 
-        // Since we're loading the banner based on the adContainerView size, we need to wait until this
-        // view is laid out before we can get the width.
-        binding.adViewContainer.viewTreeObserver.addOnGlobalLayoutListener {
-            if (!initialLayoutComplete.getAndSet(true) && googleMobileAdsConsentManager.canRequestAds) {
-                loadBanner()
-            }
-        }
-
         // Set your test devices. Check your logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
@@ -354,6 +341,12 @@ class MainActivity : ThemeActivity() {
                 )
             ).build()
         )
+    }
+    fun isReadyToLoadBanner(): Boolean {
+        val res =
+            !initialLayoutComplete.getAndSet(true) && googleMobileAdsConsentManager.canRequestAds
+        ALog.d(TAG, "isReadyToLoad: $res")
+        return res
     }
 
     override fun onStart() {
@@ -399,13 +392,11 @@ class MainActivity : ThemeActivity() {
     override fun onResume() {
         super.onResume()
         findNavController(R.id.navHostFragment).addOnDestinationChangedListener(navChangeListener)
-        adView?.resume()
     }
 
     override fun onPause() {
         super.onPause()
         findNavController(R.id.navHostFragment).removeOnDestinationChangedListener(navChangeListener)
-        adView?.pause()
     }
 
 
@@ -614,21 +605,6 @@ class MainActivity : ThemeActivity() {
         }
     }
 
-    private fun loadBanner() {
-        ALog.v(TAG, "loadBanner")
-        // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-        adView?.adUnitId =
-            if (BuildConfig.BUILD_TYPE == "release") AdmobConst.BANNER_AD_ADAPTIVE else AdmobConstTest.BANNER_AD_ADAPTIVE
-        adView?.setAdSize(adSize)
-
-        // Create an ad request.
-        val adRequest = AdRequest.Builder().build()
-
-        ALog.v(TAG, "adRequest:isTestDevice: ${adRequest.isTestDevice(this)}")
-
-        // Start loading the ad in the background.
-        adView?.loadAd(adRequest)
-    }
 
     private fun initializeMobileAdsSdk() {
         if (isMobileAdsInitializeCalled.getAndSet(true)) {
@@ -640,7 +616,9 @@ class MainActivity : ThemeActivity() {
 
         // Load an ad.
         if (initialLayoutComplete.get()) {
-            loadBanner()
+//            val frag =
+//                supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is AdmobHandler }
+//            (frag as? AdmobHandler)?.loadBanner()
             (application as? AnimanApp)?.loadAd(this)
         }
     }
@@ -658,7 +636,6 @@ class MainActivity : ThemeActivity() {
     }
 
     override fun onDestroy() {
-        adView?.destroy()
         super.onDestroy()
     }
 }

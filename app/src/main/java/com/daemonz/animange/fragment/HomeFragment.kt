@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -16,14 +18,19 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.AdmobHandler
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
 import com.daemonz.animange.ui.view_helper.CirclePagerIndicatorDecoration
+import com.daemonz.animange.util.AdmobConst
+import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.isFavorite
 import com.daemonz.animange.util.makeTextLink
 import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.MultiBrowseCarouselStrategy
@@ -32,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment :
-    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate), AdmobHandler {
     override val viewModel: HomeViewModel by activityViewModels()
     private val playerViewModel: PlayerViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null
@@ -61,12 +68,26 @@ class HomeFragment :
         setupAnimeRecycler()
         setupMovieRecycler()
         setupTvRecycler()
+        setupAdView()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // disable swipe back gesture
             }
         })
+    }
+
+    private fun setupAdView() {
+        ALog.d(TAG, "setupAdView loadBanner")
+        adView = null
+        adView = AdView(requireContext())
+        binding.adViewContainer.addView(adView)
+        binding.adViewContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            if ((activity as MainActivity).isReadyToLoadBanner() && adView == null) {
+                loadBanner()
+            }
+        }
+        loadBanner()
     }
 
     private fun setupTvRecycler() {
@@ -342,6 +363,35 @@ class HomeFragment :
             titleMovies.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             moviesRate.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         }
+    }
+
+    private var adView: AdView? = null
+    override fun loadBanner() {
+        ALog.v(TAG, "loadBanner")
+        adView?.adUnitId =
+            if (BuildConfig.BUILD_TYPE == "release") AdmobConst.BANNER_AD_ADAPTIVE else AdmobConstTest.BANNER_AD_ADAPTIVE
+        adView?.setAdSize(adSize)
+
+        val adRequest = AdRequest.Builder().build()
+
+        ALog.v(TAG, "adRequest:isTestDevice: ${adRequest.isTestDevice(requireContext())}")
+
+        adView?.loadAd(adRequest)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adView?.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adView?.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adView?.destroy()
     }
 
 }

@@ -30,7 +30,7 @@
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/home_item_recycler"
+            app:layout_constraintTop_toBottomOf="@id/ad_view_container"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_4"
             android:text="@string/hot_series"
@@ -206,6 +206,14 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/tab_tv" />
+
+        <FrameLayout
+            android:id="@+id/ad_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            app:layout_constraintTop_toBottomOf="@id/home_item_recycler" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

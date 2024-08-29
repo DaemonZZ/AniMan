@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.CallSuper
@@ -13,12 +14,15 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.MainActivity
+import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeFragment
+import com.google.android.gms.ads.AdSize
+import javax.inject.Inject
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -30,6 +34,19 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel>(
     protected val binding: VB by lazy { _binding!! }
     protected abstract val viewModel: VM
     protected var currentTheme: AnimanTheme = LightTheme()
+
+    @Inject
+    lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+
+    protected val adSize: AdSize by lazy {
+        val displayMetrics = resources.displayMetrics
+        val windowMetrics: WindowMetrics = requireActivity().windowManager.currentWindowMetrics
+        val adWidthPixels = windowMetrics.bounds.width()
+        val density = displayMetrics.density
+        val adWidth = (adWidthPixels / density).toInt()
+        AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(requireContext(), adWidth)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
