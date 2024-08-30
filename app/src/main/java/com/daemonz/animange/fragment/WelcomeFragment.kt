@@ -1,5 +1,7 @@
 package com.daemonz.animange.fragment
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
@@ -85,6 +87,17 @@ class WelcomeFragment :
         binding.loader.setImageResource(currentTheme.loadingIcon())
         binding.guideText.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         binding.logo.setImageResource(currentTheme.appLogo())
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    override fun onResume() {
+        super.onResume()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
     }
 
 }
