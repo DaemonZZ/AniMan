@@ -77,7 +77,7 @@ class HomeFragment :
         })
     }
 
-    private fun setupAdView() {
+    override fun setupAdView() {
         ALog.d(TAG, "setupAdView loadBanner")
         adView = null
         adView = AdView(requireContext())

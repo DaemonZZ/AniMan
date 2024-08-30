@@ -16,4 +16,5 @@ interface OnRefreshCallback {
 
 interface AdmobHandler : CommonAction {
     fun loadBanner()
+    fun setupAdView()
 }
