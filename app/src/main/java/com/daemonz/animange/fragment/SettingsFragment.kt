@@ -13,7 +13,7 @@ import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemFunction
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.AdmobHandler
+import com.daemonz.animange.ui.AdBannerHandler
 import com.daemonz.animange.ui.adapter.MenuAdapter
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SettingsFragment :
     BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate),
-    AdmobHandler {
+    AdBannerHandler {
     override val viewModel: LoginViewModel by activityViewModels()
     private var adView: AdView? = null
     private var adapter: MenuAdapter? = null

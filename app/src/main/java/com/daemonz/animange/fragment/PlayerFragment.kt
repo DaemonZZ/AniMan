@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -31,17 +32,26 @@ import com.daemonz.animange.fragment.player.EpisodesFragment
 import com.daemonz.animange.fragment.player.RatingsFragment
 import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.InterstitialAdHandler
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
 import com.daemonz.animange.ui.dialog.FilmInfoDialog
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.dialog.RatingDialog
 import com.daemonz.animange.ui.view_helper.CustomWebClient
+import com.daemonz.animange.util.AdmobConst
+import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.util.makeTextLink
 import com.daemonz.animange.viewmodel.PlayerViewModel
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,12 +59,14 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class PlayerFragment :
-    BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate) {
+    BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate),
+    InterstitialAdHandler {
     override val viewModel: PlayerViewModel by viewModels()
     private val arg: PlayerFragmentArgs by navArgs()
 
     private var lastTouchWebView = 0L
     private var slug: String = ""
+    private var interstitialAd: InterstitialAd? = null
 
     private val listFrag = listOf<Fragment>(
         SuggestionFragment(),
@@ -215,6 +227,7 @@ class PlayerFragment :
 
             })
         }
+        showInterstitial()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -374,5 +387,77 @@ class PlayerFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private var adIsLoading: Boolean = false
+    override fun loadAd() {
+        // Request a new ad if one isn't already loaded.
+        if (adIsLoading || interstitialAd != null) {
+            return
+        }
+        adIsLoading = true
+
+        val adRequest = AdRequest.Builder().build()
+        val adId =
+            if (BuildConfig.BUILD_TYPE == "release") AdmobConst.INTERSTITIAL_AD_ID else AdmobConstTest.INTERSTITIAL_AD_ID
+        InterstitialAd.load(
+            requireContext(),
+            adId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    ALog.d(TAG, adError.message)
+                    interstitialAd = null
+                    adIsLoading = false
+                    val error =
+                        "domain: ${adError.domain}, code: ${adError.code}, " + "message: ${adError.message}"
+                    Toast.makeText(
+                        requireContext(),
+                        "onAdFailedToLoad() with error $error",
+                        Toast.LENGTH_SHORT,
+                    )
+                        .show()
+                }
+
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    ALog.d(TAG, "Ad was loaded.")
+                    interstitialAd = ad
+                    adIsLoading = false
+                    Toast.makeText(requireContext(), "onAdLoaded()", Toast.LENGTH_SHORT).show()
+                    showInterstitial()
+                }
+            },
+        )
+    }
+
+    override fun showInterstitial() {
+        if (interstitialAd != null) {
+            interstitialAd?.fullScreenContentCallback =
+                object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        ALog.d(TAG, "Ad was dismissed.")
+                        // Don't forget to set the ad reference to null so you
+                        // don't show the ad a second time.
+                        interstitialAd = null
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                        ALog.d(TAG, "Ad failed to show.")
+                        // Don't forget to set the ad reference to null so you
+                        // don't show the ad a second time.
+                        interstitialAd = null
+                    }
+
+                    override fun onAdShowedFullScreenContent() {
+                        ALog.d(TAG, "Ad showed fullscreen content.")
+                        // Called when ad is dismissed.
+                    }
+                }
+            interstitialAd?.show(requireActivity())
+        } else {
+            if (googleMobileAdsConsentManager.canRequestAds) {
+                loadAd()
+            }
+        }
     }
 }

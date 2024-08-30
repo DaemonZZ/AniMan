@@ -37,7 +37,6 @@ import com.daemonz.animange.databinding.ActivityMainBinding
 import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.AdmobHandler
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.dialog.InternetDialog
 import com.daemonz.animange.ui.dialog.LoadingOverLay
@@ -45,8 +44,6 @@ import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.ui.thememanager.DarkTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
-import com.daemonz.animange.util.AdmobConst
-import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.ConnectionLiveData
 import com.daemonz.animange.util.NIGHT_MODE_KEY
@@ -58,9 +55,7 @@ import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
 import com.dolatkia.animatedThemeManager.ThemeAnimationListener
 import com.dolatkia.animatedThemeManager.ThemeManager
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.tasks.OnCompleteListener

@@ -18,7 +18,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentHomeBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.AdmobHandler
+import com.daemonz.animange.ui.AdBannerHandler
 import com.daemonz.animange.ui.adapter.CommonRecyclerAdapter
 import com.daemonz.animange.ui.adapter.FilmCarouselAdapter
 import com.daemonz.animange.ui.adapter.HomeCarouselAdapter
@@ -39,7 +39,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment :
-    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate), AdmobHandler {
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate),
+    AdBannerHandler {
     override val viewModel: HomeViewModel by activityViewModels()
     private val playerViewModel: PlayerViewModel by viewModels()
     private var homeCarouselAdapter: HomeCarouselAdapter? = null

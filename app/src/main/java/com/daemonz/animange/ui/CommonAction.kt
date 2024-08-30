@@ -14,7 +14,12 @@ interface OnRefreshCallback {
     fun onRefreshError()
 }
 
-interface AdmobHandler : CommonAction {
+interface AdBannerHandler : CommonAction {
     fun loadBanner()
     fun setupAdView()
+}
+
+interface InterstitialAdHandler : CommonAction {
+    fun loadAd()
+    fun showInterstitial()
 }

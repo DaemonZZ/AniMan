@@ -14,7 +14,7 @@ import com.daemonz.animange.databinding.FragmentGridListBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.log.ALog
-import com.daemonz.animange.ui.AdmobHandler
+import com.daemonz.animange.ui.AdBannerHandler
 import com.daemonz.animange.ui.adapter.GridAdapter
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SeriesFragment :
     BaseFragment<FragmentGridListBinding, SeriesViewModel>(FragmentGridListBinding::inflate),
-    AdmobHandler {
+    AdBannerHandler {
     override val viewModel: SeriesViewModel by viewModels()
     private val onItemClickListener =
         OnItemClickListener<PagingData<Item>> { item, index ->
