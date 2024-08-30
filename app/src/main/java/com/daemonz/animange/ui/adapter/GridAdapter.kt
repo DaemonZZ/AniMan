@@ -14,7 +14,7 @@ import com.daemonz.animange.util.setImageFromUrl
 
 class GridAdapter(
     private val onItemClickListener: OnItemClickListener<PagingData<Item>>,
-    private val theme: AnimanTheme
+    private var theme: AnimanTheme
 ) : BasePagingAdapter<Item, PagingData<Item>, CardItemBinding>(onItemClickListener, theme) {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CardItemBinding
         get() = CardItemBinding::inflate
@@ -44,5 +44,11 @@ class GridAdapter(
         val lp = binding.root.layoutParams
         lp.height = (parent.height / 2.5).toInt()
         binding.root.layoutParams = lp
+    }
+
+    override fun syncTheme(theme: AnimanTheme) {
+        super.syncTheme(theme)
+        this.theme = theme
+        notifyDataSetChanged()
     }
 }
