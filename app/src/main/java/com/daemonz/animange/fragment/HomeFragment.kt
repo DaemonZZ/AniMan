@@ -83,7 +83,7 @@ class HomeFragment :
         adView = AdView(requireContext())
         binding.adViewContainer.addView(adView)
         binding.adViewContainer.viewTreeObserver.addOnGlobalLayoutListener {
-            if ((activity as MainActivity).isReadyToLoadBanner() && adView == null) {
+            if ((activity as? MainActivity)?.isReadyToLoadBanner() == true && adView == null) {
                 loadBanner()
             }
         }
