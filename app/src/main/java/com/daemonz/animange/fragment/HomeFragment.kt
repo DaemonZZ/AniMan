@@ -95,6 +95,11 @@ class HomeFragment :
             tvAdapter = CommonRecyclerAdapter(onItemClickListener, currentTheme)
             tvRecycler.adapter = tvAdapter
         }
+        viewModel.tvShows.value?.let { films ->
+            ALog.d(TAG, "tvShows:")
+            hideLoadingOverlay()
+            tvAdapter?.setData(films.data.items, films.data.imgDomain)
+        }
     }
 
     private fun setupMovieRecycler() {
@@ -132,6 +137,11 @@ class HomeFragment :
             snapHelper.attachToRecyclerView(animeRecycler)
             animeAdapter = CommonRecyclerAdapter(onItemClickListener, currentTheme)
             animeRecycler.adapter = animeAdapter
+        }
+        viewModel.anime.value?.let { films ->
+            ALog.d(TAG, "anime: ${films.data.getListUrl()}")
+            hideLoadingOverlay()
+            animeAdapter?.setData(films.data.items, films.data.imgDomain)
         }
     }
 
@@ -239,6 +249,11 @@ class HomeFragment :
             root.setOnScrollChangeListener { _, _, _, _, _ ->
                 toggleToolBarShowing(isShow = true, autoHide = true)
             }
+        }
+        viewModel.listDataData.value?.let { home ->
+            ALog.d(TAG, "listDataData: ${home.data.getListUrl()}")
+            hideLoadingOverlay()
+            homeCarouselAdapter?.setData(home.data.items.take(5), home.data.imgDomain)
         }
     }
 
