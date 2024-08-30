@@ -46,6 +46,11 @@ class SuggestionFragment :
                     }
                 }
             })
+            viewModel.suggestions.value?.let {
+                ALog.d(TAG, "suggestions: ${it.size}")
+                suggestionAdapter?.setData(it, viewModel.imgDomain)
+                hideLoadingOverlay()
+            }
         }
     }
 
