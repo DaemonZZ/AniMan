@@ -5,6 +5,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
@@ -12,20 +13,26 @@ import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemFunction
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.AdmobHandler
 import com.daemonz.animange.ui.adapter.MenuAdapter
+import com.daemonz.animange.util.AdmobConst
+import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment :
-    BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate) {
+    BaseFragment<FragmentSettingBinding, LoginViewModel>(FragmentSettingBinding::inflate),
+    AdmobHandler {
     override val viewModel: LoginViewModel by activityViewModels()
-
+    private var adView: AdView? = null
     private var adapter: MenuAdapter? = null
     private val onItemClickListener =
         OnItemClickListener<MenuItem> { item, _ ->
@@ -90,6 +97,7 @@ class SettingsFragment :
                 findNavController().popBackStack(R.id.welcomeFragment, false)
             }
         }
+        setupAdView()
     }
 
     override fun syncTheme(appTheme: AppTheme) {
@@ -148,8 +156,47 @@ class SettingsFragment :
         super.syncTheme()
         binding.apply {
         textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-
         }
     }
 
+    override fun loadBanner() {
+        ALog.v(TAG, "loadBanner")
+        adView?.adUnitId =
+            if (BuildConfig.BUILD_TYPE == "release") AdmobConst.BANNER_AD_ADAPTIVE_2 else AdmobConstTest.BANNER_AD_ADAPTIVE
+        adView?.setAdSize(adSize)
+
+        val adRequest = AdRequest.Builder().build()
+
+        ALog.v(TAG, "adRequest:isTestDevice: ${adRequest.isTestDevice(requireContext())}")
+
+        adView?.loadAd(adRequest)
+    }
+
+    override fun setupAdView() {
+        ALog.d(TAG, "setupAdView loadBanner")
+        adView = null
+        adView = AdView(requireContext())
+        binding.adViewContainer.addView(adView)
+        binding.adViewContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            if ((activity as? MainActivity)?.isReadyToLoadBanner() == true && adView == null) {
+                loadBanner()
+            }
+        }
+        loadBanner()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adView?.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adView?.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adView?.destroy()
+    }
 }

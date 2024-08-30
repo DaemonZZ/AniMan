@@ -59,6 +59,7 @@
         android:padding="@dimen/dp_16"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/text_email"
+        app:layout_constraintBottom_toTopOf="@id/btn_logout"
         tools:listitem="@layout/menu_item" />
 
     <com.google.android.material.button.MaterialButton
@@ -68,7 +69,7 @@
         android:layout_marginHorizontal="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_16"
         android:text="@string/logout"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/ad_view_container" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_ver"
@@ -92,6 +93,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
+
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
