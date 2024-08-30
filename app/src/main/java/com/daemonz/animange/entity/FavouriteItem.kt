@@ -15,4 +15,5 @@ data class FavouriteItem(
     @ColumnInfo("imageUrl") val imageUrl: String = "",
     @SerializedName("origin_name") val originName: String = "",
     @SerializedName("episode_current") val episodeCurrent: String = "",
+    @SerializedName("rating") var rating: Double = 0.0
 )

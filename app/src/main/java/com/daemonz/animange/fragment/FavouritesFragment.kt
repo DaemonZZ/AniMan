@@ -3,6 +3,7 @@ package com.daemonz.animange.fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
 import com.daemonz.animange.R
@@ -23,6 +24,7 @@ class FavouritesFragment :
     override fun setupViews() {
         (activity as? MainActivity)?.setTitle(getString(R.string.favourite))
         binding.apply {
+            recycler.layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = FavouriteAdapter(
                 onFavourite = { item ->
                     LoginData.getActiveUser()?.let {
@@ -41,20 +43,39 @@ class FavouritesFragment :
                 theme = currentTheme
             )
             recycler.adapter = adapter
-            LoginData.getActiveUser()?.favorites?.let {
-                if (it.isEmpty()) {
-                    binding.textNoResult.visibility = View.VISIBLE
-                    binding.recycler.visibility = View.GONE
-                } else {
-                    binding.textNoResult.visibility = View.GONE
-                    binding.recycler.visibility = View.VISIBLE
-                    adapter?.setData(it)
-                }
+        }
+    }
+
+    override fun syncTheme() {
+        super.syncTheme()
+        adapter?.syncTheme(currentTheme)
+        viewModel.favorite.value.let {
+            if (it.isNullOrEmpty()) {
+                ALog.d(TAG, "syncTheme : ${binding.textNoResult.text}")
+                binding.textNoResult.visibility = View.VISIBLE
+                binding.textNoResult.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+                binding.recycler.visibility = View.GONE
+            } else {
+                binding.textNoResult.visibility = View.GONE
+                binding.recycler.visibility = View.VISIBLE
+            }
+        }
+    }
+    override fun setupObservers() {
+        viewModel.favorite.observe(viewLifecycleOwner) {
+            ALog.d(TAG, "favorite: ${it.size}")
+            if (it.isEmpty()) {
+                binding.textNoResult.visibility = View.VISIBLE
+                binding.recycler.visibility = View.GONE
+            } else {
+                binding.textNoResult.visibility = View.GONE
+                binding.recycler.visibility = View.VISIBLE
+                adapter?.setData(it)
             }
         }
     }
 
-    override fun setupObservers() {
-
+    override fun initData() {
+        viewModel.getFavourite()
     }
 }

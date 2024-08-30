@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.ui.thememanager.AnimanTheme
 
 
 abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.ViewBinding>(
@@ -67,4 +68,6 @@ abstract class BaseRecyclerAdapter<Item, ViewBinding : androidx.viewbinding.View
 
     open class BaseViewHolder<ViewBinding : androidx.viewbinding.ViewBinding>(val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    open fun syncTheme(theme: AnimanTheme) {}
 }

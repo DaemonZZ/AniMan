@@ -1,11 +1,13 @@
 package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
+import com.daemonz.animange.databinding.CardItemBinding
 import com.daemonz.animange.databinding.FavoritesItemBinding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.ui.thememanager.AnimanTheme
@@ -15,26 +17,33 @@ import com.daemonz.animange.util.setImageFromUrl
 class FavouriteAdapter(
     private val onItemClickListener: OnItemClickListener<FavouriteItem>,
     private val onFavourite: (FavouriteItem) -> Unit,
-    private val theme: AnimanTheme
+    private var theme: AnimanTheme
 ) :
-    BaseRecyclerAdapter<FavouriteItem, FavoritesItemBinding>(onItemClickListener) {
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FavoritesItemBinding
-        get() = FavoritesItemBinding::inflate
+    BaseRecyclerAdapter<FavouriteItem, CardItemBinding>(onItemClickListener) {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> CardItemBinding
+        get() = CardItemBinding::inflate
 
-    override fun bindView(binding: FavoritesItemBinding, item: FavouriteItem, position: Int) {
+    override fun bindView(binding: CardItemBinding, item: FavouriteItem, position: Int) {
         binding.apply {
-            image.setImageFromUrl(item.imageUrl)
+            imgView.setImageFromUrl(item.imageUrl)
             textTitle.text = item.name
-            textStatus.text = item.episodeCurrent
+            bookMark.visibility = View.VISIBLE
             root.setOnClickListener {
                 onItemClickListener.onItemClick(item, position)
             }
             if (LoginData.getActiveUser()?.isFavourite(item.slug) == true) {
-                favourite.setImageResource(R.drawable.bookmark_filled_night)
+                bookMark.setImageResource(theme.bookmarkFilledIcon())
             } else {
-                favourite.setImageResource(R.drawable.bookmark_night)
+                bookMark.setImageResource(theme.bookmarkIcon())
             }
-            favourite.setOnClickListener {
+            textRate.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
+            textRate.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (item.rating > 0) R.drawable.star_filled_24 else R.drawable.star_outline_18,
+                0
+            )
+            bookMark.setOnClickListener {
                 LoginData.getActiveUser()?.let {
                     onFavourite.invoke(item)
                     notifyItemChanged(position)
@@ -44,13 +53,20 @@ class FavouriteAdapter(
                 }
 
             }
+            textTitle.setTextColor(theme.firstActivityTextColor(root.context))
+            textRate.setTextColor(theme.firstActivityTextColor(root.context))
         }
     }
 
-    override fun setupLayout(binding: FavoritesItemBinding, parent: ViewGroup) {
+    override fun setupLayout(binding: CardItemBinding, parent: ViewGroup) {
         //set item height according to screen size
         val lp = binding.root.layoutParams
-        lp.height = parent.height / 5
-        binding.image.layoutParams = lp
+        lp.height = parent.height / 3
+        binding.root.layoutParams = lp
+    }
+
+    override fun syncTheme(theme: AnimanTheme) {
+        this.theme = theme
+        notifyDataSetChanged()
     }
 }
