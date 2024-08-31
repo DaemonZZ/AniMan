@@ -33,6 +33,10 @@ class TvShowViewModel @Inject constructor() : BaseViewModel() {
         launchOnIO {
             repository.getTvShows(page.toString()).addOnCompleteListener { shows ->
                 imgDomain = shows.data.imgDomain
+                if (shows.data.items.isEmpty()) {
+                    ALog.e(TAG, "Tv show is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(shows.data.items.map { it.slug })
                     .addOnSuccessListener {
                         val rates = it.toObjects(FilmRating::class.java)

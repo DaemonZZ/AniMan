@@ -38,6 +38,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getHomeData() {
         launchOnIO {
             repository.getHomeData().addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "Home data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {
@@ -65,6 +69,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getSeriesIncoming() {
         launchOnIO {
             repository.getSeriesInComing().addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "Series Incoming data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {
@@ -92,6 +100,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getListFilmVietNam() {
         launchOnIO {
             repository.getListFilmVietNam().addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "List Film Viet Nam data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {
@@ -119,6 +131,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getListAnime() {
         launchOnIO {
             repository.getListAnime().addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "List Anime data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {
@@ -146,6 +162,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getListMovies() {
         launchOnIO {
             repository.getListMovies().addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "List Movies data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {
@@ -172,6 +192,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun getTvShows() {
         launchOnIO {
             repository.getTvShows("").addOnCompleteListener { res ->
+                if (res.data.items.isEmpty()) {
+                    ALog.d(TAG, "TV Shows data is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     val data = res.data.items.filter {

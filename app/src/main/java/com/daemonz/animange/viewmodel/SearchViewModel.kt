@@ -49,6 +49,10 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
         launchOnIO {
             repository.searchFilm(query, page.toString()).addOnCompleteListener { movies ->
                 imgDomain = movies.data.imgDomain
+                if (movies.data.items.isEmpty()) {
+                    ALog.d(TAG, "No results found for $query")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(movies.data.items.map { it.slug })
                     .addOnSuccessListener {
                         val rates = it.toObjects(FilmRating::class.java)
@@ -71,7 +75,8 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
                                 item.copy(rating = avg)
                             }
                         }
-                    }.addOnFailureListener {
+                    }
+                    .addOnFailureListener {
                         launchOnUI {
                             ALog.d(TAG, "Series slugs: ${it.message}")
                             errorMessage.value = it.message
@@ -93,6 +98,10 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     fun getSearchHistory() = launchOnIO {
         repository.getSearchHistory().addOnSuccessListener { res ->
             res.toObject(SearchHistoryData::class.java)?.let { searchData ->
+                if (searchData.data.isEmpty()) {
+                    ALog.d(TAG, "No search history found")
+                    return@addOnSuccessListener
+                }
                 repository.getRatingBySlugs(searchData.data.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
                     ALog.d("tdn6", rates.first().rating.toString())

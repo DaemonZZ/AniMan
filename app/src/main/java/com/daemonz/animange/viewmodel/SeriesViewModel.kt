@@ -33,6 +33,10 @@ class SeriesViewModel @Inject constructor() : BaseViewModel() {
         launchOnIO {
             repository.getAllSeries(page.toString()).addOnCompleteListener { series ->
                 imgDomain = series.data.imgDomain
+                if (series.data.items.isEmpty()) {
+                    ALog.e(TAG, "Series is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(series.data.items.map { it.slug })
                     .addOnSuccessListener {
                         val rates = it.toObjects(FilmRating::class.java)

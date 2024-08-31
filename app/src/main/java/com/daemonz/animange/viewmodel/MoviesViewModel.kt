@@ -34,6 +34,10 @@ class MoviesViewModel @Inject constructor() : BaseViewModel() {
         launchOnIO {
             repository.getListMovies(page.toString()).addOnCompleteListener { movies ->
                 imgDomain = movies.data.imgDomain
+                if (movies.data.items.isEmpty()) {
+                    ALog.e(TAG, "Movie is empty")
+                    return@addOnCompleteListener
+                }
                 repository.getRatingBySlugs(movies.data.items.map { it.slug })
                     .addOnSuccessListener {
                         val rates = it.toObjects(FilmRating::class.java)
