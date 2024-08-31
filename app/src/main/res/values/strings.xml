@@ -179,4 +179,7 @@
     <string name="phim_all">Tất cả</string>
     <string name="country_title">Quốc gia</string>
     <string name="created_year_title">Năm Phát Hành</string>
+    <string name="pin">PIN</string>
+    <string name="please_input_pin">Nhập mã PIN để tiếp tục</string>
+    <string name="wrong_password">Mật khẩu không chính xác</string>
 </resources>

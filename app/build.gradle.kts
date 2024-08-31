@@ -249,4 +249,5 @@ dependencies {
     implementation(libs.feature.delivery)
 
     implementation(libs.animated.theme.manager)
+    implementation("io.github.chaosleung:pinview:1.4.4")
 }

@@ -39,11 +39,19 @@ class ChooseUserFragment :
                     return@ChooseUserAdapter
                 }
                 if (adapter?.isEditModeEnabled() == true) {
-                    findNavController().navigate(
-                        ChooseUserFragmentDirections.toProfile(
-                            item
+                    if (item.password.isNullOrEmpty()) {
+                        findNavController().navigate(
+                            ChooseUserFragmentDirections.toProfile(
+                                item
+                            )
                         )
-                    )
+                    } else {
+                        findNavController().navigate(
+                            ChooseUserFragmentDirections.actionChooseUserFragmentToPinInputFragment(
+                                item
+                            )
+                        )
+                    }
                 } else {
                     if (!item.isActive) {
                         item.id?.let {

@@ -63,7 +63,7 @@
         android:id="@+id/layout_password"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginHorizontal="@dimen/dp_24"
-        android:hint="@string/password"
+        android:hint="@string/pin"
         app:boxCornerRadiusBottomEnd="@dimen/dp_12"
         app:boxCornerRadiusBottomStart="@dimen/dp_12"
         app:boxCornerRadiusTopEnd="@dimen/dp_12"

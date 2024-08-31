@@ -66,6 +66,9 @@
                 app:argType="com.daemonz.animange.entity.User"
                 app:nullable="true" />
         </action>
+        <action
+            android:id="@+id/action_chooseUserFragment_to_pinInputFragment"
+            app:destination="@id/pinInputFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -112,4 +115,19 @@
     <action
         android:id="@+id/action_global_searchFragment"
         app:destination="@id/nav_search" />
+    <fragment
+        android:id="@+id/pinInputFragment"
+        android:name="com.daemonz.animange.fragment.PinInputFragment"
+        android:label="PinInputFragment">
+        <action
+            android:id="@+id/action_pinInputFragment_to_nav_profile"
+            app:destination="@id/nav_profile">
+            <argument
+                android:name="user"
+                app:argType="com.daemonz.animange.entity.User" />
+        </action>
+        <argument
+            android:name="user"
+            app:argType="com.daemonz.animange.entity.User" />
+    </fragment>
 </navigation>
