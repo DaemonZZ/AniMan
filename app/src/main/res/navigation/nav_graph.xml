@@ -69,6 +69,17 @@
         <action
             android:id="@+id/action_chooseUserFragment_to_pinInputFragment"
             app:destination="@id/pinInputFragment" />
+        <argument
+            android:name="isLogin"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isSwitchUser"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_chooseUserFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -141,5 +152,12 @@
             android:name="isLogin"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="isSwitchUser"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_pinInputFragment_to_chooseUserFragment"
+            app:destination="@id/chooseUserFragment" />
     </fragment>
 </navigation>

@@ -3,6 +3,7 @@ package com.daemonz.animange.fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -22,6 +23,7 @@ class ChooseUserFragment :
     override val viewModel: ProfileViewModel by viewModels<ProfileViewModel>()
     private var adapter: ChooseUserAdapter? = null
     private var choosingId: String = LoginData.getActiveUser()?.id.toString()
+    private val arg: ChooseUserFragmentArgs by navArgs()
 
     override fun setupViews() {
         adapter = ChooseUserAdapter(
@@ -54,9 +56,24 @@ class ChooseUserFragment :
                     }
                 } else {
                     if (!item.isActive) {
-                        item.id?.let {
-                            choosingId = it
-                            adapter?.setActive(it)
+                        if (item.password.isNullOrEmpty()) {
+                            item.id?.let {
+                                if (arg.isLogin && arg.isSwitchUser) {
+                                    viewModel.switchUser(it)
+                                    findNavController().navigate(ChooseUserFragmentDirections.actionChooseUserFragmentToHomeFragment())
+                                } else {
+                                    choosingId = it
+                                    adapter?.setActive(it)
+                                }
+                            }
+                        } else {
+                            findNavController().navigate(
+                                ChooseUserFragmentDirections.actionChooseUserFragmentToPinInputFragment(
+                                    item,
+                                    arg.isLogin,
+                                    true
+                                )
+                            )
                         }
                     }
                 }

@@ -6,4 +6,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PinInputViewModel @Inject constructor() : BaseViewModel() {
+    fun switchUser(id: String) {
+        repository.switchUser(id)
+    }
 }

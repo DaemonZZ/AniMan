@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -34,15 +35,23 @@ class PinInputFragment :
             if (text?.length == 6) {
                 if (text.toString() == arg.user.password) {
                     if (arg.isLogin) {
+                        if (arg.isSwitchUser) {
+                            viewModel.switchUser(arg.user.id.toString())
+                        }
                         findNavController().navigate(PinInputFragmentDirections.actionPinInputFragmentToHomeFragment())
-                    } else {
-                        findNavController().navigate(
-                            PinInputFragmentDirections.actionPinInputFragmentToNavProfile(
-                                arg.user
-                            )
-                        )
-                    }
 
+                    } else {
+                        if (arg.isSwitchUser) {
+                            viewModel.switchUser(arg.user.id.toString())
+                            findNavController().popBackStack()
+                        } else {
+                            findNavController().navigate(
+                                PinInputFragmentDirections.actionPinInputFragmentToNavProfile(
+                                    arg.user
+                                )
+                            )
+                        }
+                    }
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -52,6 +61,15 @@ class PinInputFragment :
                     binding.pinView.setText(STRING_EMPTY)
                 }
             }
+        }
+        binding.btnSwitchUser.isVisible = arg.isLogin
+        binding.btnSwitchUser.setOnClickListener {
+            findNavController().navigate(
+                PinInputFragmentDirections.actionPinInputFragmentToChooseUserFragment(
+                    arg.isLogin,
+                    true
+                )
+            )
         }
         (activity as? MainActivity)?.setTitle(getString(R.string.input_pin))
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :

@@ -56,7 +56,7 @@ class UserInfoFragment :
                 } ?: run {
                     viewModel.newUser(name, password, viewModel.currentAvt.value ?: 1)
                 }
-                findNavController().popBackStack()
+                findNavController().popBackStack(R.id.chooseUserFragment, false)
             }
             args.user?.let { user ->
                 delete.isVisible = true

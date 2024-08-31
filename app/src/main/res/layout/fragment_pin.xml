@@ -29,4 +29,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lb_pin"
         app:viewType="rectangle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_switch_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_48"
+        android:layout_marginTop="@dimen/dp_150"
+        android:text="@string/switch_user"
+        app:layout_constraintTop_toBottomOf="@id/pin_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

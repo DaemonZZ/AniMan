@@ -172,4 +172,5 @@
     <string name="do_you_want_to_log_out">Đăng xuất khỏi tài khoản?</string>
     <string name="log_out">Đăng xuất</string>
     <string name="no">Không</string>
+    <string name="switch_user">Đổi người dùng</string>
 </resources>

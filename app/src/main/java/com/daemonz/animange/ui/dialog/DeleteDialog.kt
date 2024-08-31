@@ -59,8 +59,6 @@ class DeleteDialog(
         }
         return binding.root
     }
-
-
     companion object {
         const val TAG = "DeleteDialog"
     }
