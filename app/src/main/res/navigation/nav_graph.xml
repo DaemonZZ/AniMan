@@ -106,6 +106,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_pinInputFragment"
+            app:destination="@id/pinInputFragment" />
     </fragment>
     <fragment
         android:id="@+id/supportFragment"
@@ -126,8 +129,17 @@
                 android:name="user"
                 app:argType="com.daemonz.animange.entity.User" />
         </action>
+        <action
+            android:id="@+id/action_pinInputFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/pinInputFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="user"
             app:argType="com.daemonz.animange.entity.User" />
+        <argument
+            android:name="isLogin"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 </navigation>

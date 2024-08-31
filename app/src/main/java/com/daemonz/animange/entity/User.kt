@@ -23,6 +23,7 @@ data class User(
 enum class UserType {
     ADULT,
     CHILD,
+    ADMIN,
     ADD,
     EMPTY
 }

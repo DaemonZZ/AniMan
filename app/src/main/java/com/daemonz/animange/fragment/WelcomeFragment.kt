@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentWelcomeBinding
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -78,7 +79,20 @@ class WelcomeFragment :
             loader.startAnimation(animation)
         }
         delay(2000)
-        findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToHomeFragment())
+        if (LoginData.getActiveUser()?.password.isNullOrEmpty()) {
+            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToHomeFragment())
+        } else {
+            LoginData.getActiveUser()?.let {
+                if (findNavController().currentDestination?.id == R.id.welcomeFragment) {
+                    findNavController().navigate(
+                        WelcomeFragmentDirections.actionWelcomeFragmentToPinInputFragment(
+                            user = it,
+                            isLogin = true
+                        )
+                    )
+                }
+            }
+        }
     }
 
 

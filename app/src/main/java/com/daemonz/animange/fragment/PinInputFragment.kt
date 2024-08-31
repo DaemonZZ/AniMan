@@ -1,7 +1,5 @@
 package com.daemonz.animange.fragment
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -24,11 +22,16 @@ class PinInputFragment :
         binding.pinView.doAfterTextChanged { text ->
             if (text?.length == 6) {
                 if (text.toString() == arg.user.password) {
-                    findNavController().navigate(
-                        PinInputFragmentDirections.actionPinInputFragmentToNavProfile(
-                            arg.user
+                    if (arg.isLogin) {
+                        findNavController().navigate(PinInputFragmentDirections.actionPinInputFragmentToHomeFragment())
+                    } else {
+                        findNavController().navigate(
+                            PinInputFragmentDirections.actionPinInputFragmentToNavProfile(
+                                arg.user
+                            )
                         )
-                    )
+                    }
+
                 } else {
                     Toast.makeText(
                         requireContext(),

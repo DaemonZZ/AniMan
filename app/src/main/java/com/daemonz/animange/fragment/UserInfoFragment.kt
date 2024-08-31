@@ -9,7 +9,6 @@ import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentUserInfoBinding
-import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.dialog.DeleteDialog
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.isValidName
