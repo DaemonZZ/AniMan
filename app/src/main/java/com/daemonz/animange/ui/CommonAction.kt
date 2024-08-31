@@ -23,3 +23,6 @@ interface InterstitialAdHandler : CommonAction {
     fun loadAd()
     fun showInterstitial()
 }
+interface NavIcon2Action : CommonAction {
+    fun onNavIcon2Click()
+}

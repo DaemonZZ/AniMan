@@ -13,7 +13,6 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets.Type
-import android.view.WindowMetrics
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -38,6 +37,7 @@ import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
+import com.daemonz.animange.ui.NavIcon2Action
 import com.daemonz.animange.ui.dialog.InternetDialog
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
@@ -55,7 +55,6 @@ import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
 import com.dolatkia.animatedThemeManager.ThemeAnimationListener
 import com.dolatkia.animatedThemeManager.ThemeManager
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.tasks.OnCompleteListener
@@ -118,16 +117,6 @@ class MainActivity : ThemeActivity() {
             binding.topAppBar.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }
     private var lastAction: Long = 0
-
-    private val adSize: AdSize
-        get() {
-            val displayMetrics = resources.displayMetrics
-            val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
-            val adWidthPixels = windowMetrics.bounds.width()
-            val density = displayMetrics.density
-            val adWidth = (adWidthPixels / density).toInt()
-            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
-        }
 
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(
@@ -215,6 +204,11 @@ class MainActivity : ThemeActivity() {
         }
         binding.navIcon.setOnClickListener {
             onBack()
+        }
+        binding.navIcon2.setOnClickListener {
+            val frag =
+                supportFragmentManager.fragments.find { it is NavHostFragment }?.childFragmentManager?.fragments?.find { it is NavIcon2Action }
+            (frag as? NavIcon2Action)?.onNavIcon2Click()
         }
         viewModel.registerSigningLauncher(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -362,6 +356,7 @@ class MainActivity : ThemeActivity() {
             title.setTextColor(currentTheme.firstActivityTextColor(this@MainActivity))
             appLogo.setImageResource(currentTheme.appLogoLandscape())
             navIcon.setImageResource(currentTheme.iconBack())
+            navIcon2.setImageResource(currentTheme.iconClose())
             bottomNavigation.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
             bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
                 currentTheme.homeNavIcon()
@@ -505,6 +500,8 @@ class MainActivity : ThemeActivity() {
 
     private fun changeToolBarAction(fragment: Int) {
         binding.apply {
+            navIcon.isVisible = true
+            navIcon2.isVisible = false
             when (fragment) {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
@@ -512,7 +509,6 @@ class MainActivity : ThemeActivity() {
                     actionSearch.isVisible = false
                     title.text = STRING_EMPTY
                     actionEdit.isVisible = false
-                    navIcon.isVisible = true
                     appLogo.isVisible = false
                     dayNightSwitch.isInvisible = true
                 }
@@ -525,14 +521,12 @@ class MainActivity : ThemeActivity() {
                     title.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     actionEdit.isVisible = false
-                    navIcon.isVisible = true
                     appLogo.isVisible = false
                     dayNightSwitch.isInvisible = true
                 }
 
                 R.id.profileFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
@@ -545,7 +539,6 @@ class MainActivity : ThemeActivity() {
 
                 R.id.chooseUserFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
@@ -558,7 +551,19 @@ class MainActivity : ThemeActivity() {
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment -> {
                     topAppBar.isVisible = true
-                    navIcon.isVisible = true
+                    appLogo.isVisible = false
+                    title.isVisible = true
+                    topAppBar.fitsSystemWindows = false
+                    actionSearch.isVisible = false
+                    toggleToolBarShowing(isShow = true, autoHide = false)
+                    actionEdit.isVisible = false
+                    actionClose.isVisible = false
+                    dayNightSwitch.isInvisible = true
+                }
+                R.id.pinInputFragment -> {
+                    topAppBar.isVisible = true
+                    navIcon.visibility = View.INVISIBLE
+                    navIcon2.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
@@ -631,6 +636,7 @@ class MainActivity : ThemeActivity() {
     }
 
     override fun onDestroy() {
+        ALog.d(TAG, "onDestroy")
         super.onDestroy()
     }
 }

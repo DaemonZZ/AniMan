@@ -65,7 +65,8 @@ class UserInfoFragment :
                         DeleteDialog(
                             title = R.string.can_not_delete_main_user,
                             yes = R.string.ok,
-                            onYes = {}
+                            onYes = {},
+                            theme = currentTheme
                         ).show(childFragmentManager, DeleteDialog.TAG)
                     } else {
                         DeleteDialog(
@@ -79,7 +80,8 @@ class UserInfoFragment :
                                 viewModel.deleteUser(user.id.toString())
                                 findNavController().popBackStack()
                             },
-                            onNo = { }
+                            onNo = { },
+                            theme = currentTheme
                         ).show(childFragmentManager, DeleteDialog.TAG)
                     }
 

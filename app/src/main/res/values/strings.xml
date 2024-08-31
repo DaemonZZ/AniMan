@@ -182,4 +182,8 @@
     <string name="pin">PIN</string>
     <string name="please_input_pin">Nhập mã PIN để tiếp tục</string>
     <string name="wrong_password">Mật khẩu không chính xác</string>
+    <string name="input_pin">Nhập mã PIN</string>
+    <string name="do_you_want_to_log_out">Đăng xuất khỏi tài khoản?</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="no">Không</string>
 </resources>

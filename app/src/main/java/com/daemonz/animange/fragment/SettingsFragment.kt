@@ -15,6 +15,7 @@ import com.daemonz.animange.entity.MenuItemFunction
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.AdBannerHandler
 import com.daemonz.animange.ui.adapter.MenuAdapter
+import com.daemonz.animange.ui.dialog.DeleteDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.LoginData
@@ -93,8 +94,16 @@ class SettingsFragment :
             textVer.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             textVer.text = BuildConfig.VERSION_NAME
             btnLogout.setOnClickListener {
-                viewModel.logout(requireContext())
-                findNavController().popBackStack(R.id.welcomeFragment, false)
+                DeleteDialog(
+                    title = R.string.log_out,
+                    decs = R.string.do_you_want_to_log_out,
+                    yes = R.string.log_out,
+                    no = R.string.no,
+                    onYes = {
+                        viewModel.logout(requireContext())
+                    },
+                    theme = currentTheme
+                ).show(childFragmentManager, TAG)
             }
         }
         setupAdView()

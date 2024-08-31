@@ -56,6 +56,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/arrow_back" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/nav_icon_2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_24"
+            android:layout_margin="@dimen/dp_8"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/close" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
             style="@style/TextAppearance.Material3.TitleLarge"
