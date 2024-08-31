@@ -10,7 +10,7 @@
         android:id="@+id/card_avt"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_36"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="@id/guide2"
         app:layout_constraintStart_toStartOf="@id/guide1"
@@ -84,14 +84,14 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.35" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide2"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.65" />
 
     <FrameLayout
         android:id="@+id/ad_view_container"

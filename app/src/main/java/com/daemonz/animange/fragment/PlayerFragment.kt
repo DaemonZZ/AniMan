@@ -411,19 +411,13 @@ class PlayerFragment :
                     adIsLoading = false
                     val error =
                         "domain: ${adError.domain}, code: ${adError.code}, " + "message: ${adError.message}"
-                    Toast.makeText(
-                        requireContext(),
-                        "onAdFailedToLoad() with error $error",
-                        Toast.LENGTH_SHORT,
-                    )
-                        .show()
+                    ALog.e(TAG, error)
                 }
 
                 override fun onAdLoaded(ad: InterstitialAd) {
                     ALog.d(TAG, "Ad was loaded.")
                     interstitialAd = ad
                     adIsLoading = false
-                    Toast.makeText(requireContext(), "onAdLoaded()", Toast.LENGTH_SHORT).show()
                     showInterstitial()
                 }
             },
