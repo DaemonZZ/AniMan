@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.R
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
@@ -199,4 +200,11 @@ fun Item.isFavorite(): Boolean {
             return@let false
         }
     } ?: false
+}
+fun Item.isSensor(filter: Boolean): Boolean {
+    if (filter) {
+        return this.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
+    } else {
+        return false
+    }
 }
