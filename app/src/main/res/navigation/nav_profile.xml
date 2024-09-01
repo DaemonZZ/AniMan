@@ -12,6 +12,10 @@
             android:defaultValue="@null"
             app:argType="com.daemonz.animange.entity.User"
             app:nullable="true" />
+        <argument
+            android:name="isFromPin"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_userInfoFragment_to_chooseAvatarFragment"
             app:destination="@id/chooseAvatarFragment" />

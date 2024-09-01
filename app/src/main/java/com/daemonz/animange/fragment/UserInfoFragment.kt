@@ -109,4 +109,11 @@ class UserInfoFragment :
         }
     }
 
+    override fun onBack() {
+        if (args.isFromPin) {
+            findNavController().popBackStack(R.id.pinInputFragment, true)
+        } else {
+            findNavController().popBackStack()
+        }
+    }
 }

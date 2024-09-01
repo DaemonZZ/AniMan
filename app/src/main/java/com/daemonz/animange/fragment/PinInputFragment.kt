@@ -47,7 +47,8 @@ class PinInputFragment :
                         } else {
                             findNavController().navigate(
                                 PinInputFragmentDirections.actionPinInputFragmentToNavProfile(
-                                    arg.user
+                                    arg.user,
+                                    true
                                 )
                             )
                         }

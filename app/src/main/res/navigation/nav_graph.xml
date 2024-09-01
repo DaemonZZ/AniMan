@@ -139,6 +139,9 @@
             <argument
                 android:name="user"
                 app:argType="com.daemonz.animange.entity.User" />
+            <argument
+                android:name="isFromPin"
+                app:argType="boolean" />
         </action>
         <action
             android:id="@+id/action_pinInputFragment_to_homeFragment"
