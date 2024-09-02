@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.WindowManager.LayoutParams
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -16,15 +18,21 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
+import com.daemonz.animange.databinding.FragmentPlayerBinding
 import com.daemonz.animange.databinding.PlayerViewFragmentBinding
+import com.daemonz.animange.entity.Comment
+import com.daemonz.animange.entity.Episode
+import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.fragment.player.ChildPlayerFragmentActions
 import com.daemonz.animange.fragment.player.CommentFragment
@@ -59,7 +67,7 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class PlayerFragment :
-    BaseFragment<PlayerViewFragmentBinding, PlayerViewModel>(PlayerViewFragmentBinding::inflate),
+    BaseFragment<FragmentPlayerBinding, PlayerViewModel>(FragmentPlayerBinding::inflate),
     InterstitialAdHandler {
     override val viewModel: PlayerViewModel by viewModels()
     private val arg: PlayerFragmentArgs by navArgs()
@@ -67,8 +75,15 @@ class PlayerFragment :
     private var lastTouchWebView = 0L
     private var slug: String = ""
     private var interstitialAd: InterstitialAd? = null
+    private var videoView: WebView? = null
 
-    private val listFrag = listOf<Fragment>(
+    private val listFragLandscape = listOf<Fragment>(
+        SuggestionFragment(),
+        EpisodesFragment(),
+        CommentFragment(),
+        RatingsFragment()
+    )
+    private val listFragPortrait = listOf<Fragment>(
         SuggestionFragment(),
         EpisodesFragment(),
         CommentFragment(),
@@ -83,65 +98,73 @@ class PlayerFragment :
     ): View? {
         val b = super.onCreateView(inflater, container, savedInstanceState)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        binding.apply {
-            activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
-                findNavController().popBackStack()
+        videoView = WebView(requireContext())
+        requireActivity().resources.configuration.orientation.let {
+            binding.viewLandscape.root.isVisible = it == Configuration.ORIENTATION_LANDSCAPE
+            binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
+            if (it == Configuration.ORIENTATION_LANDSCAPE) {
+                binding.viewLandscape.videoViewContainer.addView(videoView)
+            } else {
+                binding.viewPortrait.videoViewContainer.addView(videoView)
             }
-            videoView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?, request: WebResourceRequest?
-                ): Boolean {
-                    viewModel.currentPlaying.value?.getCurrentEpisodeDetail()?.url?.let {
-                        view?.loadUrl(
-                            it
-                        )
-                    }
-                    return false
-                }
-            }
-            videoView.setOnTouchListener { v, event ->
-                if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
-                    ALog.d(TAG, "click on webview + ${event.action}")
-                    toggleToolBarShowing(
-                        isShow = true, autoHide = true
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
+        videoView?.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?, request: WebResourceRequest?
+            ): Boolean {
+                viewModel.currentPlaying.value?.getCurrentEpisodeDetail()?.url?.let {
+                    view?.loadUrl(
+                        it
                     )
                 }
-                lastTouchWebView = SystemClock.elapsedRealtime()
-                v.onTouchEvent(event)
+                return false
+            }
+        }
+        videoView?.setOnTouchListener { v, event ->
+            if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
+                ALog.d(TAG, "click on webview + ${event.action}")
+                toggleToolBarShowing(
+                    isShow = true, autoHide = true
+                )
+            }
+            lastTouchWebView = SystemClock.elapsedRealtime()
+            v.onTouchEvent(event)
+            true
+        }
+        videoView?.settings?.apply {
+            javaScriptEnabled = true
+            useWideViewPort = false
+        }
+        videoView?.webChromeClient = CustomWebClient(showWebView = {
+            videoView?.visibility = View.VISIBLE
+        }, hideWebView = { fullscreen ->
+            videoView?.visibility = View.GONE
+            if (fullscreen != null) {
+                (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
+            }
+            activity?.window?.decorView?.apply {
+                systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+            }
+            fullscreen?.setOnTouchListener { v, _ ->
+                v.postDelayed({
+                    activity?.window?.decorView?.apply {
+                        systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    }
+                }, 3000L)
                 true
             }
-            videoView.settings.apply {
-                javaScriptEnabled = true
-                useWideViewPort = false
-            }
-            videoView.webChromeClient = CustomWebClient(showWebView = {
-                videoView.visibility = View.VISIBLE
-            }, hideWebView = { fullscreen ->
-                videoView.visibility = View.GONE
-                if (fullscreen != null) {
-                    (requireActivity().window.decorView as? FrameLayout)?.removeView(fullscreen)
-                }
-                activity?.window?.decorView?.apply {
-                    systemUiVisibility =
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-                }
-                fullscreen?.setOnTouchListener { v, _ ->
-                    v.postDelayed({
-                        activity?.window?.decorView?.apply {
-                            systemUiVisibility =
-                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        }
-                    }, 3000L)
-                    true
-                }
 
-            }, addView = { fullscreen ->
-                val param = FrameLayout.LayoutParams(-1, -1)
-                (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
-                val dialog = PlayerMaskDialog()
-                dialog.show(childFragmentManager, "PlayerMaskDialog")
-            })
-        }
+        }, addView = { fullscreen ->
+            val param = FrameLayout.LayoutParams(-1, -1)
+            (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
+            val dialog = PlayerMaskDialog()
+            dialog.show(childFragmentManager, "PlayerMaskDialog")
+        })
         return b
     }
 
@@ -159,7 +182,13 @@ class PlayerFragment :
     }
 
     override fun setupViews() {
-        binding.apply {
+        setupViewsLandscape()
+        setupViewsPortrait()
+        showInterstitial()
+    }
+
+    private fun setupViewsLandscape() {
+        binding.viewLandscape.apply {
             btnFollow.setOnClickListener {
                 if (LoginData.account == null) {
                     Toast.makeText(
@@ -199,11 +228,11 @@ class PlayerFragment :
                     )
                 }
             }
-            binding.btnFollow.isChecked = true
-            listFrag.forEach {
+            btnFollow.isChecked = true
+            listFragLandscape.forEach {
                 (it as? ChildPlayerFragmentActions)?.setupViewModel(viewModel)
             }
-            pagerAdapter = PlayerPagerAdapter(listFrag, this@PlayerFragment)
+            pagerAdapter = PlayerPagerAdapter(listFragLandscape, this@PlayerFragment)
             viewPager.adapter = pagerAdapter
             viewPager.isUserInputEnabled = false
             TabLayoutMediator(tabSuggest, viewPager) { tab, position ->
@@ -227,52 +256,104 @@ class PlayerFragment :
 
             })
         }
-        showInterstitial()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.videoView.saveState(outState)
-    }
+    private fun setupViewsPortrait() {
+        binding.viewPortrait.apply {
+            btnFollow.setOnClickListener {
+                if (LoginData.account == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.user_not_logged_in),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    if (viewModel.isFavourite.value == true) {
+                        viewModel.unMarkItemAsFavorite()
+                    } else {
+                        viewModel.markItemAsFavorite()
+                    }
+                }
+            }
+            btnShare.setOnClickListener {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
+                    type = "text/plain"
+                }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            binding.videoView.restoreState(savedInstanceState)
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
+            btnRate.setOnClickListener {
+                if (LoginData.account == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.user_not_logged_in),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    viewModel.getRating(
+                        userId = LoginData.getActiveUser()?.id.toString(),
+                        slug = slug
+                    )
+                }
+            }
+            btnFollow.isChecked = true
+            listFragPortrait.forEach {
+                (it as? ChildPlayerFragmentActions)?.setupViewModel(viewModel)
+            }
+            pagerAdapter = PlayerPagerAdapter(listFragPortrait, this@PlayerFragment)
+            viewPager.adapter = pagerAdapter
+            viewPager.isUserInputEnabled = false
+            TabLayoutMediator(tabSuggest, viewPager) { tab, position ->
+                when (position) {
+                    0 -> tab.text = getString(R.string.suggest)
+                    1 -> tab.text = getString(R.string.episodes)
+                    2 -> tab.text = getString(R.string.comment)
+                    3 -> tab.text = getString(R.string.rating)
+                }
+            }.attach()
+            tabSuggest.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    (activity as? MainActivity)?.showHideSystemBar(false)
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+
+            })
         }
     }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        binding.videoView.saveState(outState)
+//    }
+//
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        if (savedInstanceState != null) {
+//            binding.videoView.restoreState(savedInstanceState)
+//        }
+//    }
 
     override fun setupObservers() {
         viewModel.apply {
             rateAvg.observe(viewLifecycleOwner) {
-                if (it == 0.0)
-                    binding.start1.setImageResource(R.drawable.star_outline_36)
-                binding.rateAvg.text =
-                    String.format(Locale.getDefault(), "%.1f", it)
+                updateRatePortrait(it)
+                updateRateLandscape(it)
             }
             comments.observe(viewLifecycleOwner) { comments ->
-                ALog.d(TAG, "comments: ${comments.size}")
-                binding.tabSuggest.getTabAt(2)?.apply {
-                    orCreateBadge.number = comments.size
-                    orCreateBadge.horizontalOffset = -2
-                    if (comments.isEmpty()) {
-                        orCreateBadge.isVisible = false
-                    } else {
-                        orCreateBadge.isVisible = true
-                    }
-                }
+                updateCommentPortrait(comments)
+                updateCommentLandscape(comments)
             }
             allRatings.observe(viewLifecycleOwner) { ratings ->
-                ALog.d(TAG, "allRatings: ${ratings.size}")
-                binding.tabSuggest.getTabAt(3)?.apply {
-                    orCreateBadge.number = ratings.size
-                    orCreateBadge.horizontalOffset = -2
-                    if (ratings.isEmpty()) {
-                        orCreateBadge.isVisible = false
-                    } else {
-                        orCreateBadge.isVisible = true
-                    }
-                }
+                updateAllRatingPortrait(ratings)
+                updateAllRatingLandscape(ratings)
             }
             playerData.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "playerData: $slug")
@@ -293,24 +374,13 @@ class PlayerFragment :
 
             }
             currentPlaying.observe(viewLifecycleOwner) {
-                ALog.d(TAG, "currentPlaying: ${it.pivot}")
-                binding.videoView.loadUrl(it.getCurrentEpisodeDetail()?.url.toString())
-                binding.textTitle.text = requireContext().getString(
-                    R.string.player_title,
-                    viewModel.playerData.value?.data?.item?.name,
-                    (it.getCurrentEpisodeDetail()?.name)
-                )
+                videoView?.loadUrl(it.getCurrentEpisodeDetail()?.url.toString())
+                updateCurrentPlayingPortrait(it)
+                updateCurrentPlayingLandscape(it)
             }
             isFavourite.observe(viewLifecycleOwner) {
-                if (it) {
-                    binding.btnFollow.icon = ContextCompat.getDrawable(
-                        requireContext(),
-                        currentTheme.bookmarkFilledIcon()
-                    )
-                } else {
-                    binding.btnFollow.icon =
-                        ContextCompat.getDrawable(requireContext(), currentTheme.bookmarkIcon())
-                }
+                updateIsFavouritePortrait(it)
+                updateIsFavouriteLandscape(it)
             }
             lastRating.observe(viewLifecycleOwner) {
                 ALog.d(TAG, "lastRating: $it")
@@ -318,7 +388,8 @@ class PlayerFragment :
                     it,
                     onYes = { score, comment, id ->
                         viewModel.rateItem(score, comment, id)
-                        binding.start1.setImageResource(R.drawable.star_filled)
+                        binding.viewLandscape.start1.setImageResource(R.drawable.star_filled)
+                        binding.viewPortrait.start1.setImageResource(R.drawable.star_filled)
                     },
                     currentTheme
                 ).show(childFragmentManager, "RatingDialog")
@@ -326,9 +397,153 @@ class PlayerFragment :
         }
     }
 
+    private fun updateIsFavouritePortrait(isFavourite: Boolean) {
+        if (isFavourite) {
+            binding.viewPortrait.btnFollow.icon = ContextCompat.getDrawable(
+                requireContext(),
+                currentTheme.bookmarkFilledIcon()
+            )
+        } else {
+            binding.viewPortrait.btnFollow.icon =
+                ContextCompat.getDrawable(requireContext(), currentTheme.bookmarkIcon())
+        }
+    }
+
+    private fun updateIsFavouriteLandscape(isFavourite: Boolean) {
+        if (isFavourite) {
+            binding.viewLandscape.btnFollow.icon = ContextCompat.getDrawable(
+                requireContext(),
+                currentTheme.bookmarkFilledIcon()
+            )
+        } else {
+            binding.viewLandscape.btnFollow.icon =
+                ContextCompat.getDrawable(requireContext(), currentTheme.bookmarkIcon())
+        }
+    }
+
+    private fun updateCurrentPlayingPortrait(currentPlaying: Episode) {
+        ALog.d(TAG, "currentPlaying: ${currentPlaying.pivot}")
+        binding.viewPortrait.textTitle.text = requireContext().getString(
+            R.string.player_title,
+            viewModel.playerData.value?.data?.item?.name,
+            (currentPlaying.getCurrentEpisodeDetail()?.name)
+        )
+    }
+
+    private fun updateCurrentPlayingLandscape(currentPlaying: Episode) {
+        ALog.d(TAG, "currentPlaying: ${currentPlaying.pivot}")
+        binding.viewLandscape.textTitle.text = requireContext().getString(
+            R.string.player_title,
+            viewModel.playerData.value?.data?.item?.name,
+            (currentPlaying.getCurrentEpisodeDetail()?.name)
+        )
+    }
+
+    private fun updateAllRatingPortrait(ratings: List<FilmRating>) {
+        ALog.d(TAG, "allRatings: ${ratings.size}")
+        binding.viewPortrait.tabSuggest.getTabAt(3)?.apply {
+            orCreateBadge.number = ratings.size
+            orCreateBadge.horizontalOffset = -2
+            if (ratings.isEmpty()) {
+                orCreateBadge.isVisible = false
+            } else {
+                orCreateBadge.isVisible = true
+            }
+        }
+    }
+
+    private fun updateAllRatingLandscape(ratings: List<FilmRating>) {
+        ALog.d(TAG, "allRatings: ${ratings.size}")
+        binding.viewLandscape.tabSuggest.getTabAt(3)?.apply {
+            orCreateBadge.number = ratings.size
+            orCreateBadge.horizontalOffset = -2
+            if (ratings.isEmpty()) {
+                orCreateBadge.isVisible = false
+            } else {
+                orCreateBadge.isVisible = true
+            }
+        }
+    }
+
+    private fun updateCommentPortrait(comments: List<Comment>) {
+        ALog.d(TAG, "comments: ${comments.size}")
+        binding.viewPortrait.tabSuggest.getTabAt(2)?.apply {
+            orCreateBadge.number = comments.size
+            orCreateBadge.horizontalOffset = -2
+            if (comments.isEmpty()) {
+                orCreateBadge.isVisible = false
+            } else {
+                orCreateBadge.isVisible = true
+            }
+        }
+    }
+
+    private fun updateCommentLandscape(comments: List<Comment>) {
+        ALog.d(TAG, "comments: ${comments.size}")
+        binding.viewLandscape.tabSuggest.getTabAt(2)?.apply {
+            orCreateBadge.number = comments.size
+            orCreateBadge.horizontalOffset = -2
+            if (comments.isEmpty()) {
+                orCreateBadge.isVisible = false
+            } else {
+                orCreateBadge.isVisible = true
+            }
+        }
+    }
+
+    private fun updateRateLandscape(rate: Double) {
+        if (rate == 0.0)
+            binding.viewLandscape.start1.setImageResource(R.drawable.star_outline_36)
+        binding.viewLandscape.rateAvg.text =
+            String.format(Locale.getDefault(), "%.1f", rate)
+    }
+
+    private fun updateRatePortrait(rate: Double) {
+        if (rate == 0.0)
+            binding.viewPortrait.start1.setImageResource(R.drawable.star_outline_36)
+        binding.viewPortrait.rateAvg.text =
+            String.format(Locale.getDefault(), "%.1f", rate)
+    }
+
     @SuppressLint("SetTextI18n")
     private fun loadPlayerData(data: ListData) {
-        binding.apply {
+        loadPlayerDataPortrait(data)
+        loadPlayerDataLandscape(data)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun loadPlayerDataLandscape(data: ListData) {
+        binding.viewLandscape.apply {
+            val desc = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
+            if (desc.length > 150) {
+                textDesc.text = desc.substring(
+                    0,
+                    125
+                ) + getString(R.string.three_dot) + getString(R.string.expand_text)
+            } else {
+                textDesc.text = desc.toString()
+                    .trim() + getString(R.string.three_dot) + getString(R.string.expand_text)
+            }
+            textDesc.makeTextLink(
+                textLink = getString(R.string.expand_text),
+                underline = true,
+                bold = true,
+                color = ContextCompat.getColor(requireContext(), R.color.button_light),
+                onClick = {
+                    viewModel.playerData.value?.let {
+                        FilmInfoDialog(currentTheme, it).show(
+                            childFragmentManager,
+                            TAG
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun loadPlayerDataPortrait(data: ListData) {
+        binding.viewPortrait.apply {
             val desc = Html.fromHtml(data.data.item?.content, Html.FROM_HTML_MODE_LEGACY)
             if (desc.length > 150) {
                 textDesc.text = desc.substring(
@@ -366,7 +581,33 @@ class PlayerFragment :
 
     override fun syncTheme() {
         super.syncTheme()
-        binding.apply {
+        syncThemeLandscape()
+        syncThemePortrait()
+    }
+
+    private fun syncThemeLandscape() {
+        binding.viewLandscape.apply {
+            root.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
+            tabSuggest.setBackgroundColor(
+                currentTheme.firstActivityBackgroundColor(
+                    requireContext()
+                )
+            )
+            tabSuggest.setTabTextColors(
+                currentTheme.tabTextColorDefault(requireContext()),
+                currentTheme.tabTextColorSelected(requireContext())
+            )
+            textTitle.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textDesc.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            btnRate.setIconResource(currentTheme.iconRate())
+            btnShare.setIconResource(currentTheme.iconShare())
+        }
+    }
+
+    private fun syncThemePortrait() {
+        binding.viewPortrait.apply {
+            root.setBackgroundColor(currentTheme.firstActivityBackgroundColor(requireContext()))
             tabSuggest.setBackgroundColor(
                 currentTheme.firstActivityBackgroundColor(
                     requireContext()
@@ -451,6 +692,22 @@ class PlayerFragment :
         } else {
             if (googleMobileAdsConsentManager.canRequestAds) {
                 loadAd()
+            }
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        ALog.d(TAG, "onConfigurationChanged: ${newConfig.orientation}")
+        newConfig.orientation.let {
+            binding.viewLandscape.root.isVisible = it == Configuration.ORIENTATION_LANDSCAPE
+            binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
+            if (it == Configuration.ORIENTATION_LANDSCAPE) {
+                binding.viewPortrait.videoViewContainer.removeAllViews()
+                binding.viewLandscape.videoViewContainer.addView(videoView)
+            } else {
+                binding.viewLandscape.videoViewContainer.removeAllViews()
+                binding.viewPortrait.videoViewContainer.addView(videoView)
             }
         }
     }

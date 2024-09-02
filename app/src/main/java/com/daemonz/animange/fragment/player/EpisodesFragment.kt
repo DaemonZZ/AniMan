@@ -63,10 +63,6 @@ class EpisodesFragment :
 
     override fun setupObservers() {
         playerViewModel?.apply {
-            currentPlaying.observe(viewLifecycleOwner) {
-//                episodeAdapter?.setPivot(it.pivot)
-//                binding.recyclerEpisodes.smoothScrollToPosition(it.pivot)
-            }
             playerData.observe(viewLifecycleOwner) { data ->
                 data.data.item?.let {
                     pagerAdapter?.let { pager ->
