@@ -102,16 +102,4 @@ class WelcomeFragment :
         binding.guideText.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         binding.logo.setImageResource(currentTheme.appLogo())
     }
-
-    @SuppressLint("SourceLockedOrientationActivity")
-    override fun onResume() {
-        super.onResume()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    }
-
-    override fun onPause() {
-        super.onPause()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-    }
-
 }
