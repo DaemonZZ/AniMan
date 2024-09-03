@@ -12,9 +12,9 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
-val versionMajor = 1
-val versionMinor = 5
-val versionPatch = 15
+val versionMajor = 2
+val versionMinor = 0
+val versionPatch = 0
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
