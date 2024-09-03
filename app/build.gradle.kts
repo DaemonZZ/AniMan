@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 1
 val versionMinor = 5
-val versionPatch = 14
+val versionPatch = 15
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -249,5 +249,5 @@ dependencies {
     implementation(libs.feature.delivery)
 
     implementation(libs.animated.theme.manager)
-    implementation("io.github.chaosleung:pinview:1.4.4")
+    implementation(libs.pinview)
 }
