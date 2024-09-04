@@ -1,5 +1,7 @@
 package com.daemonz.animange.fragment
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
@@ -10,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.WindowManager.LayoutParams
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -23,13 +24,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.viewbinding.ViewBinding
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentPlayerBinding
-import com.daemonz.animange.databinding.PlayerViewFragmentBinding
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.FilmRating
@@ -63,6 +62,11 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -92,6 +96,9 @@ class PlayerFragment :
 
     private var pagerAdapter: PlayerPagerAdapter? = null
 
+    private var hideToolbarJob = Job()
+    private var lastAction: Long = 0
+
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -104,6 +111,8 @@ class PlayerFragment :
             binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
             if (it == Configuration.ORIENTATION_LANDSCAPE) {
                 binding.viewLandscape.videoViewContainer.addView(videoView)
+                toggleToolBarShowing(false)
+                showActionBarLandScape()
             } else {
                 binding.viewPortrait.videoViewContainer.addView(videoView)
             }
@@ -125,10 +134,14 @@ class PlayerFragment :
         }
         videoView?.setOnTouchListener { v, event ->
             if (SystemClock.elapsedRealtime() - lastTouchWebView > 1000) {
-                ALog.d(TAG, "click on webview + ${event.action}")
-                toggleToolBarShowing(
-                    isShow = true, autoHide = true
-                )
+                if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ALog.d(TAG, "click on webview + ${event.action}")
+                    toggleToolBarShowing(
+                        isShow = true, autoHide = true
+                    )
+                } else {
+                    showActionBarLandScape()
+                }
             }
             lastTouchWebView = SystemClock.elapsedRealtime()
             v.onTouchEvent(event)
@@ -189,6 +202,9 @@ class PlayerFragment :
 
     private fun setupViewsLandscape() {
         binding.viewLandscape.apply {
+            navIcon.setOnClickListener {
+                onBack()
+            }
             btnFollow.setOnClickListener {
                 if (LoginData.account == null) {
                     Toast.makeText(
@@ -705,9 +721,39 @@ class PlayerFragment :
             if (it == Configuration.ORIENTATION_LANDSCAPE) {
                 binding.viewPortrait.videoViewContainer.removeAllViews()
                 binding.viewLandscape.videoViewContainer.addView(videoView)
+                toggleToolBarShowing(false)
+                showActionBarLandScape()
             } else {
                 binding.viewLandscape.videoViewContainer.removeAllViews()
                 binding.viewPortrait.videoViewContainer.addView(videoView)
+                toggleToolBarShowing(true, autoHide = true)
+            }
+        }
+    }
+
+    private fun showActionBarLandScape() {
+        ALog.d(TAG, "showActionBarLandScape")
+        binding.viewLandscape.topAppBar.animate().translationY(0f).alpha(1f).setDuration(200)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    binding.viewLandscape.topAppBar.isVisible = true
+                }
+            })
+        lastAction = SystemClock.elapsedRealtime()
+        hideToolbarJob = Job()
+        CoroutineScope(Dispatchers.Main + hideToolbarJob).launch {
+            delay(2000)
+            if (SystemClock.elapsedRealtime() - lastAction > 2000L) {
+                binding.viewLandscape.topAppBar.animate()
+                    .translationY(-binding.viewLandscape.topAppBar.height.toFloat()).alpha(0f)
+                    .setDuration(200)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            super.onAnimationEnd(animation)
+                            binding.viewLandscape.topAppBar.isVisible = false
+                        }
+                    })
             }
         }
     }

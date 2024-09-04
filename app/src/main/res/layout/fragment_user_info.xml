@@ -52,7 +52,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableStart="@drawable/person"
-            android:lines="1"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            android:nextFocusDown="@id/edt_password"
             android:drawablePadding="@dimen/dp_8"
             android:maxLength="50" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +83,8 @@
             android:drawableStart="@drawable/ic_lock"
             android:drawablePadding="@dimen/dp_8"
             android:inputType="numberPassword"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
             android:maxLength="6" />
     </com.google.android.material.textfield.TextInputLayout>
 
