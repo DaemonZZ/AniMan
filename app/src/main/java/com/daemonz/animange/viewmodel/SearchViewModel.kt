@@ -104,7 +104,6 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
                 }
                 repository.getRatingBySlugs(searchData.data.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
-                    ALog.d("tdn6", rates.first().rating.toString())
                     val data = searchData.data.map { item ->
                         item.rating =
                             rates.filter { it.slug == item.slug }.map { it.rating }.average()

@@ -98,7 +98,7 @@ class MainActivity : ThemeActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val updateDialog: UpdateDialog by lazy { UpdateDialog() }
-    private val internetDialog: InternetDialog by lazy { InternetDialog() }
+    private var internetDialog: InternetDialog? = null
     private var hideToolbarJob = Job()
     private var windowInsetsController: WindowInsetsControllerCompat? = null
 
@@ -276,9 +276,12 @@ class MainActivity : ThemeActivity() {
     }
 
     private fun showInternetDialog() {
-        if (!internetDialog.isAdded) {
-            internetDialog.show(supportFragmentManager, InternetDialog.TAG)
-            internetDialog.setTheme(currentTheme)
+        internetDialog = InternetDialog()
+        internetDialog?.let {
+            if (!it.isAdded) {
+                it.show(supportFragmentManager, InternetDialog.TAG)
+                it.setTheme(currentTheme)
+            }
         }
     }
 
