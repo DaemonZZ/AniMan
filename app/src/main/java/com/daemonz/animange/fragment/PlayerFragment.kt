@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.daemonz.animange.BuildConfig
@@ -41,6 +42,7 @@ import com.daemonz.animange.fragment.player.SuggestionFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.InterstitialAdHandler
 import com.daemonz.animange.ui.adapter.PlayerPagerAdapter
+import com.daemonz.animange.ui.custom.DzWebView
 import com.daemonz.animange.ui.dialog.FilmInfoDialog
 import com.daemonz.animange.ui.dialog.PlayerMaskDialog
 import com.daemonz.animange.ui.dialog.RatingDialog
@@ -79,7 +81,7 @@ class PlayerFragment :
     private var lastTouchWebView = 0L
     private var slug: String = ""
     private var interstitialAd: InterstitialAd? = null
-    private var videoView: WebView? = null
+    private var videoView: DzWebView? = null
 
     private val listFragLandscape = listOf<Fragment>(
         SuggestionFragment(),
@@ -105,7 +107,7 @@ class PlayerFragment :
     ): View? {
         val b = super.onCreateView(inflater, container, savedInstanceState)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        videoView = WebView(requireContext())
+        videoView = DzWebView(requireContext())
         requireActivity().resources.configuration.orientation.let {
             binding.viewLandscape.root.isVisible = it == Configuration.ORIENTATION_LANDSCAPE
             binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
@@ -720,12 +722,26 @@ class PlayerFragment :
             binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
             if (it == Configuration.ORIENTATION_LANDSCAPE) {
                 binding.viewPortrait.videoViewContainer.removeAllViews()
-                binding.viewLandscape.videoViewContainer.addView(videoView)
+                if (videoView?.isAttached == false) {
+                    binding.viewLandscape.videoViewContainer.addView(videoView)
+                } else {
+                    lifecycleScope.launch {
+                        delay(500)
+                        binding.viewLandscape.videoViewContainer.addView(videoView)
+                    }
+                }
                 toggleToolBarShowing(false)
                 showActionBarLandScape()
             } else {
                 binding.viewLandscape.videoViewContainer.removeAllViews()
-                binding.viewPortrait.videoViewContainer.addView(videoView)
+                if (videoView?.isAttached == false) {
+                    binding.viewPortrait.videoViewContainer.addView(videoView)
+                } else {
+                    lifecycleScope.launch {
+                        delay(500)
+                        binding.viewPortrait.videoViewContainer.addView(videoView)
+                    }
+                }
                 toggleToolBarShowing(true, autoHide = true)
             }
         }
