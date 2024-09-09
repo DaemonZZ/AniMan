@@ -83,6 +83,11 @@ class SettingsFragment :
                 getString(R.string.feedback),
                 menuFunction = MenuItemFunction.FeedBack
             ),
+            MenuItem(
+                currentTheme.feedbackMenuItem(),
+                getString(R.string.admin_menu),
+                menuFunction = MenuItemFunction.AdminMenu
+            ),
         )
         binding.apply {
             adapter = MenuAdapter(onItemClickListener, currentTheme)
@@ -128,10 +133,7 @@ class SettingsFragment :
                     imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name
                 }
-            } else {
-
             }
-
         }
     }
 

@@ -187,4 +187,5 @@
     <string name="log_out">Đăng xuất</string>
     <string name="no">Không</string>
     <string name="switch_user">Đổi người dùng</string>
+    <string name="admin_menu">Menu quản lý</string>
 </resources>
