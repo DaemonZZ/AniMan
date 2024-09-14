@@ -12,6 +12,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.FragmentSettingBinding
 import com.daemonz.animange.entity.MenuItem
 import com.daemonz.animange.entity.MenuItemFunction
+import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.AdBannerHandler
 import com.daemonz.animange.ui.adapter.MenuAdapter
@@ -60,9 +61,10 @@ class SettingsFragment :
                 }
             }
         }
+
     override fun setupViews() {
         loadViewState()
-        val listItem = listOf(
+        val listItem = mutableListOf(
             MenuItem(
                 currentTheme.userMenuItem(),
                 getString(R.string.profile),
@@ -83,12 +85,16 @@ class SettingsFragment :
                 getString(R.string.feedback),
                 menuFunction = MenuItemFunction.FeedBack
             ),
-            MenuItem(
-                currentTheme.feedbackMenuItem(),
-                getString(R.string.admin_menu),
-                menuFunction = MenuItemFunction.AdminMenu
-            ),
         )
+        if (LoginData.getActiveUser()?.userType == UserType.ADMIN) {
+            listItem.add(
+                MenuItem(
+                    currentTheme.feedbackMenuItem(),
+                    getString(R.string.admin_menu),
+                    menuFunction = MenuItemFunction.AdminMenu
+                ),
+            )
+        }
         binding.apply {
             adapter = MenuAdapter(onItemClickListener, currentTheme)
             recyclerMenu.adapter = adapter
@@ -159,6 +165,7 @@ class SettingsFragment :
             }
         }
     }
+
     override fun initData() {
 
     }
@@ -166,7 +173,7 @@ class SettingsFragment :
     override fun syncTheme() {
         super.syncTheme()
         binding.apply {
-        textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
+            textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
         }
     }
 
