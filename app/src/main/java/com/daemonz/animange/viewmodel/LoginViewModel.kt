@@ -27,6 +27,8 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.Instant
+import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
 
@@ -131,6 +133,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                             image = 1,
                             isMainUser = true,
                             isActive = true,
+                            createdAt = Date.from(Instant.now())
                         )
                     ),
                 )

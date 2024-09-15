@@ -2,6 +2,7 @@ package com.daemonz.animange.entity
 
 import androidx.annotation.Keep
 import java.io.Serializable
+import java.util.Date
 
 @Keep
 data class User(
@@ -15,6 +16,7 @@ data class User(
     var isActive: Boolean = false,
     var favorites: List<FavouriteItem> = listOf(),
     var password: String? = null,
+    var createdAt: Date? = null
 ) : Serializable {
     fun isFavourite(slug: String) = favorites.any { it.slug == slug }
 }

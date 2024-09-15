@@ -31,6 +31,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import retrofit2.Response
+import java.time.Instant
+import java.util.Date
 import java.util.UUID
 
 class DataRepository(
@@ -242,6 +244,7 @@ class DataRepository(
             userType = userType,
             password = password,
             isMainUser = false,
+            createdAt = Date.from(Instant.now())
         )
         val listUser = LoginData.account?.users?.toMutableList()?.apply {
             add(newUser)
