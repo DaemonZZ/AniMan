@@ -7,7 +7,7 @@ import com.daemonz.animange.viewmodel.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentAdmin :
+class AdminFragment :
     BaseFragment<FragmentAdnminBinding, AdminViewModel>(FragmentAdnminBinding::inflate) {
     override val viewModel: AdminViewModel by viewModels()
 

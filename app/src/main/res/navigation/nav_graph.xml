@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_supportFragment"
             app:destination="@id/supportFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -163,4 +166,8 @@
             android:id="@+id/action_pinInputFragment_to_chooseUserFragment"
             app:destination="@id/chooseUserFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.daemonz.animange.fragment.AdminFragment"
+        android:label="AdminFragment" />
 </navigation>
