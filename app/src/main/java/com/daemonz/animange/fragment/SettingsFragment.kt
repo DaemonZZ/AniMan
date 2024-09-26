@@ -55,6 +55,9 @@ class SettingsFragment :
                 MenuItemFunction.FeedBack -> findNavController().navigate(
                     SettingsFragmentDirections.actionSettingsFragmentToSupportFragment()
                 )
+                MenuItemFunction.AdminMenu -> findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToAdminFragment()
+                )
 
                 else -> {
                     showToastNotImplemented()

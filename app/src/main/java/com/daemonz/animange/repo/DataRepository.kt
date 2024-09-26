@@ -31,6 +31,7 @@ import com.daemonz.animange.util.VERSION_COLLECTION
 import com.daemonz.animange.util.VERSION_DOCS
 import com.daemonz.animange.util.toFavouriteItem
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import retrofit2.Response
@@ -377,6 +378,9 @@ class DataRepository(
         documentId = LoginData.getActiveUser()?.id.toString(),
         data = SearchHistoryData(items)
     )
+
+    fun getTotalUsersCount() =
+        fireStoreDataBase.getCollection("account").count().get(AggregateSource.SERVER)
     fun syncActivity(activity: Activity) = fireStoreDataBase.addDocument(
         collectionName = ACTIVITIES,
         documentId = activity.id.toString(),

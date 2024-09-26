@@ -174,4 +174,6 @@
     <string name="no">Không</string>
     <string name="switch_user">Đổi người dùng</string>
     <string name="admin_menu">Menu quản lý</string>
+    <string name="total_user">Tổng số người dùng: %d</string>
+    <string name="recently_users">Hoạt động gần đây: %d</string>
 </resources>
