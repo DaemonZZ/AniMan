@@ -381,6 +381,8 @@ class DataRepository(
 
     fun getTotalUsersCount() =
         fireStoreDataBase.getCollection("account").count().get(AggregateSource.SERVER)
+
+    fun getListAccounts() = fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).get()
     fun syncActivity(activity: Activity) = fireStoreDataBase.addDocument(
         collectionName = ACTIVITIES,
         documentId = activity.id.toString(),

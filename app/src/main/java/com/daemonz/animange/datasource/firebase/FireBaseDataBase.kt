@@ -10,7 +10,6 @@ import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 
 class FireBaseDataBase(
     private val db: FirebaseFirestore
@@ -83,4 +82,5 @@ class FireBaseDataBase(
     fun getRatingBySlugs(slugs: List<String>) = db.collection(RATING_COLLECTION)
         .where(Filter.inArray("slug", slugs))
         .get()
+
 }

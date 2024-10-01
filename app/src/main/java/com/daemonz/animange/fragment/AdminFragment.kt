@@ -1,6 +1,7 @@
 package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentAdnminBinding
@@ -13,12 +14,20 @@ class AdminFragment :
     override val viewModel: AdminViewModel by viewModels()
 
     override fun setupViews() {
-        viewModel.getUserCount()
+        binding.apply {
+            cardUsers.setOnClickListener {
+                findNavController().navigate(AdminFragmentDirections.actionAdminFragmentToAccountListFragment())
+            }
+        }
     }
 
     override fun setupObservers() {
         viewModel.userCount.observe(viewLifecycleOwner) {
             binding.textTotalUsers.text = getString(R.string.total_user, it)
         }
+    }
+
+    override fun initData() {
+        viewModel.getUserCount()
     }
 }
