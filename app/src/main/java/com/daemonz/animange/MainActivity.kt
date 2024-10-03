@@ -560,7 +560,8 @@ class MainActivity : ThemeActivity() {
                     dayNightSwitch.isInvisible = true
                 }
 
-                R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment -> {
+                R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment,
+                R.id.accountListFragment, R.id.adminFragment -> {
                     topAppBar.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true
