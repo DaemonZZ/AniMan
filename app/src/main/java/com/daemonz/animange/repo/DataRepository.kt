@@ -388,4 +388,6 @@ class DataRepository(
         documentId = activity.id.toString(),
         data = activity
     )
+    fun getTotalUsersActiveToday() =
+        fireStoreDataBase.getTodayActiveCount()
 }

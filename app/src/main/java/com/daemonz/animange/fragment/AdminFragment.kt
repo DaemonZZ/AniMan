@@ -25,9 +25,13 @@ class AdminFragment :
         viewModel.userCount.observe(viewLifecycleOwner) {
             binding.textTotalUsers.text = getString(R.string.total_user, it)
         }
+        viewModel.userActive.observe(viewLifecycleOwner) {
+            binding.recentlyUser.text = getString(R.string.recently_users, it)
+        }
     }
 
     override fun initData() {
         viewModel.getUserCount()
+        viewModel.getTotalUsersActiveToday()
     }
 }

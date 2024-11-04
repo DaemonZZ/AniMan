@@ -1,5 +1,7 @@
 package com.daemonz.animange.datasource.firebase
 
+import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.ACTIVITIES
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.RATING_COLLECTION
@@ -10,10 +12,16 @@ import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import java.time.Instant
+import java.util.Date
 
 class FireBaseDataBase(
     private val db: FirebaseFirestore
 ) {
+    companion object {
+        private const val TAG = "FireBaseDataBase"
+    }
     fun getCollection(collectionName: String) = db.collection(collectionName)
     fun getDocument(collectionName: String, documentId: String) =
         db.collection(collectionName).document(documentId)
@@ -82,5 +90,13 @@ class FireBaseDataBase(
     fun getRatingBySlugs(slugs: List<String>) = db.collection(RATING_COLLECTION)
         .where(Filter.inArray("slug", slugs))
         .get()
+
+    fun getTodayActiveCount(): Task<QuerySnapshot> {
+        val pivot = Date().apply {
+            time = Instant.now().toEpochMilli() - 24 * 60 * 60 * 1000
+        }
+        ALog.d(TAG, pivot.toString())
+        return db.collection(ACTIVITIES).where(Filter.greaterThan("time", pivot)).get()
+    }
 
 }
