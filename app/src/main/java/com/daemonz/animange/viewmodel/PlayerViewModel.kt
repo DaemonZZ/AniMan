@@ -3,15 +3,16 @@ package com.daemonz.animange.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Activity
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.Episode
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.util.TypeList
 import com.google.firebase.firestore.AggregateField
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +52,12 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
             val defaultEpisode = data.data.item?.episodes?.firstOrNull()
             withContext(Dispatchers.Main) {
                 _playerData.value = data
+                val activity = Activity(
+                    id = UUID.randomUUID().toString(),
+                    activity = UserAction.Watch,
+                    content = data.data.item?.originName
+                )
+                repository.syncActivity(activity)
                 isItemFavourite()
                 defaultEpisode?.let {
                     _currentPlaying.value = it.copy(
@@ -155,6 +162,12 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
         repository.rateItem(rating).addOnSuccessListener {
             getAllRating(playerData.value?.data?.item?.slug.toString())
             getRatingAvg(playerData.value?.data?.item?.slug.toString())
+            val activity = Activity(
+                id = UUID.randomUUID().toString(),
+                activity = UserAction.Rate,
+                content = "rates for ${playerData.value?.data?.item?.originName} ${rating.rating}"
+            )
+            repository.syncActivity(activity)
         }
     }
 
@@ -208,6 +221,12 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     //Comment
     fun sendComment(comment: Comment) = launchOnIO {
         repository.sendComment(comment)?.addOnSuccessListener {
+            val activity = Activity(
+                id = UUID.randomUUID().toString(),
+                activity = UserAction.Comment,
+                content = "leaves a comment in ${playerData.value?.data?.item?.originName}"
+            )
+            repository.syncActivity(activity)
             //update parrent comment
             comment.replyFor?.let {
                 repository.getCommentById(it).addOnSuccessListener {

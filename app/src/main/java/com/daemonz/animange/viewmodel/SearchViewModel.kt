@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
+import com.daemonz.animange.entity.Activity
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.PagingData
 import com.daemonz.animange.entity.SearchHistory
 import com.daemonz.animange.entity.SearchHistoryData
+import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.Category
 import com.daemonz.animange.util.Country
@@ -19,6 +21,7 @@ import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.internal.toImmutableList
 import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +40,12 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     var imgDomain = ""
     fun search(query: String, page: Int = 0) {
         ALog.d(TAG, "Searching for $query")
+        val activity = Activity(
+            id = UUID.randomUUID().toString(),
+            activity = UserAction.Search,
+            content = query
+        )
+        repository.syncActivity(activity)
         if (cacheData[page] != null) {
             _searchResult.value = cacheData[page]?.map {
                 PagingData(

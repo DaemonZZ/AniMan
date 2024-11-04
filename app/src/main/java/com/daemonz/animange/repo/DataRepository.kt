@@ -5,6 +5,7 @@ import com.daemonz.animange.datasource.firebase.FireBaseDataBase
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.Activity
 import com.daemonz.animange.entity.Comment
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.FeedBack
@@ -14,9 +15,11 @@ import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.entity.SearchHistory
 import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
+import com.daemonz.animange.util.ACTIVITIES
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.FEEDBACK_COLLECTION
@@ -154,6 +157,12 @@ class DataRepository(
                 ALog.d(TAG, "markItemAsFavourite: ${LoginData.getActiveUser()?.favorites?.size}")
             }
         }
+        val activity = Activity(
+            id = UUID.randomUUID().toString(),
+            activity = UserAction.Follow,
+            content = item.name
+        )
+        syncActivity(activity)
     }
 
     fun unMarkItemAsFavourite(item: Item) {
@@ -170,6 +179,12 @@ class DataRepository(
                 )
             }
         }
+        val activity = Activity(
+            id = UUID.randomUUID().toString(),
+            activity = UserAction.Unfollow,
+            content = item.name
+        )
+        syncActivity(activity)
     }
 
     fun markItemAsFavourite(item: FavouriteItem) {
@@ -187,6 +202,12 @@ class DataRepository(
                 ALog.d(TAG, "markItemAsFavourite: ${LoginData.getActiveUser()?.favorites?.size}")
             }
         }
+        val activity = Activity(
+            id = UUID.randomUUID().toString(),
+            activity = UserAction.Follow,
+            content = item.name
+        )
+        syncActivity(activity)
     }
 
     fun unMarkItemAsFavourite(item: FavouriteItem) {
@@ -203,6 +224,12 @@ class DataRepository(
                 )
             }
         }
+        val activity = Activity(
+            id = UUID.randomUUID().toString(),
+            activity = UserAction.Unfollow,
+            content = item.name
+        )
+        syncActivity(activity)
     }
 
     fun updateProfile(name: String, email: String, phone: String) {
@@ -349,5 +376,10 @@ class DataRepository(
         collectionName = SEARCH_HISTORY,
         documentId = LoginData.getActiveUser()?.id.toString(),
         data = SearchHistoryData(items)
+    )
+    fun syncActivity(activity: Activity) = fireStoreDataBase.addDocument(
+        collectionName = ACTIVITIES,
+        documentId = activity.id.toString(),
+        data = activity
     )
 }

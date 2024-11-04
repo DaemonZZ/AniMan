@@ -11,8 +11,10 @@ import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Account
+import com.daemonz.animange.entity.Activity
 import com.daemonz.animange.entity.UpdateData
 import com.daemonz.animange.entity.User
+import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.AppThemeManager
@@ -120,6 +122,12 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 val account = acc.toObject(Account::class.java)
                 LoginData.account = account
                 _account.value = account
+                val activity = Activity(
+                    id = UUID.randomUUID().toString(),
+                    activity = UserAction.Login,
+                    content = LoginData.account?.name
+                )
+                repository.syncActivity(activity)
             } else {
                 val newAccount = Account(
                     id = user.uid,
@@ -140,6 +148,12 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 repository.saveAccount(newAccount)
                 _account.value = newAccount
                 // LoginData.account is assigned in repository.saveAccount
+                val activity = Activity(
+                    id = UUID.randomUUID().toString(),
+                    activity = UserAction.Register,
+                    content = LoginData.account?.name
+                )
+                repository.syncActivity(activity)
             }
         }.addOnFailureListener { e ->
             _error.value = e
@@ -149,6 +163,12 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     fun logout(context: Context) {
         ALog.d(TAG, "logout: ")
         AuthUI.getInstance().signOut(context).addOnSuccessListener {
+            val activity = Activity(
+                id = UUID.randomUUID().toString(),
+                activity = UserAction.Logout,
+                content = LoginData.account?.name
+            )
+            repository.syncActivity(activity)
             LoginData.account = null
             _account.value = null
             _error.value = null
