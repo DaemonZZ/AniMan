@@ -55,7 +55,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
                 val activity = Activity(
                     id = UUID.randomUUID().toString(),
                     activity = UserAction.Watch,
-                    content = data.data.item?.originName
+                    content = "${LoginData.account?.name} watches film: ${data.data.item?.originName}"
                 )
                 repository.syncActivity(activity)
                 isItemFavourite()
@@ -165,7 +165,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
             val activity = Activity(
                 id = UUID.randomUUID().toString(),
                 activity = UserAction.Rate,
-                content = "rates for ${playerData.value?.data?.item?.originName} ${rating.rating}"
+                content = "${LoginData.account?.name} rates for ${playerData.value?.data?.item?.originName} ${rating.rating}"
             )
             repository.syncActivity(activity)
         }
@@ -224,7 +224,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
             val activity = Activity(
                 id = UUID.randomUUID().toString(),
                 activity = UserAction.Comment,
-                content = "leaves a comment in ${playerData.value?.data?.item?.originName}"
+                content = "${LoginData.account?.name} leaves a comment in ${playerData.value?.data?.item?.originName}"
             )
             repository.syncActivity(activity)
             //update parrent comment
