@@ -14,6 +14,7 @@ import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.Category
 import com.daemonz.animange.util.Country
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.Year
 import com.daemonz.animange.util.addOnCompleteListener
@@ -43,7 +44,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
         val activity = Activity(
             id = UUID.randomUUID().toString(),
             activity = UserAction.Search,
-            content = query
+            content = "${LoginData.account?.name} searched for $query"
         )
         repository.syncActivity(activity)
         if (cacheData[page] != null) {

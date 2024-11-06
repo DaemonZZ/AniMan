@@ -160,7 +160,7 @@ class DataRepository(
         val activity = Activity(
             id = UUID.randomUUID().toString(),
             activity = UserAction.Follow,
-            content = item.name
+            content = "${LoginData.account?.name} matched ${item.name} as favorite"
         )
         syncActivity(activity)
     }
@@ -182,7 +182,7 @@ class DataRepository(
         val activity = Activity(
             id = UUID.randomUUID().toString(),
             activity = UserAction.Unfollow,
-            content = item.name
+            content = "${LoginData.account?.name} un-matched ${item.name} as favorite"
         )
         syncActivity(activity)
     }
@@ -205,7 +205,7 @@ class DataRepository(
         val activity = Activity(
             id = UUID.randomUUID().toString(),
             activity = UserAction.Follow,
-            content = item.name
+            content = "${LoginData.account?.name} matched ${item.name} as favorite"
         )
         syncActivity(activity)
     }
@@ -227,7 +227,7 @@ class DataRepository(
         val activity = Activity(
             id = UUID.randomUUID().toString(),
             activity = UserAction.Unfollow,
-            content = item.name
+            content = "${LoginData.account?.name} un-matched ${item.name} as favorite"
         )
         syncActivity(activity)
     }

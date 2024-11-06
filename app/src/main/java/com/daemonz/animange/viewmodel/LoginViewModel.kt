@@ -125,7 +125,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 val activity = Activity(
                     id = UUID.randomUUID().toString(),
                     activity = UserAction.Login,
-                    content = LoginData.account?.name
+                    content = "${LoginData.account?.name} 's just logged in"
                 )
                 repository.syncActivity(activity)
             } else {
@@ -151,7 +151,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 val activity = Activity(
                     id = UUID.randomUUID().toString(),
                     activity = UserAction.Register,
-                    content = LoginData.account?.name
+                    content = "${LoginData.account?.name} 's just register account"
                 )
                 repository.syncActivity(activity)
             }
@@ -166,7 +166,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             val activity = Activity(
                 id = UUID.randomUUID().toString(),
                 activity = UserAction.Logout,
-                content = LoginData.account?.name
+                content = "${LoginData.account?.name} 's just logged out"
             )
             repository.syncActivity(activity)
             LoginData.account = null
