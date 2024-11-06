@@ -18,6 +18,9 @@ class AdminFragment :
             cardUsers.setOnClickListener {
                 findNavController().navigate(AdminFragmentDirections.actionAdminFragmentToAccountListFragment())
             }
+            cardActivities.setOnClickListener {
+                findNavController().navigate(AdminFragmentDirections.actionAdminFragmentToActivitiesFragment())
+            }
         }
     }
 

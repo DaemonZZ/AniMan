@@ -173,9 +173,16 @@
         <action
             android:id="@+id/action_adminFragment_to_accountListFragment"
             app:destination="@id/accountListFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_activitiesFragment"
+            app:destination="@id/activitiesFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountListFragment"
         android:name="com.daemonz.animange.fragment.AccountListFragment"
         android:label="AccountListFragment" />
+    <fragment
+        android:id="@+id/activitiesFragment"
+        android:name="com.daemonz.animange.fragment.ActivitiesFragment"
+        android:label="ActivitiesFragment" />
 </navigation>
