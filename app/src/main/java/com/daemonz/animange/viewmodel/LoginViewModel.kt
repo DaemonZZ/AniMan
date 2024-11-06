@@ -151,7 +151,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 val activity = Activity(
                     id = UUID.randomUUID().toString(),
                     activity = UserAction.Register,
-                    content = "${LoginData.account?.name} 's just register account"
+                    content = "${newAccount.name} 's just register account"
                 )
                 repository.syncActivity(activity)
             }
