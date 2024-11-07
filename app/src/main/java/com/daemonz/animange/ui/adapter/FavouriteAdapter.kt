@@ -8,7 +8,6 @@ import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.CardItemBinding
-import com.daemonz.animange.databinding.FavoritesItemBinding
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.util.LoginData
@@ -26,6 +25,9 @@ class FavouriteAdapter(
     override fun bindView(binding: CardItemBinding, item: FavouriteItem, position: Int) {
         binding.apply {
             imgView.setImageFromUrl(item.imageUrl)
+            imgView.setOnClickListener {
+                onItemClickListener.onItemClick(item, position)
+            }
             textTitle.text = item.name
             bookMark.visibility = View.VISIBLE
             root.setOnClickListener {
