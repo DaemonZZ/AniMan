@@ -2,7 +2,6 @@ package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
@@ -11,9 +10,9 @@ import com.daemonz.animange.databinding.CarouselItemBinding
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
-import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.isFavorite
 import com.daemonz.animange.util.setImageFromUrl
+import java.util.Locale
 
 class HomeCarouselAdapter(
     private val onItemClickListener: OnItemClickListener<Item>,
@@ -30,7 +29,11 @@ class HomeCarouselAdapter(
             carouselImageView.setImageFromUrl(item.getImageUrl(imgDomain))
             btnWatch.setOnClickListener { onItemClickListener.onItemClick(item, position) }
             textTitle.text = item.name
-            rating.text = if (item.rating.isNaN()) "0.0" else item.rating.toString()
+            rating.text = if (item.rating.isNaN()) "0.0" else String.format(
+                Locale.getDefault(),
+                "%.1f",
+                item.rating
+            )
             rating.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
