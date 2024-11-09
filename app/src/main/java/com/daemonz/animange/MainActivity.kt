@@ -34,6 +34,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.databinding.ActivityMainBinding
+import com.daemonz.animange.entity.Activity
+import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.fragment.ChooseUserFragment
 import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
@@ -47,6 +49,7 @@ import com.daemonz.animange.ui.thememanager.DarkTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.ConnectionLiveData
+import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.NIGHT_MODE_KEY
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.Session
@@ -68,6 +71,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
@@ -83,7 +87,7 @@ class MainActivity : ThemeActivity() {
 
     @Inject
     lateinit var sharePreferenceManager: SharePreferenceManager
-
+    private var currentTheme: AnimanTheme = LightTheme()
     private var loadingDialog: LoadingOverLay = LoadingOverLay(LightTheme())
 
     private val listFragmentsWithNavbar = listOf(
@@ -357,8 +361,27 @@ class MainActivity : ThemeActivity() {
         if (netInfo == null) {
             showInternetDialog()
         }
+        LoginData.account?.let {
+            val activity = Activity(
+                id = UUID.randomUUID().toString(),
+                activity = UserAction.OpenApp,
+                content = "${it.name} 's just open app"
+            )
+            viewModel.syncActivity(activity)
+        }
     }
-    private var currentTheme: AnimanTheme = LightTheme()
+
+    override fun onStop() {
+        super.onStop()
+        LoginData.account?.let {
+            val activity = Activity(
+                id = UUID.randomUUID().toString(),
+                activity = UserAction.CloseApp,
+                content = "${it.name} 's just close app"
+            )
+            viewModel.syncActivity(activity)
+        }
+    }
     override fun syncTheme(appTheme: AppTheme) {
         currentTheme = appTheme as AnimanTheme
         ALog.d(TAG, "syncTheme: id = ${currentTheme.id()}")

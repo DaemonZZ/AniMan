@@ -26,5 +26,7 @@ enum class UserAction {
     Unfollow,
     Watch,
     Share,
-    Search
+    Search,
+    OpenApp,
+    CloseApp
 }

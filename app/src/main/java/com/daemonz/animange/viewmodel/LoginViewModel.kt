@@ -127,7 +127,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     activity = UserAction.Login,
                     content = "${LoginData.account?.name} 's just logged in"
                 )
-                repository.syncActivity(activity)
+                syncActivity(activity)
             } else {
                 val newAccount = Account(
                     id = user.uid,
@@ -153,7 +153,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     activity = UserAction.Register,
                     content = "${newAccount.name} 's just register account"
                 )
-                repository.syncActivity(activity)
+                syncActivity(activity)
             }
         }.addOnFailureListener { e ->
             _error.value = e
@@ -168,7 +168,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 activity = UserAction.Logout,
                 content = "${LoginData.account?.name} 's just logged out"
             )
-            repository.syncActivity(activity)
+            syncActivity(activity)
             LoginData.account = null
             _account.value = null
             _error.value = null
@@ -199,5 +199,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             _error.value = it
         }
     }
-
+    fun syncActivity(activity: Activity) {
+        repository.syncActivity(activity)
+    }
 }
