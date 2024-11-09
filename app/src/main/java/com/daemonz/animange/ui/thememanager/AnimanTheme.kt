@@ -48,4 +48,5 @@ interface AnimanTheme : AppTheme {
     fun filledBtnDisableColor(context: Context): Int
     fun carouselBg(): Int
     fun chipStyle(): Int
+    fun icLanguage(): Int
 }

@@ -54,6 +54,9 @@ class SettingsFragment :
                 MenuItemFunction.FeedBack -> findNavController().navigate(
                     SettingsFragmentDirections.actionSettingsFragmentToSupportFragment()
                 )
+                MenuItemFunction.Language -> findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment()
+                )
 
                 else -> {
                     showToastNotImplemented()
@@ -82,6 +85,11 @@ class SettingsFragment :
                 currentTheme.feedbackMenuItem(),
                 getString(R.string.feedback),
                 menuFunction = MenuItemFunction.FeedBack
+            ),
+            MenuItem(
+                currentTheme.icLanguage(),
+                getString(R.string.language),
+                menuFunction = MenuItemFunction.Language
             ),
         )
         binding.apply {
