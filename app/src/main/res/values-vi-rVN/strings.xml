@@ -174,4 +174,6 @@
     <string name="no">Không</string>
     <string name="switch_user">Đổi người dùng</string>
     <string name="language">Ngôn ngữ</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="vietnamese">Tiếng Việt</string>
 </resources>

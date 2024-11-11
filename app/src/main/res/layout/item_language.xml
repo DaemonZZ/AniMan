@@ -14,6 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/dp_8"
         app:srcCompat="@drawable/circle" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
+        android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/arrow"
         app:layout_constraintStart_toEndOf="@id/icon"
