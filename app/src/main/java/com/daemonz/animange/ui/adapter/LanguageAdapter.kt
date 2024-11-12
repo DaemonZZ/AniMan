@@ -3,11 +3,14 @@ package com.daemonz.animange.ui.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemLanguageBinding
 import com.daemonz.animange.entity.Language
+import com.daemonz.animange.log.ALog
+import java.util.Locale
 
 class LanguageAdapter(onItemClickListener: OnItemClickListener<Language>) :
     BaseRecyclerAdapter<Language, ItemLanguageBinding>(onItemClickListener) {
@@ -16,6 +19,9 @@ class LanguageAdapter(onItemClickListener: OnItemClickListener<Language>) :
 
     override fun bindView(binding: ItemLanguageBinding, item: Language, position: Int) {
         binding.apply {
+            val currentLanguage = Locale.getDefault().language
+            ALog.d(TAG, "language: $currentLanguage")
+            checkbox.isVisible = currentLanguage == item.id
             title.text = getLanguageName(item, root.context)
             icon.setImageResource(getLangIcons(item))
         }

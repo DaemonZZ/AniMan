@@ -86,11 +86,11 @@ class SettingsFragment :
                 getString(R.string.feedback),
                 menuFunction = MenuItemFunction.FeedBack
             ),
-            MenuItem(
-                currentTheme.icLanguage(),
-                getString(R.string.language),
-                menuFunction = MenuItemFunction.Language
-            ),
+//            MenuItem(
+//                currentTheme.icLanguage(),
+//                getString(R.string.language),
+//                menuFunction = MenuItemFunction.Language
+//            ),
         )
         binding.apply {
             adapter = MenuAdapter(onItemClickListener, currentTheme)

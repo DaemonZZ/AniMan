@@ -23,7 +23,7 @@ class LanguageFragment :
         binding.apply {
             (activity as? MainActivity)?.setTitle(getString(R.string.language))
             adapter = LanguageAdapter(
-                onItemClickListener = { _, item ->
+                onItemClickListener = { item, _ ->
 //                    viewModel.changeLanguage(item.id)
                 }
             )

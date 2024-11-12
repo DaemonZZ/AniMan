@@ -26,21 +26,22 @@
         android:lines="1"
         android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/arrow"
+        app:layout_constraintEnd_toStartOf="@id/checkbox"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/arrow"
+        android:id="@+id/checkbox"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
         android:layout_marginVertical="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_8"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/chevron_right" />
+        app:srcCompat="@drawable/ic_check" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"

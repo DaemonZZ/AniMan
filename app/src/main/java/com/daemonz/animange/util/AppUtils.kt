@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.daemonz.animange.log.ALog
-import com.google.android.material.textfield.TextInputEditText
 
 object AppUtils {
     private const val TAG = "AppUtils"
