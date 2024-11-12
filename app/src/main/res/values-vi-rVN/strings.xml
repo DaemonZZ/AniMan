@@ -173,6 +173,9 @@
     <string name="log_out">Đăng xuất</string>
     <string name="no">Không</string>
     <string name="switch_user">Đổi người dùng</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="vietnamese">Tiếng Việt</string>
     <string name="admin_menu">Menu quản lý</string>
     <string name="total_user">Tổng số người dùng: %d</string>
     <string name="recently_users">Hoạt động gần đây: %d</string>

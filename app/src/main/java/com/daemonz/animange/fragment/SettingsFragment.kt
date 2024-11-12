@@ -58,6 +58,9 @@ class SettingsFragment :
                 MenuItemFunction.AdminMenu -> findNavController().navigate(
                     SettingsFragmentDirections.actionSettingsFragmentToAdminFragment()
                 )
+                MenuItemFunction.Language -> findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment()
+                )
 
                 else -> {
                     showToastNotImplemented()
@@ -88,6 +91,11 @@ class SettingsFragment :
                 getString(R.string.feedback),
                 menuFunction = MenuItemFunction.FeedBack
             ),
+//            MenuItem(
+//                currentTheme.icLanguage(),
+//                getString(R.string.language),
+//                menuFunction = MenuItemFunction.Language
+//            ),
         )
         if (LoginData.getActiveUser()?.userType == UserType.ADMIN) {
             listItem.add(

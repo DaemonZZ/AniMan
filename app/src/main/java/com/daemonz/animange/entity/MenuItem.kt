@@ -24,5 +24,6 @@ enum class MenuItemFunction {
     Favorites,
     UserManagement,
     FeedBack,
-    AdminMenu
+    AdminMenu,
+    Language
 }

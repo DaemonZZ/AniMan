@@ -85,6 +85,8 @@ class DarkTheme : AnimanTheme {
 
     override fun carouselBg(): Int = R.drawable.custom_background_banner_dark
     override fun chipStyle(): Int = R.style.ChipCustomNight
+    override fun icLanguage(): Int = R.drawable.ic_lang_night
+
     override fun id(): Int {
         return 1
     }
