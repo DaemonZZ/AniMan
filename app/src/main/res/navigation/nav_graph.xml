@@ -129,9 +129,7 @@
         android:name="com.daemonz.animange.fragment.SupportFragment"
         android:label="SupportFragment" />
     <include app:graph="@navigation/nav_search" />
-    <action
-        android:id="@+id/action_global_searchFragment"
-        app:destination="@id/nav_search" />
+
     <fragment
         android:id="@+id/pinInputFragment"
         android:name="com.daemonz.animange.fragment.PinInputFragment"
@@ -170,4 +168,14 @@
         android:id="@+id/languageFragment"
         android:name="com.daemonz.animange.fragment.LanguageFragment"
         android:label="LanguageFragment" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment" />
+    <action
+        android:id="@+id/action_global_listFilterFrag"
+        app:destination="@id/nav_search" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.daemonz.animange.fragment.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

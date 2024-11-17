@@ -462,6 +462,11 @@ class MainActivity : ThemeActivity() {
                 supportFragmentManager.fragments.first().findNavController()
                     .navigate(NavGraphDirections.actionGlobalSearchFragment())
             }
+            actionList.setOnClickListener {
+                toggleToolBarShowing(false)
+                supportFragmentManager.fragments.first().findNavController()
+                    .navigate(NavGraphDirections.actionGlobalListFilterFrag())
+            }
             bottomNavigation.setOnItemReselectedListener { item ->
                 when (item.itemId) {
                     //                    R.id.item_1 -> {
@@ -536,11 +541,12 @@ class MainActivity : ThemeActivity() {
         binding.apply {
             navIcon.isVisible = true
             navIcon2.isVisible = false
+            actionList.isVisible = false
+            actionSearch.isVisible = false
             when (fragment) {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     title.text = STRING_EMPTY
                     actionEdit.isVisible = false
                     appLogo.isVisible = false
@@ -550,7 +556,6 @@ class MainActivity : ThemeActivity() {
                 R.id.favouritesFragment -> {
                     topAppBar.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     title.text = getString(R.string.favourites_filmes)
                     title.isVisible = true
                     toggleToolBarShowing(isShow = true, autoHide = false)
@@ -564,7 +569,6 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     title.text = getString(R.string.user_profile)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     actionEdit.isVisible = false
@@ -576,7 +580,6 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     title.text = getString(R.string.who_watching)
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     actionEdit.isVisible = true
@@ -589,7 +592,6 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     actionEdit.isVisible = false
                     actionClose.isVisible = false
@@ -602,7 +604,6 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = false
                     title.isVisible = true
                     topAppBar.fitsSystemWindows = false
-                    actionSearch.isVisible = false
                     toggleToolBarShowing(isShow = true, autoHide = false)
                     actionEdit.isVisible = false
                     actionClose.isVisible = false
@@ -631,6 +632,7 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = true
                     topAppBar.fitsSystemWindows = true
                     actionSearch.isVisible = true
+                    actionList.isVisible = true
                     title.text = STRING_EMPTY
                     actionEdit.isVisible = false
                     dayNightSwitch.isInvisible = true

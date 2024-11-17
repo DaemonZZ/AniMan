@@ -25,17 +25,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/arrow_back" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btn_filter"
-            android:layout_width="@dimen/dp_24"
-            android:layout_height="@dimen/dp_24"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@id/search_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_filter" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_layout"
@@ -47,7 +36,7 @@
             app:boxCornerRadiusBottomStart="@dimen/dp_32"
             app:boxCornerRadiusTopEnd="@dimen/dp_32"
             app:boxCornerRadiusTopStart="@dimen/dp_32"
-            app:layout_constraintEnd_toStartOf="@id/btn_filter"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent">
 

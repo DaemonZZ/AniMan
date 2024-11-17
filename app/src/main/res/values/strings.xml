@@ -190,4 +190,6 @@
     <string name="language">Language</string>
     <string name="english">English</string>
     <string name="vietnamese">Vietnamese</string>
+    <string name="type_list">Film List</string>
+    <string name="apply_selection">Apply Selection</string>
 </resources>

@@ -75,9 +75,6 @@ class SearchFragment :
         }
         binding.apply {
             ALog.d(TAG, "bindView: $currentTheme")
-            btnFilter.setOnClickListener {
-                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
-            }
             edtSearch.setText(STRING_EMPTY)
             edtSearch.clearFocus()
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
@@ -154,7 +151,6 @@ class SearchFragment :
                     updateHistoryData(it)
                 }
             }
-            btnFilter.setImageResource(currentTheme.iconFilter())
             btnBack.setImageResource(currentTheme.iconBack())
             searchLayout.hintTextColor =
                 ColorStateList.valueOf(currentTheme.firstActivityTextColor(requireContext()))

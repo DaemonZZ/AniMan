@@ -176,4 +176,6 @@
     <string name="language">Ngôn ngữ</string>
     <string name="english">Tiếng Anh</string>
     <string name="vietnamese">Tiếng Việt</string>
+    <string name="type_list">Danh sách</string>
+    <string name="apply_selection">Áp dụng lựa chọn</string>
 </resources>
