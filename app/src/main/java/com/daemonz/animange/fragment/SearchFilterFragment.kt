@@ -2,7 +2,6 @@ package com.daemonz.animange.fragment
 
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
@@ -32,22 +31,26 @@ class SearchFilterFragment :
             chipType.setChipSpacingVerticalResource(R.dimen.dp_0)
             chipType.isSelectionRequired = true
             chipType.isSingleSelection = true
-            viewModel.allTypes.forEach { category ->
+            viewModel.allTypes.forEach { type ->
                 val chip = Chip(requireContext())
-                chip.text = getString(category.title)
+                chip.text = getString(type.title)
+                chip.contentDescription = type.value
                 chip.isCheckable = true
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     ALog.d(TAG, "onCheckedChange: $isChecked")
-                    chip.isChipIconVisible = isChecked
+                    chip.isChecked = isChecked
+                    chip.isChipIconVisible = chip.isChecked
                 }
                 chipType.addView(chip)
             }
             viewModel.allCategories.forEach { category ->
                 val chip = Chip(requireContext())
                 chip.text = getString(category.title)
+                chip.contentDescription = category.value
                 chip.isCheckable = true
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     ALog.d(TAG, "onCheckedChange: $isChecked")
+                    chip.isChecked = isChecked
                     chip.isChipIconVisible = isChecked
                 }
                 chipCate.addView(chip)
@@ -55,9 +58,11 @@ class SearchFilterFragment :
             viewModel.allCountries.forEach { country ->
                 val chip = Chip(requireContext())
                 chip.text = getString(country.title)
+                chip.contentDescription = country.value
                 chip.isCheckable = true
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     ALog.d(TAG, "onCheckedChange: $isChecked")
+                    chip.isChecked = isChecked
                     chip.isChipIconVisible = isChecked
                 }
                 chipCountry.addView(chip)
@@ -69,9 +74,11 @@ class SearchFilterFragment :
                 } else {
                     chip.text = year.value
                 }
+                chip.contentDescription = year.value
                 chip.isCheckable = true
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     ALog.d(TAG, "onCheckedChange: $isChecked")
+                    chip.isChecked = isChecked
                     chip.isChipIconVisible = isChecked
                 }
                 chipYear.addView(chip)
@@ -105,7 +112,8 @@ class SearchFilterFragment :
                         )
                     )
                     chip.setChipIconResource(R.drawable.ic_checked)
-                    chip.isChipIconVisible = false
+                    chip.isChipIconVisible = viewModel.selectedType.value == chip.contentDescription
+                    chip.isChecked = viewModel.selectedType.value == chip.contentDescription
                 }
             }
             chipCate.children.forEach {
@@ -119,7 +127,9 @@ class SearchFilterFragment :
                         )
                     )
                     chip.setChipIconResource(R.drawable.ic_checked)
-                    chip.isChipIconVisible = false
+                    chip.isChipIconVisible = viewModel.selectedCategory.map { it.value }
+                        .contains(chip.contentDescription)
+                    chip.isChecked = chip.isChipIconVisible
                 }
             }
             chipCountry.children.forEach {
@@ -133,7 +143,9 @@ class SearchFilterFragment :
                         )
                     )
                     chip.setChipIconResource(R.drawable.ic_checked)
-                    chip.isChipIconVisible = false
+                    chip.isChipIconVisible =
+                        viewModel.selectedCountry.map { it.value }.contains(chip.contentDescription)
+                    chip.isChecked = chip.isChipIconVisible
                 }
             }
             chipYear.children.forEach {
@@ -147,26 +159,16 @@ class SearchFilterFragment :
                         )
                     )
                     chip.setChipIconResource(R.drawable.ic_checked)
-                    chip.isChipIconVisible = false
+                    chip.isChipIconVisible =
+                        viewModel.selectedYear.map { it.value }.contains(chip.contentDescription)
+                    chip.isChecked = chip.isChipIconVisible
                 }
             }
-            chipType.children.firstOrNull()?.let { chip ->
-                (chip as Chip).isChecked = true
-                chip.isChipIconVisible = true
-            }
-            chipCate.children.firstOrNull()?.let { chip ->
-                (chip as Chip).isChecked = true
-                chip.isChipIconVisible = true
-            }
-            chipCountry.children.firstOrNull()?.let { chip ->
-                (chip as Chip).isChecked = true
-                chip.isChipIconVisible = true
-            }
-            chipYear.children.firstOrNull()?.let { chip ->
-                (chip as Chip).isChecked = true
-                chip.isChipIconVisible = true
-            }
         }
+    }
+
+    private fun applyFilter() {
+
     }
 
     override fun onDestroyView() {

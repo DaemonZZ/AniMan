@@ -20,7 +20,6 @@ import com.daemonz.animange.util.Year
 import com.daemonz.animange.util.addOnCompleteListener
 import com.daemonz.animange.util.addOnFailureListener
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.internal.toImmutableList
 import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
@@ -34,10 +33,15 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     val searchHistoryData: LiveData<List<SearchHistory>> = _searchData
 
     private val cacheData: MutableMap<Int, List<Item>> = mutableMapOf()
-    val allCategories = Category.entries.toImmutableList()
-    val allCountries = Country.entries.toImmutableList()
-    val allTypes = TypeList.entries.toImmutableList()
-    val allYears = Year.entries.toImmutableList()
+    val allCategories = Category.entries.toList()
+    val allCountries = Country.entries.toList()
+    val allTypes = TypeList.entries.toList()
+    val allYears = Year.entries.toList()
+
+    var selectedType = TypeList.New
+    var selectedCategory = mutableListOf(Category.All)
+    var selectedYear = mutableListOf(Year.All)
+    var selectedCountry = mutableListOf(Country.All)
     var imgDomain = ""
     fun search(query: String, page: Int = 0) {
         ALog.d(TAG, "Searching for $query")
