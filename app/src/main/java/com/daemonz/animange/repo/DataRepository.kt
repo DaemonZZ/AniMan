@@ -31,6 +31,7 @@ import com.daemonz.animange.util.VERSION_COLLECTION
 import com.daemonz.animange.util.VERSION_DOCS
 import com.daemonz.animange.util.toFavouriteItem
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
@@ -380,9 +381,22 @@ class DataRepository(
     )
 
     fun getTotalUsersCount() =
-        fireStoreDataBase.getCollection("account").count().get(AggregateSource.SERVER)
+        fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).count().get(AggregateSource.SERVER)
 
-    fun getListAccounts() = fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).get()
+    fun getActiveUsersIn(h: Int): Task<AggregateQuerySnapshot> {
+        val milis = h * 60 * 60 * 1000
+        val date = Date.from(Instant.ofEpochMilli(Instant.now().toEpochMilli() - milis))
+        return fireStoreDataBase.getActiveUsersFrom(date)
+    }
+
+    fun getListActiveUsersIn(h: Int): Task<QuerySnapshot> {
+        val milis = h * 60 * 60 * 1000
+        val date = Date.from(Instant.ofEpochMilli(Instant.now().toEpochMilli() - milis))
+        return fireStoreDataBase.getListActiveUsersFrom(date)
+    }
+
+    //Just so 50 latest users to improve performance
+    fun getListAccounts() = fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).limit(50).get()
     fun syncActivity(activity: Activity) = fireStoreDataBase.addDocument(
         collectionName = ACTIVITIES,
         documentId = activity.id.toString(),

@@ -1,6 +1,7 @@
 package com.daemonz.animange.datasource.firebase
 
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.ACTIVITIES
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.LoginData
@@ -8,6 +9,7 @@ import com.daemonz.animange.util.RATING_COLLECTION
 import com.daemonz.animange.util.SEARCH_HISTORY
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.AggregateField
+import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -98,5 +100,13 @@ class FireBaseDataBase(
         ALog.d(TAG, pivot.toString())
         return db.collection(ACTIVITIES).where(Filter.greaterThan("time", pivot)).get()
     }
+
+    fun getActiveUsersFrom(date: Date?): Task<AggregateQuerySnapshot> =
+        db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("lastLogin", date)).count()
+            .get(AggregateSource.SERVER)
+
+    fun getListActiveUsersFrom(date: Date?): Task<QuerySnapshot> =
+        db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("lastLogin", date)).get()
+
 
 }

@@ -23,7 +23,7 @@ class AccountListFragment :
     override fun setupObservers() {
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
             ALog.d(TAG, "Account: ${accounts.size}")
-            adapter?.setData(accounts.sortedByDescending { it.lastLogin })
+            adapter?.setData(accounts.sortedByDescending { it.users.firstOrNull { it.isMainUser }?.createdAt })
         }
     }
 

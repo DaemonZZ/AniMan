@@ -26,11 +26,9 @@ class AdminViewModel @Inject constructor() : BaseViewModel() {
         }
     }
     fun getTotalUsersActiveToday() = launchOnIO {
-        repository.getTotalUsersActiveToday().addOnCompleteListener { task ->
-            val activities = task.result.toObjects(Activity::class.java)
-            val activeUsers = activities.map { it.account }.toSet()
+        repository.getActiveUsersIn(24).addOnCompleteListener { task ->
             launchOnUI {
-                _userActive.value = activeUsers.size
+                _userActive.value = task.result.count.toInt()
             }
         }.addOnFailureListener {
             ALog.e(TAG, it.message.toString())
