@@ -200,6 +200,6 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         }
     }
     fun syncActivity(activity: Activity) {
-        repository.syncActivity(activity)
+//        repository.syncActivity(activity)
     }
 }

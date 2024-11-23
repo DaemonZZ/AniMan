@@ -162,7 +162,7 @@ class DataRepository(
             activity = UserAction.Follow,
             content = "${LoginData.account?.name} matched ${item.name} as favorite"
         )
-        syncActivity(activity)
+//        syncActivity(activity)
     }
 
     fun unMarkItemAsFavourite(item: Item) {
