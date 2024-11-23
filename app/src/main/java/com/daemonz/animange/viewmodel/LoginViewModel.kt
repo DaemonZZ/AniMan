@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.Instant
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 
@@ -128,11 +129,20 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     content = "${LoginData.account?.name} 's just logged in"
                 )
                 syncActivity(activity)
+                if (account != null && account.region == null) {
+                    account.region = Locale.getDefault().country
+                }
+                account?.lastLogin = Date.from(Instant.now())
+                if (account != null) {
+                    repository.saveAccount(account)
+                }
             } else {
                 val newAccount = Account(
                     id = user.uid,
                     email = user.email,
                     name = user.displayName,
+                    region = Locale.getDefault().country,
+                    lastLogin = Date.from(Instant.now()),
                     users = listOf(
                         User(
                             id = UUID.randomUUID().toString(),
