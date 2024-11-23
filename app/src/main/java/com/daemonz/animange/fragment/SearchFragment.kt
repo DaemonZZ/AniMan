@@ -1,19 +1,15 @@
 package com.daemonz.animange.fragment
 
 import android.content.res.ColorStateList
-import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.NavGraphDirections
-import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.SearchDialogBinding
@@ -24,7 +20,6 @@ import com.daemonz.animange.entity.toItem
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.adapter.SearchAdapter
 import com.daemonz.animange.ui.adapter.SearchHistoryAdapter
-import com.daemonz.animange.util.SEARCH_TIME_DELAY
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.makeSearchText
 import com.daemonz.animange.util.setupClearButtonWithAction
@@ -34,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchFragment :
     BaseFragment<SearchDialogBinding, SearchViewModel>(SearchDialogBinding::inflate) {
-    override val viewModel: SearchViewModel by hiltNavGraphViewModels(R.id.nav_search)
+    override val viewModel: SearchViewModel by viewModels()
     private var resultAdapter: SearchAdapter? = null
     private var historyAdapter: SearchHistoryAdapter? = null
     private val onItemClickListener =
@@ -75,9 +70,6 @@ class SearchFragment :
         }
         binding.apply {
             ALog.d(TAG, "bindView: $currentTheme")
-            btnFilter.setOnClickListener {
-                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
-            }
             edtSearch.setText(STRING_EMPTY)
             edtSearch.clearFocus()
             resultAdapter = SearchAdapter(onItemClickListener, currentTheme)
@@ -154,7 +146,6 @@ class SearchFragment :
                     updateHistoryData(it)
                 }
             }
-            btnFilter.setImageResource(currentTheme.iconFilter())
             btnBack.setImageResource(currentTheme.iconBack())
             searchLayout.hintTextColor =
                 ColorStateList.valueOf(currentTheme.firstActivityTextColor(requireContext()))

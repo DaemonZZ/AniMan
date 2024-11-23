@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SupportFragment :
     BaseFragment<FragmentSuportBinding, SupportViewModel>(FragmentSuportBinding::inflate) {
-    override val viewModel: SupportViewModel by viewModels()
+    override val viewModel: SupportViewModel by hiltNavGraphViewModels(R.id.nav_search)
 
     override fun setupViews() {
         (activity as? MainActivity)?.setTitle(getString(R.string.support))

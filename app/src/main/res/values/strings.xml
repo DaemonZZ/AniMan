@@ -193,4 +193,6 @@
     <string name="admin_menu">Menu quản lý</string>
     <string name="total_user">Tổng số người dùng: %d</string>
     <string name="recently_users">Hoạt động gần đây: %d</string>
+    <string name="type_list">Film List</string>
+    <string name="apply_selection">Apply Selection</string>
 </resources>

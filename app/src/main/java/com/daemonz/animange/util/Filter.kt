@@ -50,6 +50,7 @@ enum class Category(val value: String, val title: Int) {
 }
 
 enum class Country(val value: String, val title: Int) {
+    All("", R.string.phim_all),
     VietNam("viet-nam", R.string.viet_nam),
     AuMy("au-my", R.string.au_my),
     TrungQuoc("trung-quoc", R.string.trung_quoc),
