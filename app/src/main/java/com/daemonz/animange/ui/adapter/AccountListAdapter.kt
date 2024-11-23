@@ -15,9 +15,9 @@ class AccountListAdapter(
 
     override fun bindView(binding: UserItemBinding, item: Account, position: Int) {
         binding.apply {
-            title.text = item.name
+            title.text = "${item.name} - ${item.region}"
             subTitle.text = item.email
-            textDate.text = item.users.firstOrNull { it.isMainUser }?.createdAt.toString()
+            textDate.text = item.lastLogin.toString()
         }
     }
 }
