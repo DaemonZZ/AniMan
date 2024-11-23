@@ -632,7 +632,7 @@ class MainActivity : ThemeActivity() {
                     appLogo.isVisible = true
                     topAppBar.fitsSystemWindows = true
                     actionSearch.isVisible = true
-                    actionList.isVisible = true
+                    actionList.isVisible = false
                     title.text = STRING_EMPTY
                     actionEdit.isVisible = false
                     dayNightSwitch.isInvisible = true
