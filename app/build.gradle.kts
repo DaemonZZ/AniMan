@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 2
 val versionMinor = 0
-val versionPatch = 9
+val versionPatch = 10
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
