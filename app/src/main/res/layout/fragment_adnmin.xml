@@ -43,6 +43,7 @@
                 style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:text="@string/total_user" />
 
         </LinearLayout>
@@ -78,6 +79,7 @@
                 android:id="@+id/recently_user"
                 style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_height="wrap_content"
                 android:text="@string/recently_users" />
 
