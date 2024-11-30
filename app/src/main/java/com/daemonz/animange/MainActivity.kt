@@ -280,6 +280,7 @@ class MainActivity : ThemeActivity() {
     }
 
     private fun showInternetDialog() {
+        internetDialog = null
         internetDialog = InternetDialog()
         internetDialog?.let {
             if (!it.isAdded) {
