@@ -8,7 +8,8 @@ data class MenuItem(
     val title: String,
     val type: MenuItemType = MenuItemType.Arrow,
     val isShow: Boolean = true,
-    val menuFunction: MenuItemFunction = MenuItemFunction.None
+    val menuFunction: MenuItemFunction = MenuItemFunction.None,
+    var isBold: Boolean = false
 )
 
 @Keep
@@ -24,5 +25,6 @@ enum class MenuItemFunction {
     Favorites,
     UserManagement,
     FeedBack,
-    Language
+    Language,
+    Notifications
 }

@@ -50,4 +50,5 @@ interface AnimanTheme : AppTheme {
     fun chipStyle(): Int
     fun icLanguage(): Int
     fun icRotate(): Int
+    fun icNoti(): Int
 }

@@ -27,6 +27,14 @@ class MenuAdapter(
             if (position == itemCount - 1) {
                 divider.isVisible = false
             }
+            if (item.isBold) {
+                icon.setColorFilter(
+                    ContextCompat.getColor(
+                        root.context,
+                        R.color.warning
+                    )
+                )
+            }
             divider.dividerColor = theme.firstActivityIconColor(root.context)
             when (item.type) {
                 MenuItemType.Theme -> {

@@ -87,6 +87,7 @@ class DarkTheme : AnimanTheme {
     override fun chipStyle(): Int = R.style.ChipCustomNight
     override fun icLanguage(): Int = R.drawable.ic_lang_night
     override fun icRotate(): Int = R.drawable.ic_rotate_dark
+    override fun icNoti(): Int = R.drawable.ic_noti_dark
     override fun id(): Int {
         return 1
     }

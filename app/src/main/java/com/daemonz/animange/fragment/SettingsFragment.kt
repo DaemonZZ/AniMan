@@ -57,7 +57,9 @@ class SettingsFragment :
                 MenuItemFunction.Language -> findNavController().navigate(
                     SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment()
                 )
-
+                MenuItemFunction.Notifications -> findNavController().navigate(
+                    SettingsFragmentDirections.actionSettingsFragmentToNotiFragment()
+                )
                 else -> {
                     showToastNotImplemented()
                 }
@@ -70,6 +72,11 @@ class SettingsFragment :
                 currentTheme.userMenuItem(),
                 getString(R.string.profile),
                 menuFunction = MenuItemFunction.AccountInfo
+            ),
+            MenuItem(
+                currentTheme.icNoti(),
+                getString(R.string.notification),
+                menuFunction = MenuItemFunction.Notifications,
             ),
             MenuItem(
                 currentTheme.favoriteMenuItem(),
