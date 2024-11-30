@@ -179,4 +179,5 @@
     <string name="type_list">Danh sách</string>
     <string name="apply_selection">Áp dụng lựa chọn</string>
     <string name="rotate_error">Có lỗi xảy ra trong quá trình xoay màn hình. Hãy thử xoay lại</string>
+    <string name="rotate">Rotate</string>
 </resources>

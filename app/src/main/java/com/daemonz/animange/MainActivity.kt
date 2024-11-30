@@ -77,7 +77,6 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-@SuppressLint("SourceLockedOrientationActivity")
 class MainActivity : ThemeActivity() {
     companion object {
         private const val TAG = "MainActivity"
@@ -108,14 +107,12 @@ class MainActivity : ThemeActivity() {
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+
+    @SuppressLint("SourceLockedOrientationActivity")
     private val navChangeListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
-            if (destination.id == R.id.playerFragment) {
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-            } else {
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            }
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             if (destination.id in listFragmentsWithNavbar) {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 toggleToolBarShowing(

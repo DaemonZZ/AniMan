@@ -193,4 +193,5 @@
     <string name="type_list">Film List</string>
     <string name="apply_selection">Apply Selection</string>
     <string name="rotate_error">Some problem occured when rotating screen. Please try rotate again</string>
+    <string name="rotate">Rotate</string>
 </resources>

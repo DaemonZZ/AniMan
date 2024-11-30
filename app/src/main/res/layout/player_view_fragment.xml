@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_rotate"
+        style="?attr/floatingActionButtonPrimaryStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:contentDescription="@string/rotate"
+        android:fitsSystemWindows="true"
+        android:src="@drawable/ic_rotate_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <FrameLayout
         android:id="@+id/video_view_container"
         android:layout_width="match_parent"
@@ -90,6 +103,7 @@
                 android:layout_width="@dimen/dp_48"
                 android:layout_height="@dimen/dp_48"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:drawableTop="@drawable/share_night"
                 android:contentDescription="@string/share"
                 app:cornerRadius="@dimen/dp_20" />

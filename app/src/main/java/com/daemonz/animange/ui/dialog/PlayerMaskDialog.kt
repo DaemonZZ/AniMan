@@ -18,7 +18,7 @@ import com.daemonz.animange.ui.thememanager.LightTheme
 import com.daemonz.animange.util.dpToPx
 
 
-class PlayerMaskDialog : BaseDialog(LightTheme()) {
+class PlayerMaskDialog(private val onClick: () -> Unit) : BaseDialog(LightTheme()) {
     private var _binding: TransparentLayoutBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +56,7 @@ class PlayerMaskDialog : BaseDialog(LightTheme()) {
         binding.apply {
             btn.isClickable = true
             btn.setOnClickListener {
-                ALog.i("PlayerMaskDialog", "onViewCreated: ")
-                Toast.makeText(requireContext(),requireContext().getString(R.string.toast_full_screen), Toast.LENGTH_SHORT).show()
+                onClick.invoke()
             }
         }
     }
