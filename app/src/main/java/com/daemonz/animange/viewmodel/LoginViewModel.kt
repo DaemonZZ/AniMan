@@ -133,6 +133,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     account.region = Locale.getDefault().country
                 }
                 account?.lastLogin = Date.from(Instant.now())
+                if (account?.createdAt == null) {
+                    account?.createdAt = LoginData.getMainUser()?.createdAt
+                }
                 if (account != null) {
                     repository.saveAccount(account)
                 }
@@ -143,6 +146,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     name = user.displayName,
                     region = Locale.getDefault().country,
                     lastLogin = Date.from(Instant.now()),
+                    createdAt = Date.from(Instant.now()),
                     users = listOf(
                         User(
                             id = UUID.randomUUID().toString(),
