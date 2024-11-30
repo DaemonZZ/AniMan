@@ -11,5 +11,6 @@ data class Account(
     var name: String? = null,
     var phone: String? = null,
     var region: String? = null,
-    var lastLogin: Date? = null
+    var lastLogin: Date? = null,
+    var createdAt: Date? = null
 )
