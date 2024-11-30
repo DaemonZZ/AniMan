@@ -722,25 +722,46 @@ class PlayerFragment :
             binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
             if (it == Configuration.ORIENTATION_LANDSCAPE) {
                 binding.viewPortrait.videoViewContainer.removeAllViews()
-                if (videoView?.isAttached == false) {
-                    binding.viewLandscape.videoViewContainer.addView(videoView)
-                } else {
-                    lifecycleScope.launch {
-                        delay(500)
+                try {
+                    if (videoView?.isAttached == false) {
                         binding.viewLandscape.videoViewContainer.addView(videoView)
+                    } else {
+                        lifecycleScope.launch {
+                            delay(500)
+                            binding.viewLandscape.videoViewContainer.addView(videoView)
+                        }
                     }
+                } catch (e: Exception) {
+                    ALog.e(TAG, "Error rotated view")
+                    e.printStackTrace()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.rotate_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
+
                 toggleToolBarShowing(false)
                 showActionBarLandScape()
             } else {
                 binding.viewLandscape.videoViewContainer.removeAllViews()
-                if (videoView?.isAttached == false) {
-                    binding.viewPortrait.videoViewContainer.addView(videoView)
-                } else {
-                    lifecycleScope.launch {
-                        delay(500)
+                try {
+                    if (videoView?.isAttached == false) {
                         binding.viewPortrait.videoViewContainer.addView(videoView)
+                    } else {
+                        lifecycleScope.launch {
+                            delay(500)
+                            binding.viewPortrait.videoViewContainer.addView(videoView)
+                        }
                     }
+                } catch (e: Exception) {
+                    ALog.e(TAG, "Error rotated view")
+                    e.printStackTrace()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.rotate_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 toggleToolBarShowing(true, autoHide = true)
             }
