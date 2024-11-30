@@ -4,6 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.SystemClock
@@ -100,6 +102,7 @@ class PlayerFragment :
 
     private var hideToolbarJob = Job()
     private var lastAction: Long = 0
+    private var isLandScape: Boolean = false
 
     @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun onCreateView(
@@ -115,8 +118,10 @@ class PlayerFragment :
                 binding.viewLandscape.videoViewContainer.addView(videoView)
                 toggleToolBarShowing(false)
                 showActionBarLandScape()
+                isLandScape = true
             } else {
                 binding.viewPortrait.videoViewContainer.addView(videoView)
+                isLandScape = false
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
@@ -177,7 +182,7 @@ class PlayerFragment :
         }, addView = { fullscreen ->
             val param = FrameLayout.LayoutParams(-1, -1)
             (requireActivity().window.decorView as? FrameLayout)?.addView(fullscreen, param)
-            val dialog = PlayerMaskDialog()
+            val dialog = PlayerMaskDialog(::requestRotateScreen)
             dialog.show(childFragmentManager, "PlayerMaskDialog")
         })
         return b
@@ -223,14 +228,17 @@ class PlayerFragment :
                 }
             }
             btnShare.setOnClickListener {
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
-                    type = "text/plain"
-                }
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
+//                val sendIntent: Intent = Intent().apply {
+//                    action = Intent.ACTION_SEND
+//                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
+//                    type = "text/plain"
+//                }
+//
+//                val shareIntent = Intent.createChooser(sendIntent, null)
+//                startActivity(shareIntent)
+            }
+            btnRotate.setOnClickListener {
+                requestRotateScreen()
             }
             btnRate.setOnClickListener {
                 if (LoginData.account == null) {
@@ -294,14 +302,17 @@ class PlayerFragment :
                 }
             }
             btnShare.setOnClickListener {
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
-                    type = "text/plain"
-                }
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
+//                val sendIntent: Intent = Intent().apply {
+//                    action = Intent.ACTION_SEND
+//                    putExtra(Intent.EXTRA_TEXT, "$PLAYER_DEEP_LINK${slug}")
+//                    type = "text/plain"
+//                }
+//
+//                val shareIntent = Intent.createChooser(sendIntent, null)
+//                startActivity(shareIntent)
+            }
+            btnRotate.setOnClickListener {
+                requestRotateScreen()
             }
             btnRate.setOnClickListener {
                 if (LoginData.account == null) {
@@ -344,6 +355,15 @@ class PlayerFragment :
                 }
 
             })
+        }
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    private fun requestRotateScreen() {
+        if (isLandScape) {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+        } else {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
         }
     }
 
@@ -620,6 +640,15 @@ class PlayerFragment :
             rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             btnRate.setIconResource(currentTheme.iconRate())
             btnShare.setIconResource(currentTheme.iconShare())
+            btnRotate.setImageResource(currentTheme.icRotate())
+            btnRotate.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.iconText_dark
+                )
+            )
+            btnRotate.backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.icon_dark))
         }
     }
 
@@ -640,6 +669,15 @@ class PlayerFragment :
             rateAvg.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             btnRate.setIconResource(currentTheme.iconRate())
             btnShare.setIconResource(currentTheme.iconShare())
+            btnRotate.setImageResource(currentTheme.icRotate())
+            btnRotate.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.iconText_dark
+                )
+            )
+            btnRotate.backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.icon_dark))
         }
     }
 
@@ -721,6 +759,7 @@ class PlayerFragment :
             binding.viewLandscape.root.isVisible = it == Configuration.ORIENTATION_LANDSCAPE
             binding.viewPortrait.root.isVisible = it == Configuration.ORIENTATION_PORTRAIT
             if (it == Configuration.ORIENTATION_LANDSCAPE) {
+                isLandScape = true
                 binding.viewPortrait.videoViewContainer.removeAllViews()
                 if (videoView?.isAttached == false) {
                     binding.viewLandscape.videoViewContainer.addView(videoView)
@@ -733,6 +772,7 @@ class PlayerFragment :
                 toggleToolBarShowing(false)
                 showActionBarLandScape()
             } else {
+                isLandScape = false
                 binding.viewLandscape.videoViewContainer.removeAllViews()
                 if (videoView?.isAttached == false) {
                     binding.viewPortrait.videoViewContainer.addView(videoView)
