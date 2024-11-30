@@ -198,4 +198,7 @@
     <string name="new_user_today">Hôm nay: %d</string>
     <string name="users_yesterday">Hôm qua: %d</string>
     <string name="users_this_month">Đầu tháng tới giờ: %d</string>
+    <string name="rotate_error">Some problem occured when rotating screen. Please try rotate again</string>
+    <string name="rotate">Rotate</string>
+    <string name="notification">Notifications</string>
 </resources>

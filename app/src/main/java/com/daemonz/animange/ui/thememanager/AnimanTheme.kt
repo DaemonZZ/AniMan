@@ -49,4 +49,6 @@ interface AnimanTheme : AppTheme {
     fun carouselBg(): Int
     fun chipStyle(): Int
     fun icLanguage(): Int
+    fun icRotate(): Int
+    fun icNoti(): Int
 }

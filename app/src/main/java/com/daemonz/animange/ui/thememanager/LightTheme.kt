@@ -85,6 +85,8 @@ class LightTheme : AnimanTheme {
     override fun carouselBg(): Int = R.drawable.custom_background_banner
     override fun chipStyle(): Int = R.style.ChipCustom
     override fun icLanguage(): Int = R.drawable.ic_lang
+    override fun icRotate(): Int = R.drawable.ic_rotate_light
+    override fun icNoti(): Int = R.drawable.ic_noti_light
     override fun id(): Int = 0
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

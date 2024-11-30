@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_languageFragment"
             app:destination="@id/languageFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_notiFragment"
+            app:destination="@id/notiFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -200,4 +203,8 @@
         android:id="@+id/searchFragment"
         android:name="com.daemonz.animange.fragment.SearchFragment"
         android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/notiFragment"
+        android:name="com.daemonz.animange.fragment.NotiFragment"
+        android:label="NotiFragment" />
 </navigation>
