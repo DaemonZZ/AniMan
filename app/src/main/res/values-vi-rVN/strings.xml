@@ -181,4 +181,7 @@
     <string name="recently_users">Hoạt động gần đây: %d</string>
     <string name="type_list">Danh sách</string>
     <string name="apply_selection">Áp dụng lựa chọn</string>
+    <string name="new_user_today">Hôm nay: %d</string>
+    <string name="users_yesterday">Hôm qua: %d</string>
+    <string name="users_this_month">Tháng này</string>
 </resources>

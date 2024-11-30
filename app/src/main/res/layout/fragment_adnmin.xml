@@ -40,11 +40,35 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_total_users"
-                style="@style/TextAppearance.Material3.BodySmall"
+                style="@style/TextAppearance.Material3.LabelSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:text="@string/total_user" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_total_users_today"
+                style="@style/TextAppearance.Material3.LabelSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:text="@string/new_user_today" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_total_users_yesterday"
+                style="@style/TextAppearance.Material3.LabelSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:text="@string/users_yesterday" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_total_users_this_month"
+                style="@style/TextAppearance.Material3.LabelSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:text="@string/users_this_month" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -77,7 +101,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/recently_user"
-                style="@style/TextAppearance.Material3.BodySmall"
+                style="@style/TextAppearance.Material3.LabelSmall"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_height="wrap_content"

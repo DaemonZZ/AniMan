@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.QuerySnapshot
 import retrofit2.Response
 import java.time.Instant
@@ -382,6 +383,8 @@ class DataRepository(
 
     fun getTotalUsersCount() =
         fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).count().get(AggregateSource.SERVER)
+    fun countNewUsersFromDate(date: Date) =
+        fireStoreDataBase.countNewUsersFromDate(date)
 
     fun getActiveUsersIn(h: Int): Task<AggregateQuerySnapshot> {
         val milis = h * 60 * 60 * 1000

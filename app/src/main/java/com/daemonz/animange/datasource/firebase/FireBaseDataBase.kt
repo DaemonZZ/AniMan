@@ -108,5 +108,8 @@ class FireBaseDataBase(
     fun getListActiveUsersFrom(date: Date?): Task<QuerySnapshot> =
         db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("lastLogin", date)).get()
 
+    fun countNewUsersFromDate(date: Date) =
+        db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("createdAt", date)).count()
+
 
 }
