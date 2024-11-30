@@ -127,6 +127,7 @@ class SettingsFragment :
     override fun syncTheme(appTheme: AppTheme) {
         super.syncTheme(appTheme)
         setupViews()
+        binding.textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
     }
 
     private fun loadViewState() {
@@ -143,10 +144,7 @@ class SettingsFragment :
                     imgUser.loadImageFromStorage(it.image ?: 1)
                     textUser.text = LoginData.account?.name
                 }
-            } else {
-
             }
-
         }
     }
 
@@ -176,12 +174,6 @@ class SettingsFragment :
 
     }
 
-    override fun syncTheme() {
-        super.syncTheme()
-        binding.apply {
-        textUser.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
-        }
-    }
 
     override fun loadBanner() {
         ALog.v(TAG, "loadBanner")

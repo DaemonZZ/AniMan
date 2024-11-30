@@ -585,7 +585,7 @@ class MainActivity : ThemeActivity() {
                 }
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment,
-                R.id.languageFragment -> {
+                R.id.languageFragment, R.id.notiFragment -> {
                     topAppBar.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true
