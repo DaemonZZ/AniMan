@@ -101,7 +101,7 @@ class FireBaseDataBase(
         return db.collection(ACTIVITIES).where(Filter.greaterThan("time", pivot)).get()
     }
 
-    fun getActiveUsersFrom(date: Date?): Task<AggregateQuerySnapshot> =
+    fun getActiveUsersFrom(date: Date): Task<AggregateQuerySnapshot> =
         db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("lastLogin", date)).count()
             .get(AggregateSource.SERVER)
 
@@ -110,6 +110,11 @@ class FireBaseDataBase(
 
     fun countNewUsersFromDate(date: Date) =
         db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("createdAt", date)).count()
+            .get(AggregateSource.SERVER)
+
+    fun countNewUsersFromDateToDate(from: Date, to: Date) =
+        db.collection(ACCOUNT_COLLECTION).where(Filter.greaterThan("createdAt", from))
+            .where(Filter.lessThanOrEqualTo("createdAt", to)).count().get(AggregateSource.SERVER)
 
 
 }

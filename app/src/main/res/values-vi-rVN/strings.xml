@@ -183,5 +183,5 @@
     <string name="apply_selection">Áp dụng lựa chọn</string>
     <string name="new_user_today">Hôm nay: %d</string>
     <string name="users_yesterday">Hôm qua: %d</string>
-    <string name="users_this_month">Tháng này</string>
+    <string name="users_this_month">Đầu tháng tới giờ: %d</string>
 </resources>

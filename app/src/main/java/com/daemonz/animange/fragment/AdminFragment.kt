@@ -28,6 +28,15 @@ class AdminFragment :
         viewModel.userCount.observe(viewLifecycleOwner) {
             binding.textTotalUsers.text = getString(R.string.total_user, it)
         }
+        viewModel.userCountToday.observe(viewLifecycleOwner) {
+            binding.textTotalUsersToday.text = getString(R.string.new_user_today, it)
+        }
+        viewModel.userCountYesterday.observe(viewLifecycleOwner) {
+            binding.textTotalUsersYesterday.text = getString(R.string.users_yesterday, it)
+        }
+        viewModel.userCountThisMonth.observe(viewLifecycleOwner) {
+            binding.textTotalUsersThisMonth.text = getString(R.string.users_this_month, it)
+        }
         viewModel.userActive.observe(viewLifecycleOwner) {
             binding.recentlyUser.text = getString(R.string.recently_users, it)
         }

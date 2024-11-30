@@ -38,6 +38,7 @@ import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.QuerySnapshot
 import retrofit2.Response
 import java.time.Instant
+import java.util.Calendar
 import java.util.Date
 import java.util.UUID
 
@@ -385,6 +386,8 @@ class DataRepository(
         fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).count().get(AggregateSource.SERVER)
     fun countNewUsersFromDate(date: Date) =
         fireStoreDataBase.countNewUsersFromDate(date)
+    fun countNewUsersFromDateToDate(from: Date, to: Date) =
+        fireStoreDataBase.countNewUsersFromDateToDate(from, to)
 
     fun getActiveUsersIn(h: Int): Task<AggregateQuerySnapshot> {
         val milis = h * 60 * 60 * 1000
@@ -398,8 +401,13 @@ class DataRepository(
         return fireStoreDataBase.getListActiveUsersFrom(date)
     }
 
-    //Just so 50 latest users to improve performance
-    fun getListAccounts() = fireStoreDataBase.getCollection(ACCOUNT_COLLECTION).limit(50).get()
+
+    fun getListAccounts(): Task<QuerySnapshot> {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_MONTH, -7)
+        return fireStoreDataBase.getCollection(ACCOUNT_COLLECTION)
+            .where(Filter.greaterThan("createdAt", cal.time)).get()
+    }
     fun syncActivity(activity: Activity) = fireStoreDataBase.addDocument(
         collectionName = ACTIVITIES,
         documentId = activity.id.toString(),
