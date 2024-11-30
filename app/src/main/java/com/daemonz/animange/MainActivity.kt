@@ -280,6 +280,7 @@ class MainActivity : ThemeActivity() {
     }
 
     private fun showInternetDialog() {
+        internetDialog = null
         internetDialog = InternetDialog()
         internetDialog?.let {
             if (!it.isAdded) {
@@ -588,7 +589,7 @@ class MainActivity : ThemeActivity() {
 
                 R.id.userInfoFragment, R.id.chooseAvatarFragment, R.id.supportFragment, R.id.searchFilterFragment,
                 R.id.accountListFragment, R.id.adminFragment, R.id.activitiesFragment,
-                R.id.languageFragment-> {
+                R.id.languageFragment, R.id.notiFragment -> {
                     topAppBar.isVisible = true
                     appLogo.isVisible = false
                     title.isVisible = true

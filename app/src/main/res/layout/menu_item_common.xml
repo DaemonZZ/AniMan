@@ -38,6 +38,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/chevron_right" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:src="@drawable/circle"
+        android:tint="@color/warning"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/icon_end"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_title"
         style="@style/TextAppearance.Material3.TitleSmall"
@@ -48,7 +61,7 @@
         android:lines="1"
         android:paddingVertical="@dimen/dp_16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/icon_end"
+        app:layout_constraintEnd_toStartOf="@id/dot"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Hello Setting item" />
