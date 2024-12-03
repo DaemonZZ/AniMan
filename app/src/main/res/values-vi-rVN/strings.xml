@@ -181,4 +181,5 @@
     <string name="rotate_error">Có lỗi xảy ra trong quá trình xoay màn hình. Hãy thử xoay lại</string>
     <string name="rotate">Rotate</string>
     <string name="notification">Thông báo</string>
+    <string name="you_have_new_notification">Bạn có thông báo mới</string>
 </resources>

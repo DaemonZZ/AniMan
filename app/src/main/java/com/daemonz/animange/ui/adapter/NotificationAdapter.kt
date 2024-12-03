@@ -10,6 +10,7 @@ import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.MenuItemCommonBinding
 import com.daemonz.animange.entity.Notification
 import com.daemonz.animange.ui.thememanager.AnimanTheme
+import com.daemonz.animange.util.LoginData
 import com.google.android.material.badge.ExperimentalBadgeUtils
 
 class NotificationAdapter(
@@ -26,7 +27,7 @@ class NotificationAdapter(
             icon.setImageResource(theme.icNoti())
             textTitle.setTextColor(theme.firstActivityTextColor(root.context))
             divider.dividerColor = theme.firstActivityIconColor(root.context)
-            textTitle.text = item.title
+            textTitle.text = item.getTitle(LoginData.account?.region.toString())
             dot.isVisible = !item.isRead
             iconEnd.setImageResource(theme.iconNext())
         }

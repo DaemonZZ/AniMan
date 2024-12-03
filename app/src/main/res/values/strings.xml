@@ -195,4 +195,5 @@
     <string name="rotate_error">Some problem occured when rotating screen. Please try rotate again</string>
     <string name="rotate">Rotate</string>
     <string name="notification">Notifications</string>
+    <string name="you_have_new_notification">You have new notification</string>
 </resources>

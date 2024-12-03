@@ -19,6 +19,7 @@ import com.daemonz.animange.ui.dialog.DeleteDialog
 import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.NotiCache
 import com.daemonz.animange.util.loadImageFromStorage
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
@@ -77,6 +78,7 @@ class SettingsFragment :
                 currentTheme.icNoti(),
                 getString(R.string.notification),
                 menuFunction = MenuItemFunction.Notifications,
+                isBold = NotiCache.cachedNotifications.any { !it.isRead }
             ),
             MenuItem(
                 currentTheme.favoriteMenuItem(),

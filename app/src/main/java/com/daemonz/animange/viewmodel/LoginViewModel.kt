@@ -12,6 +12,7 @@ import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Account
 import com.daemonz.animange.entity.Activity
+import com.daemonz.animange.entity.Notification
 import com.daemonz.animange.entity.UpdateData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserAction
@@ -51,6 +52,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
 
     private val _hasNewUpdate = MutableLiveData<UpdateData?>(null)
     val hasNewUpdate: LiveData<UpdateData?> = _hasNewUpdate
+
+    private val _listNoti = MutableLiveData<List<Notification>>()
+    val listNoti: LiveData<List<Notification>> = _listNoti
 
     fun registerSigningLauncher(activity: AppCompatActivity) {
         ALog.d(TAG, "registerSigningLauncher: ")
@@ -169,6 +173,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 )
                 syncActivity(activity)
             }
+            checkNotification()
         }.addOnFailureListener { e ->
             _error.value = e
         }
@@ -210,6 +215,22 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             }
         }.addOnFailureListener {
             ALog.e(TAG, "checkForUpdate: $it")
+            _error.value = it
+        }
+    }
+
+    fun checkNotification() {
+        if (LoginData.account == null) {
+            ALog.d(TAG, "checkNotification: Account not logged in")
+            return
+        }
+        ALog.d(TAG, "checkNotification: ${LoginData.account?.name}")
+        repository.getNotifications().addOnSuccessListener {
+            it.toObjects(Notification::class.java).let { notificationData ->
+                _listNoti.value = notificationData
+            }
+        }.addOnFailureListener {
+            ALog.e(TAG, "checkNotification: $it")
             _error.value = it
         }
     }

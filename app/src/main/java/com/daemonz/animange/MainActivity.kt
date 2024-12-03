@@ -4,7 +4,10 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
@@ -14,6 +17,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets.Type
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -26,6 +30,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -51,6 +56,7 @@ import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.ConnectionLiveData
 import com.daemonz.animange.util.LoginData
 import com.daemonz.animange.util.NIGHT_MODE_KEY
+import com.daemonz.animange.util.NotiCache
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.Session
 import com.daemonz.animange.util.SharePreferenceManager
@@ -137,6 +143,14 @@ class MainActivity : ThemeActivity() {
         }
     }
     private lateinit var connectionLiveData: ConnectionLiveData
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            ALog.d(TAG, "onReceive: ${intent?.action}")
+            if (intent?.action == MyFirebaseMessagingService.NEW_NOTIFICATION) {
+                viewModel.checkNotification()
+            }
+        }
+    }
 
     private fun askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
@@ -236,7 +250,25 @@ class MainActivity : ThemeActivity() {
             }
         }
         ALog.w(TAG, "onCreate: ${intent.data}")
+        viewModel.listNoti.observe(this) {
+            val badge = binding.bottomNavigation.getOrCreateBadge(R.id.settingsFragment)
+            NotiCache.cachedNotifications = it
+            if (it.any { it.isNew }) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.you_have_new_notification),
+                    Toast.LENGTH_SHORT
+                ).show()
+                badge.isVisible = true
+            } else {
+                badge.isVisible = false
+            }
+        }
         viewModel.checkForUpdate()
+
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(receiver, IntentFilter(MyFirebaseMessagingService.NEW_NOTIFICATION))
+
         setThemeAnimationListener(object : ThemeAnimationListener {
             override fun onAnimationCancel(animation: Animator) {
                 //
@@ -541,6 +573,8 @@ class MainActivity : ThemeActivity() {
             navIcon2.isVisible = false
             actionList.isVisible = false
             actionSearch.isVisible = false
+            val badge = bottomNavigation.getOrCreateBadge(R.id.settingsFragment)
+            badge.isVisible = NotiCache.cachedNotifications.any { it.isNew }
             when (fragment) {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
