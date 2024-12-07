@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.daemonz.animange.BuildConfig
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.R
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentNotiBinding
@@ -24,6 +25,7 @@ class NotiFragment :
 
 
     override fun setupViews() {
+        (activity as? MainActivity)?.setTitle(getString(R.string.notification))
         binding.apply {
             adapter = NotificationAdapter(
                 onItemClickListener = { item, _ ->
@@ -65,6 +67,7 @@ class NotiFragment :
             recycler.adapter = adapter
             adapter?.setData(NotiCache.cachedNotifications)
             textNoComment.isVisible = NotiCache.cachedNotifications.isEmpty()
+            textNoComment.setTextColor(currentTheme.firstActivityTextColor(requireContext()))
             recycler.isVisible = NotiCache.cachedNotifications.isNotEmpty()
         }
     }
