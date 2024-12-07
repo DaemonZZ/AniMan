@@ -12,6 +12,7 @@ import com.daemonz.animange.entity.FeedBack
 import com.daemonz.animange.entity.FilmRating
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.Notification
 import com.daemonz.animange.entity.SearchHistory
 import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.entity.User
@@ -413,6 +414,15 @@ class DataRepository(
         documentId = activity.id.toString(),
         data = activity
     )
+    fun getNotifications() = fireStoreDataBase.getNotifications()
+    fun createNotifications(notification: Notification) =
+        fireStoreDataBase.newNotification(notification)
+
+    fun markNotiAsRead(notification: Notification) =
+        fireStoreDataBase.markNotificationAsRead(notification)
+
+    fun markNotiAsOld(notification: Notification) =
+        fireStoreDataBase.markNotificationAsOld(notification)
     fun getTotalUsersActiveToday() =
         fireStoreDataBase.getTodayActiveCount()
 }

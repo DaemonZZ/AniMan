@@ -3,8 +3,10 @@ package com.daemonz.animange.datasource.firebase
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.ACTIVITIES
+import com.daemonz.animange.entity.Notification
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.LoginData
+import com.daemonz.animange.util.NOTI_COLLECTION
 import com.daemonz.animange.util.RATING_COLLECTION
 import com.daemonz.animange.util.SEARCH_HISTORY
 import com.google.android.gms.tasks.Task
@@ -117,4 +119,17 @@ class FireBaseDataBase(
             .where(Filter.lessThanOrEqualTo("createdAt", to)).count().get(AggregateSource.SERVER)
 
 
+    fun newNotification(notification: Notification) =
+        db.collection(NOTI_COLLECTION).document(notification.id.toString()).set(notification)
+
+    fun getNotifications() =
+        db.collection(NOTI_COLLECTION)
+            .whereIn("destination", listOf(LoginData.account?.email, "global"))
+            .orderBy("time", Query.Direction.DESCENDING).limit(20).get()
+
+    fun markNotificationAsRead(notification: Notification) =
+        db.collection(NOTI_COLLECTION).document(notification.id.toString()).update("isRead", true)
+
+    fun markNotificationAsOld(notification: Notification) =
+        db.collection(NOTI_COLLECTION).document(notification.id.toString()).update("isNew", false)
 }
