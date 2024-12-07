@@ -148,6 +148,11 @@ class MainActivity : ThemeActivity() {
             ALog.d(TAG, "onReceive: ${intent?.action}")
             if (intent?.action == MyFirebaseMessagingService.NEW_NOTIFICATION) {
                 viewModel.checkNotification()
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.you_have_new_notification),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

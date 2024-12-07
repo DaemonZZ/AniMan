@@ -26,4 +26,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_noti" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_no_comment"
+        style="@style/TextAppearance.Material3.LabelSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Chưa có thông báo nào"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/img_noti" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

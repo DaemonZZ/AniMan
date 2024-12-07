@@ -22,9 +22,10 @@ data class Notification(
     var img: String? = null,
     @field:JvmField var isRead: Boolean = false,
     @field:JvmField var isNew: Boolean = false,
-    var destination: String = ""
+    var destination: String = GLOBAL
 ) : Serializable {
     companion object {
+        const val GLOBAL = "global"
         fun dummy(): Notification = Notification(
             id = UUID.randomUUID().toString(),
             title = "New Update",
