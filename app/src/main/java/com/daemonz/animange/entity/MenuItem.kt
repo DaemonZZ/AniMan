@@ -26,5 +26,6 @@ enum class MenuItemFunction {
     UserManagement,
     FeedBack,
     Language,
-    Notifications
+    Notifications,
+    BuyMeACoffee
 }
