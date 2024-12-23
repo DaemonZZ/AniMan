@@ -51,4 +51,5 @@ interface AnimanTheme : AppTheme {
     fun icLanguage(): Int
     fun icRotate(): Int
     fun icNoti(): Int
+    fun icCoffee(): Int
 }

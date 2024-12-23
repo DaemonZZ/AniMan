@@ -87,6 +87,7 @@ class LightTheme : AnimanTheme {
     override fun icLanguage(): Int = R.drawable.ic_lang
     override fun icRotate(): Int = R.drawable.ic_rotate_light
     override fun icNoti(): Int = R.drawable.ic_noti_light
+    override fun icCoffee(): Int = R.drawable.ic_coffee
     override fun id(): Int = 0
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

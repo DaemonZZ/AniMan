@@ -96,7 +96,7 @@ class SettingsFragment :
                 menuFunction = MenuItemFunction.FeedBack
             ),
             MenuItem(
-                currentTheme.icLanguage(),
+                currentTheme.icCoffee(),
                 getString(R.string.buy_me_a_coffee),
                 menuFunction = MenuItemFunction.BuyMeACoffee
             ),
