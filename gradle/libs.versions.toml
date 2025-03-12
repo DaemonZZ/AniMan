@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.0-beta02"
+agp = "8.10.0-alpha02"
 animatedThemeManager = "1.1.4"
 artifactid = "version"
 coreSplashscreen = "1.0.1"
