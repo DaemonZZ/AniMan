@@ -51,6 +51,9 @@ class EmptyWarningDialog(
                 onYes.invoke()
                 dismiss()
             }
+            btnNo.setOnClickListener {
+                dismiss()
+            }
             decs?.let { textDesc.text = getString(it) } ?: run { textDesc.isVisible = false }
         }
         return binding.root
