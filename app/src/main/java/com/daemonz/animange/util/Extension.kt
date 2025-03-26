@@ -3,7 +3,9 @@ package com.daemonz.animange.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.Editable
 import android.text.SpannableString
 import android.text.TextPaint
@@ -206,5 +208,19 @@ fun Item.isSensor(filter: Boolean): Boolean {
         return this.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
     } else {
         return false
+    }
+}
+fun openCloudflareApp(context: Context) {
+    val packageName = "com.cloudflare.onedotonedotonedotone"
+    val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+
+    if (launchIntent != null) {
+        context.startActivity(launchIntent)
+    } else {
+        val playStoreIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            setPackage("com.android.vending")
+        }
+        context.startActivity(playStoreIntent)
     }
 }

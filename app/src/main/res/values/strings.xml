@@ -197,4 +197,7 @@
     <string name="notification">Notifications</string>
     <string name="you_have_new_notification">You have new notification</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
+    <string name="empty_warning">Nếu điện thoại của bạn không thể tải được dữ liệu, hãy sử dụng app 1.1.1.1 hoặc vpn bất kì để dễ dang truy cập</string>
+    <string name="title_warning_empty">Nhắc bạn</string>
+    <string name="download_vpn">Mở 1.1.1.1</string>
 </resources>
