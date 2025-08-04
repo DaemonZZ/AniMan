@@ -68,4 +68,32 @@ interface IWebService {
         @Path("slug") slug: String,
         @Query("page") page: String = ""
     ): Response<ListData>
+
+    /*-------------------MANGA----------------------*/
+    @GET("home")
+    fun getHomeManga(): Response<ListData>
+
+    @GET("danh-sach/{type}")
+    fun getListManga(
+        @Path("type") type: String,
+        @Query("page") page: String = ""
+    ): Response<ListData>
+
+    @GET("the-loai/{slug}")
+    fun getCategoryBySlug(
+        @Path("slug") slug: String,
+        @Query("page") page: String = ""
+    )
+
+    @GET("truyen-tranh/{slug}")
+    fun getMangaBySlug(
+        @Path("slug") slug: String
+    )
+
+    //https://otruyenapi.com/v1/api/tim-kiem?keyword={keyword}&page={page}
+    @GET("tim-kiem")
+    fun searchManga(
+        @Query("keyword") keyword: String,
+        @Query("page") page: String = ""
+    )
 }
