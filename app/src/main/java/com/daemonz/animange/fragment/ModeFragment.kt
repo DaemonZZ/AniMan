@@ -2,6 +2,7 @@ package com.daemonz.animange.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.daemonz.animange.MainActivity
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentChooseModeBinding
 import com.daemonz.animange.util.AppModeEnum
@@ -22,7 +23,7 @@ class ModeFragment : BaseFragment<FragmentChooseModeBinding, ChooseModeViewModel
             }
             mangaBnt.setOnClickListener {
                 viewModel.chooseMode(AppModeEnum.Manga)
-                findNavController().navigate(ModeFragmentDirections.actionModeFragmentToHomeFragment())
+                findNavController().navigate(ModeFragmentDirections.actionModeFragmentToHomeMangaFragment())
             }
         }
     }

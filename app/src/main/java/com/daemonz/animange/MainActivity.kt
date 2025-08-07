@@ -52,6 +52,8 @@ import com.daemonz.animange.ui.dialog.UpdateDialog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.daemonz.animange.ui.thememanager.DarkTheme
 import com.daemonz.animange.ui.thememanager.LightTheme
+import com.daemonz.animange.util.AppMode
+import com.daemonz.animange.util.AppModeEnum
 import com.daemonz.animange.util.AppThemeManager
 import com.daemonz.animange.util.ConnectionLiveData
 import com.daemonz.animange.util.LoginData
@@ -68,6 +70,7 @@ import com.dolatkia.animatedThemeManager.ThemeManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
@@ -102,6 +105,13 @@ class MainActivity : ThemeActivity() {
         R.id.tvShowFragment,
         R.id.settingsFragment
     )
+    private val listFragmentsManga = listOf(
+        R.id.homeMangaFragment,
+        R.id.moviesFragment,
+        R.id.seriesFragment,
+        R.id.tvShowFragment,
+        R.id.settingsFragment
+    )
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
     private val initialLayoutComplete = AtomicBoolean(false)
     private lateinit var binding: ActivityMainBinding
@@ -110,6 +120,8 @@ class MainActivity : ThemeActivity() {
     private var internetDialog: InternetDialog? = null
     private var hideToolbarJob = Job()
     private var windowInsetsController: WindowInsetsControllerCompat? = null
+    private var bottomBar: BottomNavigationView? = null
+    private var currentMode = AppModeEnum.Movies
 
     @Inject
     lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
@@ -118,15 +130,16 @@ class MainActivity : ThemeActivity() {
     private val navChangeListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
+            checkMode()
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            if (destination.id in listFragmentsMovies) {
-                binding.bottomNavigation.visibility = View.VISIBLE
+            if (destination.id in listFragmentsMovies || destination.id in listFragmentsManga) {
+                bottomBar?.visibility = View.VISIBLE
                 toggleToolBarShowing(
                     isShow = true,
                     autoHide = destination.id != R.id.settingsFragment
                 )
             } else {
-                binding.bottomNavigation.visibility = View.GONE
+                bottomBar?.visibility = View.GONE
             }
             binding.topAppBar.postDelayed({ changeToolBarAction(destination.id) }, 500)
         }
@@ -259,7 +272,7 @@ class MainActivity : ThemeActivity() {
         }
         ALog.w(TAG, "onCreate: ${intent.data}")
         viewModel.listNoti.observe(this) {
-            val badge = binding.bottomNavigation.getOrCreateBadge(R.id.settingsFragment)
+            val badge = bottomBar?.getOrCreateBadge(R.id.settingsFragment)
             NotiCache.cachedNotifications = it
             if (it.any { it.isNew }) {
                 Toast.makeText(
@@ -267,9 +280,9 @@ class MainActivity : ThemeActivity() {
                     getString(R.string.you_have_new_notification),
                     Toast.LENGTH_SHORT
                 ).show()
-                badge.isVisible = true
+                badge?.isVisible = true
             } else {
-                badge.isVisible = false
+                badge?.isVisible = false
             }
         }
         viewModel.checkForUpdate()
@@ -429,20 +442,23 @@ class MainActivity : ThemeActivity() {
             appLogo.setImageResource(currentTheme.appLogoLandscape())
             navIcon.setImageResource(currentTheme.iconBack())
             navIcon2.setImageResource(currentTheme.iconClose())
-            bottomNavigation.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
-            bottomNavigation.menu.findItem(R.id.homeFragment).setIcon(
+            bottomBar?.setBackgroundColor(currentTheme.firstActivityBackgroundColor(this@MainActivity))
+            bottomBar?.menu?.findItem(R.id.homeFragment)?.setIcon(
                 currentTheme.homeNavIcon()
             )
-            bottomNavigation.menu.findItem(R.id.moviesFragment).setIcon(
+            bottomBar?.menu?.findItem(R.id.homeMangaFragment)?.setIcon(
+                currentTheme.homeNavIcon()
+            )
+            bottomBar?.menu?.findItem(R.id.moviesFragment)?.setIcon(
                 currentTheme.cinemaNavIcon()
             )
-            bottomNavigation.menu.findItem(R.id.seriesFragment).setIcon(
+            bottomBar?.menu?.findItem(R.id.seriesFragment)?.setIcon(
                 currentTheme.seriesNavIcon()
             )
-            bottomNavigation.menu.findItem(R.id.tvShowFragment).setIcon(
+            bottomBar?.menu?.findItem(R.id.tvShowFragment)?.setIcon(
                 currentTheme.tvShowNavIcon()
             )
-            bottomNavigation.menu.findItem(R.id.settingsFragment).setIcon(
+            bottomBar?.menu?.findItem(R.id.settingsFragment)?.setIcon(
                 currentTheme.settingNavIcon()
             )
             actionClose.setImageResource(currentTheme.iconClose())
@@ -479,7 +495,7 @@ class MainActivity : ThemeActivity() {
         binding.apply {
             val navController =
                 Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
-            bottomNavigation.setupWithNavController(navController)
+            bottomBar?.setupWithNavController(navController)
             title.text = null
             actionEdit.setOnClickListener {
                 val frag =
@@ -505,7 +521,7 @@ class MainActivity : ThemeActivity() {
                 supportFragmentManager.fragments.first().findNavController()
                     .navigate(NavGraphDirections.actionGlobalListFilterFrag())
             }
-            bottomNavigation.setOnItemReselectedListener { item ->
+            bottomBar?.setOnItemReselectedListener { item ->
                 when (item.itemId) {
                     //                    R.id.item_1 -> {
                     //                        // Respond to navigation item 1 reselection
@@ -581,8 +597,8 @@ class MainActivity : ThemeActivity() {
             navIcon2.isVisible = false
             actionList.isVisible = false
             actionSearch.isVisible = false
-            val badge = bottomNavigation.getOrCreateBadge(R.id.settingsFragment)
-            badge.isVisible = NotiCache.cachedNotifications.any { it.isNew }
+            val badge = bottomBar?.getOrCreateBadge(R.id.settingsFragment)
+            badge?.isVisible = NotiCache.cachedNotifications.any { it.isNew }
             when (fragment) {
                 R.id.playerFragment -> {
                     topAppBar.isVisible = true
@@ -702,6 +718,24 @@ class MainActivity : ThemeActivity() {
 
     fun setTitle(title: String) {
         binding.title.text = title
+    }
+    fun checkMode() {
+        if (AppMode.currentMode == AppModeEnum.Movies) {
+            bottomBar = binding.bottomNavigation
+            binding.bottomNavigationManga.isVisible = false
+            binding.bottomNavigation.isVisible = true
+        } else {
+            bottomBar = binding.bottomNavigationManga
+            binding.bottomNavigation.isVisible = false
+            binding.bottomNavigationManga.isVisible = true
+        }
+        if (currentMode != AppMode.currentMode) {
+            currentMode = AppMode.currentMode
+            val navController =
+                Navigation.findNavController(this@MainActivity, R.id.navHostFragment)
+            bottomBar?.setupWithNavController(navController)
+        }
+
     }
 
     override fun onNewIntent(intent: Intent) {

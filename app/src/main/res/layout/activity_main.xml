@@ -141,4 +141,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/nav_bar_menu" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_manga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_bar_menu_manga" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

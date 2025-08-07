@@ -9,6 +9,10 @@
         android:name="com.daemonz.animange.fragment.HomeFragment"
         android:label="HomeFragment" />
     <fragment
+        android:id="@+id/homeMangaFragment"
+        android:name="com.daemonz.animange.fragment.manga.HomeMangaFragment"
+        android:label="HomeMangaFragment" />
+    <fragment
         android:id="@+id/moviesFragment"
         android:name="com.daemonz.animange.fragment.MoviesFragment"
         android:label="MoviesFragment" />
@@ -198,5 +202,8 @@
         <action
             android:id="@+id/action_modeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_modeFragment_to_homeMangaFragment"
+            app:destination="@id/homeMangaFragment" />
     </fragment>
 </navigation>
