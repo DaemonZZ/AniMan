@@ -36,6 +36,7 @@ android {
 
         val projectProperties = readProperties(file("../local.properties"))
         buildConfigField("String", "BASE_URL", projectProperties["BASE_URL"] as String)
+        buildConfigField("String", "BASE_URL_MANGA", projectProperties["BASE_URL_MANGA"] as String)
         buildConfigField("String", "IMG_BASE_URL", projectProperties["IMG_BASE_URL"] as String)
         buildConfigField("String", "TAG", projectProperties["TAG"] as String)
         buildConfigField("String", "STORAGE_PATH", projectProperties["STORAGE_PATH"] as String)

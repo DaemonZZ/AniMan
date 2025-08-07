@@ -42,11 +42,10 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                     ALog.d(TAG, "Home data is empty")
                     return@addOnCompleteListener
                 }
+                ALog.d(TAG, res.data.toString())
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
                     val rates = it.toObjects(FilmRating::class.java)
-                    val data = res.data.items.filter {
-                        it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
-                    }.map { item ->
+                    val data = res.data.items.map { item ->
                         item.rating =
                             rates.filter { it.slug == item.slug }.map { it.rating }.average()
                         item

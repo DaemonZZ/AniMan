@@ -27,13 +27,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.R
+import com.daemonz.animange.entity.Data
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
+import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.manga.DataManga
+import com.daemonz.animange.entity.manga.ItemManga
+import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
 
@@ -151,6 +157,15 @@ fun Activity.getToolbarHeight(): Int {
     }
     return 0
 }
+fun <T, R> Response<T>.map(mapper: (T) -> R): Response<R> {
+    return if (this.isSuccessful && this.body() != null) {
+        Response.success(mapper.invoke(this.body()!!))
+    } else {
+        val errorBody = this.errorBody()
+            ?: "Unknown error".toResponseBody(null)
+        Response.error(this.code(), errorBody)
+    }
+}
 
 fun <T> Response<T>.addOnCompleteListener(listener: (T) -> Unit): Response<T> {
     if (this.isSuccessful && this.body() != null) {
@@ -223,4 +238,43 @@ fun openCloudflareApp(context: Context) {
         }
         context.startActivity(playStoreIntent)
     }
+}
+fun ItemManga.toItem() = Item(
+    id = this.id,
+    name = this.name,
+    content = this.content ?: "",
+    originName = this.originName.firstOrNull() ?: "",
+    type = this.type ?: "",
+    thumbUrl = this.thumbUrl,
+    posterUrl = this.posterUrl ?: "",
+    time = this.time ?: "",
+    episodeCurrent = this.episodeCurrent ?: "",
+    quality = this.quality ?: "",
+    language = this.language ?: "",
+    year = this.year ?: "",
+    category = this.category,
+    country = this.country ?: listOf(),
+    slug = this.slug,
+    status = this.status,
+    episodes = this.episodes ?: listOf(),
+    actor = this.actor ?: listOf(),
+    director = this.director ?: listOf(),
+    episodeTotal = this.episodeTotal ?: "",
+    trailerUrl = this.trailerUrl ?: "",
+    rating = this.rating
+)
+
+fun DataManga.toData() = Data(
+    items = this.items.map { it.toItem() },
+    item = this.item?.toItem(),
+    imgDomain = this.imgDomain,
+    seoOnPage = this.seoOnPage
+)
+
+fun ListDataManga.toListData(): ListData {
+    return ListData(
+        data = this.data.toData(),
+        status = this.status,
+        message = this.message
+    )
 }

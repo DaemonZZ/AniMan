@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.ad.GoogleMobileAdsConsentManager
 import com.daemonz.animange.datasource.firebase.FireBaseDataBase
+import com.daemonz.animange.datasource.network.IMangaService
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.AppDatabase
 import com.daemonz.animange.datasource.room.FavouriteDao
@@ -83,14 +84,26 @@ object AppModule {
             .build()
             .create(IWebService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideMangaService(gson: Gson, client: OkHttpClient): IMangaService {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl(BuildConfig.BASE_URL_MANGA)
+            .client(client)
+            .build()
+            .create(IMangaService::class.java)
+    }
     @Provides
     @Singleton
     fun provideDataRepository(
         webApi: IWebService,
+        mangaService: IMangaService,
         dao: FavouriteDao,
         fireBaseDataBase: FireBaseDataBase
     ): DataRepository {
-        return DataRepository(webApi, dao, fireBaseDataBase)
+        return DataRepository(webApi, mangaService, dao, fireBaseDataBase)
     }
 
     @Provides

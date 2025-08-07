@@ -3,6 +3,8 @@ package com.daemonz.animange.entity
 import androidx.annotation.Keep
 import androidx.room.Ignore
 import com.daemonz.animange.base.NetworkEntity
+import com.daemonz.animange.util.AppMode
+import com.daemonz.animange.util.AppModeEnum
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -32,6 +34,7 @@ data class Item(
     var rating: Double = 0.0
 ):NetworkEntity(), Serializable {
     fun getImageUrl(imgDomain:String): String {
-        return "$imgDomain/uploads/movies/$thumbUrl"
+        return if (AppMode.currentMode == AppModeEnum.Movies) "$imgDomain/uploads/movies/$thumbUrl"
+        else "$imgDomain/uploads/comics/$thumbUrl"
     }
 }

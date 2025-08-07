@@ -2,6 +2,7 @@ package com.daemonz.animange.repo
 
 import com.daemonz.animange.base.NetworkEntity
 import com.daemonz.animange.datasource.firebase.FireBaseDataBase
+import com.daemonz.animange.datasource.network.IMangaService
 import com.daemonz.animange.datasource.network.IWebService
 import com.daemonz.animange.datasource.room.FavouriteDao
 import com.daemonz.animange.entity.Account
@@ -18,9 +19,12 @@ import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.ACTIVITIES
+import com.daemonz.animange.util.AppMode
+import com.daemonz.animange.util.AppModeEnum
 import com.daemonz.animange.util.COMMENT_COLLECTION
 import com.daemonz.animange.util.Country
 import com.daemonz.animange.util.FEEDBACK_COLLECTION
@@ -30,7 +34,9 @@ import com.daemonz.animange.util.SEARCH_HISTORY
 import com.daemonz.animange.util.TypeList
 import com.daemonz.animange.util.VERSION_COLLECTION
 import com.daemonz.animange.util.VERSION_DOCS
+import com.daemonz.animange.util.map
 import com.daemonz.animange.util.toFavouriteItem
+import com.daemonz.animange.util.toListData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
@@ -41,6 +47,7 @@ import java.util.UUID
 
 class DataRepository(
     private val apiService: IWebService,
+    private val apiMangaService: IMangaService,
     private val dao: FavouriteDao,
     private val fireStoreDataBase: FireBaseDataBase
 ) {
@@ -60,7 +67,13 @@ class DataRepository(
     }
 
     suspend fun getHomeData(): Response<ListData> {
-        return apiService.getHomeData()
+        return if (AppMode.currentMode == AppModeEnum.Movies) {
+            apiService.getHomeData()
+        } else {
+            apiMangaService.getHomeManga().map { listDataManga ->
+                listDataManga.toListData()
+            }
+        }
     }
 
     suspend fun getNewFilms(): ListData {
