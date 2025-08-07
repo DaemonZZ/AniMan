@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:icon="@drawable/home_selector"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/moviesFragment"
+        android:enabled="true"
+        android:icon="@drawable/movies_selector"
+        android:title="@string/new_manga" />
+
+    <item
+        android:id="@+id/seriesFragment"
+        android:enabled="true"
+        android:icon="@drawable/series_selector"
+        android:title="@string/coming_manga" />
+
+    <item
+        android:id="@+id/tvShowFragment"
+        android:enabled="true"
+        android:icon="@drawable/tv_selector"
+        android:title="@string/finished_manga" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_apps"
+        android:title="@string/settings" />
+
+</menu>

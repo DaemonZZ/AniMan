@@ -126,6 +126,9 @@
         <action
             android:id="@+id/action_welcomeFragment_to_pinInputFragment"
             app:destination="@id/pinInputFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_modeFragment2"
+            app:destination="@id/modeFragment" />
     </fragment>
     <fragment
         android:id="@+id/supportFragment"
@@ -166,6 +169,9 @@
         <action
             android:id="@+id/action_pinInputFragment_to_chooseUserFragment"
             app:destination="@id/chooseUserFragment" />
+        <action
+            android:id="@+id/action_pinInputFragment_to_modeFragment"
+            app:destination="@id/modeFragment" />
     </fragment>
     <fragment
         android:id="@+id/languageFragment"
@@ -185,4 +191,12 @@
         android:id="@+id/notiFragment"
         android:name="com.daemonz.animange.fragment.NotiFragment"
         android:label="NotiFragment" />
+    <fragment
+        android:id="@+id/modeFragment"
+        android:name="com.daemonz.animange.fragment.ModeFragment"
+        android:label="ModeFragment">
+        <action
+            android:id="@+id/action_modeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

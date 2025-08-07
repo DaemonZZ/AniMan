@@ -38,7 +38,7 @@ class PinInputFragment :
                         if (arg.isSwitchUser) {
                             viewModel.switchUser(arg.user.id.toString())
                         }
-                        findNavController().navigate(PinInputFragmentDirections.actionPinInputFragmentToHomeFragment())
+                        findNavController().navigate(PinInputFragmentDirections.actionPinInputFragmentToModeFragment())
 
                     } else {
                         if (arg.isSwitchUser) {

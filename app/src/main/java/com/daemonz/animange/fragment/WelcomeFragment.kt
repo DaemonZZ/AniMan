@@ -80,7 +80,7 @@ class WelcomeFragment :
         }
         delay(2000)
         if (LoginData.getActiveUser()?.password.isNullOrEmpty()) {
-            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToHomeFragment())
+            findNavController().navigate(WelcomeFragmentDirections.actionWelcomeFragmentToModeFragment2())
         } else {
             LoginData.getActiveUser()?.let {
                 if (findNavController().currentDestination?.id == R.id.welcomeFragment) {

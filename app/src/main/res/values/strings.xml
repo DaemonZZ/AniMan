@@ -200,4 +200,11 @@
     <string name="empty_warning">Nếu điện thoại của bạn không thể tải được dữ liệu, hãy sử dụng app 1.1.1.1 hoặc vpn bất kì để dễ dang truy cập</string>
     <string name="title_warning_empty">Nhắc bạn</string>
     <string name="download_vpn">Mở 1.1.1.1</string>
+
+    <!--    Manga-->
+    <string name="new_manga">Truyện mới</string>
+    <string name="coming_manga">Truyện đang phát hành</string>
+    <string name="finished_manga">Truyện đã hoàn thành</string>
+    <string name="movies">Movie</string>
+    <string name="manga">Manga</string>
 </resources>

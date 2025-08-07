@@ -95,7 +95,7 @@ class MainActivity : ThemeActivity() {
     private var currentTheme: AnimanTheme = LightTheme()
     private var loadingDialog: LoadingOverLay = LoadingOverLay(LightTheme())
 
-    private val listFragmentsWithNavbar = listOf(
+    private val listFragmentsMovies = listOf(
         R.id.homeFragment,
         R.id.moviesFragment,
         R.id.seriesFragment,
@@ -119,7 +119,7 @@ class MainActivity : ThemeActivity() {
         NavController.OnDestinationChangedListener { _, destination, _ ->
             ALog.i(TAG, "onDestinationChanged: ${destination.id}")
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            if (destination.id in listFragmentsWithNavbar) {
+            if (destination.id in listFragmentsMovies) {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 toggleToolBarShowing(
                     isShow = true,
