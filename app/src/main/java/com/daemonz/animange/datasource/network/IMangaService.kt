@@ -28,7 +28,7 @@ interface IMangaService {
     @GET("truyen-tranh/{slug}")
     suspend fun getMangaBySlug(
         @Path("slug") slug: String
-    )
+    ): Response<ListDataManga>
 
     //https://otruyenapi.com/v1/api/tim-kiem?keyword={keyword}&page={page}
     @GET("tim-kiem")

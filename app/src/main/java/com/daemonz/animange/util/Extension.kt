@@ -31,6 +31,9 @@ import com.daemonz.animange.entity.Data
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
+import com.daemonz.animange.entity.manga.ChapterApiResponse
+import com.daemonz.animange.entity.manga.ChapterData
+import com.daemonz.animange.entity.manga.ChapterLinkImageList
 import com.daemonz.animange.entity.manga.DataManga
 import com.daemonz.animange.entity.manga.ItemManga
 import com.daemonz.animange.entity.manga.ListDataManga
@@ -256,7 +259,7 @@ fun ItemManga.toItem() = Item(
     country = this.country ?: listOf(),
     slug = this.slug,
     status = this.status,
-    episodes = this.episodes ?: listOf(),
+    episodes = listOf(),
     actor = this.actor ?: listOf(),
     director = this.director ?: listOf(),
     episodeTotal = this.episodeTotal ?: "",
@@ -276,5 +279,18 @@ fun ListDataManga.toListData(): ListData {
         data = this.data.toData(),
         status = this.status,
         message = this.message
+    )
+}
+fun ChapterData.toChapterLinkImageList(): ChapterLinkImageList {
+    val domain = this.domainCdn
+    val path = item?.chapterPath.toString()
+    val listImg = item?.chapterImage?.map { chapterImage ->
+        "$domain/$path/${chapterImage.imageFile}"
+    }
+    return ChapterLinkImageList(
+        name = this.item?.chapterName,
+        chapterName = this.item?.chapterName,
+        imageList = listImg ?: listOf()
+
     )
 }

@@ -261,7 +261,7 @@ class HomeMangaFragment :
 
     private fun navigateToPlayer(item: Item) {
         ALog.i(TAG, "navigateToPlayer: $item")
-        findNavController().navigate(NavGraphDirections.actionGlobalPlayerFragment(item = item.slug))
+        findNavController().navigate(NavGraphDirections.actionGlobalReadMangaFragment(item = item.slug))
     }
 
     override fun setupObservers() {

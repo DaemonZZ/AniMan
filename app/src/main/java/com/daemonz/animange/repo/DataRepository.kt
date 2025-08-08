@@ -19,6 +19,7 @@ import com.daemonz.animange.entity.SearchHistoryData
 import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.entity.UserType
+import com.daemonz.animange.entity.manga.ChapterApiResponse
 import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
@@ -40,6 +41,9 @@ import com.daemonz.animange.util.toListData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Response
 import java.time.Instant
 import java.util.Date
@@ -54,6 +58,9 @@ class DataRepository(
     companion object {
         private const val TAG = "DataRepository"
     }
+
+    private val client = OkHttpClient()
+    private val gson = Gson()
     // API Handle
 
     private fun <T : NetworkEntity> handleDataResponse(response: Response<T>): T {
@@ -405,4 +412,26 @@ class DataRepository(
 
     fun markNotiAsOld(notification: Notification) =
         fireStoreDataBase.markNotificationAsOld(notification)
+
+    //MANGA
+    fun fetchChapter(url: String): ChapterApiResponse? {
+        try {
+            val request = Request.Builder()
+                .url(url)
+                .build()
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    ALog.e(TAG, "fetchChapter: ${response.message}")
+                    return null
+                }
+                val body = response.body?.string() ?: return null
+                return gson.fromJson(body, ChapterApiResponse::class.java)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    suspend fun getMangaBySlug(slug: String) = apiMangaService.getMangaBySlug(slug)
 }

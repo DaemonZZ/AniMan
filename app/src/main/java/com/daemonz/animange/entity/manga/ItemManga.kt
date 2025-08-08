@@ -29,7 +29,7 @@ data class ItemManga(
     @SerializedName("country") val country: List<Country>? = listOf(),
     @SerializedName("slug") val slug: String = "",
     @SerializedName("status") val status: String = "",
-    @SerializedName("episodes") val episodes: List<Episode>? = listOf(),
+    @SerializedName("chapters") val chapters: List<Chapter>? = listOf(),
     @SerializedName("actor") val actor: List<String>? = listOf(),
     @SerializedName("director") val director: List<String>? = listOf(),
     @SerializedName("episode_total") val episodeTotal: String? = "",
