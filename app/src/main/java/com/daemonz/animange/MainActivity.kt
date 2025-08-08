@@ -266,7 +266,8 @@ class MainActivity : ThemeActivity() {
                     Session.isUpdateShown = true
                 }
             } else {
-//                val dialog = EmptyWarningDialog({ openCloudflareApp(this) }, currentTheme)
+                val dialog = EmptyWarningDialog({ openCloudflareApp(this) }, currentTheme)
+                // App 1.1.1.1 khi nào bị chặn lại bật
 //                dialog.show(supportFragmentManager, EmptyWarningDialog.TAG)
             }
         }
