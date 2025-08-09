@@ -131,7 +131,7 @@
             android:id="@+id/action_welcomeFragment_to_pinInputFragment"
             app:destination="@id/pinInputFragment" />
         <action
-            android:id="@+id/action_welcomeFragment_to_modeFragment2"
+            android:id="@+id/action_welcomeFragment_to_modeFragment"
             app:destination="@id/modeFragment" />
     </fragment>
     <fragment
