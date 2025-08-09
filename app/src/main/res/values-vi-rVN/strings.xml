@@ -189,4 +189,9 @@
     <string name="movies">Movie</string>
     <string name="manga">Manga</string>
     <string name="image_page">Image Page</string>
+    <string name="new_chap">Truyện mới update</string>
+    <string name="completed">Truyện đã hoàn thành</string>
+    <string name="manhwa">Truyện Hàn Quốc</string>
+    <string name="manhua">Truyện Trung Quốc</string>
+    <string name="coming_soon_manga">Truyên sắp ra mắt</string>
 </resources>

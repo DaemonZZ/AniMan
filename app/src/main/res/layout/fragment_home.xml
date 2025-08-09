@@ -33,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@id/ad_view_container"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@string/hot_series"
+            android:text="@string/new_chap"
             app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@id/series_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/viet_nam_must_watch"
+            android:text="@string/completed"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -128,7 +128,7 @@
             app:layout_constraintTop_toBottomOf="@id/vn_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/anime"
+            android:text="@string/manhwa"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -148,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@id/anime_recycler"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/hot_in_cinema"
+            android:text="@string/manhua"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -195,7 +195,7 @@
             app:layout_constraintTop_toBottomOf="@id/movies_rate"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_24"
-            android:text="@string/tv_shows"
+            android:text="@string/coming_soon_manga"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView

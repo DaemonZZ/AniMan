@@ -20,7 +20,6 @@ import com.daemonz.animange.entity.User
 import com.daemonz.animange.entity.UserAction
 import com.daemonz.animange.entity.UserType
 import com.daemonz.animange.entity.manga.ChapterApiResponse
-import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.util.ACCOUNT_COLLECTION
 import com.daemonz.animange.util.ACTIVITIES
@@ -434,4 +433,18 @@ class DataRepository(
     }
 
     suspend fun getMangaBySlug(slug: String) = apiMangaService.getMangaBySlug(slug)
+    suspend fun getMangaIncoming(page: Int = 1) =
+        apiMangaService.getListManga("dang-phat-hanh", page.toString()).map { it.toListData() }
+
+    suspend fun getMangaComplete(page: Int = 1) =
+        apiMangaService.getListManga("hoan-thanh", page.toString()).map { it.toListData() }
+
+    suspend fun getMangaComingSoon(page: Int = 1) =
+        apiMangaService.getListManga("sap-ra-mat", page.toString()).map { it.toListData() }
+
+    suspend fun getListManhwa(page: Int = 1) =
+        apiMangaService.getCategoryBySlug("manhwa", page.toString()).map { it.toListData() }
+
+    suspend fun getListManhua(page: Int = 1) =
+        apiMangaService.getCategoryBySlug("manhua", page.toString()).map { it.toListData() }
 }

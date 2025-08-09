@@ -64,7 +64,7 @@ class HomeMangaViewModel @Inject constructor() : BaseViewModel() {
 
     fun getSeriesIncoming() {
         launchOnIO {
-            repository.getSeriesInComing().addOnCompleteListener { res ->
+            repository.getMangaIncoming().addOnCompleteListener { res ->
                 if (res.data.items.isEmpty()) {
                     ALog.d(TAG, "Series Incoming data is empty")
                     return@addOnCompleteListener
@@ -93,11 +93,11 @@ class HomeMangaViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun getListFilmVietNam() {
+    fun getMangaComplete() {
         launchOnIO {
-            repository.getListFilmVietNam().addOnCompleteListener { res ->
+            repository.getMangaComplete().addOnCompleteListener { res ->
                 if (res.data.items.isEmpty()) {
-                    ALog.d(TAG, "List Film Viet Nam data is empty")
+                    ALog.d(TAG, "getMangaComplete data is empty")
                     return@addOnCompleteListener
                 }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
@@ -117,18 +117,18 @@ class HomeMangaViewModel @Inject constructor() : BaseViewModel() {
                 }
             }.addOnFailureListener {
                 launchOnUI {
-                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    ALog.d(TAG, "getMangaComplete slugs: ${it}")
                     errorMessage.value = it
                 }
             }
         }
     }
 
-    fun getListAnime() {
+    fun getListManhwa() {
         launchOnIO {
-            repository.getListAnime().addOnCompleteListener { res ->
+            repository.getListManhwa().addOnCompleteListener { res ->
                 if (res.data.items.isEmpty()) {
-                    ALog.d(TAG, "List Anime data is empty")
+                    ALog.d(TAG, "getListManhwa data is empty")
                     return@addOnCompleteListener
                 }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
@@ -148,18 +148,18 @@ class HomeMangaViewModel @Inject constructor() : BaseViewModel() {
                 }
             }.addOnFailureListener {
                 launchOnUI {
-                    ALog.d(TAG, "Series Incoming slugs: ${it}")
+                    ALog.d(TAG, "getListManhwa slugs: ${it}")
                     errorMessage.value = it
                 }
             }
         }
     }
 
-    fun getListMovies() {
+    fun getListManhua() {
         launchOnIO {
-            repository.getListMovies().addOnCompleteListener { res ->
+            repository.getListManhua().addOnCompleteListener { res ->
                 if (res.data.items.isEmpty()) {
-                    ALog.d(TAG, "List Movies data is empty")
+                    ALog.d(TAG, "getListManhwa data is empty")
                     return@addOnCompleteListener
                 }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {
@@ -185,11 +185,11 @@ class HomeMangaViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun getTvShows() {
+    fun getListComingSoon() {
         launchOnIO {
-            repository.getTvShows("").addOnCompleteListener { res ->
+            repository.getMangaComingSoon().addOnCompleteListener { res ->
                 if (res.data.items.isEmpty()) {
-                    ALog.d(TAG, "TV Shows data is empty")
+                    ALog.d(TAG, "getMangaComingSoon data is empty")
                     return@addOnCompleteListener
                 }
                 repository.getRatingBySlugs(res.data.items.map { it.slug }).addOnSuccessListener {

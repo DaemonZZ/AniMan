@@ -27,7 +27,6 @@ import com.daemonz.animange.util.AdmobConst
 import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.isFavorite
 import com.daemonz.animange.util.makeTextLink
-import com.daemonz.animange.viewmodel.HomeViewModel
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.daemonz.animange.viewmodel.manga.HomeMangaViewModel
 import com.google.android.gms.ads.AdRequest
@@ -335,10 +334,10 @@ class HomeMangaFragment :
     override fun initData() {
         viewModel.getHomeData()
         viewModel.getSeriesIncoming()
-        viewModel.getListFilmVietNam()
-        viewModel.getListAnime()
-        viewModel.getListMovies()
-        viewModel.getTvShows()
+        viewModel.getMangaComplete()
+        viewModel.getListManhwa()
+        viewModel.getListManhua()
+        viewModel.getListComingSoon()
     }
 
     override fun syncTheme() {

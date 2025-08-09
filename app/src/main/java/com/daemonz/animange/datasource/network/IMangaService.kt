@@ -1,9 +1,6 @@
 package com.daemonz.animange.datasource.network
 
-import com.daemonz.animange.entity.ListData
 import com.daemonz.animange.entity.manga.ListDataManga
-import com.daemonz.animange.util.Category
-import com.daemonz.animange.util.SortField
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,13 +14,13 @@ interface IMangaService {
     suspend fun getListManga(
         @Path("type") type: String,
         @Query("page") page: String = ""
-    ): Response<ListData>
+    ): Response<ListDataManga>
 
     @GET("the-loai/{slug}")
     suspend fun getCategoryBySlug(
         @Path("slug") slug: String,
         @Query("page") page: String = ""
-    )
+    ): Response<ListDataManga>
 
     @GET("truyen-tranh/{slug}")
     suspend fun getMangaBySlug(
@@ -35,5 +32,5 @@ interface IMangaService {
     suspend fun searchManga(
         @Query("keyword") keyword: String,
         @Query("page") page: String = ""
-    )
+    ): Response<ListDataManga>
 }

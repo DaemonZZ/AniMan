@@ -2,11 +2,11 @@ package com.daemonz.animange.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.daemonz.animange.base.BaseRecyclerAdapter
 import com.daemonz.animange.base.OnItemClickListener
 import com.daemonz.animange.databinding.ItemMangaPageBinding
 import com.daemonz.animange.entity.manga.ImagePage
-import com.daemonz.animange.util.setImageFromUrl
 
 class MangaPageAdapter(onItemClickListener: OnItemClickListener<ImagePage>) :
     BaseRecyclerAdapter<ImagePage, ItemMangaPageBinding>(onItemClickListener) {
@@ -19,7 +19,11 @@ class MangaPageAdapter(onItemClickListener: OnItemClickListener<ImagePage>) :
         position: Int
     ) {
         binding.apply {
-            mangaPage.setImageFromUrl(item.url)
+//            mangaPage.setImageFromUrl(item.url)
+            Glide.with(mangaPage.context)
+                .load(item.url)
+                .dontTransform()
+                .into(mangaPage)
         }
     }
 }
