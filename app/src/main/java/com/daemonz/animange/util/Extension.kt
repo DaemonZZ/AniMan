@@ -35,6 +35,7 @@ import com.daemonz.animange.entity.manga.ChapterApiResponse
 import com.daemonz.animange.entity.manga.ChapterData
 import com.daemonz.animange.entity.manga.ChapterLinkImageList
 import com.daemonz.animange.entity.manga.DataManga
+import com.daemonz.animange.entity.manga.ImagePage
 import com.daemonz.animange.entity.manga.ItemManga
 import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
@@ -285,7 +286,10 @@ fun ChapterData.toChapterLinkImageList(): ChapterLinkImageList {
     val domain = this.domainCdn
     val path = item?.chapterPath.toString()
     val listImg = item?.chapterImage?.map { chapterImage ->
-        "$domain/$path/${chapterImage.imageFile}"
+        ImagePage(
+            name = chapterImage.imagePage ?: -1,
+            url = "$domain/$path/${chapterImage.imageFile}"
+        )
     }
     return ChapterLinkImageList(
         name = this.item?.chapterName,

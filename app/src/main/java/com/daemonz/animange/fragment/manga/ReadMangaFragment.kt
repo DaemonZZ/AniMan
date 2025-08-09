@@ -2,9 +2,11 @@ package com.daemonz.animange.fragment.manga
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.daemonz.animange.base.BaseFragment
 import com.daemonz.animange.databinding.FragmentReadMangaBinding
 import com.daemonz.animange.log.ALog
+import com.daemonz.animange.ui.adapter.MangaPageAdapter
 import com.daemonz.animange.viewmodel.manga.ReadMangaViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,17 +16,24 @@ class ReadMangaFragment : BaseFragment<FragmentReadMangaBinding, ReadMangaViewMo
 ) {
     override val viewModel: ReadMangaViewModel by viewModels()
     private val args: ReadMangaFragmentArgs by navArgs()
+    private var adapter: MangaPageAdapter? = null
     override fun initData() {
         viewModel.getManga(args.item)
     }
 
     override fun setupViews() {
-
+        binding.apply {
+            adapter = MangaPageAdapter({ _, _ -> })
+            mangaContent.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            mangaContent.adapter = adapter
+        }
     }
 
     override fun setupObservers() {
         viewModel.chapterDisplayData.observe(viewLifecycleOwner) {
             ALog.d(TAG, "setupObservers: $it")
+            adapter?.setData(it.imageList)
         }
     }
 }

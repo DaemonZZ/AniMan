@@ -18,18 +18,27 @@ class ReadMangaViewModel @Inject constructor() : BaseViewModel() {
     private val _chapterDisplayData = MutableLiveData<ChapterLinkImageList>()
     val chapterDisplayData: LiveData<ChapterLinkImageList> = _chapterDisplayData
 
+    private val _mangaData = MutableLiveData<ListDataManga>()
+    val mangaData: LiveData<ListDataManga> = _mangaData
+
+    private var currentManga: ListDataManga? = null
+
     fun getManga(slug: String) = launchOnIO {
         repository.getMangaBySlug(slug).addOnCompleteListener { listData ->
+            currentManga = listData
             val lastChapter = lastestChapter(listData)
             lastChapter?.let { chap ->
                 val chapterData = repository.fetchChapter(chap.url)
-                ALog.d(TAG, "getManga: $chapterData")
-                _chapterDisplayData.postValue(chapterData?.data?.toChapterLinkImageList())
+                launchOnUI {
+                    _chapterDisplayData.value = chapterData?.data?.toChapterLinkImageList()
+                }
             }
         }
     }
 
     private fun lastestChapter(listData: ListDataManga): ChapterDetail? {
-        return listData.data.item?.chapters?.lastOrNull()?.serverData?.firstOrNull()
+        val chap = listData.data.item?.chapters?.lastOrNull()?.serverData?.lastOrNull()
+        ALog.d(TAG, "lastestChapter: ${chap?.slug}")
+        return chap
     }
 }
