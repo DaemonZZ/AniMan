@@ -1,6 +1,5 @@
 package com.daemonz.animange.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.daemonz.animange.base.BaseRecyclerAdapter

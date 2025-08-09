@@ -15,9 +15,7 @@ import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -31,7 +29,6 @@ import com.daemonz.animange.entity.Data
 import com.daemonz.animange.entity.FavouriteItem
 import com.daemonz.animange.entity.Item
 import com.daemonz.animange.entity.ListData
-import com.daemonz.animange.entity.manga.ChapterApiResponse
 import com.daemonz.animange.entity.manga.ChapterData
 import com.daemonz.animange.entity.manga.ChapterLinkImageList
 import com.daemonz.animange.entity.manga.DataManga
@@ -40,7 +37,6 @@ import com.daemonz.animange.entity.manga.ItemManga
 import com.daemonz.animange.entity.manga.ListDataManga
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.thememanager.AnimanTheme
-import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import okhttp3.ResponseBody.Companion.toResponseBody
