@@ -3,7 +3,6 @@ package com.daemonz.animange.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -54,7 +53,6 @@ import com.daemonz.animange.util.AdmobConstTest
 import com.daemonz.animange.util.AppUtils
 import com.daemonz.animange.util.ITEM_STATUS_TRAILER
 import com.daemonz.animange.util.LoginData
-import com.daemonz.animange.util.PLAYER_DEEP_LINK
 import com.daemonz.animange.util.makeTextLink
 import com.daemonz.animange.viewmodel.PlayerViewModel
 import com.google.android.gms.ads.AdError
@@ -204,7 +202,7 @@ class PlayerFragment :
     override fun setupViews() {
         setupViewsLandscape()
         setupViewsPortrait()
-        showInterstitial()
+//        showInterstitial()
     }
 
     private fun setupViewsLandscape() {

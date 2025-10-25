@@ -46,7 +46,6 @@ import com.daemonz.animange.fragment.PlayerFragment
 import com.daemonz.animange.log.ALog
 import com.daemonz.animange.ui.CommonAction
 import com.daemonz.animange.ui.NavIcon2Action
-import com.daemonz.animange.ui.dialog.EmptyWarningDialog
 import com.daemonz.animange.ui.dialog.InternetDialog
 import com.daemonz.animange.ui.dialog.LoadingOverLay
 import com.daemonz.animange.ui.dialog.UpdateDialog
@@ -61,7 +60,6 @@ import com.daemonz.animange.util.NotiCache
 import com.daemonz.animange.util.STRING_EMPTY
 import com.daemonz.animange.util.Session
 import com.daemonz.animange.util.SharePreferenceManager
-import com.daemonz.animange.util.openCloudflareApp
 import com.daemonz.animange.viewmodel.LoginViewModel
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
@@ -255,8 +253,8 @@ class MainActivity : ThemeActivity() {
                     Session.isUpdateShown = true
                 }
             } else {
-                val dialog = EmptyWarningDialog({ openCloudflareApp(this) }, currentTheme)
-                dialog.show(supportFragmentManager, EmptyWarningDialog.TAG)
+//                val dialog = EmptyWarningDialog({ openCloudflareApp(this) }, currentTheme)
+//                dialog.show(supportFragmentManager, EmptyWarningDialog.TAG)
             }
         }
         ALog.w(TAG, "onCreate: ${intent.data}")
