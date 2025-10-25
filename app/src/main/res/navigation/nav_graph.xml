@@ -213,8 +213,15 @@
         <argument
             android:name="item"
             app:argType="string" />
+        <action
+            android:id="@+id/action_readMangaFragment_to_mangaDetailFragment"
+            app:destination="@id/mangaDetailFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_readMangaFragment"
         app:destination="@id/readMangaFragment" />
+    <fragment
+        android:id="@+id/mangaDetailFragment"
+        android:name="com.daemonz.animange.fragment.manga.MangaDetailFragment"
+        android:label="MangaDetailFragment" />
 </navigation>

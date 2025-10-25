@@ -5,7 +5,8 @@ import android.animation.AnimatorListenerAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReadMangaFragment : BaseFragment<FragmentReadMangaBinding, ReadMangaViewModel>(
     FragmentReadMangaBinding::inflate
 ) {
-    override val viewModel: ReadMangaViewModel by viewModels()
+    override val viewModel: ReadMangaViewModel by activityViewModels()
     private val args: ReadMangaFragmentArgs by navArgs()
     private var adapter: MangaPageAdapter? = null
     override fun initData() {
@@ -46,6 +47,9 @@ class ReadMangaFragment : BaseFragment<FragmentReadMangaBinding, ReadMangaViewMo
                     toggleActionBar(false)
                 }
             })
+            btnList.setOnClickListener {
+                findNavController().navigate(ReadMangaFragmentDirections.actionReadMangaFragmentToMangaDetailFragment())
+            }
         }
     }
 

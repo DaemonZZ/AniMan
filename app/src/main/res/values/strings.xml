@@ -213,4 +213,6 @@
     <string name="manhwa">Truyện Hàn Quốc</string>
     <string name="manhua">Truyện Trung Quốc</string>
     <string name="coming_soon_manga">Truyên sắp ra mắt</string>
+    <string name="reader_title" translatable="false">%s (Chapter %s)</string>
+    <string name="chapter" translatable="false">Chapter</string>
 </resources>

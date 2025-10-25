@@ -447,4 +447,7 @@ class DataRepository(
 
     suspend fun getListManhua(page: Int = 1) =
         apiMangaService.getCategoryBySlug("manhua", page.toString()).map { it.toListData() }
+
+    suspend fun getMangeByCategory(cat: String, page: Int) =
+        apiMangaService.getCategoryBySlug(cat, page.toString()).map { it.toListData() }
 }

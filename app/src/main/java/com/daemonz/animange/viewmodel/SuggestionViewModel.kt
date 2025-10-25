@@ -2,7 +2,6 @@ package com.daemonz.animange.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.daemonz.animange.BuildConfig
 import com.daemonz.animange.base.BaseViewModel
 import com.daemonz.animange.entity.Category
 import com.daemonz.animange.entity.Item
@@ -35,9 +34,7 @@ class SuggestionViewModel @Inject constructor() : BaseViewModel() {
                 .addOnCompleteListener {
                     launchOnUI {
                         imgDomain = it.data.imgDomain
-                        _suggestions.value = it.data.items.filter {
-                            it.category.firstOrNull { it.slug == BuildConfig.SLUG_SECRET } == null
-                        }.map {
+                        _suggestions.value = it.data.items.map {
                             PagingData(
                                 page = page,
                                 data = it
