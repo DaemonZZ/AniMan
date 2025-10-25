@@ -14,7 +14,7 @@ plugins {
 }
 val versionMajor = 2
 val versionMinor = 0
-val versionPatch = 14
+val versionPatch = 17
 val versionClassifier = null
 val isSnapshot = true
 val minimumSdkVersion = 31
@@ -23,12 +23,12 @@ val copyApks = tasks.register("copyApks")
 
 android {
     namespace = "com.daemonz.animange"
-    compileSdk = 34
+    compileSdk = 36
     android.buildFeatures.buildConfig = true
     defaultConfig {
         applicationId = "com.daemonz.animange"
         minSdk = minimumSdkVersion
-        targetSdk = 34
+        targetSdk = 35
         versionCode = generateVersionCode()
         versionName = generateVersionName()
 
